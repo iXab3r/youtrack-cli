@@ -60,6 +60,7 @@ export {
   listUserBundleIndividuals, getUserBundleIndividual, getUser,
 } from "./user-directory.js";
 export {
+  addProjectTeamGroup, removeProjectTeamGroup,
   addProjectTeamUser, removeProjectTeamUser,
   listGroups, getGroup, listGroupMembers, listSubgroups, getProjectTeam, listProjectTeamGroups,
   listProjectTeamUsers, type MemberOptions,

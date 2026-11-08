@@ -65,3 +65,13 @@ export async function addProjectTeamUser(connection: Connection, projectID: stri
 export async function removeProjectTeamUser(connection: Connection, projectID: string, userID: string, options: ProjectionOptions = {}) {
   return deleteObject(connection, `${teamPath(projectID)}/ownUsers/${encodedID(userID, "user ID")}`, options);
 }
+
+
+export async function addProjectTeamGroup(connection: Connection, projectID: string, input: unknown, options: ProjectionOptions = {}) {
+  const body = mutationBody(input);
+  requiredText(narrative(body.id, "group ID"), "group ID");
+  return mutate(connection, `${teamPath(projectID)}/groups`, body, fields(options, groupFields));
+}
+export async function removeProjectTeamGroup(connection: Connection, projectID: string, groupID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, `${teamPath(projectID)}/groups/${encodedID(groupID, "group ID")}`, options);
+}

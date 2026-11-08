@@ -1,6 +1,7 @@
 import { command } from "@eyeauras/cli-factory";
 import { projectedBodyUpdate, projectedDelete, pagedRead, projectedRead, readCommand, pageOptions, readOptions } from "./cli-support.js";
 import {
+  addProjectTeamGroup, removeProjectTeamGroup,
   addProjectTeamUser, removeProjectTeamUser,
   getGroup,
   getProjectTeam,
@@ -42,7 +43,9 @@ export const groupDirectoryRootCommands = [
 export const groupDirectoryProjectChildren = [
   command("team", "Inspect the project team (YouTrack 2026.1+)", [
     projectedRead("get <project>", "Show the team", getProjectTeam, groupRecord),
-    command("group", "Inspect the team's groups", [
+    command("group", "Manage the team's groups", [
+      projectedBodyUpdate("add <project>", "Add a team group", addProjectTeamGroup, undefined, mutationWritten("Added team group", undefined, "project")),
+      projectedDelete("remove <project> <group>", "Remove a team group", removeProjectTeamGroup, mutationWritten("Removed team group", "group", "project")),
       pagedRead("list <project>", "List the team's groups", listProjectTeamGroups, groupTable),
     ]),
     command("user", "Manage the team's users", [
