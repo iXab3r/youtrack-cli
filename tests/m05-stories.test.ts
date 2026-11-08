@@ -36,3 +36,8 @@ test("M05 profile descriptor preflight and empty replies preserve selected users
     assert.equal(hidden.exitCode, 0, hidden.stderr); assert.doesNotMatch(hidden.stdout + hidden.stderr, /synthetic-token/); assert.match(hidden.stdout, /redacted/);
   }
 });
+
+test("US-051 list searches and tags of an explicitly selected user", async t => {
+  await storyCase(t, {"argv":["user","saved-queries","list","user /?","--fields","id","--start","7","--page-size","20"],"method":"GET","path":"/api/users/user%20%2F%3F/savedQueries","query":[["fields","id"],["$skip","7"],["$top","20"]],"response":[],"result":{"count":0,"items":[],"hasMore":false,"nextStart":null}});
+  await storyCase(t, {"argv":["user","tags","list","user /?","--fields","id","--start","7","--page-size","20"],"method":"GET","path":"/api/users/user%20%2F%3F/tags","query":[["fields","id"],["$skip","7"],["$top","20"]],"response":[],"result":{"count":0,"items":[],"hasMore":false,"nextStart":null}});
+});
