@@ -62,3 +62,11 @@ test("US-025 article attachment upload controls, native metadata and exact delet
   await storyCase(t, { argv: ["article", "attachment", "update", "KB-1", "file /?", "--body", '{"name":"Synthetic.txt","visibility":null}', "--fields", "id"], method: "POST", path: "/api/articles/KB-1/attachments/file%20%2F%3F", query: [["fields", "id"]], body: { name: "Synthetic.txt", visibility: null }, response: detail, result: detail, update: true });
   await storyCase(t, { argv: ["article", "attachment", "delete", "KB-1", "file /?"], method: "DELETE", path: "/api/articles/KB-1/attachments/file%20%2F%3F", query: [], response: undefined, result: null, update: true });
 });
+
+test("US-026 article comment reactions preserve open native values and exact relations", async t => {
+  const path = "/api/articles/KB-1/comments/comment%20%2F%3F/reactions";
+  await storyCase(t, { argv: ["article", "comment", "reaction", "list", "KB-1", "comment /?", "--fields", "id"], method: "GET", path, query: [["fields", "id"], ["$top", "50"], ["$skip", "0"]], response: [], result: emptyPage });
+  await storyCase(t, { argv: ["article", "comment", "reaction", "get", "KB-1", "comment /?", "r /?", "--fields", "id"], method: "GET", path: path + "/r%20%2F%3F", query: [["fields", "id"]], response: detail, result: detail });
+  await storyCase(t, { argv: ["article", "comment", "reaction", "add", "KB-1", "comment /?", "--body", '{"reaction":null,"author":{"id":"synthetic-user"}}', "--fields", "id"], method: "POST", path, query: [["fields", "id"]], body: { reaction: null, author: { id: "synthetic-user" } }, response: detail, result: detail, update: true });
+  await storyCase(t, { argv: ["article", "comment", "reaction", "remove", "KB-1", "comment /?", "r /?"], method: "DELETE", path: path + "/r%20%2F%3F", query: [], response: undefined, result: null, update: true });
+});
