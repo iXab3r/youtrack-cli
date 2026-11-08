@@ -43,3 +43,9 @@ test("US-014 create and edit global working tags with native sharing and colors"
   await storyCase(t, { argv: ["tags", "create", "--body", '{"name":"Synthetic tag","visibleFor":null,"color":{"id":"style"}}', "--fields", "id"], method: "POST", path: "/api/tags", query: [["fields", "id"]], body: { name: "Synthetic tag", visibleFor: null, color: { id: "style" } }, response: detail, result: detail, update: true });
   await storyCase(t, { argv: ["tags", "update", "tag /?", "--body", '{"untagOnResolve":false,"updateableBy":null}', "--fields", "id"], method: "POST", path: "/api/tags/tag%20%2F%3F", query: [["fields", "id"]], body: { untagOnResolve: false, updateableBy: null }, response: undefined, result: null, update: true });
 });
+
+test("US-036 field defaults retain native subtype values, null and empty selections", async t => {
+  await storyCase(t, { argv: ["field", "defaults", "get", "field /?", "--fields", "id,defaultValues"], method: "GET", path: "/api/admin/customFieldSettings/customFields/field%20%2F%3F/fieldDefaults", query: [["fields", "id,defaultValues"]], response: { id: "synthetic-defaults", defaultValues: [], emptyFieldText: null }, result: { id: "synthetic-defaults", defaultValues: [], emptyFieldText: null } });
+  const body = { $type: "EnumBundleCustomFieldDefaults", canBeEmpty: false, isPublic: false, emptyFieldText: null, defaultValues: [], bundle: { id: "synthetic-bundle" } };
+  await storyCase(t, { argv: ["field", "defaults", "update", "field /?", "--body", JSON.stringify(body), "--fields", "id"], method: "POST", path: "/api/admin/customFieldSettings/customFields/field%20%2F%3F/fieldDefaults", query: [["fields", "id"]], body, response: detail, result: detail, update: true });
+});
