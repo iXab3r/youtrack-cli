@@ -96,3 +96,9 @@ test("US-059 native role bodies do not invent a required name or permission-key 
   assert.deepEqual(await f.cli.execute(["role", "create", "--body", JSON.stringify({ permissions: [{ id: "future.native.permission", $type: "Permission" }], description: null })]), { id: "synthetic-role" });
   assert.equal(calls, 1);
 });
+
+test("US-060 create link types with required direction labels and preserve native flags", async t => {
+  await storyCase(t, {"argv":["link-types","create","--body","{\"name\":\"Synthetic relation\",\"sourceToTarget\":\"links to\",\"targetToSource\":\"linked from\",\"directed\":false}","--fields","id"],"method":"POST","path":"/api/issueLinkTypes","query":[["fields","id"]],"body":{"name":"Synthetic relation","sourceToTarget":"links to","targetToSource":"linked from","directed":false},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["link-types","update","type /?","--body","{\"directed\":true,\"sourceToTarget\":\"relates to\"}","--fields","id"],"method":"POST","path":"/api/issueLinkTypes/type%20%2F%3F","query":[["fields","id"]],"body":{"directed":true,"sourceToTarget":"relates to"},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["link-types","delete","type /?"],"method":"DELETE","path":"/api/issueLinkTypes/type%20%2F%3F","query":[],"response":undefined,"result":null,"update":true});
+});
