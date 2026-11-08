@@ -39,3 +39,8 @@ test("US-019 global activity list detail and cursor page preserve native filters
   const cursor = { id: "page", activities: [], beforeCursor: "before /?", afterCursor: "after /?", hasBefore: false, hasAfter: true, reverse: true };
   await storyCase(t, { argv: ["activities", "page", "--categories", "CommentsCategory", "--activity-id", "activity /?", "--issue-query", "project: DEMO", "--author", "me", "--activity-start", "000", "--activity-end", "-1", "--cursor", "before /?", "--reverse", "--fields", "id,activities"], method: "GET", path: "/api/activitiesPage", query: [["fields", "id,activities"], ["categories", "CommentsCategory"], ["activityId", "activity /?"], ["issueQuery", "project: DEMO"], ["author", "me"], ["start", "000"], ["end", "-1"], ["cursor", "before /?"], ["reverse", "true"]], response: cursor, result: cursor });
 });
+
+test("US-021 article writes expose notifications and draft-only publication", async t => {
+  await storyCase(t, { argv: ["article", "create", "--body", "{}", "--draft-id", "draft /?", "--fields", "id", "--mute-update-notifications", "false"], method: "POST", path: "/api/articles", query: [["fields", "id"], ["draftId", "draft /?"], ["muteUpdateNotifications", "false"]], body: {}, response: detail, result: detail, update: true });
+  await storyCase(t, { argv: ["article", "update", "KB /?", "--body", '{"summary":null,"content":"Synthetic\\ncontent","parentArticle":null}', "--fields", "id", "--mute-update-notifications"], method: "POST", path: "/api/articles/KB%20%2F%3F", query: [["fields", "id"], ["muteUpdateNotifications", "true"]], body: { summary: null, content: "Synthetic\ncontent", parentArticle: null }, response: undefined, result: null, update: true });
+});
