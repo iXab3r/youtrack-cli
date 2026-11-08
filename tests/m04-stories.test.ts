@@ -38,3 +38,8 @@ test("US-039 member preflight, empty confirmations and credential labels preserv
     }
   }
 });
+
+test("US-040 create typed global fields and edit native metadata without discovery", async t => {
+  await storyCase(t, { argv: ["field", "create", "--body", '{"name":"Synthetic field","fieldType":{"id":"enum[1]"},"aliases":null,"isAutoAttached":false}', "--fields", "id"], method: "POST", path: "/api/admin/customFieldSettings/customFields", query: [["fields", "id"]], body: { name: "Synthetic field", fieldType: { id: "enum[1]" }, aliases: null, isAutoAttached: false }, response: detail, result: detail, update: true });
+  await storyCase(t, { argv: ["field", "update", "field /?", "--body", '{"localizedName":null,"isDisplayedInIssueList":false}', "--fields", "id"], method: "POST", path: "/api/admin/customFieldSettings/customFields/field%20%2F%3F", query: [["fields", "id"]], body: { localizedName: null, isDisplayedInIssueList: false }, response: undefined, result: null, update: true });
+});
