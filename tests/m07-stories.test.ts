@@ -122,3 +122,22 @@ test("US-068 adjacent empty value updates scrub selected IDs and show bundle con
     assert.equal(await f.json(f.cli, argv), null);
   }
 });
+
+test("US-069 maintain owned bundles and native value metadata", async t => {
+  await storyCase(t, {"argv":["bundle","owned","create","--body","{\"name\":\"Synthetic owned bundle\",\"values\":[{\"name\":\"Synthetic owned value\",\"archived\":false,\"owner\":{\"id\":\"owner /?\"}}]}","--fields","id"],"method":"POST","path":"/api/admin/customFieldSettings/bundles/ownedField","query":[["fields","id"]],"body":{"name":"Synthetic owned bundle","values":[{"name":"Synthetic owned value","archived":false,"owner":{"id":"owner /?"}}]},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["bundle","owned","update","bundle /?","--body","{\"values\":[]}","--fields","id"],"method":"POST","path":"/api/admin/customFieldSettings/bundles/ownedField/bundle%20%2F%3F","query":[["fields","id"]],"body":{"values":[]},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["bundle","owned","value","create","bundle /?","--body","{\"name\":\"Synthetic owned value\",\"archived\":false,\"owner\":{\"id\":\"owner /?\"}}","--fields","id"],"method":"POST","path":"/api/admin/customFieldSettings/bundles/ownedField/bundle%20%2F%3F/values","query":[["fields","id"]],"body":{"name":"Synthetic owned value","archived":false,"owner":{"id":"owner /?"}},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["bundle","owned","value","update","bundle /?","value /?","--body","{\"description\":null,\"ordinal\":0,\"archived\":true,\"owner\":null}","--fields","id"],"method":"POST","path":"/api/admin/customFieldSettings/bundles/ownedField/bundle%20%2F%3F/values/value%20%2F%3F","query":[["fields","id"]],"body":{"description":null,"ordinal":0,"archived":true,"owner":null},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["bundle","owned","delete","bundle /?"],"method":"DELETE","path":"/api/admin/customFieldSettings/bundles/ownedField/bundle%20%2F%3F","query":[],"response":undefined,"result":null,"update":true});
+  await storyCase(t, {"argv":["bundle","owned","value","delete","bundle /?","value /?","--fields","id"],"method":"DELETE","path":"/api/admin/customFieldSettings/bundles/ownedField/bundle%20%2F%3F/values/value%20%2F%3F","query":[["fields","id"]],"response":undefined,"result":null,"update":true});
+});
+
+test("US-069 owned values require names at creation and native nullable owner descriptors", async t => {
+  const f = await configuredFixture(t, { permissions: ["Update"] }); let calls = 0;
+  server.use(http.post("*", () => { calls++; return new HttpResponse(null, { status: 204 }); }));
+  for (const body of [{ owner: null }, { name: "Synthetic", owner: "user-id" }, { name: "Synthetic", owner: [] }]) {
+    await assert.rejects(f.cli.execute(["bundle", "owned", "value", "create", "selected-bundle", "--body", JSON.stringify(body)])); assert.equal(calls, 0);
+  }
+  const r = await f.run(f.cli, ["bundle", "owned", "value", "create", "selected-bundle", "--body", '{"name":"Selected owned value","owner":null}']);
+  assert.equal(r.exitCode, 0, r.stderr); assert.match(r.stdout, /Selected owned value/); assert.match(r.stdout, /selected-bundle/); assert.equal(calls, 1);
+});
