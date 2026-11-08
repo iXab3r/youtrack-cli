@@ -52,3 +52,10 @@ export async function createEnumValue(connection: Connection, bundleID: string, 
 export async function updateEnumValue(connection: Connection, bundleID: string, valueID: string, input: unknown, options: ProjectionOptions = {}) {
   return mutate(connection, valuePath("enum", bundleID, valueID), namedMutationBody(input, false), fields(options, enumValueFields));
 }
+
+export async function createStateValue(connection: Connection, bundleID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, valuePath("state", bundleID), namedMutationBody(input, true), fields(options, stateValueFields));
+}
+export async function updateStateValue(connection: Connection, bundleID: string, valueID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, valuePath("state", bundleID, valueID), namedMutationBody(input, false), fields(options, stateValueFields));
+}

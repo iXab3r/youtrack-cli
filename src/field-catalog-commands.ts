@@ -7,6 +7,7 @@ import {
   getEnumBundle,
   getEnumValue,
   getStateBundle,
+  createStateValue, updateStateValue,
   getStateValue,
   listCustomFields,
   listEnumBundles,
@@ -45,6 +46,8 @@ export const fieldCatalogBundleChildren: readonly CommandDefinition[] = [
     pagedRead("list", "List state bundles", listStateBundles, bundleTable),
     projectedRead("get <bundle>", "Show a state bundle", getStateBundle),
     command("value", "Inspect state values", [
+      projectedBodyUpdate("create <bundle>", "Create a state value", createStateValue, undefined, bundleValueWritten),
+      projectedBodyUpdate("update <bundle> <value>", "Update a state value", updateStateValue, undefined, bundleValueWritten),
       pagedRead("list <bundle>", "List the bundle's values", listStateValues, valueTable),
       projectedRead("get <bundle> <value>", "Show a state value", getStateValue),
     ]),
