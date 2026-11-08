@@ -66,3 +66,8 @@ export const getFieldDefaults = readObjectAt(defaultsPath, defaultsFields);
 export async function updateFieldDefaults(connection: Connection, fieldID: string, input: unknown, options: ProjectionOptions = {}) {
   return mutate(connection, defaultsPath(fieldID), mutationBody(input), fields(options, defaultsFields));
 }
+
+export const listFieldInstances = readCollectionAt(
+  (fieldID: string) => `${root}/customFields/${encodedID(fieldID, "field ID")}/instances`,
+  "id,field(id,name),project(id,name,shortName),canBeEmpty,isPublic",
+);

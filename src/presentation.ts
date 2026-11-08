@@ -617,3 +617,10 @@ export const projectFieldRecord = recordView<Item | null>({
     { label: "Can be empty", value: item => booleanText(item?.canBeEmpty) },
     { label: "Public", value: item => booleanText(item?.isPublic) }],
 });
+
+export const fieldInstanceTable = tableView<Item, YouTrackPage>({
+  rows: page => page.items,
+  columns: [id, { header: "PROJECT", value: item => text(nested(item.project)?.shortName) ?? text(nested(item.project)?.name) },
+    { header: "FIELD", value: item => text(nested(item.field)?.name) }],
+  empty: "No projects use this field.", footer: pageFooter,
+});
