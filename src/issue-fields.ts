@@ -267,3 +267,8 @@ export async function deleteProjectIssue(connection: Connection, projectID: stri
 export async function deleteProjectField(connection: Connection, projectID: string, fieldID: string, options: ProjectionOptions = {}) {
   return deleteObject(connection, `${projectPath(projectID)}/customFields/${encodedID(fieldID, "project field ID")}`, options);
 }
+
+
+export async function deleteProject(connection: Connection, projectID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, projectPath(projectID), options);
+}

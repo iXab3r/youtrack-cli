@@ -1,7 +1,7 @@
 import { command, type CommandDefinition } from "@eyeauras/cli-factory";
 import { projectedDelete, bodyOptions, projectionOptions, readOptions, updateCommand, projectedBodyUpdate, notificationOptions, pagedRead, projectedRead } from "./cli-support.js";
 import {
-  deleteProjectField, deleteProjectIssue,
+  deleteProject, deleteProjectField, deleteProjectIssue,
   listProjectIssues, getProjectIssue, createProjectIssue, updateProjectIssue,
   projectTemplate, createProject, updateProject,
   getProject,
@@ -16,6 +16,7 @@ import {
 import { issueRecord, issueTable, scopedIssueWritten, rememberSubmittedIdentity, mutationWritten, withView, issueFieldRecord, issueFieldTable, projectFieldTable, projectFieldRecord, projectRecord, userTable } from "./presentation.js";
 
 export const fieldsProjectChildren: readonly CommandDefinition[] = [
+  projectedDelete("delete <project>", "Delete a selected project", deleteProject, mutationWritten("Deleted project", "project")),
   command("issues", "Read and change issues in a project", [
     projectedDelete("delete <project> <issue>", "Delete an issue in the project", deleteProjectIssue, mutationWritten("Deleted issue", "issue", "project")),
     pagedRead("list <project>", "List issues in the project", listProjectIssues, issueTable, [{
