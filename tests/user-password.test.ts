@@ -110,8 +110,8 @@ test("US-056 interleaved RPC create resolves each profile alias and retains it a
     seen.push(profile); return new HttpResponse(null, { status: 403 });
   }));
   for (const profile of ["alpha", "beta"]) await f.json(cli, ["--profile", profile, ...importArgs], { environment: { YOUTRACK_INITIAL_PASSWORD: `synthetic-${profile}-password` } });
-  const replies = await f.rpc(cli, ["beta", "alpha", "beta"].map(profile => ["--profile", profile, ...createArgs])) as { error: { code: string } }[];
-  assert.deepEqual(seen, ["beta", "alpha", "beta"]); assert(replies.every(reply => reply.error.code === "http.forbidden"));
+  const replies = await f.rpc(cli, ["beta", "alpha", "beta"].map(profile => ["--profile", profile, ...createArgs])) as { error: { data: { code: string } } }[];
+  assert.deepEqual(seen, ["beta", "alpha", "beta"]); assert(replies.every(reply => reply.error.data.code === "http.forbidden"));
   for (const profile of ["alpha", "beta"]) assert.equal(await new ProfileSecrets(f.secretStore, "youtrack-cli", profile).get(key), `synthetic-${profile}-password`);
 });
 
