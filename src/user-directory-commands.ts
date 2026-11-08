@@ -1,6 +1,7 @@
 import { command } from "@eyeauras/cli-factory";
 import { pagedRead, projectedRead, projectedBodyUpdate, projectedDelete } from "./cli-support.js";
 import {
+  listUserSavedQueries, listUserTags,
   getUserTimeProfile, updateUserTimeProfile,
   getUserGeneralProfile, updateUserGeneralProfile,
   getUserNotifications, updateUserNotifications,
@@ -14,11 +15,17 @@ import {
   listUserBundleMembers,
   listUserBundles,
 } from "./user-directory.js";
-import { timeProfileRecord, generalProfileRecord, notificationRecord, mutationWritten, groupRecord, groupTable, namedTable, userRecord, userTable } from "./presentation.js";
+import { savedQueryTable, tagTable, timeProfileRecord, generalProfileRecord, notificationRecord, mutationWritten, groupRecord, groupTable, namedTable, userRecord, userTable } from "./presentation.js";
 
 const bundleTable = namedTable("BUNDLE", "No user bundles.");
 
 export const userDirectoryUserChildren = [
+  command("saved-queries", "Inspect a user's saved searches", [
+    pagedRead("list <user>", "List the user's saved searches", listUserSavedQueries, savedQueryTable),
+  ]),
+  command("tags", "Inspect a user's tags", [
+    pagedRead("list <user>", "List the user's tags", listUserTags, tagTable),
+  ]),
   command("profile", "Inspect and change user profile settings", [
     command("time-tracking", "Manage user time-tracking preferences", [
       projectedRead("get <user>", "Show user time-tracking preferences", getUserTimeProfile, timeProfileRecord),

@@ -87,3 +87,11 @@ export async function updateUserTimeProfile(connection: Connection, userID: stri
   if (Object.hasOwn(body, "periodFormat") && body.periodFormat !== null) mutationBody(body.periodFormat);
   return mutate(connection, timeProfilePath(userID), body, fields(options, timeProfileFields));
 }
+
+
+export const listUserSavedQueries = readCollectionAt(
+  (userID: string) => `api/users/${encodedID(userID, "user ID")}/savedQueries`, "id,name,query",
+);
+export const listUserTags = readCollectionAt(
+  (userID: string) => `api/users/${encodedID(userID, "user ID")}/tags`, "id,name",
+);
