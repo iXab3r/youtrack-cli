@@ -105,3 +105,15 @@ test("US-002 issue history list/detail and native cursor filters retain their di
     query: [["fields", "id,activities"], ["categories", "CommentsCategory"], ["author", "me"], ["start", "-1"], ["end", "2"], ["activityId", "opaque activity"], ["cursor", "a/opaque"]], response: cursor, result: cursor,
   });
 });
+
+test("US-003 issue writes expose projections, false/true notifications and draft-only publication", async t => {
+  const rows: StoryCase[] = [
+    { argv: ["issues", "create", "--body", "{}", "--draft-id", "draft/?opaque", "--mute-update-notifications", "false", "--fields", "id"],
+      method: "POST", path: "/api/issues", query: [["fields", "id"], ["draftId", "draft/?opaque"], ["muteUpdateNotifications", "false"]], body: {}, response: detail, result: detail, update: true },
+    { argv: ["issues", "update", "DEMO-1", "--body", '{"summary":null,"nativeMetadata":true}', "--mute-update-notifications", "--fields", "id"],
+      method: "POST", path: "/api/issues/DEMO-1", query: [["fields", "id"], ["muteUpdateNotifications", "true"]], body: { summary: null, nativeMetadata: true }, response: detail, result: detail, update: true },
+    { argv: ["issues", "fields", "set", "DEMO-1", "opaque field", "--body", '{"$type":"FutureIssueCustomField","value":null}', "--fields", "id", "--mute-update-notifications"],
+      method: "POST", path: "/api/issues/DEMO-1/customFields/opaque%20field", query: [["fields", "id"], ["muteUpdateNotifications", "true"]], body: { $type: "FutureIssueCustomField", value: null }, response: detail, result: detail, update: true },
+  ];
+  for (const row of rows) await storyCase(t, row);
+});
