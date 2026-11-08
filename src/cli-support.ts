@@ -235,6 +235,7 @@ export function readOptions(options: Record<string, unknown>): IssueSearchOption
     ...(typeof options.pageSize === "number" ? { pageSize: options.pageSize } : {}),
     ...(typeof options.start === "number" ? { start: options.start } : {}),
     ...(typeof options.query === "string" ? { query: options.query } : {}),
+    ...(Array.isArray(options.customField) ? { customFields: options.customField as string[] } : {}),
     ...(typeof options.maxResults === "number" ? { maxResults: options.maxResults } : {}),
     ...(typeof options.maxBytes === "number" ? { maxBytes: options.maxBytes } : {}),
   };

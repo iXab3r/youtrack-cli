@@ -49,6 +49,15 @@ async function storyCase(t: TestContext, row: StoryCase) {
   await f.cli.execute(["permissions", "revoke", row.update ? "Update" : "ReadOnly"]);
   await assert.rejects(f.cli.execute(row.argv), (e: unknown) => (e as { code: string }).code === "permission.denied");
   assert.equal(calls, 4);
+  for (const json of [false, true]) {
+    const denied = await f.run(f.cli, [...row.argv, ...(json ? ["--json"] : [])]);
+    assert.equal(denied.exitCode, 1);
+    assert.equal(denied.stdout, "");
+    assert.match(denied.stderr, /permission.denied|Permission .* disabled/);
+  }
+  const deniedRpc = await f.rpc(f.cli, [row.argv]) as { error: { data: { code: string } } }[];
+  assert.equal(deniedRpc[0]?.error.data.code, "permission.denied");
+  assert.equal(calls, 4);
 }
 
 const emptyPage = { count: 0, items: [], hasMore: false, nextStart: null };

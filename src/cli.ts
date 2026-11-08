@@ -166,6 +166,10 @@ export function createYouTrackCli(runtime?: CliRuntime): CliApplication {
           [
             ...pageOptions,
             { flags: "--query <query>", description: "YouTrack search query" },
+            {
+              flags: "--custom-field <name>", description: "Select a custom field (repeatable)",
+              parse: (value, previous) => [...(Array.isArray(previous) ? previous : []), value],
+            },
             { flags: "--all", description: "Read every page (needs --max-results)" },
             {
               flags: "--max-results <count>", description: "Fail above this many issues",

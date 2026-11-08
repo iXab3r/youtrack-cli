@@ -24,6 +24,8 @@ export type YouTrackValue = null | boolean | number | string | YouTrackObject | 
 export interface YouTrackObject {
   [field: string]: YouTrackValue;
 }
+export type QueryParameters = Record<string, string | readonly string[]>;
+
 export interface ProjectionOptions {
   fields?: string;
 }
@@ -40,6 +42,7 @@ export interface YouTrackPage<T = YouTrackObject> {
 }
 export interface IssueSearchOptions extends PageOptions {
   query?: string;
+  customFields?: readonly string[];
   /** Read every page; fail instead of returning more issues. */
   maxResults?: number;
   progress?: (message: string) => void;
@@ -161,12 +164,17 @@ interface RequestOptions {
 async function request(
   connection: Connection,
   path: string,
-  query: Record<string, string>,
+  query: QueryParameters,
   responseName = "JSON",
   options: RequestOptions = {},
 ): Promise<YouTrackValue> {
   const url = new URL(path, youTrackUrl(connection.baseUrl));
-  url.search = new URLSearchParams(query).toString();
+  const parameters = new URLSearchParams();
+  for (const [name, value] of Object.entries(query)) {
+    if (typeof value === "string") parameters.append(name, value);
+    else for (const item of value) parameters.append(name, item);
+  }
+  url.search = parameters.toString();
   const token = normalizeBearerToken(connection.token);
   const body = options.body;
   const multipart = body instanceof FormData;
@@ -239,7 +247,7 @@ async function request(
 export async function readObject(
   connection: Connection,
   path: string,
-  query: Record<string, string>,
+  query: QueryParameters,
   body?: YouTrackObject,
 ): Promise<YouTrackObject> {
   const options: RequestOptions = body === undefined ? {} : { method: "POST", body };
@@ -249,7 +257,7 @@ export async function readObject(
 export async function readNullableObject(
   connection: Connection,
   path: string,
-  query: Record<string, string>,
+  query: QueryParameters,
 ): Promise<YouTrackObject | null> {
   const value = scrub(await request(connection, path, query), connection.token.trim());
   return value === null ? null : object(value);
@@ -278,7 +286,7 @@ export async function getAttachmentDownloadMetadata(
 export async function readCollection(
   connection: Connection,
   path: string,
-  query: Record<string, string>,
+  query: QueryParameters,
   budget?: ByteBudget,
 ): Promise<YouTrackObject[]> {
   const value = scrub(await request(connection, path, query, "JSON", { budget }), connection.token.trim());
@@ -295,7 +303,7 @@ export async function readCollection(
 export async function readPage(
   connection: Connection,
   path: string,
-  query: Record<string, string>,
+  query: QueryParameters,
   budget?: ByteBudget,
 ): Promise<YouTrackPage> {
   const items = await readCollection(connection, path, query, budget);
@@ -312,7 +320,7 @@ export async function readPage(
 export async function readPages(
   connection: Connection,
   path: string,
-  query: Record<string, string>,
+  query: QueryParameters,
   { pageSize, start, maxResults, budget, progress }: {
     pageSize: number; start: number; maxResults: number; budget?: ByteBudget | undefined;
     progress?: ((message: string) => void) | undefined;
@@ -449,9 +457,15 @@ export async function listIssues(
   connection: Connection,
   options: IssueSearchOptions = {},
 ): Promise<YouTrackPage> {
-  const query: Record<string, string> = {
+  const query: QueryParameters = {
     ...page(options, issueListFields),
     ...(options.query === undefined ? {} : { query: requiredText(options.query, "query") }),
+    ...(options.customFields === undefined ? {} : {
+      customFields: (() => {
+        if (!Array.isArray(options.customFields)) throw new Error("The custom fields must be a list of names.");
+        return options.customFields.map(value => requiredText(value, "custom field name"));
+      })(),
+    }),
   };
   const budget = options.maxBytes === undefined
     ? undefined
