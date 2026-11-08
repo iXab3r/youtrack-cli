@@ -1,8 +1,9 @@
 import { command } from "@eyeauras/cli-factory";
 import { inputFilePath } from "./client.js";
 import { articleAttachmentDownloadCommand } from "./attachment-download-commands.js";
-import { pagedRead, projectedBodyUpdate, projectedRead, updateCommand, projectionOptions, readOptions, writeOptions, notificationOptions } from "./cli-support.js";
+import { projectedDelete, pagedRead, projectedBodyUpdate, projectedRead, updateCommand, projectionOptions, readOptions, writeOptions, notificationOptions } from "./cli-support.js";
 import {
+  addChildArticle, updateChildArticle, removeChildArticle,
   getArticleAttachment,
   listArticleReactions, getArticleReaction, addArticleReaction, removeArticleReaction,
   listArticleTags, getArticleTag, addArticleTag, removeArticleTag,
@@ -13,7 +14,7 @@ import {
   uploadArticleAttachment,
   updateArticleAttachment, deleteArticleAttachment,
 } from "./article-extras.js";
-import { articleRecord, articleTable, attachmentRecord, attachmentTable, uploadedAttachments, reactionRecord, reactionTable, updatedAttachment, tagTable, tagRecord, tagAdded, arg, done, withView } from "./presentation.js";
+import { mutationWritten, articleRecord, articleTable, attachmentRecord, attachmentTable, uploadedAttachments, reactionRecord, reactionTable, updatedAttachment, tagTable, tagRecord, tagAdded, arg, done, withView } from "./presentation.js";
 
 export const articlesExtraChildren = [
   command("tag", "Read and change article tag relations", [
@@ -51,7 +52,10 @@ export const articlesExtraChildren = [
         ],
     )),
   ]),
-  command("child", "Inspect an article's child articles", [
+  command("child", "Manage an article's child articles", [
+    projectedBodyUpdate("add <article>", "Add a child article", addChildArticle, undefined, mutationWritten("Added child article", undefined, "article"), notificationOptions),
+    projectedBodyUpdate("update <article> <child>", "Update a child article", updateChildArticle, undefined, mutationWritten("Updated child article", "child", "article"), notificationOptions),
+    projectedDelete("remove <article> <child>", "Remove the parent-child link", removeChildArticle, mutationWritten("Unlinked child article", "child", "article")),
     pagedRead("list <article>", "List the immediate child articles", listChildArticles, articleTable),
     projectedRead("get <article> <child>", "Show a child article", getChildArticle, articleRecord),
   ]),

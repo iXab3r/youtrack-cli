@@ -85,6 +85,7 @@ export {
   listVersionBundles, getVersionBundle, listVersionValues, getVersionValue,
 } from "./bundle-values.js";
 export {
+  addChildArticle, updateChildArticle, removeChildArticle,
   listArticleTags, getArticleTag, addArticleTag, removeArticleTag,
   updateArticleAttachment, deleteArticleAttachment, listArticleReactions, getArticleReaction, addArticleReaction, removeArticleReaction,
   listArticleAttachments, getArticleAttachment, uploadArticleAttachment,
