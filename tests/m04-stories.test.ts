@@ -90,3 +90,8 @@ test("US-043 read service roles, assignments and permission catalog without loca
   await storyCase(t, {"argv":["role-assignment","get","selected /?","--fields","id"],"method":"GET","path":"/api/assignedRoles/selected%20%2F%3F","query":[["fields","id"]],"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"}});
   await storyCase(t, {"argv":["role","get","selected /?","--fields","id"],"method":"GET","path":"/api/roles/selected%20%2F%3F","query":[["fields","id"]],"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"}});
 });
+
+test("US-044 assign a selected holder and role in a native explicit scope, then revoke by ID", async t => {
+  await storyCase(t, {"argv":["role-assignment","create","--body","{\"holder\":{\"id\":\"user /?\",\"$type\":\"User\"},\"role\":{\"id\":\"role /?\"},\"scope\":{\"$type\":\"ProjectScope\",\"project\":{\"id\":\"project /?\"}},\"$type\":\"AssignedRole\"}","--fields","id"],"method":"POST","path":"/api/assignedRoles","query":[["fields","id"]],"body":{"holder":{"id":"user /?","$type":"User"},"role":{"id":"role /?"},"scope":{"$type":"ProjectScope","project":{"id":"project /?"}},"$type":"AssignedRole"},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["role-assignment","delete","assignment /?","--fields","id"],"method":"DELETE","path":"/api/assignedRoles/assignment%20%2F%3F","query":[["fields","id"]],"response":undefined,"result":null,"update":true});
+});
