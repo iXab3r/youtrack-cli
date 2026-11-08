@@ -562,8 +562,9 @@ export async function uploadObjectCollection(
   path: string,
   body: FormData,
   projection: string,
+  options: WriteOptions = {},
 ): Promise<YouTrackObject[] | null> {
-  const value = await request(connection, path, { fields: projection }, "JSON", {
+  const value = await request(connection, path, writeQuery(options, projection), "JSON", {
     method: "POST", body, allowEmpty: true,
   });
   if (value === null) {
