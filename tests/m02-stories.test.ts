@@ -49,3 +49,10 @@ test("US-022 article comments retain draft publication and notification controls
   await storyCase(t, { argv: ["article", "comment", "add", "KB-1", "--body", "{}", "--draft-id", "comment /?", "--fields", "id", "--mute-update-notifications", "false"], method: "POST", path: "/api/articles/KB-1/comments", query: [["fields", "id"], ["draftId", "comment /?"], ["muteUpdateNotifications", "false"]], body: {}, response: detail, result: detail, update: true });
   await storyCase(t, { argv: ["article", "comment", "update", "KB-1", "c /?", "--body", '{"text":null,"pinned":true}', "--fields", "id", "--mute-update-notifications"], method: "POST", path: "/api/articles/KB-1/comments/c%20%2F%3F", query: [["fields", "id"], ["muteUpdateNotifications", "true"]], body: { text: null, pinned: true }, response: undefined, result: null, update: true });
 });
+
+test("US-023 article tags read, assign and remove relations without deleting global tags", async t => {
+  await storyCase(t, { argv: ["article", "tag", "list", "KB-1", "--fields", "id"], method: "GET", path: "/api/articles/KB-1/tags", query: [["fields", "id"], ["$top", "50"], ["$skip", "0"]], response: [], result: emptyPage });
+  await storyCase(t, { argv: ["article", "tag", "get", "KB-1", "tag /?", "--fields", "id"], method: "GET", path: "/api/articles/KB-1/tags/tag%20%2F%3F", query: [["fields", "id"]], response: detail, result: detail });
+  await storyCase(t, { argv: ["article", "tag", "add", "KB-1", "--body", '{"id":"tag /?","color":{"id":"synthetic-style"}}', "--fields", "id"], method: "POST", path: "/api/articles/KB-1/tags", query: [["fields", "id"]], body: { id: "tag /?", color: { id: "synthetic-style" } }, response: detail, result: detail, update: true });
+  await storyCase(t, { argv: ["article", "tag", "remove", "KB-1", "tag /?"], method: "DELETE", path: "/api/articles/KB-1/tags/tag%20%2F%3F", query: [], response: undefined, result: null, update: true });
+});
