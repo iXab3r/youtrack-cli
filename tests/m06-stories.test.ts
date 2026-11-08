@@ -56,3 +56,9 @@ test("US-054 scoped creation preflight and empty replies retain issue identity a
     assert.equal(await f.json(f.cli, argv), null);
   }
 });
+
+test("US-057 create update and delete explicitly named groups", async t => {
+  await storyCase(t, {"argv":["group","create","--body","{\"name\":\"Synthetic group\"}","--fields","id"],"method":"POST","path":"/api/groups","query":[["fields","id"]],"body":{"name":"Synthetic group"},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["group","update","group /?","--body","{\"name\":\"Renamed group\"}","--fields","id"],"method":"POST","path":"/api/groups/group%20%2F%3F","query":[["fields","id"]],"body":{"name":"Renamed group"},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["group","delete","group /?","--fields","id"],"method":"DELETE","path":"/api/groups/group%20%2F%3F","query":[["fields","id"]],"response":undefined,"result":null,"update":true});
+});
