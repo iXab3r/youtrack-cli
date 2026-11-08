@@ -10,6 +10,7 @@ import {
   readNullableObject,
   readObjectAt,
   uploadObjectCollection,
+  type WriteOptions,
   type Connection,
   type PageOptions,
   type ProjectionOptions,
@@ -38,12 +39,12 @@ export async function uploadArticleAttachment(
   connection: Connection,
   articleID: string,
   filePath: string,
-  options: ProjectionOptions = {},
+  options: WriteOptions = {},
 ): Promise<YouTrackObject[] | null> {
   const path = `${articlePath(articleID)}/attachments`;
   const projection = fields(options, attachmentFields);
   const form = await attachmentForm(filePath);
-  return uploadObjectCollection(connection, path, form, projection);
+  return uploadObjectCollection(connection, path, form, projection, options);
 }
 
 export const listChildArticles = readCollectionAt(
@@ -78,4 +79,15 @@ export async function addArticleTag(connection: Connection, articleID: string, i
 }
 export async function removeArticleTag(connection: Connection, articleID: string, tagID: string) {
   return deleteObject(connection, `${articlePath(articleID)}/tags/${encodedID(tagID, "tag ID")}`);
+}
+
+
+export async function updateArticleAttachment(connection: Connection, articleID: string, attachmentID: string, input: unknown, options: ProjectionOptions = {}) {
+  const body = mutationBody(input);
+  return mutate(connection, `${articlePath(articleID)}/attachments/${encodedID(attachmentID, "attachment ID")}`, {
+    ...body, ...(Object.hasOwn(body, "name") ? { name: requiredText(body.name as string, "name") } : {}),
+  }, fields(options, attachmentFields));
+}
+export async function deleteArticleAttachment(connection: Connection, articleID: string, attachmentID: string) {
+  return deleteObject(connection, `${articlePath(articleID)}/attachments/${encodedID(attachmentID, "attachment ID")}`);
 }

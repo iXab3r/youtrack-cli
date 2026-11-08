@@ -1,7 +1,7 @@
 import { command } from "@eyeauras/cli-factory";
 import { inputFilePath } from "./client.js";
 import { articleAttachmentDownloadCommand } from "./attachment-download-commands.js";
-import { pagedRead, projectedBodyUpdate, projectedRead, updateCommand, projectionOptions, readOptions } from "./cli-support.js";
+import { pagedRead, projectedBodyUpdate, projectedRead, updateCommand, projectionOptions, readOptions, writeOptions, notificationOptions } from "./cli-support.js";
 import {
   getArticleAttachment,
   listArticleTags, getArticleTag, addArticleTag, removeArticleTag,
@@ -10,8 +10,9 @@ import {
   listArticleAttachments,
   listChildArticles,
   uploadArticleAttachment,
+  updateArticleAttachment, deleteArticleAttachment,
 } from "./article-extras.js";
-import { articleRecord, articleTable, attachmentRecord, attachmentTable, uploadedAttachments, tagTable, tagRecord, tagAdded, arg, done, withView } from "./presentation.js";
+import { articleRecord, articleTable, attachmentRecord, attachmentTable, uploadedAttachments, updatedAttachment, tagTable, tagRecord, tagAdded, arg, done, withView } from "./presentation.js";
 
 export const articlesExtraChildren = [
   command("tag", "Read and change article tag relations", [
@@ -23,6 +24,9 @@ export const articlesExtraChildren = [
   ]),
   command("attachment", "Inspect, upload or download article attachments", [
     articleAttachmentDownloadCommand,
+    projectedBodyUpdate("update <article> <attachmentID>", "Update article attachment metadata", updateArticleAttachment, undefined, updatedAttachment),
+    withView(done(context => `Deleted attachment ${arg(context, "attachment")} from article ${arg(context, "article")}.`), updateCommand(
+      "delete <article> <attachment>", "Delete an article attachment", (client, { args }) => deleteArticleAttachment(client, args.article, args.attachment))),
     pagedRead("list <article>", "List attachments", listArticleAttachments, attachmentTable),
     projectedRead("get <article> <attachment>", "Show an attachment", getArticleAttachment, attachmentRecord),
     withView(uploadedAttachments, updateCommand(
@@ -33,10 +37,10 @@ export const articlesExtraChildren = [
           connection,
           args.article,
           String(options.file),
-          readOptions(options),
+          writeOptions(options),
         ),
       [
-          ...projectionOptions,
+          ...projectionOptions, ...notificationOptions,
           {
             flags: "--file <path>",
             description: "Local file to upload",
