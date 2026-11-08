@@ -45,3 +45,19 @@ test("US-062 native Int32 calendar values preserve order and server-owned limits
     assert.match(error.message, /HTTP 400/); assert.doesNotMatch(error.message, /synthetic-token|private-response|outcome is unknown/); return true;
   }); assert.equal(calls, 1);
 });
+
+test("US-063 separate project field removal from global field deletion", async t => {
+  await storyCase(t, {"argv":["project","field","delete","project /?","field /?","--fields","id"],"method":"DELETE","path":"/api/admin/projects/project%20%2F%3F/customFields/field%20%2F%3F","query":[["fields","id"]],"response":undefined,"result":null,"update":true});
+  await storyCase(t, {"argv":["field","delete","field /?"],"method":"DELETE","path":"/api/admin/customFieldSettings/customFields/field%20%2F%3F","query":[],"response":undefined,"result":null,"update":true});
+});
+
+test("US-063 a rejected global deletion does not replay or compensate project field removal", async t => {
+  const f = await configuredFixture(t, { permissions: ["Update"] }); const seen: string[] = [];
+  server.use(http.delete("*", ({ request }) => {
+    const path = new URL(request.url).pathname; seen.push(path);
+    return path.includes("/projects/") ? new HttpResponse(null, { status: 204 }) : new HttpResponse("synthetic-token private-response", { status: 409 });
+  }));
+  assert.equal(await f.cli.execute(["project", "field", "delete", "selected-project", "selected-project-field"]), null);
+  await assert.rejects(f.cli.execute(["field", "delete", "selected-global-field"]), (error: Error) => { assert.match(error.message, /HTTP 409/); assert.doesNotMatch(error.message, /outcome is unknown|synthetic-token|private-response/); return true; });
+  assert.deepEqual(seen, ["/context/api/admin/projects/selected-project/customFields/selected-project-field", "/context/api/admin/customFieldSettings/customFields/selected-global-field"]);
+});
