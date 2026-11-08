@@ -112,3 +112,13 @@ test("US-068 build value creation needs a name and empty replies identify its bu
   const result = await f.run(f.cli, ["bundle", "build", "value", "create", "selected-bundle", "--body", '{"name":"Selected build","assembleDate":null}']);
   assert.equal(result.exitCode, 0, result.stderr); assert.match(result.stdout, /Selected build/); assert.match(result.stdout, /selected-bundle/); assert.equal(calls, 1);
 });
+
+test("US-068 adjacent empty value updates scrub selected IDs and show bundle context", async t => {
+  const f = await configuredFixture(t, { permissions: ["Update"] });
+  server.use(http.post("*", () => new HttpResponse(null, { status: 204 })));
+  for (const family of ["version", "build"]) {
+    const argv = ["bundle", family, "value", "update", "selected-bundle", "synthetic-token", "--body", "{}"];
+    const r = await f.run(f.cli, argv); assert.equal(r.exitCode, 0, r.stderr); assert.doesNotMatch(r.stdout, /synthetic-token/); assert.match(r.stdout, /selected-bundle/);
+    assert.equal(await f.json(f.cli, argv), null);
+  }
+});
