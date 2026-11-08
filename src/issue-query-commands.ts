@@ -1,6 +1,6 @@
-import { command, type OptionDefinition } from "@eyeauras/cli-factory";
+import { command, jsonParser, type OptionDefinition } from "@eyeauras/cli-factory";
 import { requiredText } from "./client.js";
-import { pagedRead, projectedBodyUpdate, projectedRead, readCommand, updateCommand, projectionOptions, readOptions } from "./cli-support.js";
+import { pagedRead, projectedBodyUpdate, projectedRead, readCommand, updateCommand, projectionOptions, readOptions, writeOptions, notificationOptions } from "./cli-support.js";
 import {
   applyCommands,
   createSavedQuery,
@@ -62,9 +62,26 @@ export const queryRootCommands = [
         connection,
         String(options.query),
         options.issues as string[],
-        readOptions(options),
+        {
+          ...writeOptions(options),
+          ...(typeof options.comment === "string" ? { comment: options.comment } : {}),
+          ...(options.visibility === undefined ? {} : { visibility: options.visibility as import("./client.js").YouTrackObject }),
+          ...(typeof options.caret === "number" ? { caret: options.caret } : {}),
+          ...(typeof options.silent === "boolean" ? { silent: options.silent } : {}),
+          ...(typeof options.runAs === "string" ? { runAs: options.runAs } : {}),
+        },
       ),
-      [...queryOptions, { ...issueOption, required: true }],
+      [...queryOptions, { ...issueOption, required: true }, ...notificationOptions,
+        ...assistOptions.filter(option => option.flags.startsWith("--caret ")),
+        { flags: "--comment <text>", description: "Add a comment with the command" },
+        { flags: "--visibility <json>", description: "Set comment visibility", parse: jsonParser("The visibility must be valid JSON.") },
+        { flags: "--run-as <login>", description: "Apply as a selected user" },
+        { flags: "--silent [boolean]", description: "Apply silently (true or false)", parse(value) {
+          if (value === "true") return true;
+          if (value === "false") return false;
+          throw new Error("The silent control must be true or false.");
+        } },
+      ],
     )),
     readCommand(
       "assist",
