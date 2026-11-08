@@ -1,6 +1,7 @@
 import { command, type CommandDefinition } from "@eyeauras/cli-factory";
-import { bodyOptions, projectionOptions, readOptions, updateCommand, projectedBodyUpdate, notificationOptions, pagedRead, projectedRead } from "./cli-support.js";
+import { projectedDelete, bodyOptions, projectionOptions, readOptions, updateCommand, projectedBodyUpdate, notificationOptions, pagedRead, projectedRead } from "./cli-support.js";
 import {
+  deleteProjectIssue,
   listProjectIssues, getProjectIssue, createProjectIssue, updateProjectIssue,
   projectTemplate, createProject, updateProject,
   getProject,
@@ -16,6 +17,7 @@ import { issueRecord, issueTable, scopedIssueWritten, rememberSubmittedIdentity,
 
 export const fieldsProjectChildren: readonly CommandDefinition[] = [
   command("issues", "Read and change issues in a project", [
+    projectedDelete("delete <project> <issue>", "Delete an issue in the project", deleteProjectIssue, mutationWritten("Deleted issue", "issue", "project")),
     pagedRead("list <project>", "List issues in the project", listProjectIssues, issueTable, [{
       flags: "--custom-field <name>", description: "Select a custom field (repeatable)",
       parse: (value, previous) => [...(Array.isArray(previous) ? previous : []), value],

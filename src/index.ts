@@ -23,6 +23,7 @@ export {
   type AssistOptions, type CommandAssistOptions, type CommandApplyOptions,
 } from "./issue-query.js";
 export {
+  deleteProjectIssue,
   listProjectIssues, getProjectIssue, createProjectIssue, updateProjectIssue, type ProjectIssueOptions,
   createProject, updateProject, type ProjectCreateOptions,
   getProject, getProjectField, listProjectFields, listUsers, getIssueField, listIssueFields, setIssueField,

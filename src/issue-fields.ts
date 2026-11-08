@@ -5,7 +5,7 @@ import {
   fields,
   type ProjectionOptions,
   issuePath,
-  namedMutationBody, requiredText,
+  namedMutationBody,
   mutationBody,
   mutate,
   narrative,
@@ -256,4 +256,9 @@ export async function updateProjectIssue(connection: Connection, projectID: stri
   if (Object.hasOwn(body, "summary")) nullableText(body.summary, "summary");
   if (Object.hasOwn(body, "description")) nullableText(body.description, "description");
   return mutate(connection, `${projectIssuesPath(projectID)}/${encodedID(issueID, "issue ID")}`, body, fields(options, scopedIssueFields), options);
+}
+
+
+export async function deleteProjectIssue(connection: Connection, projectID: string, issueID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, `${projectIssuesPath(projectID)}/${encodedID(issueID, "issue ID")}`, options);
 }
