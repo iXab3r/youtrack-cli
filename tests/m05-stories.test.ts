@@ -73,3 +73,9 @@ test("US-015 read tag usage with repeatable native custom fields before selected
 test("US-020 delete only the selected issue without search expansion", async t => {
   await storyCase(t, {"argv":["issues","delete","issue /?"],"method":"DELETE","path":"/api/issues/issue%20%2F%3F","query":[],"response":undefined,"result":null,"update":true});
 });
+
+test("US-024 manage native child articles and remove only the hierarchy relation", async t => {
+  await storyCase(t, {"argv":["article","child","add","article /?","--body","{\"id\":\"child /?\",\"$type\":\"Article\"}","--fields","id","--mute-update-notifications","false"],"method":"POST","path":"/api/articles/article%20%2F%3F/childArticles","query":[["fields","id"],["muteUpdateNotifications","false"]],"body":{"id":"child /?","$type":"Article"},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["article","child","update","article /?","child /?","--body","{\"summary\":null,\"content\":\"Synthetic child content\"}","--fields","id","--mute-update-notifications","true"],"method":"POST","path":"/api/articles/article%20%2F%3F/childArticles/child%20%2F%3F","query":[["fields","id"],["muteUpdateNotifications","true"]],"body":{"summary":null,"content":"Synthetic child content"},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["article","child","remove","article /?","child /?"],"method":"DELETE","path":"/api/articles/article%20%2F%3F/childArticles/child%20%2F%3F","query":[],"response":undefined,"result":null,"update":true});
+});
