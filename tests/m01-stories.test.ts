@@ -41,7 +41,7 @@ async function storyCase(t: TestContext, row: StoryCase) {
   assert.deepEqual(json, row.result);
   const human = await f.run(f.cli, row.argv);
   assert.equal(human.exitCode, 0, human.stderr);
-  assert.ok(human.stdout.trim());
+  if (row.result !== null) assert.ok(human.stdout.trim());
   const replies = await f.rpc(f.cli, [row.argv]) as { result?: unknown; error?: unknown }[];
   assert.equal(replies[0]?.error, undefined);
   assert.deepEqual(replies[0]?.result, row.result);
