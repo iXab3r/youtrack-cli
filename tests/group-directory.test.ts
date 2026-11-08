@@ -194,7 +194,7 @@ test("direct is a boolean selector, malformed flags and unsupported query fail b
       await assert.rejects(f.cli.execute([...argv, ...flags, "--profile", "dev"]));
     }
   }
-  await assert.rejects(f.cli.execute(["group", "list", "--query", "fixture", "--profile", "dev"]));
+  await assert.rejects(f.cli.execute(["group", "member", "list", "fixture", "--query", "fixture", "--profile", "dev"]));
   await assert.rejects(f.cli.execute(["project", "team", "get", "fixture", "--page-size", "2", "--profile", "dev"]));
   assert.equal(calls, 0);
 });
