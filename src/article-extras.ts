@@ -1,6 +1,10 @@
 import { attachmentForm } from "./attachment-form.js";
 import {
   encodedID,
+  mutate,
+  mutationBody,
+  requiredText,
+  deleteObject,
   fields,
   readCollectionAt,
   readNullableObject,
@@ -62,4 +66,16 @@ export async function getParentArticle(
     `${articlePath(articleID)}/parentArticle`,
     { fields: fields(options, articleDetailFields) },
   );
+}
+
+
+const tagFields = "id,name,owner(id,login)";
+export const listArticleTags = readCollectionAt((articleID: string) => `${articlePath(articleID)}/tags`, tagFields);
+export const getArticleTag = readObjectAt((articleID: string, tagID: string) => `${articlePath(articleID)}/tags/${encodedID(tagID, "tag ID")}`, tagFields);
+export async function addArticleTag(connection: Connection, articleID: string, input: unknown, options: ProjectionOptions = {}) {
+  const body = mutationBody(input);
+  return mutate(connection, `${articlePath(articleID)}/tags`, { ...body, id: requiredText(body.id as string, "tag ID") }, fields(options, tagFields));
+}
+export async function removeArticleTag(connection: Connection, articleID: string, tagID: string) {
+  return deleteObject(connection, `${articlePath(articleID)}/tags/${encodedID(tagID, "tag ID")}`);
 }
