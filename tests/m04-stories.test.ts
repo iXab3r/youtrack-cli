@@ -58,3 +58,18 @@ test("US-040 missing type/name fails locally and empty field writes name their s
     assert.equal(await f.json(f.cli, argv), null);
   }
 });
+
+test("M04 sparse mutation confirmations name the selected identity once and retain bundle context", async t => {
+  const f = await configuredFixture(t, { permissions: ["Update"] });
+  server.use(http.all("*", () => HttpResponse.json({ id: "selected-id" })));
+  for (const argv of [
+    ["field", "update", "selected-id", "--body", "{}"],
+    ["bundle", "user", "group", "remove", "bundle-1", "selected-id"],
+    ["bundle", "user", "individual", "create", "bundle-1", "--body", '{"id":"selected-id"}'],
+  ]) {
+    const r = await f.run(f.cli, argv); assert.equal(r.exitCode, 0, r.stderr);
+    const title = r.stdout.split("\n")[0] ?? "";
+    assert.equal(title.split("selected-id").length - 1, 1, title);
+    if (argv[0] === "bundle") assert.match(title, /bundle-1/);
+  }
+});
