@@ -1,8 +1,10 @@
-import { command, type OptionDefinition } from "@eyeauras/cli-factory";
-import { requiredText } from "./client.js";
-import { pagedRead, projectedRead, readCommand, updateCommand, projectionOptions, readOptions } from "./cli-support.js";
+import { command, jsonParser, type OptionDefinition } from "@eyeauras/cli-factory";
+import { requiredText, type YouTrackObject } from "./client.js";
+import { pagedRead, projectedBodyUpdate, projectedRead, readCommand, updateCommand, projectionOptions, readOptions, writeOptions, notificationOptions } from "./cli-support.js";
 import {
   applyCommands,
+  createSavedQuery,
+  updateSavedQuery,
   assistCommands,
   assistSearch,
   countIssues,
@@ -11,7 +13,7 @@ import {
   parseIssueSelection,
   type AssistOptions,
 } from "./issue-query.js";
-import { commandApplied, countRecord, savedQueryTable, withView } from "./presentation.js";
+import { commandApplied, countRecord, savedQueryTable, savedQueryRecord, withView } from "./presentation.js";
 
 const queryOptions: readonly OptionDefinition[] = [
   ...projectionOptions,
@@ -60,9 +62,26 @@ export const queryRootCommands = [
         connection,
         String(options.query),
         options.issues as string[],
-        readOptions(options),
+        {
+          ...writeOptions(options),
+          ...(typeof options.comment === "string" ? { comment: options.comment } : {}),
+          ...(options.visibility === undefined ? {} : { visibility: options.visibility as YouTrackObject }),
+          ...(typeof options.caret === "number" ? { caret: options.caret } : {}),
+          ...(typeof options.silent === "boolean" ? { silent: options.silent } : {}),
+          ...(typeof options.runAs === "string" ? { runAs: options.runAs } : {}),
+        },
       ),
-      [...queryOptions, { ...issueOption, required: true }],
+      [...queryOptions, { ...issueOption, required: true }, ...notificationOptions,
+        ...assistOptions.filter(option => option.flags.startsWith("--caret ")),
+        { flags: "--comment <text>", description: "Add a comment with the command" },
+        { flags: "--visibility <json>", description: "Set comment visibility", parse: jsonParser("The visibility must be valid JSON.") },
+        { flags: "--run-as <login>", description: "Apply as a selected user" },
+        { flags: "--silent [boolean]", description: "Apply silently (true or false)", parse(value) {
+          if (value === "true") return true;
+          if (value === "false") return false;
+          throw new Error("The silent control must be true or false.");
+        } },
+      ],
     )),
     readCommand(
       "assist",
@@ -82,7 +101,9 @@ export const queryRootCommands = [
       assistOptions,
     ),
   ]),
-  command("saved-queries", "Read saved searches", [
+  command("saved-queries", "Read and maintain saved searches", [
+    projectedBodyUpdate("create", "Create a saved search", createSavedQuery, undefined, savedQueryRecord),
+    projectedBodyUpdate("update <queryID>", "Update a saved search", updateSavedQuery, undefined, savedQueryRecord),
     pagedRead("list", "List saved searches", listSavedQueries, savedQueryTable),
     projectedRead("get <queryID>", "Show a saved search", getSavedQuery),
   ]),

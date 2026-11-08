@@ -1,6 +1,6 @@
 import { command } from "@eyeauras/cli-factory";
-import { articlesExtraChildren } from "./article-extras-commands.js";
-import { pagedRead, projectedBodyUpdate, projectedRead, readCommand } from "./cli-support.js";
+import { articlesExtraChildren, articleReactionCommand } from "./article-extras-commands.js";
+import { pagedRead, projectedBodyUpdate, projectedRead, readCommand, notificationOptions, draftOptions } from "./cli-support.js";
 import {
   addArticleComment,
   createArticle,
@@ -42,18 +42,20 @@ export const articlesRootCommands = [
       ),
       [{ flags: "--output <path>", description: "Save to a relative or absolute path (default: <idReadable>.md)" }],
     )),
-    projectedBodyUpdate("create", "Create an article", createArticle, "content", createdArticle),
-    projectedBodyUpdate("update <article>", "Update the summary or content", updateArticle, "content", updatedArticle),
+    projectedBodyUpdate("create", "Create an article", createArticle, "content", createdArticle, [...draftOptions, ...notificationOptions]),
+    projectedBodyUpdate("update <article>", "Update the summary or content", updateArticle, "content", updatedArticle, notificationOptions),
     command("comment", "Read and write article comments", [
+      articleReactionCommand,
       pagedRead("list <article>", "List comments", listArticleComments, commentTable),
       projectedRead("get <article> <comment>", "Show a comment", getArticleComment, commentShown),
-      projectedBodyUpdate("add <article>", "Add a comment", addArticleComment, "text", commentAdded("article")),
+      projectedBodyUpdate("add <article>", "Add a comment", addArticleComment, "text", commentAdded("article"), [...draftOptions, ...notificationOptions]),
       projectedBodyUpdate(
         "update <article> <comment>",
         "Replace a comment's text",
         updateArticleComment,
         "text",
         commentUpdated("article", "comment"),
+        notificationOptions,
       ),
     ]),
   ], {

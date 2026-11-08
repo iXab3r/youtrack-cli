@@ -1,101 +1,99 @@
-# M01: operation contracts and release-candidate evidence
+# M02: collaboration and knowledge-base contracts
 
-M01 selects ten owner-authorized stories from Issue #1: US-001/002/003/004/006/007/008/005/009/011.
-Their [optional tracker reference: delivery tracker](https://github.com/iXab3r/youtrack-cli/issues/6) owns scope and acceptance;
-[optional tracker reference: Milestone 1](https://github.com/iXab3r/youtrack-cli/milestone/1) contains 26 API items, three bounded
-API-group roots and ten stories. Later planning milestones remain deferred.
+M02 selects ten owner-authorized stories: US-012/016/017/018/019/021/022/023/025/026.
+[optional tracker reference: delivery](https://github.com/iXab3r/youtrack-cli/issues/50) and the
+[optional tracker reference: milestone](https://github.com/iXab3r/youtrack-cli/milestone/2) own acceptance and final status.
+The owner requested sequential review/merge/CI/closure without per-milestone releases.
+Product version remains 0.8.0; these additions are unreleased source work. Core remains exact 0.7.1.
 
-The frozen denominator is 282. The mechanically observed current result is **119 covered, 9 partial,
-154 missing, 0 uncertain**; **128 reachable** (103 ReadOnly / 25 Update). Full coverage increases
-from 32.98% to **42.20%**; reachability from 41.84% to **45.39%**. There are 131 service leaves,
-133 selector variants including two --direct choices, and five workflow leaves which add no operation.
-Lists now include 49 offset resources; default paging and native cursor contracts are retained.
+## Universe and result
 
-[Current JSON mapping](coverage.json), [TSV](coverage.tsv) and [summary](summary.json) use the same
-[pinned official facts](../official-operations.json) and [raw source hashes](../source-lock.json).
-The original 0.7.1 audit remains unchanged as a dated baseline. `baselineHead` in current summary
-identifies the observed code lineage; probe evidence additionally hashes every product/test source
-and package/lock file so uncommitted source drift cannot masquerade as that commit.
+The original **282-operation** official source and 0.7.1 baseline stay frozen. M01 ended at
+119 fully covered / 128 reachable. M02 completes **26 contracts: 19 new routes and seven existing
+completeness improvements**. Current: **145 covered, 2 partial, 135 missing, 0 uncertain**;
+**147 reachable** (110 ReadOnly / 37 Update). Full coverage **51.42%**, +9.22 percentage points;
+reachability **52.13%**, +6.74 points. There are 150 leaves (145 ordinary REST leaves plus five
+workflows), 152 variants including two --direct selectors, and 52 ordinary offset lists.
+Leaf counts are separate from the REST denominator. Native cursor resources remain distinct.
+
+Every operation, binding, permission, surface and test evidence is in the [JSON](coverage.json),
+[TSV](coverage.tsv) and [summary](summary.json), using [pinned facts](../official-operations.json)
+and [source provenance](../source-lock.json). The frozen original audit remains separate.
+Current baselineHead identifies observed code lineage; product/test/package fingerprints also
+prevent source drift from masquerading as that revision.
 
 ## Public contract decisions
 
-The current README documents exact new argv. API-dependent controls are exposed only where the
-M01 endpoint declares them. Optional notification input accepts omitted, true, bare-true or false;
-no control is synthesized by default. Only create/comment-add expose draftId; body stays required,
-with {} allowed when publishing an existing draft. Native selectors/extra body fields survive.
-Repeated customFields preserve order and duplicates on every complete-selection page.
-Work-item author/creator filters preserve repeated values, order and duplicates on every surface;
-the library accepts a single string or a list. Semantic writes mark ambiguous transport, response
-and 5xx failures as an unknown outcome while retaining codes/status/causes; 4xx and read POST remain distinct.
+Saved-query creation requires native name/query; updates preserve omissions and native fields.
+Issue project is a single object (get), with an explicit target ID (set) and no name lookup.
+VCS creation follows the primary reference's required version/state, correcting the planning
+example's insufficient id-only body. Update/removal select one exact VCS relation. Native
+values and subtypes are not restricted to examples or closed local enums.
 
-Temporal work-item filters remain literal strings (including native Long spelling) and are separate
-from offset --start. Date/interval/remote permission semantics are enforced by YouTrack. Activity
-item offset lists and native cursor pages are distinct resources with no automatic traversal.
-Reaction names remain open native strings/null; create requires the reaction property.
+Commands retain explicit issue IDs and add comment/visibility/caret/silent/runAs and notification
+controls. Silent/notification flags accept omission, bare true, true and false; YouTrack owns
+remote administrative rights. Global activity list/detail and cursor page stay separate.
+Global filters preserve native issueQuery/author/time. Categories are mandatory in the reference,
+despite the optional OAS flag. Only cursor pages take cursor/activityId. Native Long strings
+retain precision; offset start is separate. No automatic feed traversal or target expansion.
 
-DELETE fields are explicitly declared in the official parameter tables. Their absence from the OAS
-and Request syntax is an omission, not an explicit prohibition. M01 exposes optional caller-selected
-fields, preserving query-free defaults, empty-success null and native nonempty response handling.
-Thus the prior CLI completeness gap is resolved without claiming live/server-version conformance.
-Removed tag/link relations never delete their target entities. Attachment/work-item deletion selects
-exactly one opaque encoded path; no discovery, retries or automatic target expansion is introduced.
+Article/comment writes and upload expose declared notification controls. Only article create and
+comment add take draftId; publication allows {}. Normal creation still needs project, normal
+comment addition needs text. Article tags, attachments and comment reactions preserve opaque IDs,
+native JSON/null/open reaction names and additional body fields.
 
-## Verification and retained boundaries
+Four new DELETE parameter tables declare fields, omitted by OAS/request syntax. Apply the M01
+source disposition: optional --fields, query-free defaults, native empty/nonempty replies. This
+resolves the CLI input gap without pretending mocks establish a deployed backend version.
+Removing tag/reaction/VCS relations does not delete global objects. Common mutation diagnostics
+retain M01 post-dispatch unknown outcomes, definite local/4xx failures, redacted codes/causes,
+and no retries/compensation. The generator now checks actual command-control declarations
+instead of carrying its old baseline-only partial marker.
 
-Every story has a committed red acceptance run before feature code on its own branch. Final local
-Verify passed **456 offline tests**, installed executable/export/native-fetch checks, persistent RPC,
-closed-reader EPIPE 141, file publication contracts, and **2 release-safety tests**. No live proof ran.
-The installed contract covers repeated field selections, new reactions, library exports and admission.
+## Verification and boundaries
 
-All 26 affected operation contracts have independent request expectations at the real native-fetch/MSW
-boundary through human/JSON/execute/RPC. Added tests include explicit false/true notification controls,
-draft-only bodies, multipart upload, empty/null results, relation/child ID encoding, remote 4xx/5xx
-without retries, denied admission on every surface, profile/RPC isolation and redaction. Existing
-transport/cancellation/diagnostic/proof suites remain green. Shared regressions are reused.
+All ten stories have committed red tests on separate branches before feature code; public
+story issues record red/green heads. Final trace passed **472 offline tests** (16 M02 nodes),
+including all 26 affected operation contracts on human/JSON/execute/RPC, exact native requests,
+multipart, denial with the opposite category enabled, HTTP/ambiguous failures, offset limits,
+true/false/omitted controls, cancellation, profile isolation and useful empty-reply human views.
+The source uses the existing native-fetch/MSW boundary and memory secrets. Earlier shared
+transport, paging, EPIPE, diagnostic and proof-preflight regressions remain green.
 
-Current mapping was regenerated from the existing passing-suite observations and a fresh synthetic
-131-leaf traversal. A separate raw-source cross-check reconciles every operation and count, including
-historical assignedRoles identity correction. M01 does not implement that deferred correction/route.
+Local Cake Verify also checks the installed package/exports/CLI/RPC/EPIPE contracts and two
+release-safety tests; final receipts are recorded in the delivery issue. No release target or
+live proof is part of M02. An obsolete global-history unknown-option assertion was updated for
+newly authorized filters; its cursor/no-offset/no-lookahead checks remain.
 
-These are author verification results, **not independent review**. Review/merge/CI and exact npm-stage
-receipts are recorded in the delivery issue as they occur. Version 0.8.0 is a release candidate until
-the owner approves its exact verified npm stage with 2FA and registry verification succeeds.
+A fresh 150-leaf / 152-variant synthetic traversal observes all 147 operations. A second generation
+is byte-identical; a separate raw-OAS/reference algorithm reconciles every count and historical
+deferred identity. This is **author self-check, not independent review**. Independent final
+verdict, reviewed merge and exact-main CI are recorded in the issue as they occur. No server,
+Cloud/Server or cross-version conformance is claimed.
 
-## Final shorter-batch authoring review input
+## Final shorter-batch authoring checkpoint
 
-Baseline: 118 reachable operations, now 128, **+10 new operations** and 16 existing completeness
-improvements. This is the final shorter batch; +50 is not crossed. Core remains the exact npm 0.7.1
-dependency with unchanged integrity and **zero Core source changes**. No runtime source is copied.
+M02 baseline: 128 reachable, now 147 (+19); cumulative +29 from the original 118-operation
+baseline. Core pin/integrity is unchanged, with zero local Core implementation changes.
+New list/detail operations reuse readCollectionAt/readObjectAt/readPage; writes reuse mutate,
+deleteObject/uploadObjectCollection and declared endpoint controls. Story wire assertions are
+shared between M01/M02 instead of copied. No CRUD registry, raw proxy, framework fork or new
+runtime dependency. Core owns profiles/admission/secrets/output/cancellation/EPIPE.
 
-Same-capability examples: reaction detail/list reuse readObjectAt/readCollectionAt and projectedRead/
-pagedRead; reaction add uses one native validator plus mutate/projectedBodyUpdate. Existing and new
-writes share one projected body helper, with only declared per-endpoint draft/notification options.
-The now-unused unprojected body helper was removed. Repeatable query serialization is confined to
-the existing transport, needed by issue customFields; no generic CRUD registry/raw proxy/DI is added.
-Profile target resolution, permissions, secret store, output, EPIPE and diagnostics remain in Core.
+Physical nonblank lines, comments included and generated output excluded:
 
-Physical nonblank source counts (comments included, generated output excluded):
-
-| Surface | Baseline | Current | Delta |
+| Surface | M01 baseline | Current | Delta |
 |---|---:|---:|---:|
-| src | 3813 | 4100 | +287 |
-| tests | 7482 | 7789 | +307 |
+| src | 4100 | 4270 | +170 |
+| tests | 7789 | 7976 | +187 |
 | integration-tests | 165 | 165 | +0 |
-| scripts | 559 | 1079 | +520 |
+| scripts | 1079 | 1104 | +25 |
 
-Tests/support and audit tooling are listed separately from integration source. The audit-tool source
-is reproducibility infrastructure, not a runtime authoring reduction. Counts include M01 completion
-work on 16 existing contracts, so dividing the source delta by ten would misrepresent cost. Handwritten
-Core source is absent from this product checkout; its unchanged pin establishes zero local Core delta,
-not a claim about upstream source size. Fresh review must assess correctness and simplicity from the
-actual diff and these same-capability examples before milestone closure.
+Tests/tooling are separate from integration source. Counts are review inputs, not proof of less
+runtime authoring cost. Upstream handwritten Core source is absent; its size is not invented.
+No CI, package, dependency or version changes. Independent review must assess the actual diff,
+same-capability examples and simplicity before milestone closure.
 
-Regeneration from the repository root after a build:
-
-```sh
-node --enable-source-maps scripts/rest-api-audit/probe.mjs .workspace/workstreams/m01/coverage
-# Observe the offline suite with observe-tests.mjs into that same capture directory.
-node scripts/rest-api-audit/generate.mjs .workspace/workstreams/m01/coverage docs/rest-api-coverage/current
-```
-
-The metadata capture/checker remains public-source research and never substitutes for profile-backed proof.
+After build, run probe.mjs and the observe-tests.mjs hook into an ignored capture, then
+`node scripts/rest-api-audit/generate.mjs <capture> docs/rest-api-coverage/current`. The raw-source
+capture/extractor and separate crosscheck.py remain public-source-only reproducibility tools.

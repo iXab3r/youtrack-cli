@@ -10,6 +10,7 @@ import {
   readObjectAt,
   type Connection,
   type ProjectionOptions,
+  type WriteOptions,
   type YouTrackObject,
 } from "./client.js";
 
@@ -53,20 +54,21 @@ export async function exportArticle(
 export async function createArticle(
   connection: Connection,
   input: unknown,
-  options: ProjectionOptions = {},
+  options: WriteOptions = {},
 ): Promise<YouTrackObject | null> {
   const body = mutationBody(input);
-  const project = mutationBody(body.project);
+  const project = options.draftId !== undefined && body.project === undefined ? undefined : mutationBody(body.project);
   return mutate(
     connection,
     "api/articles",
     {
       ...body,
-      project: { ...project, id: narrative(project.id, "project.id") },
+      ...(project === undefined ? {} : { project: { ...project, id: narrative(project.id, "project.id") } }),
       ...(Object.hasOwn(body, "summary") ? { summary: nullableText(body.summary, "summary") } : {}),
       ...(Object.hasOwn(body, "content") ? { content: nullableText(body.content, "article content") } : {}),
     },
     fields(options, articleWriteFields),
+    options,
   );
 }
 
@@ -74,7 +76,7 @@ export async function updateArticle(
   connection: Connection,
   articleID: string,
   input: unknown,
-  options: ProjectionOptions = {},
+  options: WriteOptions = {},
 ): Promise<YouTrackObject | null> {
   const body = mutationBody(input);
   return mutate(
@@ -86,6 +88,7 @@ export async function updateArticle(
       ...(Object.hasOwn(body, "content") ? { content: nullableText(body.content, "article content") } : {}),
     },
     fields(options, articleWriteFields),
+    options,
   );
 }
 
@@ -103,14 +106,15 @@ export async function addArticleComment(
   connection: Connection,
   articleID: string,
   input: unknown,
-  options: ProjectionOptions = {},
+  options: WriteOptions = {},
 ): Promise<YouTrackObject | null> {
   const body = mutationBody(input);
   return mutate(
     connection,
     `${articlePath(articleID)}/comments`,
-    { ...body, text: nullableText(body.text, "text") },
+    { ...body, ...(options.draftId === undefined || Object.hasOwn(body, "text") ? { text: nullableText(body.text, "text") } : {}) },
     fields(options, articleCommentFields),
+    options,
   );
 }
 
@@ -119,7 +123,7 @@ export async function updateArticleComment(
   articleID: string,
   commentID: string,
   input: unknown,
-  options: ProjectionOptions = {},
+  options: WriteOptions = {},
 ): Promise<YouTrackObject | null> {
   const body = mutationBody(input);
   return mutate(
@@ -127,6 +131,7 @@ export async function updateArticleComment(
     `${articlePath(articleID)}/comments/${encodedID(commentID, "comment ID")}`,
     { ...body, ...(Object.hasOwn(body, "text") ? { text: nullableText(body.text, "text") } : {}) },
     fields(options, articleCommentFields),
+    options,
   );
 }
 

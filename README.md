@@ -23,10 +23,10 @@ for each profile and reimport auxiliary secrets. Existing profiles and permissio
 Licensed under MIT. See the [release guide](docs/release.md).
 
 YouTrack consumes the exact published `@eyeauras/cli-factory` version declared in package.json. The CLI
-provides standard profiles/auth/permissions and 128 REST operations: 103 ReadOnly and 25 Update.
+provides standard profiles/auth/permissions and 147 REST operations: 110 ReadOnly and 37 Update.
 Five workflow leaves reuse those operations instead of adding REST operations: issue and article
-attachment download, article export, and `issues batch validate/apply`. There are 131 service
-leaves: 126 for REST operations plus these five. Two `--direct` selectors each select a second
+attachment download, article export, and `issues batch validate/apply`. There are 150 service
+leaves: 145 for REST operations plus these five. Two `--direct` selectors each select a second
 REST endpoint without adding another leaf.
 The foundational read projections are:
 
@@ -48,7 +48,7 @@ onboarding or credential access on CLI, execute and RPC. The static errors are
 `--page-size must be a nonnegative safe decimal integer.` and
 `--start must be a nonnegative integer.`; they never include the supplied input.
 Directly callable service methods retain their own range validation.
-All 49 offset lists return `{count,items,hasMore,nextStart}` across library, CLI, execute and RPC.
+All 52 offset lists return `{count,items,hasMore,nextStart}` across library, CLI, execute and RPC.
 Each ordinary list makes one request without lookahead and rejects an oversized server page.
 Nonempty pages have `hasMore:null`, including short pages: a server cap is not end evidence.
 Continue at `nextStart`, which advances by actual returned rows. A positive-size empty page has
@@ -108,11 +108,49 @@ Compressed wire length is syntax-checked but not compared with decoded size. HTT
 Retry-After, empty/null mutation and UTF-8 BOM behavior are unchanged. No request is retried
 automatically. Runtime memory and service limits still apply.
 
+## M02: collaboration and knowledge base (unreleased main)
+
+npm 0.8.0 contains M01. Building this source revision includes M02; milestone completion
+does not bump a version or publish npm. The same frozen
+282-operation source now targets 145 complete contracts and 147 reachable operations; final
+verified counts and all remaining gaps are in [the current mapping](docs/rest-api-coverage/current/README.md).
+
+- `saved-queries create --body <json>` and `saved-queries update <queryID> --body <json>`
+  accept `--fields`. Creation requires native `name` and `query`; updates retain omitted fields.
+- `issues project get <issueID>` reads the single project relation. `issues project set <issueID>
+  --body '{"id":"TARGET_PROJECT_ID"}'` moves to that exact project, without name lookup.
+- `issues vcs-changes create <issueID> --body <json>` links a change using native `version`
+  and `state`. `update <issueID> <changeID>` updates its state; `delete <issueID> <changeID>`
+  removes only that relation. Native types and future state values are left to the server.
+- `commands apply` keeps explicit `--issues`, and adds `--comment`, native JSON `--visibility`,
+  signed-Int `--caret`, `--run-as` and `--silent [boolean]`. Omitted, bare-true, true and false
+  retain their meaning. Update remains required; YouTrack enforces administrative/silent rights.
+- `activities list --categories <categories>` reads one offset page; `activities get <activityID>`
+  reads one item. Global list and cursor `activities page` accept `--issue-query`, `--author`,
+  `--activity-start` and `--activity-end`; only the cursor page accepts `--activity-id`/`--cursor`.
+  Time spellings, queries and cursor direction stay native; no feed traversal is automatic.
+- Article create, update, comment add/update and attachment upload accept notification controls;
+  only article create and comment add accept `--draft-id`. A draft can be published with `--body '{}'`.
+  Normal article creation still requires project; normal comment addition requires text.
+- `article tag list/get/add/remove` manages article tag relations with explicit article/tag IDs.
+  `article attachment update <article> <attachmentID> --body <json>` edits native metadata;
+  `article attachment delete <article> <attachment>` deletes the exact attachment.
+- `article comment reaction list/get/add/remove` reads and changes reactions on a selected comment.
+  Reaction strings/null and additional native body fields remain intact.
+
+All new reads are ReadOnly; mutations are Update. Project/VCS writes, command application and
+article/comment writes expose `--fields` and the API's `--mute-update-notifications [boolean]`
+where declared. Notification omission sends no parameter; false is not turned into true.
+New DELETE commands accept optional `--fields` from the explicit reference parameter tables;
+omission retains query-free requests. Tag/reaction/VCS removal does not
+delete the related global object. No automatic write retry or rollback is introduced; ambiguous
+post-dispatch failures keep the unknown-outcome diagnostics added in M01.
+
 ## M01: issue workflows in 0.8.0
 
 The API inventory is frozen at 282 published operations (281 business routes plus schema metadata).
-M01 exposes 128 routes. Complete operation contracts cover 119/282 (42.20%); nine reachable routes
-still have explicitly deferred request controls. The [frozen audit](docs/rest-api-coverage/README.md)
+The M01 release exposes 128 routes. At that release, complete contracts covered 119/282 (42.20%);
+nine reachable routes had deferred request controls. The [frozen audit](docs/rest-api-coverage/README.md)
 and [current mapping](docs/rest-api-coverage/current/coverage.json) keep these measures separate.
 
 - `issues list --custom-field <name>` is repeatable. Names, order and duplicates are preserved
@@ -303,13 +341,13 @@ for exact arguments and permission categories; no endpoint, header or arbitrary 
 they compute suggestions or counts without applying changes. Assist is not a dry run or a guarantee
 that a later command will succeed. Required `--query` is preserved exactly; optional `--caret` uses the API's signed Int type; the server validates position semantics.
 `commands apply` requires comma-separated explicit issue IDs via
-`--issues`, never an implicit search expansion. It has no run-as or silent mode. Count returns the
+`--issues`, never an implicit search expansion. M02 adds explicit run-as/silent controls as described above. Count returns the
 server's `count`, including `-1` (pending) or `null`; the CLI never polls automatically.
 
-Activity commands require `--categories <categories>` and support `--cursor`, `--reverse` and
+Activity cursor commands require `--categories <categories>` and support `--cursor`, `--reverse` and
 `--fields`. They return one server-defined page with `activities`, before/after cursors and flags.
 They do not support offset or page-size flags and do not fetch a next page automatically.
-Activity time, author and issue-query filters are outside this block.
+Global and issue activity filters, plus offset item list/detail commands, are described in M01/M02 above.
 
 Project fields expose field types and settings without following bundle references. Issue fields
 preserve polymorphic values, including scalar, null and array values. `issues fields set` accepts
@@ -334,8 +372,7 @@ fields are `duration`, `date`, `author`, `type`, `text`, `created` and `updated`
 use integer Unix milliseconds; `author` and `type` use `{ "id": "..." }` or `null`. Text may be
 empty, multiline or null; `updated` may also be null. Updates preserve additional native fields and
 leave omitted fields to the server. No client-side date, user or duration conversion is guessed. Work-item
-writes accept `--fields`; only global `work-items list` supports `--query`. Other date/author
-filters are outside this block. Time-tracking inspection defaults to `id,enabled`, without
+writes accept `--fields`; only global `work-items list` supports `--query`. Native date/author filters are described in M01 above. Time-tracking inspection defaults to `id,enabled`, without
 expanding work items.
 
 Attachment reads default to `id,name,size,mimeType`; explicit read projections still scrub signed

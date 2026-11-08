@@ -2,6 +2,8 @@ import {
   encodedID,
   fields,
   mutate,
+  mutationBody,
+  nullableText,
   page,
   readCollection,
   readCollectionAt,
@@ -81,21 +83,25 @@ function suggestionsResult(
   return value;
 }
 
+export interface CommandApplyOptions extends ProjectionOptions {
+  muteUpdateNotifications?: boolean;
+  comment?: string | null;
+  visibility?: YouTrackObject;
+  caret?: number;
+  silent?: boolean;
+  runAs?: string | null;
+}
 export async function applyCommands(
-  connection: Connection,
-  query: string,
-  issues: readonly string[],
-  options: ProjectionOptions = {},
+  connection: Connection, query: string, issues: readonly string[], options: CommandApplyOptions = {},
 ): Promise<YouTrackObject | null> {
-  return mutate(
-    connection,
-    "api/commands",
-    {
-      query: requiredText(query, "query"),
-      issues: selectedIssues(issues),
-    },
-    fields(options, "query,issues(id,idReadable)"),
-  );
+  if (options.silent !== undefined && typeof options.silent !== "boolean") throw new Error("The silent control must be boolean.");
+  return mutate(connection, "api/commands", {
+    ...queryBody({ ...options, query }), issues: selectedIssues(issues),
+    ...(options.comment === undefined ? {} : { comment: nullableText(options.comment, "comment") }),
+    ...(options.visibility === undefined ? {} : { visibility: mutationBody(options.visibility) }),
+    ...(options.silent === undefined ? {} : { silent: options.silent }),
+    ...(options.runAs === undefined ? {} : { runAs: nullableText(options.runAs, "runAs") }),
+  }, fields(options, "query,issues(id,idReadable)"), options);
 }
 
 export async function assistCommands(
@@ -163,3 +169,18 @@ export const getSavedQuery = readObjectAt(
   (queryID: string) => `api/savedQueries/${encodedID(queryID, "saved query ID")}`,
   savedQueryFields,
 );
+
+
+function savedQueryBody(input: unknown, creating: boolean): YouTrackObject {
+  const body = mutationBody(input);
+  return { ...body,
+    ...(creating || Object.hasOwn(body, "name") ? { name: requiredText(body.name as string, "name") } : {}),
+    ...(creating || Object.hasOwn(body, "query") ? { query: nullableText(body.query, "query") } : {}),
+  };
+}
+export async function createSavedQuery(connection: Connection, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, "api/savedQueries", savedQueryBody(input, true), fields(options, savedQueryFields));
+}
+export async function updateSavedQuery(connection: Connection, queryID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, `api/savedQueries/${encodedID(queryID, "saved query ID")}`, savedQueryBody(input, false), fields(options, savedQueryFields));
+}

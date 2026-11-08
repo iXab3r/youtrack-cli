@@ -1,5 +1,6 @@
 import {
   encodedID,
+  deleteObject,
   fields,
   issuePath,
   mutate,
@@ -25,6 +26,7 @@ export interface ActivityOptions extends ProjectionOptions {
   cursor?: string;
   reverse?: boolean;
   author?: string;
+  issueQuery?: string;
   activityStart?: string;
   activityEnd?: string;
   activityId?: string;
@@ -46,6 +48,7 @@ function activityQuery(options: ActivityOptions): Record<string, string> {
   return {
     fields: fields(options, activityFields),
     categories: activityCategories(options.categories),
+    ...(options.issueQuery === undefined ? {} : { issueQuery: requiredText(options.issueQuery, "issue query") }),
     ...(options.author === undefined ? {} : { author: requiredText(options.author, "author") }),
     ...(options.activityStart === undefined ? {} : { start: requiredText(options.activityStart, "activity start") }),
     ...(options.activityEnd === undefined ? {} : { end: requiredText(options.activityEnd, "activity end") }),
@@ -157,3 +160,33 @@ export const getIssueActivity = readObjectAt(
   (issueID: string, activityID: string) => `${issuePath(issueID)}/activities/${encodedID(activityID, "activity ID")}`,
   "id,$type,timestamp,author(id,login),category(id)",
 );
+
+
+export const getIssueProject = readObjectAt((issueID: string) => `${issuePath(issueID)}/project`, "id,name,shortName");
+export async function setIssueProject(connection: Connection, issueID: string, input: unknown, options: WriteOptions = {}) {
+  const body = mutationBody(input);
+  return mutate(connection, `${issuePath(issueID)}/project`, { ...body, id: requiredText(body.id as string, "project ID") }, "id,name,shortName", options);
+}
+
+
+export async function createVcsChange(connection: Connection, issueID: string, input: unknown, options: WriteOptions = {}) {
+  const body = mutationBody(input);
+  if (!Object.hasOwn(body, "state")) throw new Error("A new VCS change requires state.");
+  return mutate(connection, `${issuePath(issueID)}/vcsChanges`, { ...body, version: nullableText(body.version, "version") }, vcsFields, options);
+}
+export async function updateVcsChange(connection: Connection, issueID: string, changeID: string, input: unknown, options: WriteOptions = {}) {
+  return mutate(connection, `${issuePath(issueID)}/vcsChanges/${encodedID(changeID, "change ID")}`, mutationBody(input), vcsFields, options);
+}
+export async function deleteVcsChange(connection: Connection, issueID: string, changeID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, `${issuePath(issueID)}/vcsChanges/${encodedID(changeID, "change ID")}`, options);
+}
+
+
+export async function listActivities(connection: Connection, options: ActivityOptions & PageOptions): Promise<YouTrackPage> {
+  return readPage(connection, "api/activities", {
+    ...page(options, "id,$type,timestamp,author(id,login),category(id)"),
+    ...activityQuery({ ...options, fields: fields(options, "id,$type,timestamp,author(id,login),category(id)") }),
+  });
+}
+export const getActivity = readObjectAt((activityID: string) => `api/activities/${encodedID(activityID, "activity ID")}`,
+  "id,$type,timestamp,author(id,login),category(id)");
