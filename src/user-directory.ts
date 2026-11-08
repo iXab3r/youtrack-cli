@@ -109,7 +109,17 @@ async function writeUser(connection: Connection, path: string, body: ReturnType<
   if (typeof password === "string" && !youTrackUrl(connection.baseUrl).startsWith("https:")) {
     throw new Error("Password submission requires HTTPS.");
   }
-  return mutate(connection, path, body, fields(options, userFields), {
+  const origin = new URL(youTrackUrl(connection.baseUrl)).origin;
+  const transport = connection.fetch ?? globalThis.fetch;
+  // Core owns redirect traversal; this endpoint also scopes its credential-bearing JSON body.
+  const target = typeof password !== "string" ? connection : { ...connection, fetch: ((input, init) => {
+    const url = new URL(input instanceof Request ? input.url : input);
+    if (init?.body != null && (url.protocol !== "https:" || url.origin !== origin)) {
+      throw new Error("Password submission requires the original HTTPS origin.");
+    }
+    return transport(input, init);
+  }) as typeof globalThis.fetch };
+  return mutate(target, path, body, fields(options, userFields), {
     ...options, ...(typeof password === "string" ? { sensitiveValues: [password] } : {}),
   });
 }

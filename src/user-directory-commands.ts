@@ -38,6 +38,7 @@ export const userDirectoryUserChildren = [
       const password = context.environment.YOUTRACK_INITIAL_PASSWORD;
       if (password === undefined || password.length === 0) throw new Error("Set YOUTRACK_INITIAL_PASSWORD to the initial password.");
       const token = await context.secrets.get("token") ?? "";
+      context.signal.throwIfAborted();
       await context.secrets.set(key, password);
       return { alias: scrubText(args.alias, token, [password]), stored: true };
     }, {

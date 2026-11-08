@@ -96,3 +96,27 @@ test("M06 nullable inward labels pass through SDK and CLI while creation still r
   await assert.rejects(createLinkType(connection, { name: "Synthetic", sourceToTarget: "outward" }));
   await assert.rejects(updateLinkType(connection, "selected", { targetToSource: 42 })); assert.equal(calls, 6);
 });
+
+test("M06 redirects that discard the password body retain normal cross-origin GET behavior", async () => {
+  for (const status of [301, 302, 303]) {
+    let calls = 0;
+    const fetch = (async (_input, init) => {
+      calls++;
+      if (calls === 1) return new Response(null, { status, headers: { location: "https://other.example.test/result" } });
+      assert.equal(init?.method, "GET"); assert.equal(init?.body, null);
+      assert.equal(new Headers(init?.headers).get("authorization"), null);
+      return Response.json({ id: "synthetic-result" });
+    }) as typeof globalThis.fetch;
+    assert.deepEqual(await createUser({ baseUrl, token, fetch }, body), { id: "synthetic-result" }); assert.equal(calls, 2);
+  }
+});
+
+test("M06 cancellation after persistence starts does not imply secret rollback", async t => {
+  const f = await configuredFixture(t, { permissions: ["Update"] }); const controller = new AbortController();
+  const set = f.secrets.set.bind(f.secrets); let entered!: () => void; let release!: () => void;
+  const pending = new Promise<void>(resolve => { entered = resolve; }); const blocked = new Promise<void>(resolve => { release = resolve; });
+  f.secrets.set = async (...args) => { entered(); await blocked; return set(...args); };
+  const run = f.run(f.cli, ["user", "initial-password", "import", "initial", "--from-env"], { signal: controller.signal, environment: { YOUTRACK_INITIAL_PASSWORD: password } });
+  await pending; controller.abort(); release(); assert.equal((await run).exitCode, 130);
+  assert.equal(await new ProfileSecrets(f.secrets, "youtrack-cli", "dev").get(key), password);
+});

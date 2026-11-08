@@ -7,6 +7,7 @@ import {
   mutationBody,
   namedMutationBody,
   narrative,
+  nullableText,
   fields,
   page,
   readPage,
@@ -136,7 +137,8 @@ export async function deleteTag(connection: Connection, tagID: string, options: 
 
 function linkTypeBody(input: unknown, creating: boolean) {
   const body = namedMutationBody(input, creating);
-  for (const key of ["sourceToTarget", "targetToSource"]) if (creating || Object.hasOwn(body, key)) narrative(body[key], key);
+  if (creating || Object.hasOwn(body, "sourceToTarget")) narrative(body.sourceToTarget, "sourceToTarget");
+  if (creating || Object.hasOwn(body, "targetToSource")) nullableText(body.targetToSource, "targetToSource");
   for (const key of ["directed", "aggregation", "readOnly"]) if (Object.hasOwn(body, key) && typeof body[key] !== "boolean") throw new Error(`The ${key} must be boolean.`);
   return body;
 }
