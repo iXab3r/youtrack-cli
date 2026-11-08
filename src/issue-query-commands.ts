@@ -1,8 +1,10 @@
 import { command, type OptionDefinition } from "@eyeauras/cli-factory";
 import { requiredText } from "./client.js";
-import { pagedRead, projectedRead, readCommand, updateCommand, projectionOptions, readOptions } from "./cli-support.js";
+import { pagedRead, projectedBodyUpdate, projectedRead, readCommand, updateCommand, projectionOptions, readOptions } from "./cli-support.js";
 import {
   applyCommands,
+  createSavedQuery,
+  updateSavedQuery,
   assistCommands,
   assistSearch,
   countIssues,
@@ -11,7 +13,7 @@ import {
   parseIssueSelection,
   type AssistOptions,
 } from "./issue-query.js";
-import { commandApplied, countRecord, savedQueryTable, withView } from "./presentation.js";
+import { commandApplied, countRecord, savedQueryTable, savedQueryRecord, withView } from "./presentation.js";
 
 const queryOptions: readonly OptionDefinition[] = [
   ...projectionOptions,
@@ -82,7 +84,9 @@ export const queryRootCommands = [
       assistOptions,
     ),
   ]),
-  command("saved-queries", "Read saved searches", [
+  command("saved-queries", "Read and maintain saved searches", [
+    projectedBodyUpdate("create", "Create a saved search", createSavedQuery, undefined, savedQueryRecord),
+    projectedBodyUpdate("update <queryID>", "Update a saved search", updateSavedQuery, undefined, savedQueryRecord),
     pagedRead("list", "List saved searches", listSavedQueries, savedQueryTable),
     projectedRead("get <queryID>", "Show a saved search", getSavedQuery),
   ]),

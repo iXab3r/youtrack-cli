@@ -2,6 +2,8 @@ import {
   encodedID,
   fields,
   mutate,
+  mutationBody,
+  nullableText,
   page,
   readCollection,
   readCollectionAt,
@@ -163,3 +165,18 @@ export const getSavedQuery = readObjectAt(
   (queryID: string) => `api/savedQueries/${encodedID(queryID, "saved query ID")}`,
   savedQueryFields,
 );
+
+
+function savedQueryBody(input: unknown, creating: boolean): YouTrackObject {
+  const body = mutationBody(input);
+  return { ...body,
+    ...(creating || Object.hasOwn(body, "name") ? { name: requiredText(body.name as string, "name") } : {}),
+    ...(creating || Object.hasOwn(body, "query") ? { query: nullableText(body.query, "query") } : {}),
+  };
+}
+export async function createSavedQuery(connection: Connection, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, "api/savedQueries", savedQueryBody(input, true), fields(options, savedQueryFields));
+}
+export async function updateSavedQuery(connection: Connection, queryID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, `api/savedQueries/${encodedID(queryID, "saved query ID")}`, savedQueryBody(input, false), fields(options, savedQueryFields));
+}

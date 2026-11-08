@@ -571,3 +571,8 @@ export const updatedAttachment = recordView<Item | null>({
   title: (item, context) => joined("Updated attachment", key(item) ?? arg(context, "attachmentID")),
   fields: [{ label: "Name", value: item => text(item?.name) }, { label: "Size", value: item => count(item?.size), format: "bytes" }],
 });
+
+export const savedQueryRecord = recordView<Item | null>({
+  title: item => joined("Saved search", text(item?.name) ?? key(item)),
+  fields: [{ label: "ID", value: item => key(item) }, { label: "Query", value: item => text(item?.query) }],
+});
