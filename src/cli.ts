@@ -21,6 +21,9 @@ import {
 } from "./client.js";
 import {
   bodyUpdate,
+  projectedBodyUpdate,
+  notificationOptions,
+  draftOptions,
   fileOption,
   pagedRead,
   pageOptions,
@@ -149,13 +152,14 @@ export function createYouTrackCli(runtime?: CliRuntime): CliApplication {
         ...fieldsIssueChildren,
         ...attachmentsIssueChildren,
         ...queryIssueChildren,
-        bodyUpdate("create", "Create an issue", createIssue, "description", createdIssue),
-        bodyUpdate(
+        projectedBodyUpdate("create", "Create an issue", createIssue, "description", createdIssue, [...notificationOptions, ...draftOptions]),
+        projectedBodyUpdate(
           "update <issueID>",
           "Update the summary, description or custom fields",
           updateIssue,
           "description",
           updatedIssue,
+          notificationOptions,
         ),
         withView(issueTable, readCommand(
           "list",

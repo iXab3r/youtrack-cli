@@ -8,6 +8,7 @@ import {
   readCollectionAt,
   readObjectAt,
   type Connection,
+  type WriteOptions,
   type YouTrackObject,
   type YouTrackValue,
 } from "./client.js";
@@ -112,6 +113,7 @@ export async function setIssueField(
   issueID: string,
   fieldID: string,
   input: unknown,
+  options: WriteOptions = {},
 ): Promise<YouTrackObject | null> {
   const body = mutationBody(input);
   const type = narrative(body.$type, "field $type");
@@ -123,7 +125,7 @@ export async function setIssueField(
     update = { ...body, $type: type,
       ...(Object.hasOwn(body, "value") ? { value: fieldValue(type, body.value) } : {}) };
   }
-  return mutate(connection, fieldPath(issueID, fieldID), update, issueFieldFields);
+  return mutate(connection, fieldPath(issueID, fieldID), update, issueFieldFields, options);
 }
 
 export const issueWriteFields = "id,idReadable,summary,updated";
@@ -172,16 +174,17 @@ export async function issueRequest(
   return { path: issueID === undefined ? "api/issues" : issuePath(issueID), body: write.body };
 }
 
-export async function createIssue(connection: Connection, input: unknown): Promise<YouTrackObject | null> {
-  const { path, body } = await issueRequest(connection, issueWrite(input, true));
-  return mutate(connection, path, body, issueWriteFields);
+export async function createIssue(connection: Connection, input: unknown, options: WriteOptions = {}): Promise<YouTrackObject | null> {
+  const { path, body } = await issueRequest(connection, issueWrite(input, options.draftId === undefined));
+  return mutate(connection, path, body, issueWriteFields, options);
 }
 
 export async function updateIssue(
   connection: Connection,
   id: string,
   input: unknown,
+  options: WriteOptions = {},
 ): Promise<YouTrackObject | null> {
   const { path, body } = await issueRequest(connection, issueWrite(input, false), id);
-  return mutate(connection, path, body, issueWriteFields);
+  return mutate(connection, path, body, issueWriteFields, options);
 }

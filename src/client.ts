@@ -29,6 +29,22 @@ export type QueryParameters = Record<string, string | readonly string[]>;
 export interface ProjectionOptions {
   fields?: string;
 }
+export interface WriteOptions extends ProjectionOptions {
+  draftId?: string;
+  muteUpdateNotifications?: boolean;
+}
+
+export function writeQuery(options: WriteOptions, projection: string): Record<string, string> {
+  if (options.muteUpdateNotifications !== undefined && typeof options.muteUpdateNotifications !== "boolean") {
+    throw new Error("The notification control must be boolean.");
+  }
+  return {
+    fields: fields(options, projection),
+    ...(options.draftId === undefined ? {} : { draftId: requiredText(options.draftId, "draft ID") }),
+    ...(options.muteUpdateNotifications === undefined ? {} : { muteUpdateNotifications: String(options.muteUpdateNotifications) }),
+  };
+}
+
 export interface PageOptions extends ProjectionOptions {
   pageSize?: number;
   start?: number;
@@ -527,8 +543,9 @@ export async function mutate(
   path: string,
   body: YouTrackObject,
   projection: string,
+  options: WriteOptions = {},
 ): Promise<YouTrackObject | null> {
-  const value = await request(connection, path, { fields: projection }, "JSON", {
+  const value = await request(connection, path, writeQuery(options, projection), "JSON", {
     method: "POST", body, allowEmpty: true,
   });
   return value === null ? null : object(scrub(value, connection.token.trim()));
