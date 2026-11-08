@@ -111,3 +111,8 @@ test("US-044 assignment creation requires selected identities and preserves scop
   const hidden = await f.run(f.cli, ["role-assignment", "create", "--body", JSON.stringify(secretBody)]);
   assert.equal(hidden.exitCode, 0, hidden.stderr); assert.doesNotMatch(hidden.stdout + hidden.stderr, /synthetic-token/); assert.match(hidden.stdout, /redacted/); assert.deepEqual(sent, secretBody);
 });
+
+test("US-045 add and remove direct project team users without touching inherited membership", async t => {
+  await storyCase(t, {"argv":["project","team","user","add","project /?","--body","{\"id\":\"user /?\"}","--fields","id"],"method":"POST","path":"/api/admin/projects/project%20%2F%3F/team/ownUsers","query":[["fields","id"]],"body":{"id":"user /?"},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["project","team","user","remove","project /?","user /?"],"method":"DELETE","path":"/api/admin/projects/project%20%2F%3F/team/ownUsers/user%20%2F%3F","query":[],"response":undefined,"result":null,"update":true});
+});
