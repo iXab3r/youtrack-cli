@@ -125,3 +125,8 @@ test("US-046 add and remove project team groups by their native IDs", async t =>
 test("US-047 update native direct team lists including an empty selection", async t => {
   await storyCase(t, {"argv":["project","team","update","project /?","--body","{\"ownUsers\":[],\"groups\":[{\"id\":\"group /?\",\"$type\":\"NestedGroup\"}]}","--fields","id"],"method":"POST","path":"/api/admin/projects/project%20%2F%3F/team","query":[["fields","id"]],"body":{"ownUsers":[],"groups":[{"id":"group /?","$type":"NestedGroup"}]},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
 });
+
+test("US-048 read and update the selected users notification profile at the documented resource path", async t => {
+  await storyCase(t, {"argv":["user","profile","notifications","get","user /?","--fields","id"],"method":"GET","path":"/api/users/user%20%2F%3F/profiles/notifications","query":[["fields","id"]],"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"}});
+  await storyCase(t, {"argv":["user","profile","notifications","update","user /?","--body","{\"emailNotificationsEnabled\":false,\"mailboxIntegrationNotificationsEnabled\":false}","--fields","id"],"method":"POST","path":"/api/users/user%20%2F%3F/profiles/notifications","query":[["fields","id"]],"body":{"emailNotificationsEnabled":false,"mailboxIntegrationNotificationsEnabled":false},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+});
