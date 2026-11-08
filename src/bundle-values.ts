@@ -1,4 +1,4 @@
-import { encodedID, readCollectionAt, readObjectAt } from "./client.js";
+import { fields, mutate, namedMutationBody, type Connection, type ProjectionOptions, encodedID, readCollectionAt, readObjectAt } from "./client.js";
 
 type BundleKind = "build" | "ownedField" | "version";
 
@@ -54,3 +54,11 @@ export const getVersionValue = readObjectAt(
   (bundleID: string, valueID: string) => valuePath("version", bundleID, valueID),
   versionValueFields,
 );
+
+export async function createVersionValue(connection: Connection, bundleID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, valuePath("version", bundleID), namedMutationBody(input, true), fields(options, versionValueFields));
+}
+
+export async function updateVersionValue(connection: Connection, bundleID: string, valueID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, valuePath("version", bundleID, valueID), namedMutationBody(input, false), fields(options, versionValueFields));
+}

@@ -1,4 +1,4 @@
-import { encodedID, readCollectionAt, readObjectAt } from "./client.js";
+import { fields, mutate, mutationBody, namedMutationBody, type Connection, type ProjectionOptions, encodedID, readCollectionAt, readObjectAt } from "./client.js";
 
 const root = "api/admin/customFieldSettings";
 const customFieldFields = "id,name,fieldType(id,presentation,valueType,isMultiValue),aliases";
@@ -43,4 +43,31 @@ export const listStateValues = readCollectionAt(
 export const getStateValue = readObjectAt(
   (bundleID: string, valueID: string) => valuePath("state", bundleID, valueID),
   stateValueFields,
+);
+
+export async function createEnumValue(connection: Connection, bundleID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, valuePath("enum", bundleID), namedMutationBody(input, true), fields(options, enumValueFields));
+}
+
+export async function updateEnumValue(connection: Connection, bundleID: string, valueID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, valuePath("enum", bundleID, valueID), namedMutationBody(input, false), fields(options, enumValueFields));
+}
+
+export async function createStateValue(connection: Connection, bundleID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, valuePath("state", bundleID), namedMutationBody(input, true), fields(options, stateValueFields));
+}
+export async function updateStateValue(connection: Connection, bundleID: string, valueID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, valuePath("state", bundleID, valueID), namedMutationBody(input, false), fields(options, stateValueFields));
+}
+
+const defaultsFields = "id,$type,canBeEmpty,emptyFieldText,isPublic,parent(id,name)";
+const defaultsPath = (fieldID: string) => `${root}/customFields/${encodedID(fieldID, "field ID")}/fieldDefaults`;
+export const getFieldDefaults = readObjectAt(defaultsPath, defaultsFields);
+export async function updateFieldDefaults(connection: Connection, fieldID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, defaultsPath(fieldID), mutationBody(input), fields(options, defaultsFields));
+}
+
+export const listFieldInstances = readCollectionAt(
+  (fieldID: string) => `${root}/customFields/${encodedID(fieldID, "field ID")}/instances`,
+  "id,field(id,name),project(id,name,shortName),canBeEmpty,isPublic",
 );

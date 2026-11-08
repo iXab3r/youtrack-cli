@@ -23,10 +23,10 @@ for each profile and reimport auxiliary secrets. Existing profiles and permissio
 Licensed under MIT. See the [release guide](docs/release.md).
 
 YouTrack consumes the exact published `@eyeauras/cli-factory` version declared in package.json. The CLI
-provides standard profiles/auth/permissions and 147 REST operations: 110 ReadOnly and 37 Update.
+provides standard profiles/auth/permissions and 162 REST operations: 112 ReadOnly and 50 Update.
 Five workflow leaves reuse those operations instead of adding REST operations: issue and article
-attachment download, article export, and `issues batch validate/apply`. There are 150 service
-leaves: 145 for REST operations plus these five. Two `--direct` selectors each select a second
+attachment download, article export, and `issues batch validate/apply`. There are 165 service
+leaves: 160 for REST operations plus these five. Two `--direct` selectors each select a second
 REST endpoint without adding another leaf.
 The foundational read projections are:
 
@@ -48,7 +48,7 @@ onboarding or credential access on CLI, execute and RPC. The static errors are
 `--page-size must be a nonnegative safe decimal integer.` and
 `--start must be a nonnegative integer.`; they never include the supplied input.
 Directly callable service methods retain their own range validation.
-All 52 offset lists return `{count,items,hasMore,nextStart}` across library, CLI, execute and RPC.
+All 53 offset lists return `{count,items,hasMore,nextStart}` across library, CLI, execute and RPC.
 Each ordinary list makes one request without lookahead and rejects an oversized server page.
 Nonempty pages have `hasMore:null`, including short pages: a server cap is not end evidence.
 Continue at `nextStart`, which advances by actual returned rows. A positive-size empty page has
@@ -107,6 +107,37 @@ or cancellation fail with `The response stream failed or was cancelled.` without
 Compressed wire length is syntax-checked but not compared with decoded size. HTTP status,
 Retry-After, empty/null mutation and UTF-8 BOM behavior are unchanged. No request is retried
 automatically. Runtime memory and service limits still apply.
+
+## M03: iterations and working catalogs (unreleased main)
+
+These source additions follow M02; npm 0.8.0 still contains the M01 release. Milestones do not
+publish npm or bump package versions. Current coverage and complete remaining gaps are in
+[the current mapping](docs/rest-api-coverage/current/README.md).
+
+- `agile create --body <json> [--template <name>]` requires native `name` and explicit
+  `projects: [{"id":"PROJECT_ID"}]`. Template is a native query value, with no local closed enum.
+  `agile update <agile> --body <json>` preserves omitted and additional native settings.
+  Existing `sprint create <agile>` now accepts `--mute-update-notifications [boolean]`.
+- `bundle enum value create/update`, `bundle version value create/update` and
+  `bundle state value create/update` write the selected bundle/value IDs with `--body`/`--fields`.
+  New values require name. Archives, colors, localized names, nulls and native extra fields survive.
+  Version date values remain native JSON milliseconds/null; no date-string interpretation.
+  State `isResolved` is catalog metadata; these commands do not synthesize an issue state event.
+- `tags create --body <json>` and `tags update <tagID> --body <json>` maintain global working tags,
+  distinct from issue/article tag assignments. Creation requires name; sharing and colors stay native.
+- `field defaults get <field>` reads common settings. Use caller-selected `--fields` for native
+  subtype attributes such as `bundle`/`defaultValues`; `field defaults update <field> --body <json>`
+  preserves the subtype `$type`, arrays, nulls and false without prototype lookup.
+- `project field create <project> --body <json>` requires explicit `field: {"id":"FIELD_ID"}`
+  and the native ProjectCustomField `$type`. `project field update <project> <field> --body <json>`
+  addresses the project-specific instance ID. YouTrack validates prototype/type compatibility.
+- `field instance list <field>` lists projects using that field, one native offset page with the
+  normal envelope, raw-row continuation and no lookahead or automatic traversal.
+
+New reads use ReadOnly; writes use Update. Native `--fields` projections and human/JSON/RPC
+surfaces stay shared. Mutation failures keep their codes/causes and known/unknown outcome distinction;
+there are no implicit retries, permission grants or name-to-ID searches. Server management permissions
+remain separate from the CLI gate. No live service or cross-version conformance is claimed.
 
 ## M02: collaboration and knowledge base (unreleased main)
 

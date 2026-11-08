@@ -2,6 +2,7 @@ import { command, type CommandDefinition } from "@eyeauras/cli-factory";
 import { projectedBodyUpdate, notificationOptions, pagedRead, projectedRead } from "./cli-support.js";
 import {
   getProject,
+  createProjectField, updateProjectField,
   getProjectField,
   listProjectFields,
   listUsers,
@@ -9,11 +10,13 @@ import {
   listIssueFields,
   setIssueField,
 } from "./issue-fields.js";
-import { issueFieldRecord, issueFieldTable, projectFieldTable, projectRecord, userTable } from "./presentation.js";
+import { issueFieldRecord, issueFieldTable, projectFieldTable, projectFieldRecord, projectRecord, userTable } from "./presentation.js";
 
 export const fieldsProjectChildren: readonly CommandDefinition[] = [
   projectedRead("get <project>", "Show a project", getProject, projectRecord),
   command("field", "Inspect project custom-field settings", [
+    projectedBodyUpdate("create <project>", "Attach a custom field", createProjectField, undefined, projectFieldRecord),
+    projectedBodyUpdate("update <project> <field>", "Update project field settings", updateProjectField, undefined, projectFieldRecord),
     pagedRead("list <project>", "List the project's custom fields", listProjectFields, projectFieldTable),
     projectedRead("get <project> <field>", "Show a project custom field", getProjectField),
   ]),

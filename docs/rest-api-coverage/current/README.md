@@ -1,99 +1,110 @@
-# M02: collaboration and knowledge-base contracts
+# M03: iterations and working catalogs
 
-M02 selects ten owner-authorized stories: US-012/016/017/018/019/021/022/023/025/026.
-[optional tracker reference: delivery](https://github.com/iXab3r/youtrack-cli/issues/50) and the
-[optional tracker reference: milestone](https://github.com/iXab3r/youtrack-cli/milestone/2) own acceptance and final status.
-The owner requested sequential review/merge/CI/closure without per-milestone releases.
-Product version remains 0.8.0; these additions are unreleased source work. Core remains exact 0.7.1.
+Ten owner-authorized stories: US-029/031/032/033/034/035/014/036/037/038.
+[optional tracker reference: delivery](https://github.com/iXab3r/youtrack-cli/issues/95) and its
+[optional tracker reference: milestone](https://github.com/iXab3r/youtrack-cli/milestone/3) own acceptance and final status.
+The owner requested sequential review/merge/main-CI/closure, with one independent read-only
+reviewer per milestone/rechecks and no per-milestone release. Product stays 0.8.0, Core exact 0.7.1.
+M02/M03 additions are unreleased source; npm 0.8.0 contains M01.
 
-## Universe and result
+## Frozen universe and result
 
-The original **282-operation** official source and 0.7.1 baseline stay frozen. M01 ended at
-119 fully covered / 128 reachable. M02 completes **26 contracts: 19 new routes and seven existing
-completeness improvements**. Current: **145 covered, 2 partial, 135 missing, 0 uncertain**;
-**147 reachable** (110 ReadOnly / 37 Update). Full coverage **51.42%**, +9.22 percentage points;
-reachability **52.13%**, +6.74 points. There are 150 leaves (145 ordinary REST leaves plus five
-workflows), 152 variants including two --direct selectors, and 52 ordinary offset lists.
-Leaf counts are separate from the REST denominator. Native cursor resources remain distinct.
+The original official source has **282 operations** (281 business plus schema metadata).
+M02 ended at 145 complete / 147 reachable. M03 completes **16 contracts: 15 new routes and
+one existing sprint completeness improvement**. Current: **161 covered, 1 partial, 120 missing,
+0 uncertain**; **162 reachable** (112 ReadOnly / 50 Update). Full coverage **57.09%**, +5.67
+percentage points; reachability **57.45%**, +5.32 points. There are 165 leaves (160 ordinary REST
+leaves plus five workflows), 167 variants including two --direct selectors, and 53 offset lists.
+These are separate measures; CLI leaves do not define the REST denominator.
 
-Every operation, binding, permission, surface and test evidence is in the [JSON](coverage.json),
-[TSV](coverage.tsv) and [summary](summary.json), using [pinned facts](../official-operations.json)
-and [source provenance](../source-lock.json). The frozen original audit remains separate.
-Current baselineHead identifies observed code lineage; product/test/package fingerprints also
-prevent source drift from masquerading as that revision.
+Every operation/binding/permission/surface/test is in [JSON](coverage.json), [TSV](coverage.tsv)
+and [summary](summary.json), using [pinned facts](../official-operations.json) and
+[source provenance](../source-lock.json). The original 0.7.1 audit stays frozen. baselineHead is
+observed code lineage; product/test/package fingerprints additionally rule out source drift.
 
-## Public contract decisions
+## Contract decisions
 
-Saved-query creation requires native name/query; updates preserve omissions and native fields.
-Issue project is a single object (get), with an explicit target ID (set) and no name lookup.
-VCS creation follows the primary reference's required version/state, correcting the planning
-example's insufficient id-only body. Update/removal select one exact VCS relation. Native
-values and subtypes are not restricted to examples or closed local enums.
+Board creation requires native name and explicit projects(id); the planning example's name-only
+body was corrected before red tests. The optional template query is preserved as native text,
+with server validation. A small extra-query argument on the existing service mutate helper
+serves this concrete control, retaining common preflight/dispatch/uncertainty boundaries.
+No raw query/proxy command is exposed. Sprint create gets declared notification controls,
+including omitted, bare true, true and false; defaults and update behavior remain intact.
 
-Commands retain explicit issue IDs and add comment/visibility/caret/silent/runAs and notification
-controls. Silent/notification flags accept omission, bare true, true and false; YouTrack owns
-remote administrative rights. Global activity list/detail and cursor page stay separate.
-Global filters preserve native issueQuery/author/time. Categories are mandatory in the reference,
-despite the optional OAS flag. Only cursor pages take cursor/activityId. Native Long strings
-retain precision; offset start is separate. No automatic feed traversal or target expansion.
+Enum/version/state value creation requires name, while updates preserve omissions and extra
+native fields. One small shared named-body validator avoids copying that check across actual
+consumers. Native archived/released/isResolved flags, color/sharing references, dates/nulls and
+metadata remain unchanged. isResolved is catalog metadata, not a synthesized state-machine event.
+Tags are global objects, separate from issue/article assignment routes.
 
-Article/comment writes and upload expose declared notification controls. Only article create and
-comment add take draftId; publication allows {}. Normal creation still needs project, normal
-comment addition needs text. Article tags, attachments and comment reactions preserve opaque IDs,
-native JSON/null/open reaction names and additional body fields.
+Field defaults expose common metadata by default; caller-selected --fields handles native subtype
+bundle/defaultValues without type discovery. Updates preserve subtype $type and native arrays,
+null and false. Project-field creation requires explicit field(id) and ProjectCustomField $type;
+YouTrack owns compatibility validation. Updates use the project-instance ID, not the prototype ID.
+Field instances list the associated projects through one ordinary raw-offset page, without lookahead
+or automatic traversal. All mutations retain Update; new reads are ReadOnly. No implicit lookup,
+permission grant, retry, compensation or new compatibility/version policy.
 
-Four new DELETE parameter tables declare fields, omitted by OAS/request syntax. Apply the M01
-source disposition: optional --fields, query-free defaults, native empty/nonempty replies. This
-resolves the CLI input gap without pretending mocks establish a deployed backend version.
-Removing tag/reaction/VCS relations does not delete global objects. Common mutation diagnostics
-retain M01 post-dispatch unknown outcomes, definite local/4xx failures, redacted codes/causes,
-and no retries/compensation. The generator now checks actual command-control declarations
-instead of carrying its old baseline-only partial marker.
+## Verification and limits
 
-## Verification and boundaries
+All ten stories have committed red runs on separate branches before code; public issues record
+red/green heads. **493 offline tests** pass, including 21 M03 nodes covering all 16 contracts
+through human/JSON/execute/RPC, exact native requests, opposite-category denial, remote failures,
+ambiguous writes, native null/false/epoch dates, required-ID/template preflight, instance paging
+and readable empty mutation replies. Existing M01/M02 transport/profile/cancellation/EPIPE/diagnostic
+and proof-preflight regressions remain green. Tests use native fetch/MSW, memory secrets and synthetic
+profiles; no live proof. Installed checks cover SDK exports and the actual board-template query.
+Local Cake Verify receipts include installed CLI/RPC/EPIPE checks and two release-safety tests;
+no release target runs. Final CI/review/merge status belongs in the delivery issue.
 
-All ten stories have committed red tests on separate branches before feature code; public
-story issues record red/green heads. Final trace passed **472 offline tests** (16 M02 nodes),
-including all 26 affected operation contracts on human/JSON/execute/RPC, exact native requests,
-multipart, denial with the opposite category enabled, HTTP/ambiguous failures, offset limits,
-true/false/omitted controls, cancellation, profile isolation and useful empty-reply human views.
-The source uses the existing native-fetch/MSW boundary and memory secrets. Earlier shared
-transport, paging, EPIPE, diagnostic and proof-preflight regressions remain green.
+Fresh traversal: 165 leaves / 167 variants, all 162 operations, no failed variant. Mapping uses a
+493-test native-request trace; repeat generation is byte-identical. A separate raw-OAS/reference
+algorithm reconciles all identities/counts. This is **author self-check, not independent review**.
+Independent verdict and exact-main CI are separate gates. No deployed-server, Cloud/Server or
+cross-version conformance is claimed; full means the declared operation/input dimensions, not
+exhaustive schema/value/live validation.
 
-Local Cake Verify also checks the installed package/exports/CLI/RPC/EPIPE contracts and two
-release-safety tests; final receipts are recorded in the delivery issue. No release target or
-live proof is part of M02. An obsolete global-history unknown-option assertion was updated for
-newly authorized filters; its cursor/no-offset/no-lookahead checks remain.
+## Final shorter-batch authoring input
 
-A fresh 150-leaf / 152-variant synthetic traversal observes all 147 operations. A second generation
-is byte-identical; a separate raw-OAS/reference algorithm reconciles every count and historical
-deferred identity. This is **author self-check, not independent review**. Independent final
-verdict, reviewed merge and exact-main CI are recorded in the issue as they occur. No server,
-Cloud/Server or cross-version conformance is claimed.
+Baseline 147 reachable, now 162 (+15); cumulative +44 from the original 118. Core pin/integrity
+unchanged, zero local Core implementation changes. New reads reuse existing collection/object/page
+helpers; writes reuse mutate/projectedBodyUpdate and small native body checks. The existing transport's
+extra-query argument handles the real board template without a framework/CRUD registry. Shared story
+assertions and Core-owned profiles/admission/secrets/output/cancellation/EPIPE remain unchanged.
 
-## Final shorter-batch authoring checkpoint
+Physical nonblank lines, comments included, generated output excluded:
 
-M02 baseline: 128 reachable, now 147 (+19); cumulative +29 from the original 118-operation
-baseline. Core pin/integrity is unchanged, with zero local Core implementation changes.
-New list/detail operations reuse readCollectionAt/readObjectAt/readPage; writes reuse mutate,
-deleteObject/uploadObjectCollection and declared endpoint controls. Story wire assertions are
-shared between M01/M02 instead of copied. No CRUD registry, raw proxy, framework fork or new
-runtime dependency. Core owns profiles/admission/secrets/output/cancellation/EPIPE.
-
-Physical nonblank lines, comments included and generated output excluded:
-
-| Surface | M01 baseline | Current | Delta |
+| Surface | M02 baseline | Current | Delta |
 |---|---:|---:|---:|
-| src | 4100 | 4270 | +170 |
-| tests | 7789 | 7976 | +187 |
+| src | 4270 | 4433 | +163 |
+| tests | 7976 | 8111 | +135 |
 | integration-tests | 165 | 165 | +0 |
-| scripts | 1079 | 1104 | +25 |
+| scripts | 1104 | 1122 | +18 |
 
-Tests/tooling are separate from integration source. Counts are review inputs, not proof of less
-runtime authoring cost. Upstream handwritten Core source is absent; its size is not invented.
-No CI, package, dependency or version changes. Independent review must assess the actual diff,
-same-capability examples and simplicity before milestone closure.
+Tests/tooling are separate from integration source; counts are inputs to simplicity review, not
+proof of reduced runtime cost. Upstream handwritten Core source is absent, so its size is not
+invented. No CI, package/dependency/version changes or copied runtime implementation.
 
-After build, run probe.mjs and the observe-tests.mjs hook into an ignored capture, then
-`node scripts/rest-api-audit/generate.mjs <capture> docs/rest-api-coverage/current`. The raw-source
-capture/extractor and separate crosscheck.py remain public-source-only reproducibility tools.
+After build, run probe.mjs and observe-tests.mjs into an ignored capture, then regenerate with
+`node scripts/rest-api-audit/generate.mjs <capture> docs/rest-api-coverage/current`. Capture/extract
+and the separate crosscheck.py stay public-source-only reproducibility tools.
+
+
+Empty successful creates retain the selected name or prototype/project identity in the human title.
+The invocation-local fallback stores only labels scrubbed by the existing service response sanitizer;
+it leaves the submitted body, SDK result and JSON/RPC null unchanged. Weak references avoid a persistent
+label cache. This adds a small presentation-only concept because native empty results have no identity.
+Regression coverage includes six create families, credential/signed-URL labels and unchanged bodies.
+
+Same-capability authoring samples (included in the total source delta above):
+
+- Detail: existing getIssueProject binds readObjectAt to issuePath(issueID) + "/project".
+  New getFieldDefaults binds readObjectAt to defaultsPath(fieldID), ending in "/fieldDefaults".
+  Both preserve projection selection, ReadOnly admission and one request; the resource path differs.
+- List: existing listArticleTags and new listFieldInstances use collection → ordinary raw-offset page.
+  Neither adds lookahead, aggregation or discovery; the new default projection names the project.
+- Mutation: existing updateSprint is byte-unchanged. New updateEnumValue uses mutate with an explicit
+  bundle/value path and namedMutationBody(input, false); both preserve native JSON through mutate and select output with fields(options, defaults). That validator shares
+  object/name validation with board/tag/state/version consumers while retaining extra native properties.
+  Board create adds the concrete template query argument to the same mutate boundary. These additions
+  increase source size; no claimed code reduction hides domain validation or moves it into Core.

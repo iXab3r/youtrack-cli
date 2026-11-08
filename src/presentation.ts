@@ -3,10 +3,11 @@ import {
   recordView,
   tableView,
   type CommandDefinition,
+  type CommandInput,
   type HumanView,
   type ViewContext,
 } from "@eyeauras/cli-factory";
-import type { YouTrackObject, YouTrackPage } from "./client.js";
+import { scrubText, type YouTrackObject, type YouTrackPage } from "./client.js";
 
 type Item = YouTrackObject;
 
@@ -581,4 +582,63 @@ export const vcsRecord = recordView<Item | null>({
   title: (item, context) => joined("VCS change", key(item) ?? arg(context, "changeID")),
   fields: [{ label: "Version", value: item => text(item?.version) },
     { label: "State", value: item => count(item?.state) ?? text(nested(item?.state)?.id) }],
+});
+
+type SubmittedIdentity = { name: string | undefined; field: string | undefined; project: string | undefined };
+const submittedIdentities = new WeakMap<object, SubmittedIdentity>();
+
+/** Keep only credential-scrubbed human fallback labels; never alter the request or native result. */
+export function rememberSubmittedIdentity(input: CommandInput, token: string): void {
+  const body = nested(input.options.body);
+  if (!body) return;
+  const safe = (value: unknown) => typeof value === "string" ? scrubText(value, token.trim()) : undefined;
+  submittedIdentities.set(input.options, {
+    name: safe(body.name), field: safe(nested(body.field)?.id), project: safe(input.args.project),
+  });
+}
+const submittedIdentity = (context: ViewContext): SubmittedIdentity | undefined =>
+  context.input ? submittedIdentities.get(context.input.options) : undefined;
+const submittedName = (context: ViewContext): string | undefined => submittedIdentity(context)?.name;
+
+export const agileWritten = (verb: string): HumanView => recordView<Item | null>({
+  title: (item, context) => joined(`${verb} board`, text(item?.name) ?? key(item) ?? submittedName(context) ?? arg(context, "agile")),
+  fields: [{ label: "ID", value: item => key(item) }],
+});
+
+const booleanText = (value: unknown): string | undefined => typeof value === "boolean" ? value ? "yes" : "no" : undefined;
+export const bundleValueWritten = recordView<Item | null>({
+  title: (item, context) => joined("Value", text(item?.name) ?? key(item) ?? submittedName(context) ?? arg(context, "value")),
+  fields: [{ label: "ID", value: item => key(item) },
+    { label: "Archived", value: item => booleanText(item?.archived) },
+    { label: "Released", value: item => booleanText(item?.released) },
+    { label: "Release date", value: item => instant(item?.releaseDate) },
+    { label: "Start date", value: item => instant(item?.startDate) },
+    { label: "Resolved state", value: item => booleanText(item?.isResolved) }],
+});
+
+export const tagWritten = recordView<Item | null>({
+  title: (item, context) => joined("Tag", text(item?.name) ?? key(item) ?? submittedName(context) ?? arg(context, "tagID")),
+  fields: [{ label: "ID", value: item => key(item) }],
+});
+
+export const fieldDefaultsRecord = recordView<Item | null>({
+  title: (item, context) => joined("Field defaults", key(item) ?? arg(context, "field")),
+  fields: [{ label: "Can be empty", value: item => booleanText(item?.canBeEmpty) },
+    { label: "Public", value: item => booleanText(item?.isPublic) },
+    { label: "Empty text", value: item => text(item?.emptyFieldText) }],
+});
+
+export const projectFieldRecord = recordView<Item | null>({
+  title: (item, context) => joined("Project field", text(nested(item?.field)?.name) ?? key(item) ?? submittedIdentity(context)?.field ?? arg(context, "field"),
+    item === null && submittedIdentity(context)?.field !== undefined ? submittedIdentity(context)?.project : undefined),
+  fields: [{ label: "ID", value: item => key(item) },
+    { label: "Can be empty", value: item => booleanText(item?.canBeEmpty) },
+    { label: "Public", value: item => booleanText(item?.isPublic) }],
+});
+
+export const fieldInstanceTable = tableView<Item, YouTrackPage>({
+  rows: page => page.items,
+  columns: [id, { header: "PROJECT", value: item => text(nested(item.project)?.shortName) ?? text(nested(item.project)?.name) },
+    { header: "FIELD", value: item => text(nested(item.field)?.name) }],
+  empty: "No projects use this field.", footer: pageFooter,
 });

@@ -1,25 +1,25 @@
 {
-  "baselineHead": "09682da1ff8a8d1fcbbf48f4c30ad5633b5a1181",
+  "baselineHead": "83695571ab7704c731f4a287587117d7244484ad",
   "dateUTC": "2026-11-08",
   "total": 282,
-  "covered": 145,
-  "partial": 2,
-  "missing": 135,
+  "covered": 161,
+  "partial": 1,
+  "missing": 120,
   "uncertain": 0,
-  "reached": 147,
+  "reached": 162,
   "byPermission": {
     "ReadOnly": {
       "total": 140,
-      "covered": 109,
+      "covered": 111,
       "partial": 1,
-      "missing": 30,
+      "missing": 28,
       "uncertain": 0
     },
     "Update": {
       "total": 142,
-      "covered": 36,
-      "partial": 1,
-      "missing": 105,
+      "covered": 50,
+      "partial": 0,
+      "missing": 92,
       "uncertain": 0
     }
   },
@@ -61,9 +61,9 @@
     },
     "admin.projects": {
       "total": 31,
-      "covered": 12,
+      "covered": 14,
       "partial": 0,
-      "missing": 19,
+      "missing": 17,
       "uncertain": 0
     },
     "admin.telemetry": {
@@ -82,9 +82,9 @@
     },
     "agiles": {
       "total": 10,
-      "covered": 5,
-      "partial": 1,
-      "missing": 4,
+      "covered": 8,
+      "partial": 0,
+      "missing": 2,
       "uncertain": 0
     },
     "articles": {
@@ -110,9 +110,9 @@
     },
     "bundles.enum": {
       "total": 10,
-      "covered": 4,
+      "covered": 6,
       "partial": 0,
-      "missing": 6,
+      "missing": 4,
       "uncertain": 0
     },
     "bundles.ownedField": {
@@ -124,9 +124,9 @@
     },
     "bundles.state": {
       "total": 10,
-      "covered": 4,
+      "covered": 6,
       "partial": 0,
-      "missing": 6,
+      "missing": 4,
       "uncertain": 0
     },
     "bundles.user": {
@@ -138,9 +138,9 @@
     },
     "bundles.version": {
       "total": 10,
-      "covered": 4,
+      "covered": 6,
       "partial": 0,
-      "missing": 6,
+      "missing": 4,
       "uncertain": 0
     },
     "commands": {
@@ -152,9 +152,9 @@
     },
     "customFields": {
       "total": 9,
-      "covered": 3,
+      "covered": 6,
       "partial": 0,
-      "missing": 6,
+      "missing": 3,
       "uncertain": 0
     },
     "groups": {
@@ -222,9 +222,9 @@
     },
     "tags": {
       "total": 6,
-      "covered": 2,
+      "covered": 4,
       "partial": 0,
-      "missing": 4,
+      "missing": 2,
       "uncertain": 0
     },
     "users": {

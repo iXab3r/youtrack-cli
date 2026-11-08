@@ -4,6 +4,7 @@ import {
   issuePath,
   mutate,
   mutationBody,
+  namedMutationBody,
   narrative,
   fields,
   page,
@@ -108,4 +109,11 @@ export async function removeIssueTag(
   options: ProjectionOptions = {},
 ): Promise<YouTrackObject | null> {
   return deleteObject(connection, `${issuePath(issueID)}/tags/${encodedID(tagID, "tag ID")}`, options);
+}
+
+export async function createTag(connection: Connection, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, "api/tags", namedMutationBody(input, true), fields(options, tagFields));
+}
+export async function updateTag(connection: Connection, tagID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, `api/tags/${encodedID(tagID, "tag ID")}`, namedMutationBody(input, false), fields(options, tagFields));
 }

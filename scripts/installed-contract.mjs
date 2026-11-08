@@ -91,3 +91,22 @@ test("installed M02 exports, command controls and global-history filters survive
   await assert.rejects(app.execute(read), { code: "permission.denied" });
   assert.equal(calls, 2);
 });
+
+test("installed M03 exports and native board-template query survive packaging", async t => {
+  const exports = await import("@eyeauras/youtrack-cli");
+  for (const name of ["createAgile", "updateAgile", "createEnumValue", "updateEnumValue", "createVersionValue", "updateVersionValue", "createStateValue", "updateStateValue", "createTag", "updateTag", "getFieldDefaults", "updateFieldDefaults", "createProjectField", "updateProjectField", "listFieldInstances"]) assert.equal(typeof exports[name], "function", name);
+  const f = await createCliFixture(t, { applicationId: "youtrack-cli", profiles: [{ name: "default", values: { url: "https://installed.example.test/context" }, permissions: ["ReadOnly", "Update"], secrets: { token: "synthetic-installed" } }] });
+  let calls = 0;
+  f.runtime.fetch = async (input, init) => {
+    calls++; const u = new URL(input);
+    assert.equal(u.pathname, "/context/api/agiles"); assert.equal(u.searchParams.get("template"), "scrum");
+    assert.equal(new Headers(init.headers).get("authorization"), "Bearer synthetic-installed");
+    assert.deepEqual(JSON.parse(init.body), { name: "Synthetic", projects: [{ id: "project" }] });
+    return Response.json({ id: "synthetic-board" });
+  };
+  const app = f.createApplication(createYouTrackCli);
+  const argv = ["agile", "create", "--body", '{"name":"Synthetic","projects":[{"id":"project"}]}', "--template", "scrum"];
+  assert.equal((await f.json(app, argv)).id, "synthetic-board");
+  await app.execute(["permissions", "revoke", "Update"]);
+  await assert.rejects(app.execute(argv), { code: "permission.denied" }); assert.equal(calls, 1);
+});

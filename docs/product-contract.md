@@ -7,7 +7,7 @@ Historical extraction provenance remains in [migration](migration.md).
 
 ## Paging
 
-All 52 YouTrack offset lists use `--page-size 50 --start 0` and return the integration-local
+All 53 YouTrack offset lists use `--page-size 50 --start 0` and return the integration-local
 `{count,items,hasMore,nextStart}` in library, CLI, execute and RPC calls. Ordinary reads make one
 request without lookahead. A nonempty page, even a short one, has `hasMore:null`; `nextStart`
 advances by raw rows. A positive-size empty page confirms the end. A zero-size request supplies
