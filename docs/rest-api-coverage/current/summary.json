@@ -1,40 +1,40 @@
 {
-  "baselineHead": "8cf0599d05ee268704633cbb4511aaff2c2dfcdd",
+  "baselineHead": "09682da1ff8a8d1fcbbf48f4c30ad5633b5a1181",
   "dateUTC": "2026-11-08",
   "total": 282,
-  "covered": 119,
-  "partial": 9,
-  "missing": 154,
+  "covered": 145,
+  "partial": 2,
+  "missing": 135,
   "uncertain": 0,
-  "reached": 128,
+  "reached": 147,
   "byPermission": {
     "ReadOnly": {
       "total": 140,
-      "covered": 101,
-      "partial": 2,
-      "missing": 37,
+      "covered": 109,
+      "partial": 1,
+      "missing": 30,
       "uncertain": 0
     },
     "Update": {
       "total": 142,
-      "covered": 18,
-      "partial": 7,
-      "missing": 117,
+      "covered": 36,
+      "partial": 1,
+      "missing": 105,
       "uncertain": 0
     }
   },
   "byGroup": {
     "activities": {
       "total": 2,
-      "covered": 0,
+      "covered": 2,
       "partial": 0,
-      "missing": 2,
+      "missing": 0,
       "uncertain": 0
     },
     "activitiesPage": {
       "total": 1,
-      "covered": 0,
-      "partial": 1,
+      "covered": 1,
+      "partial": 0,
       "missing": 0,
       "uncertain": 0
     },
@@ -89,9 +89,9 @@
     },
     "articles": {
       "total": 29,
-      "covered": 9,
-      "partial": 5,
-      "missing": 15,
+      "covered": 24,
+      "partial": 0,
+      "missing": 5,
       "uncertain": 0
     },
     "assignedRoles": {
@@ -145,8 +145,8 @@
     },
     "commands": {
       "total": 2,
-      "covered": 1,
-      "partial": 1,
+      "covered": 2,
+      "partial": 0,
       "missing": 0,
       "uncertain": 0
     },
@@ -173,9 +173,9 @@
     },
     "issues": {
       "total": 48,
-      "covered": 41,
+      "covered": 46,
       "partial": 0,
-      "missing": 7,
+      "missing": 2,
       "uncertain": 0
     },
     "issuesGetter": {
@@ -208,9 +208,9 @@
     },
     "savedQueries": {
       "total": 5,
-      "covered": 2,
+      "covered": 4,
       "partial": 0,
-      "missing": 3,
+      "missing": 1,
       "uncertain": 0
     },
     "search": {

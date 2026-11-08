@@ -945,21 +945,64 @@
     "reference": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-articles-articleID-attachments.html#delete-ArticleAttachment-method",
     "referenceQueryParameters": [],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "article attachment delete <article> <attachment>",
+      "permission": "Update",
+      "options": [
+        "--fields <projection>"
+      ],
+      "location": "src/article-extras-commands.ts:29",
+      "serviceFunctions": [
+        {
+          "file": "src/article-extras.ts",
+          "symbol": "deleteArticleAttachment",
+          "location": "src/article-extras.ts:92"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:579:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at deleteObject (src/client.ts:578:10)",
+        "    at deleteArticleAttachment (src/article-extras.ts:93:10)",
+        "    at <anonymous> (src/article-extras-commands.ts:30:103)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m02-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "DELETE /api/articles/{p1}/childArticles/{p2}",
@@ -1056,21 +1099,64 @@
     "reference": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-articles-articleID-comments-commentID-reactions.html#delete-Reaction-method",
     "referenceQueryParameters": [],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "article comment reaction remove <article> <comment> <reaction>",
+      "permission": "Update",
+      "options": [
+        "--fields <projection>"
+      ],
+      "location": "src/article-extras-commands.ts:68",
+      "serviceFunctions": [
+        {
+          "file": "src/article-extras.ts",
+          "symbol": "removeArticleReaction",
+          "location": "src/article-extras.ts:105"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:579:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at deleteObject (src/client.ts:578:10)",
+        "    at removeArticleReaction (src/article-extras.ts:106:10)",
+        "    at <anonymous> (src/article-extras-commands.ts:69:115)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m02-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "DELETE /api/articles/{p1}/tags/{p2}",
@@ -1093,21 +1179,64 @@
     "reference": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-articles-articleID-tags.html#delete-Tag-method",
     "referenceQueryParameters": [],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "article tag remove <article> <tag>",
+      "permission": "Update",
+      "options": [
+        "--fields <projection>"
+      ],
+      "location": "src/article-extras-commands.ts:23",
+      "serviceFunctions": [
+        {
+          "file": "src/article-extras.ts",
+          "symbol": "removeArticleTag",
+          "location": "src/article-extras.ts:81"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:579:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at deleteObject (src/client.ts:578:10)",
+        "    at removeArticleTag (src/article-extras.ts:82:10)",
+        "    at <anonymous> (src/article-extras-commands.ts:24:98)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m02-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "DELETE /api/assignedRoles/{p1}",
@@ -1333,11 +1462,11 @@
       "existingOffline": "exercised-in-passing-suite",
       "testLocations": [
         "tests/m01-stories.test.ts",
-        "tests/m01-stories.test.ts:283",
-        "tests/m01-stories.test.ts:285",
-        "tests/m01-stories.test.ts:300",
-        "tests/m01-stories.test.ts:317",
-        "tests/m01-stories.test.ts:319"
+        "tests/m01-stories.test.ts:183",
+        "tests/m01-stories.test.ts:185",
+        "tests/m01-stories.test.ts:200",
+        "tests/m01-stories.test.ts:217",
+        "tests/m01-stories.test.ts:219"
       ],
       "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
@@ -1744,21 +1873,64 @@
     "reference": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-issues-issueID-vcsChanges.html#delete-VcsChange-method",
     "referenceQueryParameters": [],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "issues vcs-changes delete <issueID> <changeID>",
+      "permission": "Update",
+      "options": [
+        "--fields <projection>"
+      ],
+      "location": "src/issue-context-commands.ts:116",
+      "serviceFunctions": [
+        {
+          "file": "src/issue-context.ts",
+          "symbol": "deleteVcsChange",
+          "location": "src/issue-context.ts:180"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:579:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at deleteObject (src/client.ts:578:10)",
+        "    at deleteVcsChange (src/issue-context.ts:181:10)",
+        "    at <anonymous> (src/issue-context-commands.ts:117:94)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m02-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "DELETE /api/roles/{p1}",
@@ -1928,20 +2100,75 @@
       "issueQuery"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "activities list",
+      "permission": "ReadOnly",
+      "options": [
+        "--fields <projection>",
+        "--page-size <count>",
+        "--start <offset>",
+        "--author <author>",
+        "--activity-start <timestamp>",
+        "--activity-end <timestamp>",
+        "--categories <categories>",
+        "--reverse",
+        "--issue-query <query>"
+      ],
+      "location": "src/issue-context-commands.ts:63",
+      "serviceFunctions": [
+        {
+          "file": "src/issue-context.ts",
+          "symbol": "activityCategories",
+          "location": "src/issue-context.ts:40"
+        },
+        {
+          "file": "src/issue-context.ts",
+          "symbol": "listActivities",
+          "location": "src/issue-context.ts:185"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at listActivities (src/issue-context.ts:186:10)",
+        "    at readCommand.flags (src/issue-context-commands.ts:64:7)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m02-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
-    "availableInDefaultReadOnlyProfile": false,
+    "availableInDefaultReadOnlyProfile": true,
     "requiresExplicitUpdateGrant": false
   },
   {
@@ -1969,20 +2196,61 @@
       "fields"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "activities get <activityID>",
+      "permission": "ReadOnly",
+      "options": [
+        "--fields <projection>"
+      ],
+      "location": "src/issue-context-commands.ts:70",
+      "serviceFunctions": [
+        {
+          "file": "src/issue-context.ts",
+          "symbol": "getActivity",
+          "location": "src/issue-context.ts:191"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
+        "    at <anonymous> (src/cli-support.ts:183:42)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m02-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
-    "availableInDefaultReadOnlyProfile": false,
+    "availableInDefaultReadOnlyProfile": true,
     "requiresExplicitUpdateGrant": false
   },
   {
@@ -2042,8 +2310,8 @@
       "activityId"
     ],
     "sourceCaveats": [],
-    "status": "partial",
-    "reason": "The core action is shipped and observed; explicit public request controls remain unavailable.",
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
     "binding": {
       "command": "activities page",
       "permission": "ReadOnly",
@@ -2051,22 +2319,27 @@
         "--fields <projection>",
         "--categories <categories>",
         "--cursor <cursor>",
-        "--reverse"
+        "--reverse",
+        "--author <author>",
+        "--activity-start <timestamp>",
+        "--activity-end <timestamp>",
+        "--activity-id <id>",
+        "--issue-query <query>"
       ],
-      "location": "src/issue-context-commands.ts:55",
+      "location": "src/issue-context-commands.ts:71",
       "serviceFunctions": [
         {
           "file": "src/issue-context.ts",
           "symbol": "getActivitiesPage",
-          "location": "src/issue-context.ts:92"
+          "location": "src/issue-context.ts:95"
         }
       ],
       "callStack": [
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
-        "    at activityPage (src/issue-context.ts:63:24)",
-        "    at getActivitiesPage (src/issue-context.ts:96:10)",
-        "    at <anonymous> (src/issue-context-commands.ts:59:9)"
+        "    at activityPage (src/issue-context.ts:66:24)",
+        "    at getActivitiesPage (src/issue-context.ts:99:10)",
+        "    at readCommand.flags (src/issue-context-commands.ts:75:9)"
       ],
       "surfaces": {
         "execute": {
@@ -2088,13 +2361,7 @@
       },
       "deniedBeforeHttp": true
     },
-    "unsupportedQueryParameters": [
-      "activityId",
-      "author",
-      "end",
-      "issueQuery",
-      "start"
-    ],
+    "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
@@ -2107,7 +2374,8 @@
         "tests/issue-context.test.ts:89",
         "tests/issue-context.test.ts:92",
         "tests/issue-context.test.ts:95",
-        "tests/issue-context.test.ts:97"
+        "tests/issue-context.test.ts:97",
+        "tests/m02-stories.test.ts"
       ],
       "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
@@ -5842,12 +6110,12 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/articles-commands.ts:66",
+      "location": "src/articles-commands.ts:68",
       "serviceFunctions": [
         {
           "file": "src/articles.ts",
           "symbol": "listProjectArticles",
-          "location": "src/articles.ts:133"
+          "location": "src/articles.ts:138"
         }
       ],
       "callStack": [
@@ -7654,7 +7922,7 @@
         {
           "file": "src/articles.ts",
           "symbol": "listArticles",
-          "location": "src/articles.ts:25"
+          "location": "src/articles.ts:26"
         }
       ],
       "callStack": [
@@ -7742,7 +8010,7 @@
         {
           "file": "src/articles.ts",
           "symbol": "getArticle",
-          "location": "src/articles.ts:26"
+          "location": "src/articles.ts:27"
         }
       ],
       "callStack": [
@@ -7835,12 +8103,12 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/article-extras-commands.ts:18",
+      "location": "src/article-extras-commands.ts:31",
       "serviceFunctions": [
         {
           "file": "src/article-extras.ts",
           "symbol": "listArticleAttachments",
-          "location": "src/article-extras.ts:23"
+          "location": "src/article-extras.ts:29"
         }
       ],
       "callStack": [
@@ -7922,12 +8190,12 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/article-extras-commands.ts:19",
+      "location": "src/article-extras-commands.ts:32",
       "serviceFunctions": [
         {
           "file": "src/article-extras.ts",
           "symbol": "getArticleAttachment",
-          "location": "src/article-extras.ts:27"
+          "location": "src/article-extras.ts:33"
         }
       ],
       "callStack": [
@@ -8020,12 +8288,12 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/article-extras-commands.ts:42",
+      "location": "src/article-extras-commands.ts:55",
       "serviceFunctions": [
         {
           "file": "src/article-extras.ts",
           "symbol": "listChildArticles",
-          "location": "src/article-extras.ts:45"
+          "location": "src/article-extras.ts:51"
         }
       ],
       "callStack": [
@@ -8107,12 +8375,12 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/article-extras-commands.ts:43",
+      "location": "src/article-extras-commands.ts:56",
       "serviceFunctions": [
         {
           "file": "src/article-extras.ts",
           "symbol": "getChildArticle",
-          "location": "src/article-extras.ts:49"
+          "location": "src/article-extras.ts:55"
         }
       ],
       "callStack": [
@@ -8204,12 +8472,12 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/articles-commands.ts:48",
+      "location": "src/articles-commands.ts:49",
       "serviceFunctions": [
         {
           "file": "src/articles.ts",
           "symbol": "listArticleComments",
-          "location": "src/articles.ts:92"
+          "location": "src/articles.ts:95"
         }
       ],
       "callStack": [
@@ -8292,12 +8560,12 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/articles-commands.ts:49",
+      "location": "src/articles-commands.ts:50",
       "serviceFunctions": [
         {
           "file": "src/articles.ts",
           "symbol": "getArticleComment",
-          "location": "src/articles.ts:96"
+          "location": "src/articles.ts:99"
         }
       ],
       "callStack": [
@@ -8379,20 +8647,64 @@
       "$skip"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "article comment reaction list <article> <comment>",
+      "permission": "ReadOnly",
+      "options": [
+        "--fields <projection>",
+        "--page-size <count>",
+        "--start <offset>"
+      ],
+      "location": "src/article-extras-commands.ts:65",
+      "serviceFunctions": [
+        {
+          "file": "src/article-extras.ts",
+          "symbol": "listArticleReactions",
+          "location": "src/article-extras.ts:99"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
+        "    at <anonymous> (src/cli-support.ts:183:42)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m02-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
-    "availableInDefaultReadOnlyProfile": false,
+    "availableInDefaultReadOnlyProfile": true,
     "requiresExplicitUpdateGrant": false
   },
   {
@@ -8420,20 +8732,61 @@
       "fields"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "article comment reaction get <article> <comment> <reaction>",
+      "permission": "ReadOnly",
+      "options": [
+        "--fields <projection>"
+      ],
+      "location": "src/article-extras-commands.ts:66",
+      "serviceFunctions": [
+        {
+          "file": "src/article-extras.ts",
+          "symbol": "getArticleReaction",
+          "location": "src/article-extras.ts:100"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
+        "    at <anonymous> (src/cli-support.ts:183:42)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m02-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
-    "availableInDefaultReadOnlyProfile": false,
+    "availableInDefaultReadOnlyProfile": true,
     "requiresExplicitUpdateGrant": false
   },
   {
@@ -8469,18 +8822,18 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/article-extras-commands.ts:46",
+      "location": "src/article-extras-commands.ts:59",
       "serviceFunctions": [
         {
           "file": "src/article-extras.ts",
           "symbol": "getParentArticle",
-          "location": "src/article-extras.ts:55"
+          "location": "src/article-extras.ts:61"
         }
       ],
       "callStack": [
         "    at request (src/client.ts:186:31)",
         "    at readNullableObject (src/client.ts:284:29)",
-        "    at getParentArticle (src/article-extras.ts:60:10)",
+        "    at getParentArticle (src/article-extras.ts:66:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -8565,20 +8918,64 @@
       "$skip"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "article tag list <article>",
+      "permission": "ReadOnly",
+      "options": [
+        "--fields <projection>",
+        "--page-size <count>",
+        "--start <offset>"
+      ],
+      "location": "src/article-extras-commands.ts:20",
+      "serviceFunctions": [
+        {
+          "file": "src/article-extras.ts",
+          "symbol": "listArticleTags",
+          "location": "src/article-extras.ts:75"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
+        "    at <anonymous> (src/cli-support.ts:183:42)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m02-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
-    "availableInDefaultReadOnlyProfile": false,
+    "availableInDefaultReadOnlyProfile": true,
     "requiresExplicitUpdateGrant": false
   },
   {
@@ -8606,20 +9003,61 @@
       "fields"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "article tag get <article> <tag>",
+      "permission": "ReadOnly",
+      "options": [
+        "--fields <projection>"
+      ],
+      "location": "src/article-extras-commands.ts:21",
+      "serviceFunctions": [
+        {
+          "file": "src/article-extras.ts",
+          "symbol": "getArticleTag",
+          "location": "src/article-extras.ts:76"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
+        "    at <anonymous> (src/cli-support.ts:183:42)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m02-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
-    "availableInDefaultReadOnlyProfile": false,
+    "availableInDefaultReadOnlyProfile": true,
     "requiresExplicitUpdateGrant": false
   },
   {
@@ -9714,25 +10152,25 @@
         "--categories <categories>",
         "--reverse"
       ],
-      "location": "src/issue-context-commands.ts:67",
+      "location": "src/issue-context-commands.ts:90",
       "serviceFunctions": [
         {
           "file": "src/issue-context.ts",
           "symbol": "activityCategories",
-          "location": "src/issue-context.ts:38"
+          "location": "src/issue-context.ts:40"
         },
         {
           "file": "src/issue-context.ts",
           "symbol": "listIssueActivities",
-          "location": "src/issue-context.ts:145"
+          "location": "src/issue-context.ts:148"
         }
       ],
       "callStack": [
         "    at request (src/client.ts:186:31)",
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
-        "    at listIssueActivities (src/issue-context.ts:150:10)",
-        "    at readCommand.flags (src/issue-context-commands.ts:68:7)"
+        "    at listIssueActivities (src/issue-context.ts:153:10)",
+        "    at readCommand.flags (src/issue-context-commands.ts:91:7)"
       ],
       "surfaces": {
         "execute": {
@@ -9802,12 +10240,12 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/issue-context-commands.ts:73",
+      "location": "src/issue-context-commands.ts:96",
       "serviceFunctions": [
         {
           "file": "src/issue-context.ts",
           "symbol": "getIssueActivity",
-          "location": "src/issue-context.ts:156"
+          "location": "src/issue-context.ts:159"
         }
       ],
       "callStack": [
@@ -9919,20 +10357,20 @@
         "--activity-end <timestamp>",
         "--activity-id <id>"
       ],
-      "location": "src/issue-context-commands.ts:74",
+      "location": "src/issue-context-commands.ts:97",
       "serviceFunctions": [
         {
           "file": "src/issue-context.ts",
           "symbol": "getIssueActivitiesPage",
-          "location": "src/issue-context.ts:99"
+          "location": "src/issue-context.ts:102"
         }
       ],
       "callStack": [
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
-        "    at activityPage (src/issue-context.ts:63:24)",
-        "    at getIssueActivitiesPage (src/issue-context.ts:104:10)",
-        "    at readCommand.flags (src/issue-context-commands.ts:78:9)"
+        "    at activityPage (src/issue-context.ts:66:24)",
+        "    at getIssueActivitiesPage (src/issue-context.ts:107:10)",
+        "    at readCommand.flags (src/issue-context-commands.ts:101:9)"
       ],
       "surfaces": {
         "execute": {
@@ -10316,12 +10754,12 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/issue-context-commands.ts:102",
+      "location": "src/issue-context-commands.ts:129",
       "serviceFunctions": [
         {
           "file": "src/issue-context.ts",
           "symbol": "getComment",
-          "location": "src/issue-context.ts:107"
+          "location": "src/issue-context.ts:110"
         }
       ],
       "callStack": [
@@ -11043,20 +11481,61 @@
       "fields"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "issues project get <issueID>",
+      "permission": "ReadOnly",
+      "options": [
+        "--fields <projection>"
+      ],
+      "location": "src/issue-context-commands.ts:85",
+      "serviceFunctions": [
+        {
+          "file": "src/issue-context.ts",
+          "symbol": "getIssueProject",
+          "location": "src/issue-context.ts:165"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
+        "    at <anonymous> (src/cli-support.ts:183:42)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m02-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
-    "availableInDefaultReadOnlyProfile": false,
+    "availableInDefaultReadOnlyProfile": true,
     "requiresExplicitUpdateGrant": false
   },
   {
@@ -11102,12 +11581,12 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/issue-context-commands.ts:88",
+      "location": "src/issue-context-commands.ts:111",
       "serviceFunctions": [
         {
           "file": "src/issue-context.ts",
           "symbol": "listIssueSprints",
-          "location": "src/issue-context.ts:130"
+          "location": "src/issue-context.ts:133"
         }
       ],
       "callStack": [
@@ -11653,12 +12132,12 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/issue-context-commands.ts:91",
+      "location": "src/issue-context-commands.ts:118",
       "serviceFunctions": [
         {
           "file": "src/issue-context.ts",
           "symbol": "listVcsChanges",
-          "location": "src/issue-context.ts:134"
+          "location": "src/issue-context.ts:137"
         }
       ],
       "callStack": [
@@ -11736,12 +12215,12 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/issue-context-commands.ts:92",
+      "location": "src/issue-context-commands.ts:119",
       "serviceFunctions": [
         {
           "file": "src/issue-context.ts",
           "symbol": "getVcsChange",
-          "location": "src/issue-context.ts:138"
+          "location": "src/issue-context.ts:141"
         }
       ],
       "callStack": [
@@ -12006,12 +12485,12 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/issue-query-commands.ts:86",
+      "location": "src/issue-query-commands.ts:107",
       "serviceFunctions": [
         {
           "file": "src/issue-query.ts",
           "symbol": "listSavedQueries",
-          "location": "src/issue-query.ts:161"
+          "location": "src/issue-query.ts:167"
         }
       ],
       "callStack": [
@@ -12093,12 +12572,12 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/issue-query-commands.ts:87",
+      "location": "src/issue-query-commands.ts:108",
       "serviceFunctions": [
         {
           "file": "src/issue-query.ts",
           "symbol": "getSavedQuery",
-          "location": "src/issue-query.ts:162"
+          "location": "src/issue-query.ts:168"
         }
       ],
       "callStack": [
@@ -13056,8 +13535,8 @@
         "tests/issue-time.test.ts:82",
         "tests/issue-time.test.ts:90",
         "tests/m01-stories.test.ts",
-        "tests/m01-stories.test.ts:271",
-        "tests/m01-stories.test.ts:272"
+        "tests/m01-stories.test.ts:171",
+        "tests/m01-stories.test.ts:172"
       ],
       "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
@@ -15907,22 +16386,24 @@
       "muteUpdateNotifications"
     ],
     "sourceCaveats": [],
-    "status": "partial",
-    "reason": "The core action is shipped and observed; explicit public request controls remain unavailable.",
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
     "binding": {
       "command": "article create",
       "permission": "Update",
       "options": [
         "--body <json>",
         "--content-file <path>",
-        "--fields <projection>"
+        "--fields <projection>",
+        "--draft-id <id>",
+        "--mute-update-notifications [boolean]"
       ],
       "location": "src/articles-commands.ts:45",
       "serviceFunctions": [
         {
           "file": "src/articles.ts",
           "symbol": "createArticle",
-          "location": "src/articles.ts:53"
+          "location": "src/articles.ts:54"
         }
       ],
       "callStack": [
@@ -15930,7 +16411,7 @@
         "    at <anonymous> (src/client.ts:569:25)",
         "    at mutationResult (src/client.ts:551:18)",
         "    at mutate (src/client.ts:568:10)",
-        "    at createArticle (src/articles.ts:60:10)",
+        "    at createArticle (src/articles.ts:61:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -15953,10 +16434,7 @@
       },
       "deniedBeforeHttp": true
     },
-    "unsupportedQueryParameters": [
-      "draftId",
-      "muteUpdateNotifications"
-    ],
+    "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
@@ -15973,7 +16451,8 @@
         "tests/articles.test.ts:235",
         "tests/articles.test.ts:247",
         "tests/articles.test.ts:91",
-        "tests/file-inputs.test.ts"
+        "tests/file-inputs.test.ts",
+        "tests/m02-stories.test.ts"
       ],
       "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
@@ -16011,22 +16490,23 @@
       "muteUpdateNotifications"
     ],
     "sourceCaveats": [],
-    "status": "partial",
-    "reason": "The core action is shipped and observed; explicit public request controls remain unavailable.",
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
     "binding": {
       "command": "article update <article>",
       "permission": "Update",
       "options": [
         "--body <json>",
         "--content-file <path>",
-        "--fields <projection>"
+        "--fields <projection>",
+        "--mute-update-notifications [boolean]"
       ],
       "location": "src/articles-commands.ts:46",
       "serviceFunctions": [
         {
           "file": "src/articles.ts",
           "symbol": "updateArticle",
-          "location": "src/articles.ts:73"
+          "location": "src/articles.ts:75"
         }
       ],
       "callStack": [
@@ -16034,7 +16514,7 @@
         "    at <anonymous> (src/client.ts:569:25)",
         "    at mutationResult (src/client.ts:551:18)",
         "    at mutate (src/client.ts:568:10)",
-        "    at updateArticle (src/articles.ts:80:10)",
+        "    at updateArticle (src/articles.ts:82:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -16057,9 +16537,7 @@
       },
       "deniedBeforeHttp": true
     },
-    "unsupportedQueryParameters": [
-      "muteUpdateNotifications"
-    ],
+    "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
@@ -16078,6 +16556,7 @@
         "tests/articles.test.ts:96",
         "tests/file-inputs.test.ts",
         "tests/long-content.test.ts",
+        "tests/m02-stories.test.ts",
         "tests/presentation.test.ts",
         "tests/validation-contract.test.ts"
       ],
@@ -16136,16 +16615,17 @@
       "muteUpdateNotifications"
     ],
     "sourceCaveats": [],
-    "status": "partial",
-    "reason": "The core action is shipped and observed; explicit public request controls remain unavailable.",
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
     "binding": {
       "command": "article attachment upload <article>",
       "permission": "Update",
       "options": [
         "--fields <projection>",
+        "--mute-update-notifications [boolean]",
         "--file <path>"
       ],
-      "location": "src/article-extras-commands.ts:20",
+      "location": "src/article-extras-commands.ts:33",
       "serviceFunctions": [
         {
           "file": "src/client.ts",
@@ -16155,7 +16635,7 @@
         {
           "file": "src/article-extras.ts",
           "symbol": "uploadArticleAttachment",
-          "location": "src/article-extras.ts:33"
+          "location": "src/article-extras.ts:39"
         }
       ],
       "callStack": [
@@ -16163,7 +16643,7 @@
         "    at <anonymous> (src/client.ts:593:25)",
         "    at mutationResult (src/client.ts:551:18)",
         "    at uploadObjectCollection (src/client.ts:592:10)",
-        "    at uploadArticleAttachment (src/article-extras.ts:42:10)"
+        "    at uploadArticleAttachment (src/article-extras.ts:48:10)"
       ],
       "surfaces": {
         "execute": {
@@ -16185,9 +16665,7 @@
       },
       "deniedBeforeHttp": true
     },
-    "unsupportedQueryParameters": [
-      "muteUpdateNotifications"
-    ],
+    "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
@@ -16200,7 +16678,8 @@
         "tests/article-extras.test.ts:182",
         "tests/article-extras.test.ts:199",
         "tests/article-extras.test.ts:209",
-        "tests/article-extras.test.ts:211"
+        "tests/article-extras.test.ts:211",
+        "tests/m02-stories.test.ts"
       ],
       "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
@@ -16253,21 +16732,65 @@
       "fields"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "article attachment update <article> <attachmentID>",
+      "permission": "Update",
+      "options": [
+        "--body <json>",
+        "--fields <projection>"
+      ],
+      "location": "src/article-extras-commands.ts:28",
+      "serviceFunctions": [
+        {
+          "file": "src/article-extras.ts",
+          "symbol": "updateArticleAttachment",
+          "location": "src/article-extras.ts:86"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:569:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at mutate (src/client.ts:568:10)",
+        "    at updateArticleAttachment (src/article-extras.ts:88:10)",
+        "    at <anonymous> (src/cli-support.ts:183:42)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m02-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "POST /api/articles/{p1}/childArticles",
@@ -16404,22 +16927,24 @@
       "muteUpdateNotifications"
     ],
     "sourceCaveats": [],
-    "status": "partial",
-    "reason": "The core action is shipped and observed; explicit public request controls remain unavailable.",
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
     "binding": {
       "command": "article comment add <article>",
       "permission": "Update",
       "options": [
         "--body <json>",
         "--text-file <path>",
-        "--fields <projection>"
+        "--fields <projection>",
+        "--draft-id <id>",
+        "--mute-update-notifications [boolean]"
       ],
-      "location": "src/articles-commands.ts:50",
+      "location": "src/articles-commands.ts:51",
       "serviceFunctions": [
         {
           "file": "src/articles.ts",
           "symbol": "addArticleComment",
-          "location": "src/articles.ts:102"
+          "location": "src/articles.ts:105"
         }
       ],
       "callStack": [
@@ -16427,7 +16952,7 @@
         "    at <anonymous> (src/client.ts:569:25)",
         "    at mutationResult (src/client.ts:551:18)",
         "    at mutate (src/client.ts:568:10)",
-        "    at addArticleComment (src/articles.ts:109:10)",
+        "    at addArticleComment (src/articles.ts:112:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -16450,10 +16975,7 @@
       },
       "deniedBeforeHttp": true
     },
-    "unsupportedQueryParameters": [
-      "draftId",
-      "muteUpdateNotifications"
-    ],
+    "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
@@ -16469,7 +16991,8 @@
         "tests/articles.test.ts:228",
         "tests/articles.test.ts:237",
         "tests/articles.test.ts:247",
-        "tests/file-inputs.test.ts"
+        "tests/file-inputs.test.ts",
+        "tests/m02-stories.test.ts"
       ],
       "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
@@ -16519,22 +17042,23 @@
       "muteUpdateNotifications"
     ],
     "sourceCaveats": [],
-    "status": "partial",
-    "reason": "The core action is shipped and observed; explicit public request controls remain unavailable.",
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
     "binding": {
       "command": "article comment update <article> <comment>",
       "permission": "Update",
       "options": [
         "--body <json>",
         "--text-file <path>",
-        "--fields <projection>"
+        "--fields <projection>",
+        "--mute-update-notifications [boolean]"
       ],
-      "location": "src/articles-commands.ts:51",
+      "location": "src/articles-commands.ts:52",
       "serviceFunctions": [
         {
           "file": "src/articles.ts",
           "symbol": "updateArticleComment",
-          "location": "src/articles.ts:117"
+          "location": "src/articles.ts:121"
         }
       ],
       "callStack": [
@@ -16542,7 +17066,7 @@
         "    at <anonymous> (src/client.ts:569:25)",
         "    at mutationResult (src/client.ts:551:18)",
         "    at mutate (src/client.ts:568:10)",
-        "    at updateArticleComment (src/articles.ts:125:10)",
+        "    at updateArticleComment (src/articles.ts:129:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -16565,9 +17089,7 @@
       },
       "deniedBeforeHttp": true
     },
-    "unsupportedQueryParameters": [
-      "muteUpdateNotifications"
-    ],
+    "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
@@ -16584,6 +17106,7 @@
         "tests/articles.test.ts:238",
         "tests/articles.test.ts:247",
         "tests/file-inputs.test.ts",
+        "tests/m02-stories.test.ts",
         "tests/validation-contract.test.ts"
       ],
       "generatedSurfaceSmoke": "passed",
@@ -16623,21 +17146,65 @@
       "fields"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "article comment reaction add <article> <comment>",
+      "permission": "Update",
+      "options": [
+        "--body <json>",
+        "--fields <projection>"
+      ],
+      "location": "src/article-extras-commands.ts:67",
+      "serviceFunctions": [
+        {
+          "file": "src/article-extras.ts",
+          "symbol": "addArticleReaction",
+          "location": "src/article-extras.ts:101"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:569:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at mutate (src/client.ts:568:10)",
+        "    at addArticleReaction (src/article-extras.ts:103:10)",
+        "    at <anonymous> (src/cli-support.ts:183:42)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m02-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "POST /api/articles/{p1}/tags",
@@ -16664,21 +17231,65 @@
       "fields"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "article tag add <article>",
+      "permission": "Update",
+      "options": [
+        "--body <json>",
+        "--fields <projection>"
+      ],
+      "location": "src/article-extras-commands.ts:22",
+      "serviceFunctions": [
+        {
+          "file": "src/article-extras.ts",
+          "symbol": "addArticleTag",
+          "location": "src/article-extras.ts:77"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:569:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at mutate (src/client.ts:568:10)",
+        "    at addArticleTag (src/article-extras.ts:79:10)",
+        "    at <anonymous> (src/cli-support.ts:183:42)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m02-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "POST /api/assignedRoles",
@@ -16768,22 +17379,28 @@
       "muteUpdateNotifications"
     ],
     "sourceCaveats": [],
-    "status": "partial",
-    "reason": "The core action is shipped and observed; explicit public request controls remain unavailable.",
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
     "binding": {
       "command": "commands apply",
       "permission": "Update",
       "options": [
         "--fields <projection>",
         "--query <query>",
-        "--issues <ids>"
+        "--issues <ids>",
+        "--mute-update-notifications [boolean]",
+        "--caret <position>",
+        "--comment <text>",
+        "--visibility <json>",
+        "--run-as <login>",
+        "--silent [boolean]"
       ],
-      "location": "src/issue-query-commands.ts:56",
+      "location": "src/issue-query-commands.ts:58",
       "serviceFunctions": [
         {
           "file": "src/issue-query.ts",
           "symbol": "applyCommands",
-          "location": "src/issue-query.ts:84"
+          "location": "src/issue-query.ts:94"
         }
       ],
       "callStack": [
@@ -16791,8 +17408,8 @@
         "    at <anonymous> (src/client.ts:569:25)",
         "    at mutationResult (src/client.ts:551:18)",
         "    at mutate (src/client.ts:568:10)",
-        "    at applyCommands (src/issue-query.ts:90:10)",
-        "    at updateCommand (src/issue-query-commands.ts:59:51)"
+        "    at applyCommands (src/issue-query.ts:98:10)",
+        "    at updateCommand (src/issue-query-commands.ts:61:51)"
       ],
       "surfaces": {
         "execute": {
@@ -16814,17 +17431,9 @@
       },
       "deniedBeforeHttp": true
     },
-    "unsupportedQueryParameters": [
-      "muteUpdateNotifications"
-    ],
+    "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
-    "unsupportedBodyControls": [
-      "comment",
-      "visibility",
-      "caret",
-      "silent",
-      "runAs"
-    ],
+    "unsupportedBodyControls": [],
     "verification": {
       "existingOffline": "exercised-in-passing-suite",
       "testLocations": [
@@ -16834,6 +17443,7 @@
         "tests/issue-query.test.ts:25",
         "tests/issue-query.test.ts:252",
         "tests/issue-query.test.ts:72",
+        "tests/m02-stories.test.ts",
         "tests/validation-contract.test.ts"
       ],
       "generatedSurfaceSmoke": "passed",
@@ -16891,19 +17501,19 @@
         "--caret <position>",
         "--issues <ids>"
       ],
-      "location": "src/issue-query-commands.ts:67",
+      "location": "src/issue-query-commands.ts:86",
       "serviceFunctions": [
         {
           "file": "src/issue-query.ts",
           "symbol": "assistCommands",
-          "location": "src/issue-query.ts:101"
+          "location": "src/issue-query.ts:107"
         }
       ],
       "callStack": [
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
-        "    at assistCommands (src/issue-query.ts:106:11)",
-        "    at <anonymous> (src/issue-query-commands.ts:70:51)"
+        "    at assistCommands (src/issue-query.ts:112:11)",
+        "    at <anonymous> (src/issue-query-commands.ts:89:51)"
       ],
       "surfaces": {
         "execute": {
@@ -17472,11 +18082,11 @@
         "tests/issue-write.test.ts:77",
         "tests/long-content.test.ts",
         "tests/m01-stories.test.ts",
-        "tests/m01-stories.test.ts:282",
-        "tests/m01-stories.test.ts:285",
-        "tests/m01-stories.test.ts:316",
-        "tests/m01-stories.test.ts:319",
-        "tests/m01-stories.test.ts:325",
+        "tests/m01-stories.test.ts:182",
+        "tests/m01-stories.test.ts:185",
+        "tests/m01-stories.test.ts:216",
+        "tests/m01-stories.test.ts:219",
+        "tests/m01-stories.test.ts:225",
         "tests/mutations.test.ts",
         "tests/mutations.test.ts:117",
         "tests/mutations.test.ts:46",
@@ -17590,10 +18200,10 @@
         "tests/issue-attachments.test.ts:251",
         "tests/issue-attachments.test.ts:253",
         "tests/m01-stories.test.ts",
-        "tests/m01-stories.test.ts:284",
-        "tests/m01-stories.test.ts:285",
-        "tests/m01-stories.test.ts:318",
-        "tests/m01-stories.test.ts:319",
+        "tests/m01-stories.test.ts:184",
+        "tests/m01-stories.test.ts:185",
+        "tests/m01-stories.test.ts:218",
+        "tests/m01-stories.test.ts:219",
         "tests/transport.test.ts",
         "tests/transport.test.ts:79",
         "tests/transport.test.ts:84",
@@ -17890,12 +18500,12 @@
         "--fields <projection>",
         "--mute-update-notifications [boolean]"
       ],
-      "location": "src/issue-context-commands.ts:103",
+      "location": "src/issue-context-commands.ts:130",
       "serviceFunctions": [
         {
           "file": "src/issue-context.ts",
           "symbol": "updateComment",
-          "location": "src/issue-context.ts:113"
+          "location": "src/issue-context.ts:116"
         }
       ],
       "callStack": [
@@ -17903,7 +18513,7 @@
         "    at <anonymous> (src/client.ts:569:25)",
         "    at mutationResult (src/client.ts:551:18)",
         "    at mutate (src/client.ts:568:10)",
-        "    at updateComment (src/issue-context.ts:121:10)",
+        "    at updateComment (src/issue-context.ts:124:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -18299,21 +18909,66 @@
       "muteUpdateNotifications"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "issues project set <issueID>",
+      "permission": "Update",
+      "options": [
+        "--body <json>",
+        "--fields <projection>",
+        "--mute-update-notifications [boolean]"
+      ],
+      "location": "src/issue-context-commands.ts:86",
+      "serviceFunctions": [
+        {
+          "file": "src/issue-context.ts",
+          "symbol": "setIssueProject",
+          "location": "src/issue-context.ts:166"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:569:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at mutate (src/client.ts:568:10)",
+        "    at setIssueProject (src/issue-context.ts:168:10)",
+        "    at <anonymous> (src/cli-support.ts:183:42)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m02-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "POST /api/issues/{p1}/tags",
@@ -18648,21 +19303,66 @@
       "muteUpdateNotifications"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "issues vcs-changes create <issueID>",
+      "permission": "Update",
+      "options": [
+        "--body <json>",
+        "--fields <projection>",
+        "--mute-update-notifications [boolean]"
+      ],
+      "location": "src/issue-context-commands.ts:114",
+      "serviceFunctions": [
+        {
+          "file": "src/issue-context.ts",
+          "symbol": "createVcsChange",
+          "location": "src/issue-context.ts:172"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:569:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at mutate (src/client.ts:568:10)",
+        "    at createVcsChange (src/issue-context.ts:175:10)",
+        "    at <anonymous> (src/cli-support.ts:183:42)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m02-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "POST /api/issues/{p1}/vcsChanges/{p2}",
@@ -18706,21 +19406,66 @@
       "muteUpdateNotifications"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "issues vcs-changes update <issueID> <changeID>",
+      "permission": "Update",
+      "options": [
+        "--body <json>",
+        "--fields <projection>",
+        "--mute-update-notifications [boolean]"
+      ],
+      "location": "src/issue-context-commands.ts:115",
+      "serviceFunctions": [
+        {
+          "file": "src/issue-context.ts",
+          "symbol": "updateVcsChange",
+          "location": "src/issue-context.ts:177"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:569:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at mutate (src/client.ts:568:10)",
+        "    at updateVcsChange (src/issue-context.ts:178:10)",
+        "    at <anonymous> (src/cli-support.ts:183:42)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m02-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "POST /api/issuesGetter/count",
@@ -18763,19 +19508,19 @@
         "--fields <projection>",
         "--query <query>"
       ],
-      "location": "src/issue-query-commands.ts:92",
+      "location": "src/issue-query-commands.ts:113",
       "serviceFunctions": [
         {
           "file": "src/issue-query.ts",
           "symbol": "countIssues",
-          "location": "src/issue-query.ts:136"
+          "location": "src/issue-query.ts:142"
         }
       ],
       "callStack": [
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
-        "    at countIssues (src/issue-query.ts:141:23)",
-        "    at <anonymous> (src/issue-query-commands.ts:95:49)"
+        "    at countIssues (src/issue-query.ts:147:23)",
+        "    at <anonymous> (src/issue-query-commands.ts:116:49)"
       ],
       "surfaces": {
         "execute": {
@@ -18941,21 +19686,65 @@
       "fields"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "saved-queries create",
+      "permission": "Update",
+      "options": [
+        "--body <json>",
+        "--fields <projection>"
+      ],
+      "location": "src/issue-query-commands.ts:105",
+      "serviceFunctions": [
+        {
+          "file": "src/issue-query.ts",
+          "symbol": "createSavedQuery",
+          "location": "src/issue-query.ts:181"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:569:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at mutate (src/client.ts:568:10)",
+        "    at createSavedQuery (src/issue-query.ts:182:10)",
+        "    at <anonymous> (src/cli-support.ts:183:42)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m02-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "POST /api/savedQueries/{p1}",
@@ -18982,21 +19771,65 @@
       "fields"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "saved-queries update <queryID>",
+      "permission": "Update",
+      "options": [
+        "--body <json>",
+        "--fields <projection>"
+      ],
+      "location": "src/issue-query-commands.ts:106",
+      "serviceFunctions": [
+        {
+          "file": "src/issue-query.ts",
+          "symbol": "updateSavedQuery",
+          "location": "src/issue-query.ts:184"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:569:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at mutate (src/client.ts:568:10)",
+        "    at updateSavedQuery (src/issue-query.ts:185:10)",
+        "    at <anonymous> (src/cli-support.ts:183:42)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m02-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "POST /api/search/assist",
@@ -19041,19 +19874,19 @@
         "--query <query>",
         "--caret <position>"
       ],
-      "location": "src/issue-query-commands.ts:78",
+      "location": "src/issue-query-commands.ts:97",
       "serviceFunctions": [
         {
           "file": "src/issue-query.ts",
           "symbol": "assistSearch",
-          "location": "src/issue-query.ts:121"
+          "location": "src/issue-query.ts:127"
         }
       ],
       "callStack": [
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
-        "    at assistSearch (src/issue-query.ts:126:11)",
-        "    at <anonymous> (src/issue-query-commands.ts:81:51)"
+        "    at assistSearch (src/issue-query.ts:132:11)",
+        "    at <anonymous> (src/issue-query-commands.ts:100:51)"
       ],
       "surfaces": {
         "execute": {
