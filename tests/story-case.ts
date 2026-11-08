@@ -16,12 +16,13 @@ export interface StoryCase {
   result: unknown;
   response: unknown;
   update?: boolean;
+  secrets?: Readonly<Record<string, string>>;
 }
 
 /** Independently authored wire expectations, exercised through the real declaration on every surface. */
 export function createStoryCase(server: ReturnType<typeof setupServer>) {
 return async function storyCase(t: TestContext, row: StoryCase) {
-  const f = await configuredFixture(t, { permissions: [row.update ? "Update" : "ReadOnly"] });
+  const f = await configuredFixture(t, { permissions: [row.update ? "Update" : "ReadOnly"], ...(row.secrets === undefined ? {} : { secrets: row.secrets }) });
   const argv = row.argv.map(value => value === "$UPLOAD" ? join(f.root, "synthetic-upload.txt") : value);
   if (row.multipart !== undefined) await writeFile(join(f.root, "synthetic-upload.txt"), row.multipart);
   let calls = 0;

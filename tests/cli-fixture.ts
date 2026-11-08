@@ -13,6 +13,7 @@ export async function configuredFixture(
     name?: string;
     url?: string;
     token?: string;
+    secrets?: Readonly<Record<string, string>>;
     permissions?: readonly string[];
     input?: string;
   } = {},
@@ -25,7 +26,7 @@ export async function configuredFixture(
       name,
       values: { url: options.url ?? "https://youtrack.example.com/context" },
       ...(options.permissions === undefined ? {} : { permissions: options.permissions }),
-      secrets: { token: options.token ?? "synthetic-token" },
+      secrets: { ...(options.secrets ?? {}), token: options.token ?? "synthetic-token" },
     }],
     input: options.input ?? "",
   });
