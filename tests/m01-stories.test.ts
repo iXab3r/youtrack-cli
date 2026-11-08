@@ -1,4 +1,6 @@
 import assert from "node:assert/strict";
+import { writeFile } from "node:fs/promises";
+import { join } from "node:path";
 import { after, afterEach, before, test, type TestContext } from "node:test";
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
@@ -15,6 +17,7 @@ interface StoryCase {
   path: string;
   query: [string, string][];
   body?: unknown;
+  multipart?: string;
   result: unknown;
   response: unknown;
   update?: boolean;
@@ -23,6 +26,8 @@ interface StoryCase {
 /** Independently authored wire expectations, exercised through the real declaration on every surface. */
 async function storyCase(t: TestContext, row: StoryCase) {
   const f = await configuredFixture(t, { permissions: [row.update ? "Update" : "ReadOnly"] });
+  const argv = row.argv.map(value => value === "$UPLOAD" ? join(f.root, "synthetic-upload.txt") : value);
+  if (row.multipart !== undefined) await writeFile(join(f.root, "synthetic-upload.txt"), row.multipart);
   let calls = 0;
   server.use(http.all("*", async ({ request }) => {
     calls++;
@@ -32,30 +37,36 @@ async function storyCase(t: TestContext, row: StoryCase) {
     assert.equal(url.pathname, "/context" + row.path);
     assert.deepEqual([...url.searchParams].sort(), [...row.query].sort());
     assert.equal(request.headers.get("authorization"), "Bearer synthetic-token");
-    if (row.body === undefined) assert.equal(await request.text(), "");
+    if (row.multipart !== undefined) {
+      const form = await request.formData();
+      assert.deepEqual([...form.keys()], ["upload1"]);
+      const file = form.get("upload1") as File;
+      assert.equal(file.name, "synthetic-upload.txt");
+      assert.equal(await file.text(), row.multipart);
+    } else if (row.body === undefined) assert.equal(await request.text(), "");
     else assert.deepEqual(await request.json(), row.body);
     return row.response === undefined ? new HttpResponse(null, { status: 204 }) : HttpResponse.json(row.response);
   }));
-  assert.deepEqual(await f.cli.execute(row.argv), row.result);
-  const json = await f.json(f.cli, row.argv);
+  assert.deepEqual(await f.cli.execute(argv), row.result);
+  const json = await f.json(f.cli, argv);
   assert.deepEqual(json, row.result);
-  const human = await f.run(f.cli, row.argv);
+  const human = await f.run(f.cli, argv);
   assert.equal(human.exitCode, 0, human.stderr);
   if (row.result !== null) assert.ok(human.stdout.trim());
-  const replies = await f.rpc(f.cli, [row.argv]) as { result?: unknown; error?: unknown }[];
+  const replies = await f.rpc(f.cli, [argv]) as { result?: unknown; error?: unknown }[];
   assert.equal(replies[0]?.error, undefined);
   assert.deepEqual(replies[0]?.result, row.result);
   assert.equal(calls, 4);
   await f.cli.execute(["permissions", "revoke", row.update ? "Update" : "ReadOnly"]);
-  await assert.rejects(f.cli.execute(row.argv), (e: unknown) => (e as { code: string }).code === "permission.denied");
+  await assert.rejects(f.cli.execute(argv), (e: unknown) => (e as { code: string }).code === "permission.denied");
   assert.equal(calls, 4);
   for (const json of [false, true]) {
-    const denied = await f.run(f.cli, [...row.argv, ...(json ? ["--json"] : [])]);
+    const denied = await f.run(f.cli, [...argv, ...(json ? ["--json"] : [])]);
     assert.equal(denied.exitCode, 1);
     assert.equal(denied.stdout, "");
     assert.match(denied.stderr, /permission.denied|Permission .* disabled/);
   }
-  const deniedRpc = await f.rpc(f.cli, [row.argv]) as { error: { data: { code: string } } }[];
+  const deniedRpc = await f.rpc(f.cli, [argv]) as { error: { data: { code: string } } }[];
   assert.equal(deniedRpc[0]?.error.data.code, "permission.denied");
   assert.equal(calls, 4);
 }
@@ -140,4 +151,10 @@ test("US-008 tag search, exact issue-tag detail and assignment projection use th
   await storyCase(t, { argv: ["tags", "list", "--query", " team & release ", "--fields", "id"], method: "GET", path: "/api/tags", query: [["fields", "id"], ["$top", "50"], ["$skip", "0"], ["query", " team & release "]], response: [], result: emptyPage });
   await storyCase(t, { argv: ["issues", "tags", "get", "DEMO-1", "tag/opaque", "--fields", "id"], method: "GET", path: "/api/issues/DEMO-1/tags/tag%2Fopaque", query: [["fields", "id"]], response: detail, result: detail });
   await storyCase(t, { argv: ["issues", "tags", "add", "DEMO-1", "--body", '{"id":"tag/opaque","native":true}', "--fields", "id"], method: "POST", path: "/api/issues/DEMO-1/tags", query: [["fields", "id"]], body: { id: "tag/opaque", native: true }, response: detail, result: detail, update: true });
+});
+
+test("US-005 attachment upload controls, metadata update and exact deletion stay native", async t => {
+  await storyCase(t, { argv: ["issues", "attachments", "upload", "DEMO-1", "--file", "$UPLOAD", "--fields", "id", "--mute-update-notifications", "false"], method: "POST", path: "/api/issues/DEMO-1/attachments", query: [["fields", "id"], ["muteUpdateNotifications", "false"]], multipart: "Synthetic multipart content", response: [detail], result: [detail], update: true });
+  await storyCase(t, { argv: ["issues", "attachments", "update", "DEMO-1", "file/1", "--body", '{"name":"renamed.txt","nativeMetadata":true}', "--fields", "id"], method: "POST", path: "/api/issues/DEMO-1/attachments/file%2F1", query: [["fields", "id"]], body: { name: "renamed.txt", nativeMetadata: true }, response: detail, result: detail, update: true });
+  await storyCase(t, { argv: ["issues", "attachments", "delete", "DEMO-1", "file/1", "--fields", "id"], method: "DELETE", path: "/api/issues/DEMO-1/attachments/file%2F1", query: [["fields", "id"]], response: undefined, result: null, update: true });
 });
