@@ -68,6 +68,7 @@ export {
   listUserBundleIndividuals, getUserBundleIndividual, getUser,
 } from "./user-directory.js";
 export {
+  createGroup, updateGroup, deleteGroup,
   addGroupMember,
   updateProjectTeam,
   addProjectTeamGroup, removeProjectTeamGroup,

@@ -1,6 +1,7 @@
 import { command } from "@eyeauras/cli-factory";
 import { projectedBodyUpdate, projectedDelete, pagedRead, projectedRead, readCommand, pageOptions, readOptions } from "./cli-support.js";
 import {
+  createGroup, updateGroup, deleteGroup,
   addGroupMember,
   updateProjectTeam,
   addProjectTeamGroup, removeProjectTeamGroup,
@@ -21,7 +22,10 @@ const memberOptions = [
 ];
 
 export const groupDirectoryRootCommands = [
-  command("group", "Inspect user groups", [
+  command("group", "Inspect and manage user groups", [
+    projectedBodyUpdate("create", "Create a user group", createGroup, undefined, mutationWritten("Created group")),
+    projectedBodyUpdate("update <group>", "Update a selected group", updateGroup, undefined, mutationWritten("Updated group", "group")),
+    projectedDelete("delete <group>", "Delete a selected group", deleteGroup, mutationWritten("Deleted group", "group")),
     pagedRead("list", "List groups", listGroups, groupTable, [{ flags: "--query <query>", description: "Filter groups by query" }]),
     projectedRead("get <group>", "Show a group", getGroup, groupRecord),
     command("member", "Inspect and manage group members", [

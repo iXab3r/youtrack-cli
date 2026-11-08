@@ -1,4 +1,5 @@
 import {
+  namedMutationBody,
   fields, mutate, deleteObject, mutationBody, narrative, requiredText, type ProjectionOptions,
   encodedID,
   page,
@@ -92,4 +93,15 @@ export async function addGroupMember(connection: Connection, groupID: string, us
   const body = mutationBody(input);
   if (Object.hasOwn(body, "id") && body.id !== userID) throw new Error("The body user ID must match the selected user.");
   return mutate(connection, `${groupPath(groupID)}/ownUsers/${encodedID(userID, "user ID")}`, body, fields(options, userFields));
+}
+
+
+export async function createGroup(connection: Connection, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, "api/groups", namedMutationBody(input, true), fields(options, groupFields));
+}
+export async function updateGroup(connection: Connection, groupID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, groupPath(groupID), namedMutationBody(input, false), fields(options, groupFields));
+}
+export async function deleteGroup(connection: Connection, groupID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, groupPath(groupID), options);
 }
