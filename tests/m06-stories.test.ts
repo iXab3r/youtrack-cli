@@ -25,3 +25,14 @@ test("US-053 create projects with an explicit leader/template and preserve nativ
   await storyCase(t, {"argv":["project","create","--body","{\"name\":\"Synthetic project\",\"shortName\":\"SYN\",\"leader\":{\"id\":\"leader /?\"}}","--fields","id","--template","future-template"],"method":"POST","path":"/api/admin/projects","query":[["fields","id"],["template","future-template"]],"body":{"name":"Synthetic project","shortName":"SYN","leader":{"id":"leader /?"}},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
   await storyCase(t, {"argv":["project","update","project /?","--body","{\"name\":\"Renamed project\",\"description\":null,\"archived\":false}","--fields","id"],"method":"POST","path":"/api/admin/projects/project%20%2F%3F","query":[["fields","id"]],"body":{"name":"Renamed project","description":null,"archived":false},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
 });
+
+test("US-053 project creation needs a native leader and names empty successful results", async t => {
+  const f = await configuredFixture(t, { permissions: ["Update"] }); let calls = 0;
+  server.use(http.post("*", () => { calls++; return new HttpResponse(null, { status: 204 }); }));
+  for (const body of [{ name: "Synthetic", shortName: "SYN" }, { name: "Synthetic", shortName: "SYN", leader: {} }]) {
+    await assert.rejects(f.cli.execute(["project", "create", "--body", JSON.stringify(body)])); assert.equal(calls, 0);
+  }
+  const argv = ["project", "create", "--body", '{"name":"Selected-project","shortName":"SYN","leader":{"id":"leader"}}'];
+  const r = await f.run(f.cli, argv); assert.equal(r.exitCode, 0, r.stderr); assert.match(r.stdout, /Selected-project/); assert.equal(calls, 1);
+  assert.equal(await f.json(f.cli, argv), null);
+});
