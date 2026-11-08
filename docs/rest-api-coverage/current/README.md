@@ -48,7 +48,7 @@ permission grant, retry, compensation or new compatibility/version policy.
 ## Verification and limits
 
 All ten stories have committed red runs on separate branches before code; public issues record
-red/green heads. **485 offline tests** pass, including 13 M03 nodes covering all 16 contracts
+red/green heads. **493 offline tests** pass, including 21 M03 nodes covering all 16 contracts
 through human/JSON/execute/RPC, exact native requests, opposite-category denial, remote failures,
 ambiguous writes, native null/false/epoch dates, required-ID/template preflight, instance paging
 and readable empty mutation replies. Existing M01/M02 transport/profile/cancellation/EPIPE/diagnostic
@@ -58,7 +58,7 @@ Local Cake Verify receipts include installed CLI/RPC/EPIPE checks and two releas
 no release target runs. Final CI/review/merge status belongs in the delivery issue.
 
 Fresh traversal: 165 leaves / 167 variants, all 162 operations, no failed variant. Mapping uses a
-485-test native-request trace; repeat generation is byte-identical. A separate raw-OAS/reference
+493-test native-request trace; repeat generation is byte-identical. A separate raw-OAS/reference
 algorithm reconciles all identities/counts. This is **author self-check, not independent review**.
 Independent verdict and exact-main CI are separate gates. No deployed-server, Cloud/Server or
 cross-version conformance is claimed; full means the declared operation/input dimensions, not
@@ -76,8 +76,8 @@ Physical nonblank lines, comments included, generated output excluded:
 
 | Surface | M02 baseline | Current | Delta |
 |---|---:|---:|---:|
-| src | 4270 | 4409 | +139 |
-| tests | 7976 | 8073 | +97 |
+| src | 4270 | 4433 | +163 |
+| tests | 7976 | 8111 | +135 |
 | integration-tests | 165 | 165 | +0 |
 | scripts | 1104 | 1122 | +18 |
 
@@ -88,3 +88,23 @@ invented. No CI, package/dependency/version changes or copied runtime implementa
 After build, run probe.mjs and observe-tests.mjs into an ignored capture, then regenerate with
 `node scripts/rest-api-audit/generate.mjs <capture> docs/rest-api-coverage/current`. Capture/extract
 and the separate crosscheck.py stay public-source-only reproducibility tools.
+
+
+Empty successful creates retain the selected name or prototype/project identity in the human title.
+The invocation-local fallback stores only labels scrubbed by the existing service response sanitizer;
+it leaves the submitted body, SDK result and JSON/RPC null unchanged. Weak references avoid a persistent
+label cache. This adds a small presentation-only concept because native empty results have no identity.
+Regression coverage includes six create families, credential/signed-URL labels and unchanged bodies.
+
+Same-capability authoring samples (included in the total source delta above):
+
+- Detail: existing getIssueProject uses objectRequest(connection, issuePath(issueID) + "/project", ...).
+  New getFieldDefaults uses the same objectRequest with customFieldPath(fieldID) + "/fieldDefaults".
+  Both preserve projection selection, ReadOnly admission and one request; the resource path differs.
+- List: existing listArticleTags and new listFieldInstances use collection → ordinary raw-offset page.
+  Neither adds lookahead, aggregation or discovery; the new default projection names the project.
+- Mutation: existing updateSprint is byte-unchanged. New updateEnumValue uses mutate with an explicit
+  bundle/value path and namedMutationBody(input, false); both pass writeOptions. That validator shares
+  object/name validation with board/tag/state/version consumers while retaining extra native properties.
+  Board create adds the concrete template query argument to the same mutate boundary. These additions
+  increase source size; no claimed code reduction hides domain validation or moves it into Core.

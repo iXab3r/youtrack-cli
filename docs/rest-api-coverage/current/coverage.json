@@ -2216,7 +2216,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -2440,7 +2440,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -2529,7 +2529,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -2629,7 +2629,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -2719,7 +2719,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -2818,7 +2818,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -2907,7 +2907,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -3007,7 +3007,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -3096,7 +3096,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -3195,7 +3195,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -3284,7 +3284,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -3384,7 +3384,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -3474,7 +3474,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -3574,7 +3574,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -3663,7 +3663,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -3762,7 +3762,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -3852,7 +3852,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -3952,7 +3952,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -4042,7 +4042,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -4141,7 +4141,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -4243,7 +4243,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -4334,7 +4334,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -4434,7 +4434,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -4525,7 +4525,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -4624,7 +4624,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -4713,7 +4713,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -4813,7 +4813,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -4903,7 +4903,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -5004,7 +5004,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -5093,7 +5093,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -5182,7 +5182,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -5275,7 +5275,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -5368,7 +5368,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -6017,7 +6017,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -6108,7 +6108,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -6208,7 +6208,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -6306,7 +6306,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -6395,7 +6395,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -6578,7 +6578,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -6678,7 +6678,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -6976,7 +6976,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -7074,7 +7074,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -7164,7 +7164,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -7292,7 +7292,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -7390,7 +7390,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -7480,7 +7480,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -7567,7 +7567,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -7652,7 +7652,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/agile-commands.ts:12",
+      "location": "src/agile-commands.ts:16",
       "serviceFunctions": [
         {
           "file": "src/agile.ts",
@@ -7665,7 +7665,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -7735,7 +7735,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/agile-commands.ts:13",
+      "location": "src/agile-commands.ts:17",
       "serviceFunctions": [
         {
           "file": "src/agile.ts",
@@ -7747,7 +7747,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -7827,7 +7827,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/agile-commands.ts:16",
+      "location": "src/agile-commands.ts:20",
       "serviceFunctions": [
         {
           "file": "src/agile.ts",
@@ -7840,7 +7840,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -7910,7 +7910,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/agile-commands.ts:17",
+      "location": "src/agile-commands.ts:21",
       "serviceFunctions": [
         {
           "file": "src/agile.ts",
@@ -7922,7 +7922,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -8015,7 +8015,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -8102,7 +8102,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -8201,7 +8201,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -8287,7 +8287,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -8386,7 +8386,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -8472,7 +8472,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -8570,7 +8570,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -8657,7 +8657,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -8755,7 +8755,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -8837,7 +8837,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -8919,7 +8919,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readNullableObject (src/client.ts:284:29)",
         "    at getParentArticle (src/article-extras.ts:66:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -9026,7 +9026,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -9108,7 +9108,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -9299,7 +9299,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -9392,7 +9392,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -9594,7 +9594,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -9801,7 +9801,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -9888,7 +9888,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -10118,7 +10118,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -10337,7 +10337,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -10549,7 +10549,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -10635,7 +10635,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -10763,7 +10763,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -10851,7 +10851,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -10944,7 +10944,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -11026,7 +11026,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -11119,7 +11119,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -11210,7 +11210,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -11313,7 +11313,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -11401,7 +11401,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -11499,7 +11499,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -11586,7 +11586,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -11679,7 +11679,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -11772,7 +11772,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -11860,7 +11860,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -11942,7 +11942,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -12041,7 +12041,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -12131,7 +12131,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -12230,7 +12230,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -12312,7 +12312,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -12583,7 +12583,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -12669,7 +12669,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -12770,7 +12770,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at listTags (src/issue-relations.ts:78:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -12858,7 +12858,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -13008,7 +13008,7 @@
         "    at readCollection (src/client.ts:314:29)",
         "    at readPage (src/client.ts:331:23)",
         "    at <anonymous> (src/client.ts:422:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -13097,7 +13097,7 @@
         "    at request (src/client.ts:186:31)",
         "    at currentUser (src/client.ts:447:23)",
         "    at readUser (src/client.ts:465:7)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -13203,7 +13203,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -13675,7 +13675,7 @@
         "    at request (src/client.ts:186:31)",
         "    at readObject (src/client.ts:276:29)",
         "    at <anonymous> (src/client.ts:440:12)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -14012,7 +14012,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at createEnumValue (src/field-catalog.ts:49:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -14097,7 +14097,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at updateEnumValue (src/field-catalog.ts:53:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -14428,7 +14428,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at createStateValue (src/field-catalog.ts:57:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -14513,7 +14513,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at updateStateValue (src/field-catalog.ts:60:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -14871,7 +14871,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at createVersionValue (src/bundle-values.ts:59:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -14956,7 +14956,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at updateVersionValue (src/bundle-values.ts:63:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -15158,7 +15158,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at updateFieldDefaults (src/field-catalog.ts:67:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -15821,7 +15821,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at createProjectField (src/issue-fields.ts:196:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -15917,7 +15917,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at updateProjectField (src/issue-fields.ts:201:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -16566,7 +16566,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at createAgile (src/agile.ts:117:10)",
-        "    at updateCommand.flags (src/agile-commands.ts:9:7)"
+        "    at updateCommand.flags (src/agile-commands.ts:10:28)"
       ],
       "surfaces": {
         "execute": {
@@ -16660,7 +16660,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/agile-commands.ts:11",
+      "location": "src/agile-commands.ts:15",
       "serviceFunctions": [
         {
           "file": "src/agile.ts",
@@ -16674,7 +16674,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at updateAgile (src/agile.ts:121:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -16763,7 +16763,7 @@
         "--fields <projection>",
         "--mute-update-notifications [boolean]"
       ],
-      "location": "src/agile-commands.ts:18",
+      "location": "src/agile-commands.ts:22",
       "serviceFunctions": [
         {
           "file": "src/agile.ts",
@@ -16777,7 +16777,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at createSprint (src/agile.ts:84:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -16867,7 +16867,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/agile-commands.ts:19",
+      "location": "src/agile-commands.ts:23",
       "serviceFunctions": [
         {
           "file": "src/agile.ts",
@@ -16881,7 +16881,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at updateSprint (src/agile.ts:100:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -16982,7 +16982,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at createArticle (src/articles.ts:61:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -17085,7 +17085,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at updateArticle (src/articles.ts:82:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -17325,7 +17325,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at updateArticleAttachment (src/article-extras.ts:88:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -17523,7 +17523,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at addArticleComment (src/articles.ts:112:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -17637,7 +17637,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at updateArticleComment (src/articles.ts:129:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -17739,7 +17739,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at addArticleReaction (src/article-extras.ts:103:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -17824,7 +17824,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at addArticleTag (src/article-extras.ts:79:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -18479,7 +18479,8 @@
         "    at <anonymous> (src/client.ts:577:25)",
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
-        "    at createIssue (src/issue-fields.ts:181:10)"
+        "    at createIssue (src/issue-fields.ts:181:10)",
+        "    at async <anonymous> (src/cli-support.ts:184:22)"
       ],
       "surfaces": {
         "execute": {
@@ -18617,7 +18618,8 @@
         "    at <anonymous> (src/client.ts:577:25)",
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
-        "    at updateIssue (src/issue-fields.ts:191:10)"
+        "    at updateIssue (src/issue-fields.ts:191:10)",
+        "    at async <anonymous> (src/cli-support.ts:184:22)"
       ],
       "surfaces": {
         "execute": {
@@ -18855,7 +18857,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at updateIssueAttachment (src/issue-attachments.ts:45:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -18965,7 +18967,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at addComment (src/client.ts:617:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -19084,7 +19086,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at updateComment (src/issue-context.ts:124:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -19179,7 +19181,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at addIssueReaction (src/issue-reactions.ts:17:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -19275,7 +19277,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at setIssueField (src/issue-fields.ts:130:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -19405,7 +19407,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at addIssueLink (src/issue-relations.ts:60:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -19503,7 +19505,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at setIssueProject (src/issue-context.ts:168:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -19588,7 +19590,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at addIssueTag (src/issue-relations.ts:102:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -19685,7 +19687,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at addWorkItem (src/issue-time.ts:152:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -19784,7 +19786,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at updateWorkItem (src/issue-time.ts:168:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -19897,7 +19899,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at createVcsChange (src/issue-context.ts:175:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -20000,7 +20002,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at updateVcsChange (src/issue-context.ts:178:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -20279,7 +20281,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at createSavedQuery (src/issue-query.ts:182:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -20364,7 +20366,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at updateSavedQuery (src/issue-query.ts:185:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -20550,7 +20552,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at createTag (src/issue-relations.ts:115:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
@@ -20635,7 +20637,7 @@
         "    at mutationResult (src/client.ts:558:18)",
         "    at mutate (src/client.ts:576:10)",
         "    at updateTag (src/issue-relations.ts:118:10)",
-        "    at <anonymous> (src/cli-support.ts:183:42)"
+        "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
         "execute": {
