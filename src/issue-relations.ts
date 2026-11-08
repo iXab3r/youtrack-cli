@@ -15,6 +15,7 @@ import {
   type YouTrackObject,
   type IssueSearchOptions,
   type WriteOptions,
+  type ProjectionOptions,
 } from "./client.js";
 
 const linkTypeFields = "id,name,directed,sourceToTarget,targetToSource";
@@ -53,8 +54,9 @@ export async function addIssueLink(
   issueID: string,
   linkID: string,
   input: unknown,
+  options: WriteOptions = {},
 ): Promise<YouTrackObject | null> {
-  return mutate(connection, `${linkPath(issueID, linkID)}/issues`, targetBody(input), linkedIssueFields);
+  return mutate(connection, `${linkPath(issueID, linkID)}/issues`, targetBody(input), linkedIssueFields, options);
 }
 
 export async function removeIssueLink(
@@ -62,10 +64,12 @@ export async function removeIssueLink(
   issueID: string,
   linkID: string,
   targetIssueID: string,
+  options: ProjectionOptions = {},
 ): Promise<YouTrackObject | null> {
   return deleteObject(
     connection,
     `${linkPath(issueID, linkID)}/issues/${encodedID(targetIssueID, "target issue ID")}`,
+    options,
   );
 }
 
@@ -101,6 +105,7 @@ export async function removeIssueTag(
   connection: Connection,
   issueID: string,
   tagID: string,
+  options: ProjectionOptions = {},
 ): Promise<YouTrackObject | null> {
-  return deleteObject(connection, `${issuePath(issueID)}/tags/${encodedID(tagID, "tag ID")}`);
+  return deleteObject(connection, `${issuePath(issueID)}/tags/${encodedID(tagID, "tag ID")}`, options);
 }
