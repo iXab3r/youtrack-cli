@@ -361,7 +361,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:93",
+      "location": "src/user-directory-commands.ts:94",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -441,7 +441,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:99",
+      "location": "src/user-directory-commands.ts:100",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -1948,7 +1948,7 @@
         {
           "file": "src/issue-relations.ts",
           "symbol": "deleteLinkType",
-          "location": "src/issue-relations.ts:149"
+          "location": "src/issue-relations.ts:151"
         }
       ],
       "callStack": [
@@ -1956,7 +1956,7 @@
         "    at <anonymous> (src/client.ts:595:25)",
         "    at mutationResult (src/client.ts:566:18)",
         "    at deleteObject (src/client.ts:594:10)",
-        "    at deleteLinkType (src/issue-relations.ts:150:10)",
+        "    at deleteLinkType (src/issue-relations.ts:152:10)",
         "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
@@ -2356,7 +2356,7 @@
         {
           "file": "src/issue-relations.ts",
           "symbol": "removeIssueLink",
-          "location": "src/issue-relations.ts:65"
+          "location": "src/issue-relations.ts:66"
         }
       ],
       "callStack": [
@@ -2364,7 +2364,7 @@
         "    at <anonymous> (src/client.ts:595:25)",
         "    at mutationResult (src/client.ts:566:18)",
         "    at deleteObject (src/client.ts:594:10)",
-        "    at removeIssueLink (src/issue-relations.ts:72:10)",
+        "    at removeIssueLink (src/issue-relations.ts:73:10)",
         "    at <anonymous> (src/issue-relations-commands.ts:70:9)"
       ],
       "surfaces": {
@@ -2443,7 +2443,7 @@
         {
           "file": "src/issue-relations.ts",
           "symbol": "removeIssueTag",
-          "location": "src/issue-relations.ts:107"
+          "location": "src/issue-relations.ts:108"
         }
       ],
       "callStack": [
@@ -2451,7 +2451,7 @@
         "    at <anonymous> (src/client.ts:595:25)",
         "    at mutationResult (src/client.ts:566:18)",
         "    at deleteObject (src/client.ts:594:10)",
-        "    at removeIssueTag (src/issue-relations.ts:113:10)",
+        "    at removeIssueTag (src/issue-relations.ts:114:10)",
         "    at <anonymous> (src/issue-relations-commands.ts:88:9)"
       ],
       "surfaces": {
@@ -2856,7 +2856,7 @@
         {
           "file": "src/issue-relations.ts",
           "symbol": "deleteTag",
-          "location": "src/issue-relations.ts:132"
+          "location": "src/issue-relations.ts:133"
         }
       ],
       "callStack": [
@@ -2864,7 +2864,7 @@
         "    at <anonymous> (src/client.ts:595:25)",
         "    at mutationResult (src/client.ts:566:18)",
         "    at deleteObject (src/client.ts:594:10)",
-        "    at deleteTag (src/issue-relations.ts:133:10)",
+        "    at deleteTag (src/issue-relations.ts:134:10)",
         "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
@@ -4798,7 +4798,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/user-directory-commands.ts:86",
+      "location": "src/user-directory-commands.ts:87",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -4889,7 +4889,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:87",
+      "location": "src/user-directory-commands.ts:88",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -4987,7 +4987,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/user-directory-commands.ts:89",
+      "location": "src/user-directory-commands.ts:90",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -5089,7 +5089,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/user-directory-commands.ts:94",
+      "location": "src/user-directory-commands.ts:95",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -5181,7 +5181,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:95",
+      "location": "src/user-directory-commands.ts:96",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -5280,7 +5280,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/user-directory-commands.ts:100",
+      "location": "src/user-directory-commands.ts:101",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -5372,7 +5372,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:101",
+      "location": "src/user-directory-commands.ts:102",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -10909,7 +10909,7 @@
         {
           "file": "src/issue-relations.ts",
           "symbol": "listLinkTypes",
-          "location": "src/issue-relations.ts:40"
+          "location": "src/issue-relations.ts:41"
         }
       ],
       "callStack": [
@@ -10997,7 +10997,7 @@
         {
           "file": "src/issue-relations.ts",
           "symbol": "getLinkType",
-          "location": "src/issue-relations.ts:41"
+          "location": "src/issue-relations.ts:42"
         }
       ],
       "callStack": [
@@ -12421,7 +12421,7 @@
         {
           "file": "src/issue-relations.ts",
           "symbol": "listIssueLinks",
-          "location": "src/issue-relations.ts:45"
+          "location": "src/issue-relations.ts:46"
         }
       ],
       "callStack": [
@@ -12510,7 +12510,7 @@
         {
           "file": "src/issue-relations.ts",
           "symbol": "getIssueLink",
-          "location": "src/issue-relations.ts:49"
+          "location": "src/issue-relations.ts:50"
         }
       ],
       "callStack": [
@@ -12607,7 +12607,7 @@
         {
           "file": "src/issue-relations.ts",
           "symbol": "listLinkedIssues",
-          "location": "src/issue-relations.ts:50"
+          "location": "src/issue-relations.ts:51"
         }
       ],
       "callStack": [
@@ -12880,7 +12880,7 @@
         {
           "file": "src/issue-relations.ts",
           "symbol": "listIssueTags",
-          "location": "src/issue-relations.ts:93"
+          "location": "src/issue-relations.ts:94"
         }
       ],
       "callStack": [
@@ -12969,7 +12969,7 @@
         {
           "file": "src/issue-relations.ts",
           "symbol": "getIssueTag",
-          "location": "src/issue-relations.ts:89"
+          "location": "src/issue-relations.ts:90"
         }
       ],
       "callStack": [
@@ -14008,14 +14008,14 @@
         {
           "file": "src/issue-relations.ts",
           "symbol": "listTags",
-          "location": "src/issue-relations.ts:79"
+          "location": "src/issue-relations.ts:80"
         }
       ],
       "callStack": [
         "    at request (src/client.ts:192:31)",
         "    at readCollection (src/client.ts:320:29)",
         "    at readPage (src/client.ts:337:23)",
-        "    at listTags (src/issue-relations.ts:80:10)",
+        "    at listTags (src/issue-relations.ts:81:10)",
         "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
@@ -14097,7 +14097,7 @@
         {
           "file": "src/issue-relations.ts",
           "symbol": "getTag",
-          "location": "src/issue-relations.ts:85"
+          "location": "src/issue-relations.ts:86"
         }
       ],
       "callStack": [
@@ -14198,14 +14198,14 @@
         {
           "file": "src/issue-relations.ts",
           "symbol": "listTagIssues",
-          "location": "src/issue-relations.ts:127"
+          "location": "src/issue-relations.ts:128"
         }
       ],
       "callStack": [
         "    at request (src/client.ts:192:31)",
         "    at readCollection (src/client.ts:320:29)",
         "    at readPage (src/client.ts:337:23)",
-        "    at listTagIssues (src/issue-relations.ts:128:10)",
+        "    at listTagIssues (src/issue-relations.ts:129:10)",
         "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
@@ -14482,7 +14482,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:81",
+      "location": "src/user-directory-commands.ts:82",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -14571,7 +14571,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:73",
+      "location": "src/user-directory-commands.ts:74",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -14655,7 +14655,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:77",
+      "location": "src/user-directory-commands.ts:78",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -14737,7 +14737,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:69",
+      "location": "src/user-directory-commands.ts:70",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -14829,7 +14829,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/user-directory-commands.ts:62",
+      "location": "src/user-directory-commands.ts:63",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -14922,7 +14922,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/user-directory-commands.ts:65",
+      "location": "src/user-directory-commands.ts:66",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -16177,7 +16177,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:92",
+      "location": "src/user-directory-commands.ts:93",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -16280,7 +16280,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:98",
+      "location": "src/user-directory-commands.ts:99",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -20781,7 +20781,7 @@
         {
           "file": "src/issue-relations.ts",
           "symbol": "createLinkType",
-          "location": "src/issue-relations.ts:143"
+          "location": "src/issue-relations.ts:145"
         }
       ],
       "callStack": [
@@ -20789,7 +20789,7 @@
         "    at <anonymous> (src/client.ts:585:25)",
         "    at mutationResult (src/client.ts:566:18)",
         "    at mutate (src/client.ts:584:10)",
-        "    at createLinkType (src/issue-relations.ts:144:10)",
+        "    at createLinkType (src/issue-relations.ts:146:10)",
         "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
@@ -20818,6 +20818,8 @@
     "verification": {
       "existingOffline": "exercised-in-passing-suite",
       "testLocations": [
+        "tests/m06-review.test.ts",
+        "tests/m06-review.test.ts:88",
         "tests/m06-stories.test.ts"
       ],
       "generatedSurfaceSmoke": "passed",
@@ -20878,7 +20880,7 @@
         {
           "file": "src/issue-relations.ts",
           "symbol": "updateLinkType",
-          "location": "src/issue-relations.ts:146"
+          "location": "src/issue-relations.ts:148"
         }
       ],
       "callStack": [
@@ -20886,7 +20888,7 @@
         "    at <anonymous> (src/client.ts:585:25)",
         "    at mutationResult (src/client.ts:566:18)",
         "    at mutate (src/client.ts:584:10)",
-        "    at updateLinkType (src/issue-relations.ts:147:10)",
+        "    at updateLinkType (src/issue-relations.ts:149:10)",
         "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
@@ -20915,6 +20917,8 @@
     "verification": {
       "existingOffline": "exercised-in-passing-suite",
       "testLocations": [
+        "tests/m06-review.test.ts",
+        "tests/m06-review.test.ts:87",
         "tests/m06-stories.test.ts"
       ],
       "generatedSurfaceSmoke": "passed",
@@ -21931,7 +21935,7 @@
         {
           "file": "src/issue-relations.ts",
           "symbol": "addIssueLink",
-          "location": "src/issue-relations.ts:55"
+          "location": "src/issue-relations.ts:56"
         }
       ],
       "callStack": [
@@ -21939,7 +21943,7 @@
         "    at <anonymous> (src/client.ts:585:25)",
         "    at mutationResult (src/client.ts:566:18)",
         "    at mutate (src/client.ts:584:10)",
-        "    at addIssueLink (src/issue-relations.ts:62:10)",
+        "    at addIssueLink (src/issue-relations.ts:63:10)",
         "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
@@ -22114,7 +22118,7 @@
         {
           "file": "src/issue-relations.ts",
           "symbol": "addIssueTag",
-          "location": "src/issue-relations.ts:98"
+          "location": "src/issue-relations.ts:99"
         }
       ],
       "callStack": [
@@ -22122,7 +22126,7 @@
         "    at <anonymous> (src/client.ts:585:25)",
         "    at mutationResult (src/client.ts:566:18)",
         "    at mutate (src/client.ts:584:10)",
-        "    at addIssueTag (src/issue-relations.ts:104:10)",
+        "    at addIssueTag (src/issue-relations.ts:105:10)",
         "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
@@ -23164,7 +23168,7 @@
         {
           "file": "src/issue-relations.ts",
           "symbol": "createTag",
-          "location": "src/issue-relations.ts:116"
+          "location": "src/issue-relations.ts:117"
         }
       ],
       "callStack": [
@@ -23172,7 +23176,7 @@
         "    at <anonymous> (src/client.ts:585:25)",
         "    at mutationResult (src/client.ts:566:18)",
         "    at mutate (src/client.ts:584:10)",
-        "    at createTag (src/issue-relations.ts:117:10)",
+        "    at createTag (src/issue-relations.ts:118:10)",
         "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
@@ -23249,7 +23253,7 @@
         {
           "file": "src/issue-relations.ts",
           "symbol": "updateTag",
-          "location": "src/issue-relations.ts:119"
+          "location": "src/issue-relations.ts:120"
         }
       ],
       "callStack": [
@@ -23257,7 +23261,7 @@
         "    at <anonymous> (src/client.ts:585:25)",
         "    at mutationResult (src/client.ts:566:18)",
         "    at mutate (src/client.ts:584:10)",
-        "    at updateTag (src/issue-relations.ts:120:10)",
+        "    at updateTag (src/issue-relations.ts:121:10)",
         "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
@@ -23348,12 +23352,12 @@
         "--fields <projection>",
         "--password-secret <alias>"
       ],
-      "location": "src/user-directory-commands.ts:49",
+      "location": "src/user-directory-commands.ts:50",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
           "symbol": "createUser",
-          "location": "src/user-directory.ts:116"
+          "location": "src/user-directory.ts:126"
         }
       ],
       "callStack": [
@@ -23361,9 +23365,9 @@
         "    at <anonymous> (src/client.ts:585:25)",
         "    at mutationResult (src/client.ts:566:18)",
         "    at mutate (src/client.ts:584:10)",
-        "    at writeUser (src/user-directory.ts:112:10)",
-        "    at createUser (src/user-directory.ts:117:10)",
-        "    at updateCommand.flags (src/user-directory-commands.ts:56:26)"
+        "    at writeUser (src/user-directory.ts:122:10)",
+        "    at createUser (src/user-directory.ts:127:10)",
+        "    at updateCommand.flags (src/user-directory-commands.ts:57:26)"
       ],
       "surfaces": {
         "execute": {
@@ -23391,6 +23395,10 @@
     "verification": {
       "existingOffline": "exercised-in-passing-suite",
       "testLocations": [
+        "tests/m06-review.test.ts",
+        "tests/m06-review.test.ts:110",
+        "tests/m06-review.test.ts:27",
+        "tests/m06-review.test.ts:43",
         "tests/m06-stories.test.ts",
         "tests/user-password.test.ts",
         "tests/user-password.test.ts:94"
@@ -23454,12 +23462,12 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:60",
+      "location": "src/user-directory-commands.ts:61",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
           "symbol": "updateUser",
-          "location": "src/user-directory.ts:119"
+          "location": "src/user-directory.ts:129"
         }
       ],
       "callStack": [
@@ -23467,9 +23475,9 @@
         "    at <anonymous> (src/client.ts:585:25)",
         "    at mutationResult (src/client.ts:566:18)",
         "    at mutate (src/client.ts:584:10)",
-        "    at writeUser (src/user-directory.ts:112:10)",
-        "    at updateUser (src/user-directory.ts:120:10)",
-        "    at <anonymous> (src/user-directory-commands.ts:60:104)",
+        "    at writeUser (src/user-directory.ts:122:10)",
+        "    at updateUser (src/user-directory.ts:130:10)",
+        "    at <anonymous> (src/user-directory-commands.ts:61:104)",
         "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
@@ -23498,6 +23506,8 @@
     "verification": {
       "existingOffline": "exercised-in-passing-suite",
       "testLocations": [
+        "tests/m06-review.test.ts",
+        "tests/m06-review.test.ts:27",
         "tests/m06-stories.test.ts"
       ],
       "generatedSurfaceSmoke": "passed",
@@ -23547,7 +23557,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:74",
+      "location": "src/user-directory-commands.ts:75",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -23647,7 +23657,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:78",
+      "location": "src/user-directory-commands.ts:79",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -23736,7 +23746,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:70",
+      "location": "src/user-directory-commands.ts:71",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",

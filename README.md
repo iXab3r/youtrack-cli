@@ -124,7 +124,8 @@ tracks the frozen282-operation universe and the complete remaining inventory.
   on selected IDs. `group create/update/delete`, `organization list/get/create/update/delete`,
   `role create/update/delete` and `link-types create/update/delete` expose native resources.
   Role bodies retain permission objects with native id keys; no permission discovery is added.
-  Link-type creation requires name, sourceToTarget and targetToSource. DELETE defaults remain
+  Link-type creation requires name, sourceToTarget and targetToSource; the inward targetToSource
+  property may be null. DELETE defaults remain
   query-free, with optional --fields. Reads use ReadOnly; remote writes require Update.
 
 `user create --body '{"login":"new-user"}' --password-secret initial-user-password` reads
@@ -139,8 +140,12 @@ there is no plaintext fallback. Treat aliases as sensitive retained credentials:
 erase them after success or failure, and deleting a CLI profile removes its auth token, not these
 auxiliary entries. Administrators manage retained auxiliary entries through the platform store/SDK.
 
+Cancellation before secure-store persistence starts prevents the write. Once persistence has
+started, cancellation does not imply rollback; inspect the store before deciding to import again.
+
 Creation requires Update and HTTPS, sends the password only in the native JSON body, and has no
-environment fallback. CLI `--body.password` is rejected. Missing aliases return a profile-specific
+environment fallback. Password-bearing redirects stay on the original HTTPS origin; same-origin
+HTTPS redirects retain normal behavior. CLI `--body.password` is rejected. Missing aliases return a profile-specific
 import follow-up. Results and diagnostic causes scrub known passwords, including JSON echoes;
 JSON/RPC never return the imported value. `user update <user> --body '{"email":null}'` uses the
 native user endpoint and preserves additional native fields. This email update follows the pinned
