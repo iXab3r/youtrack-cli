@@ -4,6 +4,8 @@ import { join } from "node:path";
 import { after, afterEach, before, test, type TestContext } from "node:test";
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
+import { listWorkItems } from "../src/issue-time.js";
+import { mutate, deleteObject, uploadObjectCollection, readObject } from "../src/client.js";
 import { configuredFixture } from "./cli-fixture.js";
 
 const server = setupServer();
@@ -66,6 +68,34 @@ async function storyCase(t: TestContext, row: StoryCase) {
       return true;
     });
     assert.equal(rejectedCalls, 1, "No automatic retry after rejection");
+  }
+  if (row.update) {
+    for (const failure of ["lost reply", "invalid JSON", "invalid shape", "server failure"] as const) {
+      let attempted = 0;
+      server.use(http.all("*", () => {
+        attempted++; // The server has already received/applied this synthetic operation.
+        if (failure === "lost reply") return HttpResponse.error();
+        if (failure === "invalid JSON") return new HttpResponse("synthetic-token private-response");
+        if (failure === "invalid shape") return HttpResponse.json(42);
+        return new HttpResponse("synthetic-token private-response", { status: 503 });
+      }));
+      await assert.rejects(f.cli.execute(argv), (error: unknown) => {
+        assert.match((error as Error).message, /write outcome is unknown/i);
+        if (failure === "lost reply") assert.equal((error as { code: string }).code, "request.failed");
+        return true;
+      });
+      for (const json of [false, true]) {
+        const shown = await f.run(f.cli, [...argv, ...(json ? ["--json"] : [])]);
+        assert.equal(shown.exitCode, 1);
+        assert.equal(shown.stdout, "");
+        assert.match(shown.stderr, /write outcome is unknown/i);
+        assert.doesNotMatch(shown.stderr, /synthetic-token|private-response/);
+      }
+      const [reply] = await f.rpc(f.cli, [argv]) as { error: { message: string; data: { code: string } } }[];
+      assert.match(reply!.error.message, /write outcome is unknown/i);
+      if (failure === "lost reply") assert.equal(reply!.error.data.code, "request.failed");
+      assert.equal(attempted, 4, "One attempt per surface; ambiguous writes never retry");
+    }
   }
   await f.cli.execute(["permissions", "revoke", row.update ? "Update" : "ReadOnly"]);
   await assert.rejects(f.cli.execute(argv), (e: unknown) => (e as { code: string }).code === "permission.denied");
@@ -223,4 +253,50 @@ test("M01 interleaved RPC keeps profile auth, permissions and failures isolated"
   assert.equal(replies[2]?.error?.data.code, "permission.denied");
   assert.equal(replies[3]?.error, undefined);
   assert.equal(calls.length, 3);
+});
+
+
+test("M01 review: repeated work-item people preserve order and duplicates on every surface", async t => {
+  await storyCase(t, { argv: ["work-items", "list", "--fields", "id", "--author", "a /?", "--author", "b", "--author", "a /?", "--creator", "c", "--creator", "d"],
+    method: "GET", path: "/api/workItems", query: [["fields", "id"], ["$top", "50"], ["$skip", "0"], ["author", "a /?"], ["author", "b"], ["author", "a /?"], ["creator", "c"], ["creator", "d"]], response: [], result: emptyPage });
+  const seen: string[][][] = [];
+  const connection = { baseUrl: "https://youtrack.example.test", token: "synthetic-token", fetch: (async url => {
+    const q = new URL(String(url)).searchParams;
+    seen.push([q.getAll("author"), q.getAll("creator")]);
+    return Response.json([]);
+  }) as typeof fetch };
+  await listWorkItems(connection, { author: ["a", "b", "a"], creator: ["c", "d"] } as never);
+  await listWorkItems(connection, { author: "single", creator: "single" });
+  assert.deepEqual(seen, [[["a", "b", "a"], ["c", "d"]], [["single"], ["single"]]]);
+});
+
+test("M01 review: uncertain writes retain sanitized causes; read POST and local validation stay distinct", async () => {
+  const broken = () => new Response(new ReadableStream({ start(stream) {
+    stream.error(Object.assign(new Error("synthetic-token stream"), { code: "ECONNRESET" }));
+  } }));
+  let calls = 0;
+  const connection = { baseUrl: "https://youtrack.example.test", token: "synthetic-token", fetch: (async () => { calls++; return broken(); }) as typeof fetch };
+  const writes = [() => mutate(connection, "api/issues/DEMO-1", {}, "id"),
+    () => deleteObject(connection, "api/issues/DEMO-1/attachments/file"),
+    () => uploadObjectCollection(connection, "api/issues/DEMO-1/attachments", new FormData(), "id")];
+  for (const write of writes) await assert.rejects(write(), (error: Error) => {
+    assert.match(error.message, /write outcome is unknown/i);
+    assert.ok(error.cause instanceof Error);
+    assert.doesNotMatch(error.cause.message, /synthetic-token/);
+    return true;
+  });
+  assert.equal(calls, 3);
+  await assert.rejects(mutate(connection, "api/issues/DEMO-1", {}, "id", { muteUpdateNotifications: "invalid" } as never), (error: Error) => {
+    assert.doesNotMatch(error.message, /unknown/i); return true;
+  });
+  assert.equal(calls, 3);
+  await assert.rejects(readObject(connection, "api/markdown", {}, { text: "synthetic" }), (error: Error) => {
+    assert.match(error.message, /response stream failed/); assert.doesNotMatch(error.message, /unknown/i); return true;
+  });
+  const rejected = { ...connection, fetch: (async () => new Response(null, { status: 403 })) as typeof fetch };
+  await assert.rejects(deleteObject(rejected, "api/issues/DEMO-1/attachments/file"), (error: Error) => {
+    assert.equal((error as Error & { status: number }).status, 403);
+    assert.equal((error as Error & { code: string }).code, "http.forbidden");
+    assert.doesNotMatch(error.message, /unknown/i); return true;
+  });
 });
