@@ -96,6 +96,7 @@ return async function storyCase(t: TestContext, row: StoryCase) {
     }
   }
   const beforeDenied = effects;
+  await f.cli.execute(["permissions", "grant", row.update ? "ReadOnly" : "Update"]);
   await f.cli.execute(["permissions", "revoke", row.update ? "Update" : "ReadOnly"]);
   await assert.rejects(f.cli.execute(argv), (e: unknown) => (e as { code: string }).code === "permission.denied");
   assert.equal(effects, beforeDenied);

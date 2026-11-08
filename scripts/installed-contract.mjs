@@ -65,3 +65,29 @@ test("installed M01 exports and declarations retain repeatable fields, reactions
   await assert.rejects(app.execute(add), { code: "permission.denied" });
   assert.equal(calls, 2);
 });
+
+test("installed M02 exports, command controls and global-history filters survive packaging", async t => {
+  const exports = await import("@eyeauras/youtrack-cli");
+  for (const name of ["createSavedQuery", "updateSavedQuery", "getIssueProject", "setIssueProject", "createVcsChange", "updateVcsChange", "deleteVcsChange", "listActivities", "getActivity", "listArticleTags", "getArticleTag", "addArticleTag", "removeArticleTag", "updateArticleAttachment", "deleteArticleAttachment", "listArticleReactions", "getArticleReaction", "addArticleReaction", "removeArticleReaction"]) assert.equal(typeof exports[name], "function", name);
+  const f = await createCliFixture(t, { applicationId: "youtrack-cli", profiles: [{ name: "default", values: { url: "https://installed.example.test/context" }, permissions: ["ReadOnly", "Update"], secrets: { token: "synthetic-installed" } }] });
+  let calls = 0;
+  f.runtime.fetch = async (input, init) => {
+    calls++; const url = new URL(input);
+    assert.equal(new Headers(init.headers).get("authorization"), "Bearer synthetic-installed");
+    if (url.pathname === "/context/api/commands") {
+      assert.equal(url.searchParams.get("muteUpdateNotifications"), "false");
+      assert.deepEqual(JSON.parse(init.body), { query: "State Fixed", issues: [{ idReadable: "DEMO-1" }], silent: false });
+      return Response.json({ id: "synthetic-command" });
+    }
+    assert.equal(url.pathname, "/context/api/activities");
+    assert.equal(url.searchParams.get("issueQuery"), "project: DEMO");
+    return Response.json([]);
+  };
+  const app = f.createApplication(createYouTrackCli);
+  await f.json(app, ["commands", "apply", "--query", "State Fixed", "--issues", "DEMO-1", "--silent", "false", "--mute-update-notifications", "false"]);
+  const read = ["activities", "list", "--categories", "CommentsCategory", "--issue-query", "project: DEMO"];
+  assert.equal((await f.rpc(app, [read]))[0].result.count, 0);
+  await app.execute(["permissions", "revoke", "ReadOnly"]);
+  await assert.rejects(app.execute(read), { code: "permission.denied" });
+  assert.equal(calls, 2);
+});

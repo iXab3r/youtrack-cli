@@ -70,3 +70,113 @@ test("US-026 article comment reactions preserve open native values and exact rel
   await storyCase(t, { argv: ["article", "comment", "reaction", "add", "KB-1", "comment /?", "--body", '{"reaction":null,"author":{"id":"synthetic-user"}}', "--fields", "id"], method: "POST", path, query: [["fields", "id"]], body: { reaction: null, author: { id: "synthetic-user" } }, response: detail, result: detail, update: true });
   await storyCase(t, { argv: ["article", "comment", "reaction", "remove", "KB-1", "comment /?", "r /?"], method: "DELETE", path: path + "/r%20%2F%3F", query: [], response: undefined, result: null, update: true });
 });
+
+test("M02 new offset lists retain empty, short, zero-size and overflow contracts", async t => {
+  const f = await configuredFixture(t, { permissions: ["ReadOnly"] });
+  const rows = [
+    ["activities", "list", "--categories", "CommentsCategory"],
+    ["article", "tag", "list", "KB-1"],
+    ["article", "comment", "reaction", "list", "KB-1", "comment"],
+  ];
+  let calls = 0;
+  for (const argv of rows) {
+    server.use(http.get("*", ({ request }) => {
+      calls++;
+      const q = new URL(request.url).searchParams;
+      assert.equal(q.get("$skip"), "3");
+      return HttpResponse.json(q.get("$top") === "0" ? [] : [{ id: "synthetic-row" }]);
+    }));
+    assert.deepEqual(await f.cli.execute([...argv, "--page-size", "2", "--start", "3"]), { count: 1, items: [{ id: "synthetic-row" }], hasMore: null, nextStart: 4 });
+    assert.deepEqual(await f.cli.execute([...argv, "--page-size", "0", "--start", "3"]), { count: 0, items: [], hasMore: null, nextStart: null });
+    const before = calls;
+    await assert.rejects(f.cli.execute([...argv, "--page-size", "1", "--start", String(Number.MAX_SAFE_INTEGER)]), /offset|safe|overflow/i);
+    assert.equal(calls, before);
+    server.use(http.get("*", () => HttpResponse.json(null)));
+    await assert.rejects(f.cli.execute(argv), /Invalid collection/);
+    server.use(http.get("*", () => HttpResponse.json([{ id: "one" }, { id: "two" }])));
+    await assert.rejects(f.cli.execute([...argv, "--page-size", "1"]), /More items/);
+  }
+});
+
+test("M02 silent true/false, sparse projections and invalid controls keep native semantics", async t => {
+  const f = await configuredFixture(t, { permissions: ["Update"] });
+  let calls = 0;
+  for (const [flags, expected] of [[[], undefined], [["--silent"], true], [["--silent", "true"], true], [["--silent", "false"], false]] as const) {
+    server.use(http.post("*", async ({ request }) => {
+      calls++;
+      const body = await request.json() as Record<string, unknown>;
+      assert.equal(body.silent, expected);
+      assert.equal(Object.hasOwn(body, "silent"), expected !== undefined);
+      return HttpResponse.json({ query: "State Fixed", issues: [] });
+    }));
+    await f.cli.execute(["commands", "apply", "--query", "State Fixed", "--issues", "DEMO-1", ...flags]);
+  }
+  assert.equal(calls, 4);
+  for (const flags of [["--silent", "invalid-synthetic-value"], ["--caret", "2147483648"], ["--visibility", "["]]) {
+    await assert.rejects(f.cli.execute(["commands", "apply", "--query", "State Fixed", "--issues", "DEMO-1", ...flags]));
+    assert.equal(calls, 4);
+  }
+  server.use(http.get("*", () => HttpResponse.json(null)));
+  for (const argv of [["issues", "project", "get", "DEMO-1"], ["activities", "get", "activity"], ["article", "tag", "get", "KB-1", "tag"], ["article", "comment", "reaction", "get", "KB-1", "comment", "reaction"]]) {
+    await f.cli.execute(["permissions", "grant", "ReadOnly"]);
+    await assert.rejects(f.cli.execute(argv), /Invalid object/);
+  }
+});
+
+test("M02 interleaved RPC isolates article and history profile auth and admission", async t => {
+  const f = await configuredFixture(t, { permissions: ["ReadOnly", "Update"] });
+  await f.cli.execute(["profile", "create", "other", "--url", "https://other.example.test/track"]);
+  await f.secrets.set("ai-cli-factory:youtrack-cli", "other:token", "synthetic-other");
+  await f.cli.execute(["permissions", "grant", "ReadOnly", "--profile", "other"]);
+  await f.cli.execute(["permissions", "revoke", "Update", "--profile", "other"]);
+  const calls: string[] = [];
+  server.use(http.all("*", ({ request }) => {
+    const u = new URL(request.url), other = u.hostname === "other.example.test";
+    assert.equal(request.headers.get("authorization"), other ? "Bearer synthetic-other" : "Bearer synthetic-token");
+    calls.push(u.host + u.pathname);
+    if (other) return new HttpResponse("synthetic-other private-response", { status: 403 });
+    return HttpResponse.json(u.pathname.endsWith("/activities") ? [] : { id: "synthetic-saved-query", query: "synthetic-token" });
+  }));
+  const replies = await f.rpc(f.cli, [
+    ["activities", "list", "--categories", "CommentsCategory", "--profile", "dev"],
+    ["article", "comment", "reaction", "add", "KB-1", "comment", "--body", '{"reaction":"future"}', "--profile", "other"],
+    ["article", "tag", "get", "KB-1", "tag", "--profile", "other"],
+    ["saved-queries", "create", "--body", '{"name":"Synthetic","query":"project: DEMO"}', "--profile", "dev"],
+  ]) as { result?: unknown; error?: { data: { code: string } } }[];
+  assert.deepEqual(replies[0]?.result, emptyPage);
+  assert.equal(replies[1]?.error?.data.code, "permission.denied");
+  assert.equal(replies[2]?.error?.data.code, "http.forbidden");
+  assert.equal((replies[3]?.result as { query: string }).query, "[redacted]");
+  assert.equal(calls.length, 3);
+  assert.doesNotMatch(JSON.stringify(replies), /synthetic-other|synthetic-token|private-response/);
+});
+
+test("M02 cancellation reaches a global-history request and cannot return success", async t => {
+  const f = await configuredFixture(t, { permissions: ["ReadOnly"] });
+  const controller = new AbortController();
+  let calls = 0, observed: AbortSignal | undefined;
+  server.use(http.get("*", ({ request }) => {
+    calls++; observed = request.signal;
+    controller.abort();
+    return HttpResponse.json([]);
+  }));
+  await assert.rejects(f.cli.execute(["activities", "list", "--categories", "CommentsCategory"], controller.signal));
+  assert.equal(calls, 1);
+  assert.equal(observed?.aborted, true);
+});
+
+test("M02 default human mutation views name the selected object on empty replies", async t => {
+  const f = await configuredFixture(t, { permissions: ["Update"] });
+  server.use(http.all("*", () => new HttpResponse(null, { status: 204 })));
+  for (const [argv, human] of [
+    [["saved-queries", "create", "--body", '{"name":"Synthetic","query":"project: DEMO"}'], /Saved search/],
+    [["issues", "project", "set", "DEMO-1", "--body", '{"id":"synthetic-project"}'], /Moved issue DEMO-1/],
+    [["issues", "vcs-changes", "update", "DEMO-1", "synthetic-change", "--body", '{"state":2}'], /VCS change.*synthetic-change/],
+    [["article", "attachment", "update", "KB-1", "synthetic-file", "--body", '{"name":"Synthetic.txt"}'], /Updated attachment.*synthetic-file/],
+    [["article", "comment", "reaction", "remove", "KB-1", "comment", "synthetic-reaction"], /Removed reaction synthetic-reaction/],
+  ] as const) {
+    const result = await f.run(f.cli, [...argv]);
+    assert.equal(result.exitCode, 0, result.stderr);
+    assert.match(result.stdout, human);
+  }
+});

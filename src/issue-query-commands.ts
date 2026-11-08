@@ -1,5 +1,5 @@
 import { command, jsonParser, type OptionDefinition } from "@eyeauras/cli-factory";
-import { requiredText } from "./client.js";
+import { requiredText, type YouTrackObject } from "./client.js";
 import { pagedRead, projectedBodyUpdate, projectedRead, readCommand, updateCommand, projectionOptions, readOptions, writeOptions, notificationOptions } from "./cli-support.js";
 import {
   applyCommands,
@@ -65,7 +65,7 @@ export const queryRootCommands = [
         {
           ...writeOptions(options),
           ...(typeof options.comment === "string" ? { comment: options.comment } : {}),
-          ...(options.visibility === undefined ? {} : { visibility: options.visibility as import("./client.js").YouTrackObject }),
+          ...(options.visibility === undefined ? {} : { visibility: options.visibility as YouTrackObject }),
           ...(typeof options.caret === "number" ? { caret: options.caret } : {}),
           ...(typeof options.silent === "boolean" ? { silent: options.silent } : {}),
           ...(typeof options.runAs === "string" ? { runAs: options.runAs } : {}),

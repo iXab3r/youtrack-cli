@@ -18,8 +18,9 @@ export {
   type YouTrackValue,
 } from "./client.js";
 export {
+  createSavedQuery, updateSavedQuery,
   applyCommands, assistCommands, assistSearch, countIssues, getSavedQuery, listSavedQueries,
-  type AssistOptions, type CommandAssistOptions,
+  type AssistOptions, type CommandAssistOptions, type CommandApplyOptions,
 } from "./issue-query.js";
 export {
   getProject, getProjectField, listProjectFields, listUsers, getIssueField, listIssueFields, setIssueField,
@@ -31,6 +32,7 @@ export {
   removeIssueLink, listTags, getTag, getIssueTag, listIssueTags, addIssueTag, removeIssueTag,
 } from "./issue-relations.js";
 export {
+  getIssueProject, setIssueProject, createVcsChange, updateVcsChange, deleteVcsChange, listActivities, getActivity,
   getActivitiesPage, getIssueActivitiesPage, listIssueActivities, getIssueActivity, getComment, updateComment, listIssueSprints,
   listVcsChanges, getVcsChange, type ActivityOptions,
 } from "./issue-context.js";
@@ -66,6 +68,8 @@ export {
   listVersionBundles, getVersionBundle, listVersionValues, getVersionValue,
 } from "./bundle-values.js";
 export {
+  listArticleTags, getArticleTag, addArticleTag, removeArticleTag,
+  updateArticleAttachment, deleteArticleAttachment, listArticleReactions, getArticleReaction, addArticleReaction, removeArticleReaction,
   listArticleAttachments, getArticleAttachment, uploadArticleAttachment,
   listChildArticles, getChildArticle, getParentArticle,
 } from "./article-extras.js";

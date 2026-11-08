@@ -71,7 +71,7 @@ test("activity cursor filters round-trip exactly, preserve metadata and never fe
     "--fields", "beforeCursor,afterCursor,hasBefore,hasAfter,reverse,activities(id)", "--profile", "dev"];
   assert.deepEqual(await f.cli.execute(argv), envelope);
   assert.equal(calls, 1);
-  for (const extra of [["--page-size", "1"], ["--start", "0"], ["--page-size", "1"], ["--start", "1"], ["--end", "2"], ["--author", "me"], ["--activity-id", "fixture"], ["--issue-query", "test"]])
+  for (const extra of [["--page-size", "1"], ["--start", "0"], ["--page-size", "1"], ["--start", "1"], ["--end", "2"]])
     await assert.rejects(f.cli.execute([...argv, ...extra]), /unknown option/);
   await assert.rejects(f.cli.execute(["issues", "activity", "page", "fixture-issue", "--categories", "CommentsCategory", "--issue-query", "test", "--profile", "dev"]), /unknown option/);
   assert.equal(calls, 1);
