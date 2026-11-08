@@ -48,6 +48,7 @@ export {
 } from "./time-settings.js";
 export {
   createEnumValue, updateEnumValue, createStateValue, updateStateValue, getFieldDefaults, updateFieldDefaults, listFieldInstances,
+  createCustomField, updateCustomField,
   listCustomFields, getCustomField, listFieldTypes, listEnumBundles, getEnumBundle, listEnumValues,
   getEnumValue, listStateBundles, getStateBundle, listStateValues, getStateValue,
 } from "./field-catalog.js";
