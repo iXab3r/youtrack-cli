@@ -17,3 +17,7 @@ test("US-029 create and update a board and mute sprint creation without discover
   await storyCase(t, { argv: ["agile", "update", "board /?", "--body", '{"name":"Renamed board","orphansAtTheTop":false}', "--fields", "id"], method: "POST", path: "/api/agiles/board%20%2F%3F", query: [["fields", "id"]], body: { name: "Renamed board", orphansAtTheTop: false }, response: undefined, result: null, update: true });
   await storyCase(t, { argv: ["sprint", "create", "board /?", "--body", '{"name":"Synthetic sprint","goal":null}', "--fields", "id", "--mute-update-notifications", "false"], method: "POST", path: "/api/agiles/board%20%2F%3F/sprints", query: [["fields", "id"], ["muteUpdateNotifications", "false"]], body: { name: "Synthetic sprint", goal: null }, response: detail, result: detail, update: true });
 });
+
+test("US-031 create a named enum choice with native metadata", async t => {
+  await storyCase(t, { argv: ["bundle", "enum", "value", "create", "bundle /?", "--body", '{"name":"Synthetic choice","localizedName":null,"archived":false,"color":{"id":"style"}}', "--fields", "id"], method: "POST", path: "/api/admin/customFieldSettings/bundles/enum/bundle%20%2F%3F/values", query: [["fields", "id"]], body: { name: "Synthetic choice", localizedName: null, archived: false, color: { id: "style" } }, response: detail, result: detail, update: true });
+});
