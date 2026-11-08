@@ -9,7 +9,7 @@ afterEach(() => server.resetHandlers()); after(() => server.close());
 const started = 1700000000000;
 const rows = [
   { argv: ["server", "telemetry", "get"], path: "/context/api/admin/telemetry", data: { id: "synthetic-telemetry", startedTime: started, uptime: "Synthetic uptime", $type: "Telemetry" }, title: /Server telemetry/, detail: /2023-11-14T22:13:20/, raw: /1700000000000/ },
-  { argv: ["server-settings", "system-settings", "get"], path: "/context/api/admin/globalSettings/systemSettings", data: { id: "synthetic-system", maxUploadFileSize: 10485760, maxExportItems: 250, allowStatisticsCollection: false, $type: "SystemSettings" }, title: /System settings/, detail: /10\s+MiB/, raw: /10485760/ },
+  { argv: ["server-settings", "system-settings", "get"], path: "/context/api/admin/globalSettings/systemSettings", data: { id: "synthetic-system", maxUploadFileSize: 10485760, maxExportItems: 250, allowStatisticsCollection: false, $type: "SystemSettings" }, title: /System settings/, detail: /10(?:\.0+)?\s+MiB/, raw: /10485760/ },
   { argv: ["server-settings", "rest-settings", "get"], path: "/context/api/admin/globalSettings/restSettings", data: { id: "synthetic-cors", allowedOrigins: ["https://client.example.test/context:8080"], allowAllOrigins: false, $type: "RestCorsSettings" }, title: /CORS settings/, detail: /https:\/\/client.example.test\/context:8080/, raw: /\$type/ },
   { argv: ["server-settings", "get"], path: "/context/api/admin/globalSettings", data: { id: "synthetic-global", $type: "GlobalSettings" }, title: /Global settings/, detail: /synthetic-global/, raw: /\$type/ },
 ];

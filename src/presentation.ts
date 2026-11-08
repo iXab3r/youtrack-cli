@@ -748,3 +748,46 @@ export const apiSchemaRecord = recordView<Item>({
     { label: "Paths", value: item => { const paths = nested(item.paths); return paths ? Object.keys(paths).length : undefined; } },
   ],
 });
+
+
+export const telemetryRecord = recordView<Item>({
+  title: () => "Server telemetry",
+  fields: [
+    { label: "ID", value: key },
+    { label: "Started", value: item => instant(item.startedTime) },
+    { label: "Uptime", value: item => text(item.uptime) },
+    { label: "Processors", value: item => count(item.availableProcessors) },
+    { label: "Available memory", value: item => text(item.availableMemory) },
+    { label: "Used memory", value: item => text(item.usedMemory) },
+    { label: "Issues", value: item => count(item.issuesCount) },
+    { label: "Articles", value: item => count(item.articlesCount) },
+  ],
+});
+export const globalSettingsRecord = recordView<Item>({
+  title: () => "Global settings",
+  fields: [{ label: "ID", value: key }],
+});
+export const systemSettingsRecord = recordView<Item>({
+  title: () => "System settings",
+  fields: [
+    { label: "ID", value: key },
+    { label: "Base URL", value: item => text(item.baseUrl) },
+    { label: "Upload limit", value: item => count(item.maxUploadFileSize), format: "bytes" },
+    { label: "Export limit", value: item => count(item.maxExportItems) },
+    { label: "Administrator", value: item => text(item.administratorEmail) },
+    { label: "Usage statistics", value: item => booleanText(item.allowStatisticsCollection) },
+    { label: "Read-only mode", value: item => booleanText(item.isApplicationReadOnly) },
+  ],
+});
+export const corsSettingsRecord = recordView<Item>({
+  title: () => "CORS settings",
+  fields: [
+    { label: "ID", value: key },
+    { label: "All origins", value: item => booleanText(item.allowAllOrigins) },
+  ],
+  sections: [{ title: () => "Allowed origins", lines: item => {
+    if (!Array.isArray(item.allowedOrigins)) return undefined;
+    const origins = item.allowedOrigins.filter((origin): origin is string => typeof origin === "string");
+    return item.allowedOrigins.length === 0 ? ["No allowed origins."] : origins;
+  } }],
+});
