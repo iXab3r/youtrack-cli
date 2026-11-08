@@ -150,8 +150,15 @@ export function scrubText(text: string, token: string, additional: readonly stri
     text = text.replace(/(?:https?:\/\/|\.\.?\/|\/)[^\s"'<>]+/gi, (url) => scrubUrl(url, secret));
   }
   // JSON echoes escape quotes, backslashes and control characters in submitted credentials.
-  const forms = [...new Set(secrets.flatMap(secret => [secret, JSON.stringify(secret).slice(1, -1)]))]
-    .sort((a, b) => b.length - a.length);
+  const encodedForms = new Set(secrets.flatMap(secret => [secret, JSON.stringify(secret).slice(1, -1)]));
+  for (const secret of secrets) {
+    try { encodedForms.add(encodeURIComponent(secret)); }
+    catch (error) {
+      // JSON supports lone UTF16 surrogates; raw/JSON redaction still applies to them.
+      if (!(error instanceof URIError)) throw error;
+    }
+  }
+  const forms = [...encodedForms].sort((a, b) => b.length - a.length);
   for (const secret of forms) text = text.replaceAll(secret, "[redacted]");
   return text;
 }
