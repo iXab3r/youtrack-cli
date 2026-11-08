@@ -21,3 +21,7 @@ test("US-029 create and update a board and mute sprint creation without discover
 test("US-031 create a named enum choice with native metadata", async t => {
   await storyCase(t, { argv: ["bundle", "enum", "value", "create", "bundle /?", "--body", '{"name":"Synthetic choice","localizedName":null,"archived":false,"color":{"id":"style"}}', "--fields", "id"], method: "POST", path: "/api/admin/customFieldSettings/bundles/enum/bundle%20%2F%3F/values", query: [["fields", "id"]], body: { name: "Synthetic choice", localizedName: null, archived: false, color: { id: "style" } }, response: detail, result: detail, update: true });
 });
+
+test("US-032 update and archive an exact enum value without discovery", async t => {
+  await storyCase(t, { argv: ["bundle", "enum", "value", "update", "bundle /?", "value /?", "--body", '{"archived":true,"description":null}', "--fields", "id"], method: "POST", path: "/api/admin/customFieldSettings/bundles/enum/bundle%20%2F%3F/values/value%20%2F%3F", query: [["fields", "id"]], body: { archived: true, description: null }, response: undefined, result: null, update: true });
+});
