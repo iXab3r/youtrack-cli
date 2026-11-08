@@ -15,3 +15,8 @@ const emptyPage = { count: 0, items: [], hasMore: false, nextStart: null };
 test("US-028 delete an explicitly selected article", async t => {
   await storyCase(t, {"argv":["article","delete","article /?","--fields","id"],"method":"DELETE","path":"/api/articles/article%20%2F%3F","query":[["fields","id"]],"response":undefined,"result":null,"update":true});
 });
+
+test("US-030 delete only selected sprint and board identities", async t => {
+  await storyCase(t, {"argv":["sprint","delete","board /?","sprint /?","--fields","id"],"method":"DELETE","path":"/api/agiles/board%20%2F%3F/sprints/sprint%20%2F%3F","query":[["fields","id"]],"response":undefined,"result":null,"update":true});
+  await storyCase(t, {"argv":["agile","delete","board /?"],"method":"DELETE","path":"/api/agiles/board%20%2F%3F","query":[],"response":undefined,"result":null,"update":true});
+});
