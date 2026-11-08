@@ -78,3 +78,7 @@ test("US-041 attach and detach existing project work types by native ID", async 
   await storyCase(t, {"argv":["project","work-item-type","create","project /?","--body","{\"id\":\"type /?\"}","--fields","id"],"method":"POST","path":"/api/admin/projects/project%20%2F%3F/timeTrackingSettings/workItemTypes","query":[["fields","id"]],"body":{"id":"type /?"},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
   await storyCase(t, {"argv":["project","work-item-type","delete","project /?","type /?","--fields","id"],"method":"DELETE","path":"/api/admin/projects/project%20%2F%3F/timeTrackingSettings/workItemTypes/type%20%2F%3F","query":[["fields","id"]],"response":undefined,"result":null,"update":true});
 });
+
+test("US-042 update project time settings with native references and false", async t => {
+  await storyCase(t, {"argv":["project","time-tracking","update","project /?","--body","{\"enabled\":false,\"estimate\":{\"id\":\"project-field\"},\"timeSpent\":null}","--fields","id"],"method":"POST","path":"/api/admin/projects/project%20%2F%3F/timeTrackingSettings","query":[["fields","id"]],"body":{"enabled":false,"estimate":{"id":"project-field"},"timeSpent":null},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+});
