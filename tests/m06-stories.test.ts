@@ -20,3 +20,8 @@ test("US-030 delete only selected sprint and board identities", async t => {
   await storyCase(t, {"argv":["sprint","delete","board /?","sprint /?","--fields","id"],"method":"DELETE","path":"/api/agiles/board%20%2F%3F/sprints/sprint%20%2F%3F","query":[["fields","id"]],"response":undefined,"result":null,"update":true});
   await storyCase(t, {"argv":["agile","delete","board /?"],"method":"DELETE","path":"/api/agiles/board%20%2F%3F","query":[],"response":undefined,"result":null,"update":true});
 });
+
+test("US-053 create projects with an explicit leader/template and preserve native updates", async t => {
+  await storyCase(t, {"argv":["project","create","--body","{\"name\":\"Synthetic project\",\"shortName\":\"SYN\",\"leader\":{\"id\":\"leader /?\"}}","--fields","id","--template","future-template"],"method":"POST","path":"/api/admin/projects","query":[["fields","id"],["template","future-template"]],"body":{"name":"Synthetic project","shortName":"SYN","leader":{"id":"leader /?"}},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["project","update","project /?","--body","{\"name\":\"Renamed project\",\"description\":null,\"archived\":false}","--fields","id"],"method":"POST","path":"/api/admin/projects/project%20%2F%3F","query":[["fields","id"]],"body":{"name":"Renamed project","description":null,"archived":false},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+});
