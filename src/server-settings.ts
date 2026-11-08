@@ -30,15 +30,26 @@ export const getSystemSettings = readObjectAt("api/admin/globalSettings/systemSe
 export const getRestSettings = readObjectAt("api/admin/globalSettings/restSettings", corsFields);
 export async function updateSystemSettings(connection: Connection, input: unknown, options: ProjectionOptions = {}) {
   const body = mutationBody(input);
-  for (const key of ["baseUrl", "administratorEmail"]) if (Object.hasOwn(body, key)) nullableText(body[key], key);
-  for (const key of ["allowStatisticsCollection", "isApplicationReadOnly"]) if (Object.hasOwn(body, key) && typeof body[key] !== "boolean") throw new Error(`The ${key} flag must be boolean.`);
-  if (Object.hasOwn(body, "maxExportItems") && !nativeInt32(body.maxExportItems)) throw new Error("The maxExportItems value must be an Int32 number.");
-  if (Object.hasOwn(body, "maxUploadFileSize") && (typeof body.maxUploadFileSize !== "number" || !Number.isInteger(body.maxUploadFileSize) || body.maxUploadFileSize < -(2 ** 63) || body.maxUploadFileSize >= 2 ** 63)) throw new Error("The maxUploadFileSize value must be a representable Int64 number.");
+  for (const key of ["baseUrl", "administratorEmail"]) {
+    if (Object.hasOwn(body, key)) nullableText(body[key], key);
+  }
+  for (const key of ["allowStatisticsCollection", "isApplicationReadOnly"]) {
+    if (Object.hasOwn(body, key) && typeof body[key] !== "boolean") throw new Error(`The ${key} flag must be boolean.`);
+  }
+  if (Object.hasOwn(body, "maxExportItems") && !nativeInt32(body.maxExportItems)) {
+    throw new Error("The maxExportItems value must be an Int32 number.");
+  }
+  if (Object.hasOwn(body, "maxUploadFileSize") && (
+    typeof body.maxUploadFileSize !== "number" || !Number.isInteger(body.maxUploadFileSize) ||
+    body.maxUploadFileSize < -(2 ** 63) || body.maxUploadFileSize >= 2 ** 63
+  )) throw new Error("The maxUploadFileSize value must be a representable Int64 number.");
   return mutate(connection, "api/admin/globalSettings/systemSettings", body, fields(options, systemFields));
 }
 export async function updateRestSettings(connection: Connection, input: unknown, options: ProjectionOptions = {}) {
   const body = mutationBody(input);
   if (Object.hasOwn(body, "allowAllOrigins") && typeof body.allowAllOrigins !== "boolean") throw new Error("The allowAllOrigins flag must be boolean.");
-  if (Object.hasOwn(body, "allowedOrigins") && (!Array.isArray(body.allowedOrigins) || body.allowedOrigins.some(value => typeof value !== "string"))) throw new Error("The allowedOrigins value must be an array of strings.");
+  if (Object.hasOwn(body, "allowedOrigins") && (
+    !Array.isArray(body.allowedOrigins) || body.allowedOrigins.some(value => typeof value !== "string")
+  )) throw new Error("The allowedOrigins value must be an array of strings.");
   return mutate(connection, "api/admin/globalSettings/restSettings", body, fields(options, corsFields));
 }
