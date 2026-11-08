@@ -48,3 +48,7 @@ export const getStateValue = readObjectAt(
 export async function createEnumValue(connection: Connection, bundleID: string, input: unknown, options: ProjectionOptions = {}) {
   return mutate(connection, valuePath("enum", bundleID), namedMutationBody(input, true), fields(options, enumValueFields));
 }
+
+export async function updateEnumValue(connection: Connection, bundleID: string, valueID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, valuePath("enum", bundleID, valueID), namedMutationBody(input, false), fields(options, enumValueFields));
+}

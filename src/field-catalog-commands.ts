@@ -3,6 +3,7 @@ import { pagedRead, projectedRead, projectedBodyUpdate } from "./cli-support.js"
 import {
   getCustomField,
   createEnumValue,
+  updateEnumValue,
   getEnumBundle,
   getEnumValue,
   getStateBundle,
@@ -34,6 +35,7 @@ export const fieldCatalogBundleChildren: readonly CommandDefinition[] = [
     pagedRead("list", "List enum bundles", listEnumBundles, bundleTable),
     projectedRead("get <bundle>", "Show an enum bundle", getEnumBundle),
     command("value", "Inspect enum values", [
+      projectedBodyUpdate("update <bundle> <value>", "Update an enum value", updateEnumValue, undefined, bundleValueWritten),
       projectedBodyUpdate("create <bundle>", "Create an enum value", createEnumValue, undefined, bundleValueWritten),
       pagedRead("list <bundle>", "List the bundle's values", listEnumValues, valueTable),
       projectedRead("get <bundle> <value>", "Show an enum value", getEnumValue),
