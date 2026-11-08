@@ -44,3 +44,8 @@ test("US-021 article writes expose notifications and draft-only publication", as
   await storyCase(t, { argv: ["article", "create", "--body", "{}", "--draft-id", "draft /?", "--fields", "id", "--mute-update-notifications", "false"], method: "POST", path: "/api/articles", query: [["fields", "id"], ["draftId", "draft /?"], ["muteUpdateNotifications", "false"]], body: {}, response: detail, result: detail, update: true });
   await storyCase(t, { argv: ["article", "update", "KB /?", "--body", '{"summary":null,"content":"Synthetic\\ncontent","parentArticle":null}', "--fields", "id", "--mute-update-notifications"], method: "POST", path: "/api/articles/KB%20%2F%3F", query: [["fields", "id"], ["muteUpdateNotifications", "true"]], body: { summary: null, content: "Synthetic\ncontent", parentArticle: null }, response: undefined, result: null, update: true });
 });
+
+test("US-022 article comments retain draft publication and notification controls", async t => {
+  await storyCase(t, { argv: ["article", "comment", "add", "KB-1", "--body", "{}", "--draft-id", "comment /?", "--fields", "id", "--mute-update-notifications", "false"], method: "POST", path: "/api/articles/KB-1/comments", query: [["fields", "id"], ["draftId", "comment /?"], ["muteUpdateNotifications", "false"]], body: {}, response: detail, result: detail, update: true });
+  await storyCase(t, { argv: ["article", "comment", "update", "KB-1", "c /?", "--body", '{"text":null,"pinned":true}', "--fields", "id", "--mute-update-notifications"], method: "POST", path: "/api/articles/KB-1/comments/c%20%2F%3F", query: [["fields", "id"], ["muteUpdateNotifications", "true"]], body: { text: null, pinned: true }, response: undefined, result: null, update: true });
+});
