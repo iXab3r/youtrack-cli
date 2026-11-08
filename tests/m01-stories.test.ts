@@ -135,3 +135,9 @@ test("US-007 work-item date/author filters stay distinct from offset paging", as
   await storyCase(t, { argv: ["work-items", "list", "--fields", "id", "--start", "7", "--author", "me", "--creator", "creator/opaque", "--start-date", "2026-01-01", "--end-date", "2026-01-31", "--work-start", "-1", "--work-end", "9223372036854775807", "--created-start", "0", "--created-end", "1", "--updated-start", "2", "--updated-end", "3"],
     method: "GET", path: "/api/workItems", query: [["fields", "id"], ["$top", "50"], ["$skip", "7"], ["author", "me"], ["creator", "creator/opaque"], ["startDate", "2026-01-01"], ["endDate", "2026-01-31"], ["start", "-1"], ["end", "9223372036854775807"], ["createdStart", "0"], ["createdEnd", "1"], ["updatedStart", "2"], ["updatedEnd", "3"]], response: [], result: emptyPage });
 });
+
+test("US-008 tag search, exact issue-tag detail and assignment projection use their own routes", async t => {
+  await storyCase(t, { argv: ["tags", "list", "--query", " team & release ", "--fields", "id"], method: "GET", path: "/api/tags", query: [["fields", "id"], ["$top", "50"], ["$skip", "0"], ["query", " team & release "]], response: [], result: emptyPage });
+  await storyCase(t, { argv: ["issues", "tags", "get", "DEMO-1", "tag/opaque", "--fields", "id"], method: "GET", path: "/api/issues/DEMO-1/tags/tag%2Fopaque", query: [["fields", "id"]], response: detail, result: detail });
+  await storyCase(t, { argv: ["issues", "tags", "add", "DEMO-1", "--body", '{"id":"tag/opaque","native":true}', "--fields", "id"], method: "POST", path: "/api/issues/DEMO-1/tags", query: [["fields", "id"]], body: { id: "tag/opaque", native: true }, response: detail, result: detail, update: true });
+});
