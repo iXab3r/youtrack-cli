@@ -79,3 +79,7 @@ test("US-024 manage native child articles and remove only the hierarchy relation
   await storyCase(t, {"argv":["article","child","update","article /?","child /?","--body","{\"summary\":null,\"content\":\"Synthetic child content\"}","--fields","id","--mute-update-notifications","true"],"method":"POST","path":"/api/articles/article%20%2F%3F/childArticles/child%20%2F%3F","query":[["fields","id"],["muteUpdateNotifications","true"]],"body":{"summary":null,"content":"Synthetic child content"},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
   await storyCase(t, {"argv":["article","child","remove","article /?","child /?"],"method":"DELETE","path":"/api/articles/article%20%2F%3F/childArticles/child%20%2F%3F","query":[],"response":undefined,"result":null,"update":true});
 });
+
+test("US-027 delete only the selected article comment", async t => {
+  await storyCase(t, {"argv":["article","comment","delete","article /?","comment /?","--fields","id"],"method":"DELETE","path":"/api/articles/article%20%2F%3F/comments/comment%20%2F%3F","query":[["fields","id"]],"response":undefined,"result":null,"update":true});
+});
