@@ -68,6 +68,7 @@ export {
   getUserGeneralProfile, updateUserGeneralProfile,
   getUserNotifications, updateUserNotifications,
   addUserBundleGroup, addUserBundleIndividual, removeUserBundleGroup, removeUserBundleIndividual,
+  createUserBundle, updateUserBundle, deleteUserBundle,
   listUserBundles, getUserBundle, listUserBundleMembers, listUserBundleGroups, getUserBundleGroup,
   listUserBundleIndividuals, getUserBundleIndividual, getUser,
 } from "./user-directory.js";

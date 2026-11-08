@@ -129,3 +129,14 @@ export async function createUser(connection: Connection, input: unknown, options
 export async function updateUser(connection: Connection, userID: string, input: unknown, options: ProjectionOptions = {}) {
   return writeUser(connection, `api/users/${encodedID(userID, "user ID or login")}`, userBody(input, false), options);
 }
+
+
+export async function createUserBundle(connection: Connection, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, bundleRoot, mutationBody(input), fields(options, bundleFields));
+}
+export async function updateUserBundle(connection: Connection, bundleID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, bundlePath(bundleID), mutationBody(input), fields(options, bundleFields));
+}
+export async function deleteUserBundle(connection: Connection, bundleID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, bundlePath(bundleID), options);
+}
