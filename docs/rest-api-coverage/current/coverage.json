@@ -1300,7 +1300,9 @@
       ],
       "callStack": [
         "    at request (src/client.ts:185:31)",
-        "    at deleteObject (src/client.ts:556:23)",
+        "    at <anonymous> (src/client.ts:572:25)",
+        "    at mutationResult (src/client.ts:544:18)",
+        "    at deleteObject (src/client.ts:571:10)",
         "    at deleteIssueAttachment (src/issue-attachments.ts:49:10)",
         "    at <anonymous> (src/issue-attachments-commands.ts:20:9)"
       ],
@@ -1330,7 +1332,10 @@
     "verification": {
       "existingOffline": "exercised-in-passing-suite",
       "testLocations": [
-        "tests/m01-stories.test.ts"
+        "tests/m01-stories.test.ts",
+        "tests/m01-stories.test.ts:283",
+        "tests/m01-stories.test.ts:285",
+        "tests/m01-stories.test.ts:300"
       ],
       "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
@@ -1415,7 +1420,9 @@
       ],
       "callStack": [
         "    at request (src/client.ts:185:31)",
-        "    at deleteObject (src/client.ts:556:23)",
+        "    at <anonymous> (src/client.ts:572:25)",
+        "    at mutationResult (src/client.ts:544:18)",
+        "    at deleteObject (src/client.ts:571:10)",
         "    at removeIssueReaction (src/issue-reactions.ts:22:10)",
         "    at <anonymous> (src/issue-reactions-commands.ts:12:7)"
       ],
@@ -1493,7 +1500,9 @@
       ],
       "callStack": [
         "    at request (src/client.ts:185:31)",
-        "    at deleteObject (src/client.ts:556:23)",
+        "    at <anonymous> (src/client.ts:572:25)",
+        "    at mutationResult (src/client.ts:544:18)",
+        "    at deleteObject (src/client.ts:571:10)",
         "    at removeIssueLink (src/issue-relations.ts:69:10)",
         "    at <anonymous> (src/issue-relations-commands.ts:55:9)"
       ],
@@ -1578,7 +1587,9 @@
       ],
       "callStack": [
         "    at request (src/client.ts:185:31)",
-        "    at deleteObject (src/client.ts:556:23)",
+        "    at <anonymous> (src/client.ts:572:25)",
+        "    at mutationResult (src/client.ts:544:18)",
+        "    at deleteObject (src/client.ts:571:10)",
         "    at removeIssueTag (src/issue-relations.ts:110:10)",
         "    at <anonymous> (src/issue-relations-commands.ts:73:9)"
       ],
@@ -1659,19 +1670,21 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/issue-time-commands.ts:42",
+      "location": "src/issue-time-commands.ts:48",
       "serviceFunctions": [
         {
           "file": "src/issue-time.ts",
           "symbol": "deleteIssueWorkItem",
-          "location": "src/issue-time.ts:170"
+          "location": "src/issue-time.ts:177"
         }
       ],
       "callStack": [
         "    at request (src/client.ts:185:31)",
-        "    at deleteObject (src/client.ts:556:23)",
-        "    at deleteIssueWorkItem (src/issue-time.ts:171:10)",
-        "    at <anonymous> (src/issue-time-commands.ts:44:9)"
+        "    at <anonymous> (src/client.ts:572:25)",
+        "    at mutationResult (src/client.ts:544:18)",
+        "    at deleteObject (src/client.ts:571:10)",
+        "    at deleteIssueWorkItem (src/issue-time.ts:178:10)",
+        "    at <anonymous> (src/issue-time-commands.ts:50:9)"
       ],
       "surfaces": {
         "execute": {
@@ -11351,12 +11364,12 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/issue-time-commands.ts:39",
+      "location": "src/issue-time-commands.ts:45",
       "serviceFunctions": [
         {
           "file": "src/issue-time.ts",
           "symbol": "getTimeTracking",
-          "location": "src/issue-time.ts:27"
+          "location": "src/issue-time.ts:28"
         }
       ],
       "callStack": [
@@ -11449,12 +11462,12 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/issue-time-commands.ts:46",
+      "location": "src/issue-time-commands.ts:52",
       "serviceFunctions": [
         {
           "file": "src/issue-time.ts",
           "symbol": "listIssueWorkItems",
-          "location": "src/issue-time.ts:31"
+          "location": "src/issue-time.ts:32"
         }
       ],
       "callStack": [
@@ -11540,12 +11553,12 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/issue-time-commands.ts:47",
+      "location": "src/issue-time-commands.ts:53",
       "serviceFunctions": [
         {
           "file": "src/issue-time.ts",
           "symbol": "getIssueWorkItem",
-          "location": "src/issue-time.ts:32"
+          "location": "src/issue-time.ts:33"
         }
       ],
       "callStack": [
@@ -12994,14 +13007,14 @@
         {
           "file": "src/issue-time.ts",
           "symbol": "listWorkItems",
-          "location": "src/issue-time.ts:52"
+          "location": "src/issue-time.ts:53"
         }
       ],
       "callStack": [
         "    at request (src/client.ts:185:31)",
         "    at readCollection (src/client.ts:308:29)",
         "    at readPage (src/client.ts:325:23)",
-        "    at listWorkItems (src/issue-time.ts:59:10)",
+        "    at listWorkItems (src/issue-time.ts:66:10)",
         "    at readCommand.map.flags (src/issue-time-commands.ts:20:51)"
       ],
       "surfaces": {
@@ -13040,7 +13053,9 @@
         "tests/issue-time.test.ts:74",
         "tests/issue-time.test.ts:82",
         "tests/issue-time.test.ts:90",
-        "tests/m01-stories.test.ts"
+        "tests/m01-stories.test.ts",
+        "tests/m01-stories.test.ts:271",
+        "tests/m01-stories.test.ts:272"
       ],
       "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
@@ -13082,12 +13097,12 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/issue-time-commands.ts:33",
+      "location": "src/issue-time-commands.ts:39",
       "serviceFunctions": [
         {
           "file": "src/issue-time.ts",
           "symbol": "getWorkItem",
-          "location": "src/issue-time.ts:65"
+          "location": "src/issue-time.ts:72"
         }
       ],
       "callStack": [
@@ -15706,7 +15721,9 @@
       ],
       "callStack": [
         "    at request (src/client.ts:185:31)",
-        "    at mutate (src/client.ts:548:23)",
+        "    at <anonymous> (src/client.ts:562:25)",
+        "    at mutationResult (src/client.ts:544:18)",
+        "    at mutate (src/client.ts:561:10)",
         "    at createSprint (src/agile.ts:82:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
@@ -15809,7 +15826,9 @@
       ],
       "callStack": [
         "    at request (src/client.ts:185:31)",
-        "    at mutate (src/client.ts:548:23)",
+        "    at <anonymous> (src/client.ts:562:25)",
+        "    at mutationResult (src/client.ts:544:18)",
+        "    at mutate (src/client.ts:561:10)",
         "    at updateSprint (src/agile.ts:97:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
@@ -15906,7 +15925,9 @@
       ],
       "callStack": [
         "    at request (src/client.ts:185:31)",
-        "    at mutate (src/client.ts:548:23)",
+        "    at <anonymous> (src/client.ts:562:25)",
+        "    at mutationResult (src/client.ts:544:18)",
+        "    at mutate (src/client.ts:561:10)",
         "    at createArticle (src/articles.ts:60:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
@@ -16008,7 +16029,9 @@
       ],
       "callStack": [
         "    at request (src/client.ts:185:31)",
-        "    at mutate (src/client.ts:548:23)",
+        "    at <anonymous> (src/client.ts:562:25)",
+        "    at mutationResult (src/client.ts:544:18)",
+        "    at mutate (src/client.ts:561:10)",
         "    at updateArticle (src/articles.ts:80:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
@@ -16135,7 +16158,9 @@
       ],
       "callStack": [
         "    at request (src/client.ts:185:31)",
-        "    at uploadObjectCollection (src/client.ts:567:23)",
+        "    at <anonymous> (src/client.ts:586:25)",
+        "    at mutationResult (src/client.ts:544:18)",
+        "    at uploadObjectCollection (src/client.ts:585:10)",
         "    at uploadArticleAttachment (src/article-extras.ts:42:10)"
       ],
       "surfaces": {
@@ -16397,7 +16422,9 @@
       ],
       "callStack": [
         "    at request (src/client.ts:185:31)",
-        "    at mutate (src/client.ts:548:23)",
+        "    at <anonymous> (src/client.ts:562:25)",
+        "    at mutationResult (src/client.ts:544:18)",
+        "    at mutate (src/client.ts:561:10)",
         "    at addArticleComment (src/articles.ts:109:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
@@ -16510,7 +16537,9 @@
       ],
       "callStack": [
         "    at request (src/client.ts:185:31)",
-        "    at mutate (src/client.ts:548:23)",
+        "    at <anonymous> (src/client.ts:562:25)",
+        "    at mutationResult (src/client.ts:544:18)",
+        "    at mutate (src/client.ts:561:10)",
         "    at updateArticleComment (src/articles.ts:125:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
@@ -16757,7 +16786,9 @@
       ],
       "callStack": [
         "    at request (src/client.ts:185:31)",
-        "    at mutate (src/client.ts:548:23)",
+        "    at <anonymous> (src/client.ts:562:25)",
+        "    at mutationResult (src/client.ts:544:18)",
+        "    at mutate (src/client.ts:561:10)",
         "    at applyCommands (src/issue-query.ts:90:10)",
         "    at updateCommand (src/issue-query-commands.ts:59:51)"
       ],
@@ -17263,7 +17294,9 @@
       ],
       "callStack": [
         "    at request (src/client.ts:185:31)",
-        "    at mutate (src/client.ts:548:23)",
+        "    at <anonymous> (src/client.ts:562:25)",
+        "    at mutationResult (src/client.ts:544:18)",
+        "    at mutate (src/client.ts:561:10)",
         "    at createIssue (src/issue-fields.ts:179:10)"
       ],
       "surfaces": {
@@ -17399,7 +17432,9 @@
       ],
       "callStack": [
         "    at request (src/client.ts:185:31)",
-        "    at mutate (src/client.ts:548:23)",
+        "    at <anonymous> (src/client.ts:562:25)",
+        "    at mutationResult (src/client.ts:544:18)",
+        "    at mutate (src/client.ts:561:10)",
         "    at updateIssue (src/issue-fields.ts:189:10)"
       ],
       "surfaces": {
@@ -17435,6 +17470,8 @@
         "tests/issue-write.test.ts:77",
         "tests/long-content.test.ts",
         "tests/m01-stories.test.ts",
+        "tests/m01-stories.test.ts:282",
+        "tests/m01-stories.test.ts:285",
         "tests/mutations.test.ts",
         "tests/mutations.test.ts:117",
         "tests/mutations.test.ts:46",
@@ -17508,7 +17545,9 @@
       ],
       "callStack": [
         "    at request (src/client.ts:185:31)",
-        "    at uploadObjectCollection (src/client.ts:567:23)",
+        "    at <anonymous> (src/client.ts:586:25)",
+        "    at mutationResult (src/client.ts:544:18)",
+        "    at uploadObjectCollection (src/client.ts:585:10)",
         "    at uploadIssueAttachment (src/issue-attachments.ts:39:10)"
       ],
       "surfaces": {
@@ -17546,6 +17585,8 @@
         "tests/issue-attachments.test.ts:251",
         "tests/issue-attachments.test.ts:253",
         "tests/m01-stories.test.ts",
+        "tests/m01-stories.test.ts:284",
+        "tests/m01-stories.test.ts:285",
         "tests/transport.test.ts",
         "tests/transport.test.ts:79",
         "tests/transport.test.ts:84",
@@ -17623,7 +17664,9 @@
       ],
       "callStack": [
         "    at request (src/client.ts:185:31)",
-        "    at mutate (src/client.ts:548:23)",
+        "    at <anonymous> (src/client.ts:562:25)",
+        "    at mutationResult (src/client.ts:544:18)",
+        "    at mutate (src/client.ts:561:10)",
         "    at updateIssueAttachment (src/issue-attachments.ts:45:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
@@ -17726,13 +17769,15 @@
         {
           "file": "src/client.ts",
           "symbol": "addComment",
-          "location": "src/client.ts:579"
+          "location": "src/client.ts:595"
         }
       ],
       "callStack": [
         "    at request (src/client.ts:185:31)",
-        "    at mutate (src/client.ts:548:23)",
-        "    at addComment (src/client.ts:586:10)",
+        "    at <anonymous> (src/client.ts:562:25)",
+        "    at mutationResult (src/client.ts:544:18)",
+        "    at mutate (src/client.ts:561:10)",
+        "    at addComment (src/client.ts:602:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -17848,7 +17893,9 @@
       ],
       "callStack": [
         "    at request (src/client.ts:185:31)",
-        "    at mutate (src/client.ts:548:23)",
+        "    at <anonymous> (src/client.ts:562:25)",
+        "    at mutationResult (src/client.ts:544:18)",
+        "    at mutate (src/client.ts:561:10)",
         "    at updateComment (src/issue-context.ts:121:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
@@ -17941,7 +17988,9 @@
       ],
       "callStack": [
         "    at request (src/client.ts:185:31)",
-        "    at mutate (src/client.ts:548:23)",
+        "    at <anonymous> (src/client.ts:562:25)",
+        "    at mutationResult (src/client.ts:544:18)",
+        "    at mutate (src/client.ts:561:10)",
         "    at addIssueReaction (src/issue-reactions.ts:17:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
@@ -18035,7 +18084,9 @@
       ],
       "callStack": [
         "    at request (src/client.ts:185:31)",
-        "    at mutate (src/client.ts:548:23)",
+        "    at <anonymous> (src/client.ts:562:25)",
+        "    at mutationResult (src/client.ts:544:18)",
+        "    at mutate (src/client.ts:561:10)",
         "    at setIssueField (src/issue-fields.ts:128:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
@@ -18163,7 +18214,9 @@
       ],
       "callStack": [
         "    at request (src/client.ts:185:31)",
-        "    at mutate (src/client.ts:548:23)",
+        "    at <anonymous> (src/client.ts:562:25)",
+        "    at mutationResult (src/client.ts:544:18)",
+        "    at mutate (src/client.ts:561:10)",
         "    at addIssueLink (src/issue-relations.ts:59:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
@@ -18299,7 +18352,9 @@
       ],
       "callStack": [
         "    at request (src/client.ts:185:31)",
-        "    at mutate (src/client.ts:548:23)",
+        "    at <anonymous> (src/client.ts:562:25)",
+        "    at mutationResult (src/client.ts:544:18)",
+        "    at mutate (src/client.ts:561:10)",
         "    at addIssueTag (src/issue-relations.ts:101:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
@@ -18384,18 +18439,20 @@
         "--fields <projection>",
         "--mute-update-notifications [boolean]"
       ],
-      "location": "src/issue-time-commands.ts:48",
+      "location": "src/issue-time-commands.ts:54",
       "serviceFunctions": [
         {
           "file": "src/issue-time.ts",
           "symbol": "addWorkItem",
-          "location": "src/issue-time.ts:139"
+          "location": "src/issue-time.ts:146"
         }
       ],
       "callStack": [
         "    at request (src/client.ts:185:31)",
-        "    at mutate (src/client.ts:548:23)",
-        "    at addWorkItem (src/issue-time.ts:145:10)",
+        "    at <anonymous> (src/client.ts:562:25)",
+        "    at mutationResult (src/client.ts:544:18)",
+        "    at mutate (src/client.ts:561:10)",
+        "    at addWorkItem (src/issue-time.ts:152:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -18481,18 +18538,20 @@
         "--fields <projection>",
         "--mute-update-notifications [boolean]"
       ],
-      "location": "src/issue-time-commands.ts:49",
+      "location": "src/issue-time-commands.ts:55",
       "serviceFunctions": [
         {
           "file": "src/issue-time.ts",
           "symbol": "updateWorkItem",
-          "location": "src/issue-time.ts:154"
+          "location": "src/issue-time.ts:161"
         }
       ],
       "callStack": [
         "    at request (src/client.ts:185:31)",
-        "    at mutate (src/client.ts:548:23)",
-        "    at updateWorkItem (src/issue-time.ts:161:10)",
+        "    at <anonymous> (src/client.ts:562:25)",
+        "    at mutationResult (src/client.ts:544:18)",
+        "    at mutate (src/client.ts:561:10)",
+        "    at updateWorkItem (src/issue-time.ts:168:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {

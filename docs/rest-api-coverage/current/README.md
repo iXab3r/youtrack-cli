@@ -24,6 +24,9 @@ M01 endpoint declares them. Optional notification input accepts omitted, true, b
 no control is synthesized by default. Only create/comment-add expose draftId; body stays required,
 with {} allowed when publishing an existing draft. Native selectors/extra body fields survive.
 Repeated customFields preserve order and duplicates on every complete-selection page.
+Work-item author/creator filters preserve repeated values, order and duplicates on every surface;
+the library accepts a single string or a list. Semantic writes mark ambiguous transport, response
+and 5xx failures as an unknown outcome while retaining codes/status/causes; 4xx and read POST remain distinct.
 
 Temporal work-item filters remain literal strings (including native Long spelling) and are separate
 from offset --start. Date/interval/remote permission semantics are enforced by YouTrack. Activity
@@ -40,7 +43,7 @@ exactly one opaque encoded path; no discovery, retries or automatic target expan
 ## Verification and retained boundaries
 
 Every story has a committed red acceptance run before feature code on its own branch. Final local
-Verify passed **453 offline tests**, installed executable/export/native-fetch checks, persistent RPC,
+Verify passed **455 offline tests**, installed executable/export/native-fetch checks, persistent RPC,
 closed-reader EPIPE 141, file publication contracts, and **2 release-safety tests**. No live proof ran.
 The installed contract covers repeated field selections, new reactions, library exports and admission.
 
@@ -75,8 +78,8 @@ Physical nonblank source counts (comments included, generated output excluded):
 
 | Surface | Baseline | Current | Delta |
 |---|---:|---:|---:|
-| src | 3813 | 4065 | +252 |
-| tests | 7482 | 7691 | +209 |
+| src | 3813 | 4093 | +280 |
+| tests | 7482 | 7767 | +285 |
 | integration-tests | 165 | 165 | +0 |
 | scripts | 559 | 1079 | +520 |
 
