@@ -601,7 +601,7 @@ export function rememberSubmittedIdentity(input: CommandInput, token: string): v
 
   const safe = (value: unknown) => typeof value === "string" ? scrubText(value, token.trim()) : undefined;
   submittedIdentities.set(input.options, {
-    name: safe(body?.name) ?? safe(body?.id), field: safe(nested(body?.field)?.id), project: safe(input.args.project),
+    name: safe(body?.name) ?? safe(body?.summary) ?? safe(body?.id), field: safe(nested(body?.field)?.id), project: safe(input.args.project),
     args: Object.fromEntries(Object.entries(input.args).map(([name, value]) => [name, safe(value)])),
     role: safe(nested(body?.role)?.id), holder: safe(nested(body?.holder)?.id), scope: safe(scopeLabel(nested(body?.scope))),
   });
@@ -727,4 +727,11 @@ export const generalProfileRecord = recordView<Item | null>({
 export const timeProfileRecord = recordView<Item | null>({
   title: (_item, context) => joined("Time-tracking profile", submittedIdentity(context)?.args.user),
   fields: [{ label: "Period format", value: item => key(nested(item?.periodFormat)) }],
+});
+
+
+export const scopedIssueWritten = (verb: string): HumanView => recordView<Item | null>({
+  title: (item, context) => joined(`${verb} issue`, key(item) ?? text(item?.summary) ?? submittedName(context) ?? submittedIdentity(context)?.args.issue,
+    submittedIdentity(context)?.args.project),
+  fields: [{ label: "Summary", value: item => key(item) === undefined ? undefined : text(item?.summary) }],
 });

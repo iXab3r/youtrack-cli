@@ -1,6 +1,7 @@
 import { command, type CommandDefinition } from "@eyeauras/cli-factory";
 import { bodyOptions, projectionOptions, readOptions, updateCommand, projectedBodyUpdate, notificationOptions, pagedRead, projectedRead } from "./cli-support.js";
 import {
+  listProjectIssues, getProjectIssue, createProjectIssue, updateProjectIssue,
   createProject, updateProject,
   getProject,
   createProjectField, updateProjectField,
@@ -11,9 +12,18 @@ import {
   listIssueFields,
   setIssueField,
 } from "./issue-fields.js";
-import { rememberSubmittedIdentity, mutationWritten, withView, issueFieldRecord, issueFieldTable, projectFieldTable, projectFieldRecord, projectRecord, userTable } from "./presentation.js";
+import { issueRecord, issueTable, scopedIssueWritten, rememberSubmittedIdentity, mutationWritten, withView, issueFieldRecord, issueFieldTable, projectFieldTable, projectFieldRecord, projectRecord, userTable } from "./presentation.js";
 
 export const fieldsProjectChildren: readonly CommandDefinition[] = [
+  command("issues", "Read and change issues in a project", [
+    pagedRead("list <project>", "List issues in the project", listProjectIssues, issueTable, [{
+      flags: "--custom-field <name>", description: "Select a custom field (repeatable)",
+      parse: (value, previous) => [...(Array.isArray(previous) ? previous : []), value],
+    }]),
+    projectedRead("get <project> <issue>", "Show an issue in the project", getProjectIssue, issueRecord),
+    projectedBodyUpdate("create <project>", "Create an issue in the project", createProjectIssue, undefined, scopedIssueWritten("Created"), notificationOptions),
+    projectedBodyUpdate("update <project> <issue>", "Update an issue in the project", updateProjectIssue, undefined, scopedIssueWritten("Updated"), notificationOptions),
+  ]),
   withView(mutationWritten("Created project"), updateCommand("create", "Create a project with the selected leader", async (client, input) => {
     const { options } = input;
     const result = await createProject(client, options.body, { ...readOptions(options), ...(typeof options.template === "string" ? { template: options.template } : {}) });

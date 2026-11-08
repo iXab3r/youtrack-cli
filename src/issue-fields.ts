@@ -1,4 +1,5 @@
 import {
+  customFieldQuery, issueListFields, readPage, page, type PageOptions,
   deleteObject,
   encodedID,
   fields,
@@ -222,4 +223,31 @@ export async function createProject(connection: Connection, input: unknown, opti
 }
 export async function updateProject(connection: Connection, projectID: string, input: unknown, options: ProjectionOptions = {}) {
   return mutate(connection, projectPath(projectID), namedMutationBody(input, false), fields(options, projectFields));
+}
+
+
+const projectIssuesPath = (projectID: string) => `${projectPath(projectID)}/issues`;
+const scopedIssueFields = `${issueListFields},description,created`;
+export interface ProjectIssueOptions extends PageOptions {
+  customFields?: readonly string[];
+}
+export async function listProjectIssues(connection: Connection, projectID: string, options: ProjectIssueOptions = {}) {
+  return readPage(connection, projectIssuesPath(projectID), {
+    ...page(options, issueListFields), ...customFieldQuery(options.customFields),
+  });
+}
+export const getProjectIssue = readObjectAt(
+  (projectID: string, issueID: string) => `${projectIssuesPath(projectID)}/${encodedID(issueID, "issue ID")}`, scopedIssueFields,
+);
+export async function createProjectIssue(connection: Connection, projectID: string, input: unknown, options: WriteOptions = {}) {
+  const body = mutationBody(input);
+  narrative(body.summary, "summary");
+  if (Object.hasOwn(body, "description")) nullableText(body.description, "description");
+  return mutate(connection, projectIssuesPath(projectID), body, fields(options, scopedIssueFields), options);
+}
+export async function updateProjectIssue(connection: Connection, projectID: string, issueID: string, input: unknown, options: WriteOptions = {}) {
+  const body = mutationBody(input);
+  if (Object.hasOwn(body, "summary")) nullableText(body.summary, "summary");
+  if (Object.hasOwn(body, "description")) nullableText(body.description, "description");
+  return mutate(connection, `${projectIssuesPath(projectID)}/${encodedID(issueID, "issue ID")}`, body, fields(options, scopedIssueFields), options);
 }
