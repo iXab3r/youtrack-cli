@@ -700,3 +700,17 @@ export const roleRecord = recordView<Item | null>({
     { label: "Immutable", value: item => booleanText(item?.immutable) },
     { label: "Permissions", value: item => Array.isArray(item?.permissions) ? item.permissions.length : undefined }],
 });
+
+
+export const notificationRecord = recordView<Item | null>({
+  title: (_item, context) => joined("Notifications", submittedIdentity(context)?.args.user),
+  fields: [{ label: "Own changes", value: item => booleanText(item?.notifyOnOwnChanges) },
+    { label: "Email", value: item => booleanText(item?.emailNotificationsEnabled) },
+    { label: "Mentions", value: item => booleanText(item?.mentionNotificationsEnabled) },
+    { label: "Duplicates", value: item => booleanText(item?.duplicateClusterNotificationsEnabled) },
+    { label: "Mailbox integration", value: item => booleanText(item?.mailboxIntegrationNotificationsEnabled) },
+    { label: "Plain text email", value: item => booleanText(item?.usePlainTextEmails) },
+    { label: "Watch on comment", value: item => booleanText(item?.autoWatchOnComment) },
+    { label: "Watch on create", value: item => booleanText(item?.autoWatchOnCreate) },
+    { label: "Watch on vote", value: item => booleanText(item?.autoWatchOnVote) }],
+});

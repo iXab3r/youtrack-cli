@@ -55,3 +55,13 @@ export async function removeUserBundleGroup(connection: Connection, bundleID: st
 export async function removeUserBundleIndividual(connection: Connection, bundleID: string, userID: string, options: ProjectionOptions = {}) {
   return deleteObject(connection, `${bundlePath(bundleID)}/individuals/${encodedID(userID, "user ID")}`, options);
 }
+
+
+const notificationFields = "id,notifyOnOwnChanges,emailNotificationsEnabled,mentionNotificationsEnabled," +
+  "duplicateClusterNotificationsEnabled,mailboxIntegrationNotificationsEnabled,usePlainTextEmails," +
+  "autoWatchOnComment,autoWatchOnCreate,autoWatchOnVote";
+const notificationsPath = (userID: string) => `api/users/${encodedID(userID, "user ID or login")}/profiles/notifications`;
+export const getUserNotifications = readObjectAt(notificationsPath, notificationFields);
+export async function updateUserNotifications(connection: Connection, userID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, notificationsPath(userID), mutationBody(input), fields(options, notificationFields));
+}

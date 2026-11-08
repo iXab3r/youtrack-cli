@@ -1,6 +1,7 @@
 import { command } from "@eyeauras/cli-factory";
 import { pagedRead, projectedRead, projectedBodyUpdate, projectedDelete } from "./cli-support.js";
 import {
+  getUserNotifications, updateUserNotifications,
   addUserBundleGroup, addUserBundleIndividual, removeUserBundleGroup, removeUserBundleIndividual,
   getUser,
   getUserBundle,
@@ -11,11 +12,17 @@ import {
   listUserBundleMembers,
   listUserBundles,
 } from "./user-directory.js";
-import { mutationWritten, groupRecord, groupTable, namedTable, userRecord, userTable } from "./presentation.js";
+import { notificationRecord, mutationWritten, groupRecord, groupTable, namedTable, userRecord, userTable } from "./presentation.js";
 
 const bundleTable = namedTable("BUNDLE", "No user bundles.");
 
 export const userDirectoryUserChildren = [
+  command("profile", "Inspect and change user profile settings", [
+    command("notifications", "Manage notification preferences", [
+      projectedRead("get <user>", "Show user notification preferences", getUserNotifications, notificationRecord),
+      projectedBodyUpdate("update <user>", "Update user notification preferences", updateUserNotifications, undefined, notificationRecord),
+    ]),
+  ]),
   projectedRead("get <user>", "Show a user by ID or login", getUser, userRecord),
 ];
 
