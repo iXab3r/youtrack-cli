@@ -596,12 +596,12 @@ type SubmittedIdentity = {
 const submittedIdentities = new WeakMap<object, SubmittedIdentity>();
 
 /** Keep only credential-scrubbed human fallback labels; never alter the request or native result. */
-export function rememberSubmittedIdentity(input: CommandInput, token: string): void {
+export function rememberSubmittedIdentity(input: CommandInput, token: string, additional: readonly string[] = []): void {
   const body = nested(input.options.body);
 
-  const safe = (value: unknown) => typeof value === "string" ? scrubText(value, token.trim()) : undefined;
+  const safe = (value: unknown) => typeof value === "string" ? scrubText(value, token.trim(), additional) : undefined;
   submittedIdentities.set(input.options, {
-    name: safe(body?.name) ?? safe(body?.summary) ?? safe(body?.id), field: safe(nested(body?.field)?.id), project: safe(input.args.project),
+    name: safe(body?.name) ?? safe(body?.summary) ?? safe(body?.login) ?? safe(body?.id), field: safe(nested(body?.field)?.id), project: safe(input.args.project),
     args: Object.fromEntries(Object.entries(input.args).map(([name, value]) => [name, safe(value)])),
     role: safe(nested(body?.role)?.id), holder: safe(nested(body?.holder)?.id), scope: safe(scopeLabel(nested(body?.scope))),
   });

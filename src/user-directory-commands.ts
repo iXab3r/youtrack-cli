@@ -1,7 +1,7 @@
-import { command } from "@eyeauras/cli-factory";
-import { pagedRead, projectedRead, projectedBodyUpdate, projectedDelete } from "./cli-support.js";
+import { CliError, Permission, command, recordView } from "@eyeauras/cli-factory";
+import { pagedRead, projectedRead, projectedBodyUpdate, projectedDelete, updateCommand, bodyOptions, projectionOptions, writeOptions } from "./cli-support.js";
 import {
-  listUserSavedQueries, listUserTags,
+  createUser, updateUser, listUserSavedQueries, listUserTags,
   getUserTimeProfile, updateUserTimeProfile,
   getUserGeneralProfile, updateUserGeneralProfile,
   getUserNotifications, updateUserNotifications,
@@ -15,11 +15,49 @@ import {
   listUserBundleMembers,
   listUserBundles,
 } from "./user-directory.js";
-import { savedQueryTable, tagTable, timeProfileRecord, generalProfileRecord, notificationRecord, mutationWritten, groupRecord, groupTable, namedTable, userRecord, userTable } from "./presentation.js";
+import { savedQueryTable, tagTable, timeProfileRecord, generalProfileRecord, notificationRecord, rememberSubmittedIdentity, withView, mutationWritten, groupRecord, groupTable, namedTable, userRecord, userTable } from "./presentation.js";
+
+import { mutationBody, scrubText } from "./client.js";
+
+const passwordKey = (alias: string) => {
+  if (!alias) throw new Error("The password alias must contain text.");
+  return `user-initial-password:${alias}`;
+};
+function cliUserBody(input: unknown) {
+  const body = mutationBody(input);
+  if (Object.hasOwn(body, "password")) throw new Error("Use --password-secret for the initial password.");
+  return body;
+}
 
 const bundleTable = namedTable("BUNDLE", "No user bundles.");
 
 export const userDirectoryUserChildren = [
+  command("initial-password", "Manage stored initial passwords", [
+    command("import <alias>", "Import an initial password from environment", async ({ args }, context) => {
+      const key = passwordKey(args.alias);
+      const password = context.environment.YOUTRACK_INITIAL_PASSWORD;
+      if (password === undefined || password.length === 0) throw new Error("Set YOUTRACK_INITIAL_PASSWORD to the initial password.");
+      const token = await context.secrets.get("token") ?? "";
+      await context.secrets.set(key, password);
+      return { alias: scrubText(args.alias, token, [password]), stored: true };
+    }, {
+      permission: Permission.Update,
+      options: [{ flags: "--from-env", description: "Read YOUTRACK_INITIAL_PASSWORD", required: true }],
+      view: recordView<{ alias: string }>({ title: result => `Stored initial password ${result.alias}`, fields: [] }),
+    }),
+  ]),
+  withView(mutationWritten("Created user"), updateCommand("create", "Create a user with stored initial password", async (connection, input, context) => {
+    const body = cliUserBody(input.options.body);
+    const alias = String(input.options.passwordSecret);
+    const password = await context.secrets.get(passwordKey(alias));
+    if (password === undefined || password.length === 0) throw new CliError("The initial password is not stored in this profile.", {
+      code: "user.initial-password.missing", next: [["user", "initial-password", "import", alias, "--from-env"]],
+    });
+    const result = await createUser(connection, { ...body, password }, writeOptions(input.options));
+    rememberSubmittedIdentity(input, connection.token, [password]);
+    return result;
+  }, [...bodyOptions, ...projectionOptions, { flags: "--password-secret <alias>", description: "Stored initial password alias", required: true }])),
+  projectedBodyUpdate("update <user>", "Update a selected user", (connection, user, input, options) => updateUser(connection, user, cliUserBody(input), options), undefined, mutationWritten("Updated user", "user")),
   command("saved-queries", "Inspect a user's saved searches", [
     pagedRead("list <user>", "List the user's saved searches", listUserSavedQueries, savedQueryTable),
   ]),

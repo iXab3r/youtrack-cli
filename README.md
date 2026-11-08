@@ -108,6 +108,30 @@ Compressed wire length is syntax-checked but not compared with decoded size. HTT
 Retry-After, empty/null mutation and UTF-8 BOM behavior are unchanged. No request is retried
 automatically. Runtime memory and service limits still apply.
 
+## M06: administration and scoped operations (in development)
+
+M06 is being verified on this branch; npm0.8.0 contains M01. No new release is planned.
+
+`user create --body '{"login":"new-user"}' --password-secret initial-user-password` reads
+an initial password from the selected CLI profile's Core secret store. Provision that alias with
+`user initial-password import initial-user-password --from-env --profile dev` after configuring
+and signing in to that profile. A secure runner supplies `YOUTRACK_INITIAL_PASSWORD`; do not put
+its value in argv, shell history or `--body`. Import requires Update, makes no service request for
+an already configured/authenticated profile, and returns only the alias and storage acknowledgement.
+The namespaced alias `token` cannot overwrite the bearer credential. The password's exact bytes
+are stored; an absent or empty environment value fails. The platform store is authoritative and
+there is no plaintext fallback. Treat aliases as sensitive retained credentials: creation does not
+erase them after success or failure, and deleting a CLI profile removes its auth token, not these
+auxiliary entries. Administrators manage retained auxiliary entries through the platform store/SDK.
+
+Creation requires Update and HTTPS, sends the password only in the native JSON body, and has no
+environment fallback. CLI `--body.password` is rejected. Missing aliases return a profile-specific
+import follow-up. Results and diagnostic causes scrub known passwords, including JSON echoes;
+JSON/RPC never return the imported value. `user update <user> --body '{"email":null}'` uses the
+native user endpoint and preserves additional native fields. This email update follows the pinned
+endpoint sample despite the general User model's read-only annotation; no Hub calls or universal
+account-field/version compatibility are implied. Password rotation is not a CLI workflow.
+
 ## M05: self-service and targeted cleanup (unreleased main)
 
 This source includes M02–M05; npm0.8.0 contains M01. Milestones merge without version bumps or

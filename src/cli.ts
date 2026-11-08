@@ -95,6 +95,7 @@ export function createYouTrackCli(runtime?: CliRuntime): CliApplication {
     version: "0.8.0",
     applicationId: "youtrack-cli",
     permissions: {},
+    environmentKeys: ["YOUTRACK_INITIAL_PASSWORD"],
     profile: {
       fields: [
         {
@@ -138,7 +139,7 @@ export function createYouTrackCli(runtime?: CliRuntime): CliApplication {
         ...userDirectoryBundleChildren,
         ...bundleValuesChildren,
       ]),
-      command("user", "Inspect users", [
+      command("user", "Inspect and manage users", [
         ...fieldsUserChildren,
         ...userDirectoryUserChildren,
         projectedRead("me", "Show the signed-in user", readUser, userRecord),

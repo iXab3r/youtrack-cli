@@ -26,7 +26,7 @@ await writeFile(resolve(capture,'probe-lock.json'),JSON.stringify({head:execFile
 const leaves=[];
 function walk(nodes,prefix=[]){for(const n of nodes){const full=[...prefix,n.name];if(n.children)walk(n.children,full);else if(n.run)leaves.push({n,syntax:full.join(' ')});}}
 walk(def.commands);
-const cleanup=[];const f=await createCliFixture({after:fn=>cleanup.push(fn)}, {applicationId:'youtrack-cli',profiles:[{name:'default',values:{url:'https://audit.example.test/context'},permissions:['ReadOnly','Update'],secrets:{token:'synthetic-audit-token'}}]});
+const cleanup=[];const f=await createCliFixture({after:fn=>cleanup.push(fn)}, {applicationId:'youtrack-cli',profiles:[{name:'default',values:{url:'https://audit.example.test/context'},permissions:['ReadOnly','Update'],secrets:{token:'synthetic-audit-token','user-initial-password:synthetic':'synthetic-audit-initial-password'}}]});
 const server=setupServer();server.listen({onUnhandledRequest:'error'});
 const app=f.createApplication(runtime=>createCli({...def,runtime}));
 let requests=[];
@@ -48,12 +48,13 @@ const results=[];
 try{
  for(const {n,syntax} of leaves){
   const args=syntax.split(' ').map(t=>t.startsWith('<')?'audit-'+t.slice(1,-1).toLowerCase():t);
-  if(/ (download|export) |issues batch /.test(syntax)){results.push({syntax,description:n.description,permission:n.permission,workflow:true,options:n.options?.map(o=>o.flags)});continue;}
+  if(/ (download|export) |issues batch /.test(syntax) || syntax==='user initial-password import <alias>'){results.push({syntax,description:n.description,permission:n.permission,workflow:true,options:n.options?.map(o=>o.flags)});continue;}
   for(const direct of n.options?.some(o=>o.flags==='--direct')?[false,true]:[false]){
    const argv=[...args];
    for(const option of n.options||[]){if(!option.required)continue;
     const flag=option.flags.split(' ')[0];let value='synthetic';
     if(flag==='--body')value=JSON.stringify({project:{id:'synthetic-project'},projects:[{id:'synthetic-project'}],field:{id:'synthetic-field'},fieldType:{id:'enum[1]'},shortName:'SYN',leader:{id:'synthetic-leader'},summary:'Synthetic audit',text:'Synthetic text',reaction:'thanks',name:'Synthetic sprint',query:'project: DEMO',version:'synthetic-version',state:1,id:'synthetic-target',$type:'SimpleIssueCustomField',value:'Synthetic',duration:{minutes:1}});
+    if(flag==='--body' && syntax==='user create')value=JSON.stringify({login:'synthetic-user'});
     if(flag==='--body' && syntax==='role-assignment create')value=JSON.stringify({role:{id:'synthetic-role'},holder:{id:'synthetic-holder',$type:'User'},scope:{$type:'ProjectScope',project:{id:'synthetic-project'}}});
     if(flag==='--body' && syntax==='group member add <group> <user>')value=JSON.stringify({id:args.at(-1)});
     if(flag==='--file')value=resolve(f.root,'upload.txt');

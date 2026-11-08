@@ -95,3 +95,33 @@ test("US-056 SDK password writes require HTTPS and redact causal errors without 
     assert.match(error.message, /outcome is unknown/); safe(error); safe(error.cause); assert.match(JSON.stringify(error.cause), /SYNTHETIC_TRANSPORT/); return true;
   }); assert.equal(calls, 1);
 });
+
+
+test("US-056 interleaved RPC create resolves each profile alias and retains it after rejected writes", async t => {
+  const f = await createCliFixture(t, { applicationId: "youtrack-cli", defaultProfile: "alpha", profiles: [
+    { name: "alpha", values: { url: "https://alpha.example.test/context" }, permissions: ["Update"], secrets: { token: "synthetic-alpha-token" } },
+    { name: "beta", values: { url: "https://beta.example.test/context" }, permissions: ["Update"], secrets: { token: "synthetic-beta-token" } },
+  ] });
+  const cli = f.createApplication(createYouTrackCli); const seen: string[] = [];
+  server.use(http.post("*", async ({ request }) => {
+    const profile = new URL(request.url).hostname.split(".")[0]!;
+    assert.equal(request.headers.get("authorization"), `Bearer synthetic-${profile}-token`);
+    assert.deepEqual(await request.json(), { login: "selected-user", password: `synthetic-${profile}-password` });
+    seen.push(profile); return new HttpResponse(null, { status: 403 });
+  }));
+  for (const profile of ["alpha", "beta"]) await f.json(cli, ["--profile", profile, ...importArgs], { environment: { YOUTRACK_INITIAL_PASSWORD: `synthetic-${profile}-password` } });
+  const replies = await f.rpc(cli, ["beta", "alpha", "beta"].map(profile => ["--profile", profile, ...createArgs])) as { error: { code: string } }[];
+  assert.deepEqual(seen, ["beta", "alpha", "beta"]); assert(replies.every(reply => reply.error.code === "http.forbidden"));
+  for (const profile of ["alpha", "beta"]) assert.equal(await new ProfileSecrets(f.secretStore, "youtrack-cli", profile).get(key), `synthetic-${profile}-password`);
+});
+
+test("US-056 verbose and RPC network failures redact password echoes and preserve causal codes", async t => {
+  const f = await configuredFixture(t, { permissions: ["Update"], secrets: { [key]: password } });
+  server.use(http.post("*", () => HttpResponse.error()));
+  for (const json of [false, true]) {
+    const r = await f.run(f.cli, [...createArgs, "--verbose", ...(json ? ["--json"] : [])]);
+    assert.equal(r.exitCode, 1); assert.match(r.stderr, /outcome is unknown/); safe(r.stderr);
+  }
+  const replies = await f.rpc(f.cli, [[...createArgs, "--verbose"]]); safe(replies);
+  assert.match(JSON.stringify(replies), /request.failed/); assert.match(JSON.stringify(replies), /outcome is unknown/);
+});
