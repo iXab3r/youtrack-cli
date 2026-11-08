@@ -18,3 +18,23 @@ test("US-039 manage only explicitly selected user-bundle groups and individuals"
   await storyCase(t, { argv: ["bundle", "user", "group", "remove", "bundle /?", "group /?", "--fields", "id"], method: "DELETE", path: "/api/admin/customFieldSettings/bundles/user/bundle%20%2F%3F/groups/group%20%2F%3F", query: [["fields", "id"]], response: undefined, result: null, update: true });
   await storyCase(t, { argv: ["bundle", "user", "individual", "remove", "bundle /?", "user /?"], method: "DELETE", path: "/api/admin/customFieldSettings/bundles/user/bundle%20%2F%3F/individuals/user%20%2F%3F", query: [], response: undefined, result: null, update: true });
 });
+
+test("US-039 member preflight, empty confirmations and credential labels preserve native requests", async t => {
+  const f = await configuredFixture(t, { permissions: ["Update"] });
+  let calls = 0;
+  server.use(http.all("*", () => { calls++; return new HttpResponse(null, { status: 204 }); }));
+  for (const kind of ["group", "individual"]) {
+    await assert.rejects(f.cli.execute(["bundle", "user", kind, "create", "bundle", "--body", "{}"]));
+    assert.equal(calls, 0);
+  }
+  for (const kind of ["group", "individual"]) for (const member of ["selected-member", "synthetic-token"]) {
+    for (const argv of [
+      ["bundle", "user", kind, "create", "synthetic-token", "--body", JSON.stringify({ id: member })],
+      ["bundle", "user", kind, "remove", "synthetic-token", member],
+    ]) {
+      const r = await f.run(f.cli, argv); assert.equal(r.exitCode, 0, r.stderr);
+      assert.match(r.stdout, /selected-member|redacted/);
+      assert.doesNotMatch(r.stdout + r.stderr, /synthetic-token|\$type/);
+    }
+  }
+});
