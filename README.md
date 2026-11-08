@@ -477,7 +477,7 @@ are not availability evidence, and failed prerequisites still fail the overall p
 writes, automatic pagination or further resource discovery occur. CI and arbitrary URL/token/
 command arguments are refused; inherited `YOUTRACK_TOKEN` is removed case-insensitively.
 The shared Core proof invoker keeps the 30-second timeout and separate 64-KiB stdout/stderr bounds;
-see the [shared CI and process contract](https://github.com/iXab3r/EyeAuras.CliFactory/blob/6b226682ef762dd49bd1c9d7eb8e7bf18e80acc8/docs/testing.md).
+see the [shared CI and process contract](https://github.com/iXab3r/EyeAuras.CliFactory/blob/bf79b80636bcdd790bbd6c25648842ae5213f267/docs/testing.md).
 Do not run it in CI or add it to generic test commands. A failed proof requires local
 configuration/TLS/permission investigation; its payloads are deliberately not logged.
 
