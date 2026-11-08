@@ -86,3 +86,22 @@ test("US-001 complete issue traversal keeps repeated selectors on every page", a
   });
   assert.deepEqual(starts, ["0", "1"]);
 });
+
+test("US-002 issue history list/detail and native cursor filters retain their distinct contracts", async t => {
+  await storyCase(t, {
+    argv: ["issues", "activity", "list", "DEMO-1", "--categories", "CommentsCategory", "--author", "me", "--activity-start", "000", "--activity-end", "9223372036854775807", "--reverse", "--fields", "id"],
+    method: "GET", path: "/api/issues/DEMO-1/activities",
+    query: [["fields", "id"], ["$top", "50"], ["$skip", "0"], ["categories", "CommentsCategory"], ["author", "me"], ["start", "000"], ["end", "9223372036854775807"], ["reverse", "true"]],
+    response: [], result: emptyPage,
+  });
+  await storyCase(t, {
+    argv: ["issues", "activity", "get", "DEMO-1", "opaque/item", "--fields", "id"],
+    method: "GET", path: "/api/issues/DEMO-1/activities/opaque%2Fitem", query: [["fields", "id"]], response: detail, result: detail,
+  });
+  const cursor = { id: "cursor-page", activities: [], beforeCursor: "a/opaque", afterCursor: "b?opaque", hasBefore: false, hasAfter: true, reverse: false };
+  await storyCase(t, {
+    argv: ["issues", "activity", "page", "DEMO-1", "--categories", "CommentsCategory", "--author", "me", "--activity-start", "-1", "--activity-end", "2", "--activity-id", "opaque activity", "--cursor", "a/opaque", "--fields", "id,activities"],
+    method: "GET", path: "/api/issues/DEMO-1/activitiesPage",
+    query: [["fields", "id,activities"], ["categories", "CommentsCategory"], ["author", "me"], ["start", "-1"], ["end", "2"], ["activityId", "opaque activity"], ["cursor", "a/opaque"]], response: cursor, result: cursor,
+  });
+});
