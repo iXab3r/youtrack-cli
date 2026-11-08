@@ -75,3 +75,8 @@ export async function addProjectTeamGroup(connection: Connection, projectID: str
 export async function removeProjectTeamGroup(connection: Connection, projectID: string, groupID: string, options: ProjectionOptions = {}) {
   return deleteObject(connection, `${teamPath(projectID)}/groups/${encodedID(groupID, "group ID")}`, options);
 }
+
+
+export async function updateProjectTeam(connection: Connection, projectID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, teamPath(projectID), mutationBody(input), fields(options, groupFields));
+}
