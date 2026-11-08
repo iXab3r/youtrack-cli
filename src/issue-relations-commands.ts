@@ -1,6 +1,7 @@
 import { command } from "@eyeauras/cli-factory";
-import { projectedBodyUpdate, pagedRead, projectedRead, updateCommand, notificationOptions, projectionOptions, readOptions } from "./cli-support.js";
+import { projectedDelete, projectedBodyUpdate, pagedRead, projectedRead, updateCommand, notificationOptions, projectionOptions, readOptions } from "./cli-support.js";
 import {
+  listTagIssues, deleteTag,
   addIssueLink,
   addIssueTag,
   createTag, updateTag,
@@ -17,6 +18,7 @@ import {
   removeIssueTag,
 } from "./issue-relations.js";
 import {
+  issueTable, mutationWritten,
   arg,
   done,
   issueLinked,
@@ -38,6 +40,13 @@ export const relationsRootCommands = [
     projectedRead("get <typeID>", "Show a link type", getLinkType, linkTypeRecord),
   ]),
   command("tags", "Inspect and maintain tags", [
+    projectedDelete("delete <tagID>", "Delete a selected tag", deleteTag, mutationWritten("Deleted tag", "tagID")),
+    command("issues", "Inspect issues using a tag", [
+      pagedRead("list <tagID>", "List issues using the tag", listTagIssues, issueTable, [{
+        flags: "--custom-field <name>", description: "Select a custom field (repeatable)",
+        parse: (value, previous) => [...(Array.isArray(previous) ? previous : []), value],
+      }]),
+    ]),
     projectedBodyUpdate("create", "Create a working tag", createTag, undefined, tagWritten),
     projectedBodyUpdate("update <tagID>", "Update a working tag", updateTag, undefined, tagWritten),
     pagedRead("list", "List visible tags", listTags, tagTable, [{ flags: "--query <query>", description: "Filter tags by query" }]),

@@ -1,4 +1,5 @@
 import {
+  deleteObject,
   encodedID,
   fields,
   mutate,
@@ -183,4 +184,9 @@ export async function createSavedQuery(connection: Connection, input: unknown, o
 }
 export async function updateSavedQuery(connection: Connection, queryID: string, input: unknown, options: ProjectionOptions = {}) {
   return mutate(connection, `api/savedQueries/${encodedID(queryID, "saved query ID")}`, savedQueryBody(input, false), fields(options, savedQueryFields));
+}
+
+
+export async function deleteSavedQuery(connection: Connection, queryID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, `api/savedQueries/${encodedID(queryID, "saved query ID")}`, options);
 }

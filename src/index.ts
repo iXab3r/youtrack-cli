@@ -18,21 +18,23 @@ export {
   type YouTrackValue,
 } from "./client.js";
 export {
-  createSavedQuery, updateSavedQuery,
+  deleteSavedQuery, createSavedQuery, updateSavedQuery,
   applyCommands, assistCommands, assistSearch, countIssues, getSavedQuery, listSavedQueries,
   type AssistOptions, type CommandAssistOptions, type CommandApplyOptions,
 } from "./issue-query.js";
 export {
   getProject, getProjectField, listProjectFields, listUsers, getIssueField, listIssueFields, setIssueField,
-  createIssue, updateIssue, createProjectField, updateProjectField,
+  deleteIssue, createIssue, updateIssue, createProjectField, updateProjectField,
 } from "./issue-fields.js";
 export { manifestRows, applyIssueBatch, type BatchRow } from "./issue-batch.js";
 export {
   listLinkTypes, getLinkType, listIssueLinks, getIssueLink, listLinkedIssues, addIssueLink,
+  listTagIssues, deleteTag, type TagIssueOptions,
   createTag, updateTag,
   removeIssueLink, listTags, getTag, getIssueTag, listIssueTags, addIssueTag, removeIssueTag,
 } from "./issue-relations.js";
 export {
+  deleteIssueComment,
   getIssueProject, setIssueProject, createVcsChange, updateVcsChange, deleteVcsChange, listActivities, getActivity,
   getActivitiesPage, getIssueActivitiesPage, listIssueActivities, getIssueActivity, getComment, updateComment, listIssueSprints,
   listVcsChanges, getVcsChange, type ActivityOptions,
@@ -55,12 +57,16 @@ export {
   getEnumValue, listStateBundles, getStateBundle, listStateValues, getStateValue,
 } from "./field-catalog.js";
 export {
+  listUserSavedQueries, listUserTags,
+  getUserTimeProfile, updateUserTimeProfile,
+  getUserGeneralProfile, updateUserGeneralProfile,
   getUserNotifications, updateUserNotifications,
   addUserBundleGroup, addUserBundleIndividual, removeUserBundleGroup, removeUserBundleIndividual,
   listUserBundles, getUserBundle, listUserBundleMembers, listUserBundleGroups, getUserBundleGroup,
   listUserBundleIndividuals, getUserBundleIndividual, getUser,
 } from "./user-directory.js";
 export {
+  addGroupMember,
   updateProjectTeam,
   addProjectTeamGroup, removeProjectTeamGroup,
   addProjectTeamUser, removeProjectTeamUser,
@@ -69,7 +75,7 @@ export {
 } from "./group-directory.js";
 export {
   listArticles, getArticle, createArticle, updateArticle, listArticleComments, getArticleComment,
-  addArticleComment, updateArticleComment, listProjectArticles, exportArticle,
+  deleteArticleComment, addArticleComment, updateArticleComment, listProjectArticles, exportArticle,
 } from "./articles.js";
 export { createAgile, updateAgile, type AgileCreateOptions, listAgiles, getAgile, listSprints, getSprint, createSprint, updateSprint } from "./agile.js";
 export {
@@ -79,6 +85,7 @@ export {
   listVersionBundles, getVersionBundle, listVersionValues, getVersionValue,
 } from "./bundle-values.js";
 export {
+  addChildArticle, updateChildArticle, removeChildArticle,
   listArticleTags, getArticleTag, addArticleTag, removeArticleTag,
   updateArticleAttachment, deleteArticleAttachment, listArticleReactions, getArticleReaction, addArticleReaction, removeArticleReaction,
   listArticleAttachments, getArticleAttachment, uploadArticleAttachment,

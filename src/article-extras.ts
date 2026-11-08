@@ -105,3 +105,20 @@ export async function addArticleReaction(connection: Connection, articleID: stri
 export async function removeArticleReaction(connection: Connection, articleID: string, commentID: string, reactionID: string, options: ProjectionOptions = {}) {
   return deleteObject(connection, `${articleReactionsPath(articleID, commentID)}/${encodedID(reactionID, "reaction ID")}`, options);
 }
+
+
+function childArticleBody(input: unknown) {
+  const body = mutationBody(input);
+  if (Object.hasOwn(body, "summary")) nullableText(body.summary, "summary");
+  if (Object.hasOwn(body, "content")) nullableText(body.content, "article content");
+  return body;
+}
+export async function addChildArticle(connection: Connection, articleID: string, input: unknown, options: WriteOptions = {}) {
+  return mutate(connection, `${articlePath(articleID)}/childArticles`, childArticleBody(input), fields(options, articleDetailFields), options);
+}
+export async function updateChildArticle(connection: Connection, articleID: string, childID: string, input: unknown, options: WriteOptions = {}) {
+  return mutate(connection, `${articlePath(articleID)}/childArticles/${encodedID(childID, "child article ID")}`, childArticleBody(input), fields(options, articleDetailFields), options);
+}
+export async function removeChildArticle(connection: Connection, articleID: string, childID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, `${articlePath(articleID)}/childArticles/${encodedID(childID, "child article ID")}`, options);
+}

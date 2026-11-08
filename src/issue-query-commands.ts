@@ -1,7 +1,8 @@
 import { command, jsonParser, type OptionDefinition } from "@eyeauras/cli-factory";
 import { requiredText, type YouTrackObject } from "./client.js";
-import { pagedRead, projectedBodyUpdate, projectedRead, readCommand, updateCommand, projectionOptions, readOptions, writeOptions, notificationOptions } from "./cli-support.js";
+import { projectedDelete, pagedRead, projectedBodyUpdate, projectedRead, readCommand, updateCommand, projectionOptions, readOptions, writeOptions, notificationOptions } from "./cli-support.js";
 import {
+  deleteSavedQuery,
   applyCommands,
   createSavedQuery,
   updateSavedQuery,
@@ -13,7 +14,7 @@ import {
   parseIssueSelection,
   type AssistOptions,
 } from "./issue-query.js";
-import { commandApplied, countRecord, savedQueryTable, savedQueryRecord, withView } from "./presentation.js";
+import { mutationWritten, commandApplied, countRecord, savedQueryTable, savedQueryRecord, withView } from "./presentation.js";
 
 const queryOptions: readonly OptionDefinition[] = [
   ...projectionOptions,
@@ -102,6 +103,7 @@ export const queryRootCommands = [
     ),
   ]),
   command("saved-queries", "Read and maintain saved searches", [
+    projectedDelete("delete <queryID>", "Delete a selected saved search", deleteSavedQuery, mutationWritten("Deleted saved search", "queryID")),
     projectedBodyUpdate("create", "Create a saved search", createSavedQuery, undefined, savedQueryRecord),
     projectedBodyUpdate("update <queryID>", "Update a saved search", updateSavedQuery, undefined, savedQueryRecord),
     pagedRead("list", "List saved searches", listSavedQueries, savedQueryTable),

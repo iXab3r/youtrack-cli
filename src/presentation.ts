@@ -714,3 +714,17 @@ export const notificationRecord = recordView<Item | null>({
     { label: "Watch on create", value: item => booleanText(item?.autoWatchOnCreate) },
     { label: "Watch on vote", value: item => booleanText(item?.autoWatchOnVote) }],
 });
+
+
+export const generalProfileRecord = recordView<Item | null>({
+  title: (_item, context) => joined("General profile", submittedIdentity(context)?.args.user),
+  fields: [{ label: "Date format", value: item => text(nested(item?.dateFieldFormat)?.presentation) ?? text(nested(item?.dateFieldFormat)?.pattern) ?? key(nested(item?.dateFieldFormat)) },
+    { label: "Timezone", value: item => text(nested(item?.timezone)?.presentation) ?? key(nested(item?.timezone)) },
+    { label: "Locale", value: item => text(nested(item?.locale)?.name) ?? text(nested(item?.locale)?.locale) ?? key(nested(item?.locale)) }],
+});
+
+
+export const timeProfileRecord = recordView<Item | null>({
+  title: (_item, context) => joined("Time-tracking profile", submittedIdentity(context)?.args.user),
+  fields: [{ label: "Period format", value: item => key(nested(item?.periodFormat)) }],
+});

@@ -20,6 +20,7 @@ import {
   youTrackUrlHelp,
 } from "./client.js";
 import {
+  projectedDelete,
   projectedBodyUpdate,
   notificationOptions,
   draftOptions,
@@ -34,7 +35,7 @@ import {
 } from "./cli-support.js";
 import { downloadLimit } from "./attachment-download.js";
 import { applyIssueBatch, manifestRows } from "./issue-batch.js";
-import { createIssue, updateIssue } from "./issue-fields.js";
+import { deleteIssue, createIssue, updateIssue } from "./issue-fields.js";
 import { contextRootCommands, contextIssueChildren, contextCommentChildren } from "./issue-context-commands.js";
 import { timeRootCommands, timeIssueChildren } from "./issue-time-commands.js";
 import { relationsRootCommands, relationsIssueChildren } from "./issue-relations-commands.js";
@@ -50,6 +51,7 @@ import { accessCatalogRootCommands } from "./access-catalog-commands.js";
 import { agileRootCommands } from "./agile-commands.js";
 import { bundleValuesChildren } from "./bundle-values-commands.js";
 import {
+  mutationWritten,
   batchApplied,
   batchValidated,
   commentAdded,
@@ -147,6 +149,7 @@ export function createYouTrackCli(runtime?: CliRuntime): CliApplication {
         pagedRead("list", "List projects", listProjects, projectTable),
       ]),
       command("issues", "Read and update issues", [
+        projectedDelete("delete <issueID>", "Delete a selected issue", deleteIssue, mutationWritten("Deleted issue", "issueID")),
         ...contextIssueChildren,
         ...timeIssueChildren,
         ...relationsIssueChildren,
@@ -220,7 +223,7 @@ export function createYouTrackCli(runtime?: CliRuntime): CliApplication {
             ],
           )),
         ]),
-        command("comments", "Read and add comments", [
+        command("comments", "Read and manage comments", [
           ...contextCommentChildren,
           projectedBodyUpdate("add <issueID>", "Add a comment", addComment, "text", commentAdded("issueID"), [...notificationOptions, ...draftOptions]),
           pagedRead("list <issueID>", "List comments", listComments, commentTable),

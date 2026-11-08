@@ -69,7 +69,7 @@ export interface ByteBudget {
   remaining: number;
 }
 
-const issueListFields = "id,idReadable,summary,project(id,name,shortName),updated,resolved";
+export const issueListFields = "id,idReadable,summary,project(id,name,shortName),updated,resolved";
 const commentFields = "id,text,author(id,login),created,updated";
 
 export function requiredText(value: string, label: string): string {
@@ -475,6 +475,13 @@ function positiveBudget(value: number, label: string): number {
   return value;
 }
 
+/** Native repeated issue-field selectors shared by concrete issue collections. */
+export function customFieldQuery(customFields: readonly string[] | undefined): QueryParameters {
+  if (customFields === undefined) return {};
+  if (!Array.isArray(customFields)) throw new Error("The custom fields must be a list of names.");
+  return { customFields: customFields.map(value => requiredText(value, "custom field name")) };
+}
+
 export async function listIssues(
   connection: Connection,
   options: IssueSearchOptions = {},
@@ -482,12 +489,7 @@ export async function listIssues(
   const query: QueryParameters = {
     ...page(options, issueListFields),
     ...(options.query === undefined ? {} : { query: requiredText(options.query, "query") }),
-    ...(options.customFields === undefined ? {} : {
-      customFields: (() => {
-        if (!Array.isArray(options.customFields)) throw new Error("The custom fields must be a list of names.");
-        return options.customFields.map(value => requiredText(value, "custom field name"));
-      })(),
-    }),
+    ...customFieldQuery(options.customFields),
   };
   const budget = options.maxBytes === undefined
     ? undefined

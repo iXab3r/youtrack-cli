@@ -1,7 +1,8 @@
 import { issueReactionCommand } from "./issue-reactions-commands.js";
 import { command, type OptionDefinition } from "@eyeauras/cli-factory";
-import { projectedBodyUpdate, notificationOptions, pagedRead, projectedRead, readCommand, pageOptions, projectionOptions, readOptions, updateCommand } from "./cli-support.js";
+import { projectedDelete, projectedBodyUpdate, notificationOptions, pagedRead, projectedRead, readCommand, pageOptions, projectionOptions, readOptions, updateCommand } from "./cli-support.js";
 import {
+  deleteIssueComment,
   activityCategories,
   getActivitiesPage,
   listActivities,
@@ -21,7 +22,7 @@ import {
   updateComment,
   type ActivityOptions,
 } from "./issue-context.js";
-import { commentShown, commentUpdated, projectRecord, vcsRecord, arg, done, sprintTable, activityTable, activityRecord, withView } from "./presentation.js";
+import { mutationWritten, commentShown, commentUpdated, projectRecord, vcsRecord, arg, done, sprintTable, activityTable, activityRecord, withView } from "./presentation.js";
 
 const activityOptions: readonly OptionDefinition[] = [
   ...projectionOptions,
@@ -125,6 +126,7 @@ export const contextIssueChildren = [
 ];
 
 export const contextCommentChildren = [
+  projectedDelete("delete <issueID> <commentID>", "Delete a selected comment", deleteIssueComment, mutationWritten("Deleted comment", "commentID", "issueID")),
   issueReactionCommand,
   projectedRead("get <issueID> <commentID>", "Show a comment", getComment, commentShown),
   projectedBodyUpdate(

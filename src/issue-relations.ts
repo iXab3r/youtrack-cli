@@ -1,4 +1,5 @@
 import {
+  customFieldQuery, issueListFields,
   deleteObject,
   encodedID,
   issuePath,
@@ -16,6 +17,7 @@ import {
   type YouTrackObject,
   type IssueSearchOptions,
   type WriteOptions,
+  type PageOptions,
   type ProjectionOptions,
 } from "./client.js";
 
@@ -116,4 +118,17 @@ export async function createTag(connection: Connection, input: unknown, options:
 }
 export async function updateTag(connection: Connection, tagID: string, input: unknown, options: ProjectionOptions = {}) {
   return mutate(connection, `api/tags/${encodedID(tagID, "tag ID")}`, namedMutationBody(input, false), fields(options, tagFields));
+}
+
+
+export interface TagIssueOptions extends PageOptions {
+  customFields?: readonly string[];
+}
+export async function listTagIssues(connection: Connection, tagID: string, options: TagIssueOptions = {}) {
+  return readPage(connection, `api/tags/${encodedID(tagID, "tag ID")}/issues`, {
+    ...page(options, issueListFields), ...customFieldQuery(options.customFields),
+  });
+}
+export async function deleteTag(connection: Connection, tagID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, `api/tags/${encodedID(tagID, "tag ID")}`, options);
 }
