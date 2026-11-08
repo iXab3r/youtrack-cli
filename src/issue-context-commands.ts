@@ -1,5 +1,5 @@
 import { command, type OptionDefinition } from "@eyeauras/cli-factory";
-import { bodyUpdate, pagedRead, projectedRead, readCommand, pageOptions, projectionOptions, readOptions } from "./cli-support.js";
+import { projectedBodyUpdate, notificationOptions, pagedRead, projectedRead, readCommand, pageOptions, projectionOptions, readOptions } from "./cli-support.js";
 import {
   activityCategories,
   getActivitiesPage,
@@ -98,11 +98,12 @@ export const contextIssueChildren = [
 
 export const contextCommentChildren = [
   projectedRead("get <issueID> <commentID>", "Show a comment", getComment, commentShown),
-  bodyUpdate(
+  projectedBodyUpdate(
     "update <issueID> <commentID>",
     "Replace a comment's text",
     updateComment,
     "text",
     commentUpdated("issueID", "commentID"),
+    notificationOptions,
   ),
 ];

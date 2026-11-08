@@ -578,10 +578,11 @@ export async function addComment(
   connection: Connection,
   issueID: string,
   input: unknown,
+  options: WriteOptions = {},
 ): Promise<YouTrackObject | null> {
   const body = mutationBody(input);
   return mutate(connection, `${issuePath(issueID)}/comments`, {
     ...body,
     ...(Object.hasOwn(body, "text") ? { text: nullableText(body.text, "text") } : {}),
-  }, commentFields);
+  }, commentFields, options);
 }

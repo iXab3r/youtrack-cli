@@ -17,6 +17,7 @@ import {
   type YouTrackPage,
   type ProjectionOptions,
   type YouTrackObject,
+  type WriteOptions,
 } from "./client.js";
 
 export interface ActivityOptions extends ProjectionOptions {
@@ -114,6 +115,7 @@ export async function updateComment(
   issueID: string,
   commentID: string,
   input: unknown,
+  options: WriteOptions = {},
 ): Promise<YouTrackObject | null> {
   const body = mutationBody(input);
   return mutate(
@@ -121,6 +123,7 @@ export async function updateComment(
     `${issuePath(issueID)}/comments/${encodedID(commentID, "comment ID")}`,
     { ...body, ...(Object.hasOwn(body, "text") ? { text: nullableText(body.text, "text") } : {}) },
     commentFields,
+    options,
   );
 }
 

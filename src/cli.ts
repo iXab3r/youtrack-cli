@@ -221,7 +221,7 @@ export function createYouTrackCli(runtime?: CliRuntime): CliApplication {
         ]),
         command("comments", "Read and add comments", [
           ...contextCommentChildren,
-          bodyUpdate("add <issueID>", "Add a comment", addComment, "text", commentAdded("issueID")),
+          projectedBodyUpdate("add <issueID>", "Add a comment", addComment, "text", commentAdded("issueID"), [...notificationOptions, ...draftOptions]),
           pagedRead("list <issueID>", "List comments", listComments, commentTable),
         ]),
       ], { examples: issueExamples }),
