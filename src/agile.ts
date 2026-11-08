@@ -3,12 +3,14 @@ import {
   fields,
   mutate,
   mutationBody,
+  namedMutationBody,
   nullableText,
   readCollectionAt,
   readObjectAt,
   requiredText,
   type Connection,
   type ProjectionOptions,
+  type WriteOptions,
   type YouTrackObject,
 } from "./client.js";
 
@@ -77,13 +79,14 @@ export async function createSprint(
   connection: Connection,
   agile: string,
   input: unknown,
-  options: ProjectionOptions = {},
+  options: WriteOptions = {},
 ) {
   return mutate(
     connection,
     `${agilePath(agile)}/sprints`,
     sprintBody(input, true),
     fields(options, sprintFields),
+    options,
   );
 }
 
@@ -100,4 +103,20 @@ export async function updateSprint(
     sprintBody(input, false),
     fields(options, sprintFields),
   );
+}
+
+
+export interface AgileCreateOptions extends ProjectionOptions { template?: string; }
+export async function createAgile(connection: Connection, input: unknown, options: AgileCreateOptions = {}) {
+  const body = namedMutationBody(input, true);
+  if (!Array.isArray(body.projects)) throw new Error("A new board requires projects with explicit IDs.");
+  const projects = body.projects.map(value => {
+    const project = mutationBody(value);
+    return { ...project, id: requiredText(project.id as string, "project ID") };
+  });
+  return mutate(connection, "api/agiles", { ...body, projects }, agileFields, options,
+    options.template === undefined ? {} : { template: requiredText(options.template, "template") });
+}
+export async function updateAgile(connection: Connection, agile: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, agilePath(agile), namedMutationBody(input, false), fields(options, agileFields));
 }

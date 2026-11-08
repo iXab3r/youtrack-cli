@@ -582,3 +582,8 @@ export const vcsRecord = recordView<Item | null>({
   fields: [{ label: "Version", value: item => text(item?.version) },
     { label: "State", value: item => count(item?.state) ?? text(nested(item?.state)?.id) }],
 });
+
+export const agileWritten = (verb: string): HumanView => recordView<Item | null>({
+  title: (item, context) => joined(`${verb} board`, text(item?.name) ?? key(item) ?? arg(context, "agile")),
+  fields: [{ label: "ID", value: item => key(item) }],
+});

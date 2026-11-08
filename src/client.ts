@@ -530,6 +530,13 @@ export function mutationBody(value: unknown): YouTrackObject {
   return value as YouTrackObject;
 }
 
+/** Native named resources share a required creation name and optional update name. */
+export function namedMutationBody(input: unknown, creating: boolean): YouTrackObject {
+  const body = mutationBody(input);
+  if (creating || Object.hasOwn(body, "name")) narrative(body.name, "name");
+  return body;
+}
+
 export function narrative(value: unknown, label: string): string {
   if (typeof value !== "string") {
     throw new Error(`The ${label} must be text.`);
@@ -563,8 +570,9 @@ export async function mutate(
   body: YouTrackObject,
   projection: string,
   options: WriteOptions = {},
+  extraQuery: QueryParameters = {},
 ): Promise<YouTrackObject | null> {
-  const query = writeQuery(options, projection);
+  const query = { ...extraQuery, ...writeQuery(options, projection) };
   return mutationResult(async onSubmit => {
     const value = await request(connection, path, query, "JSON", {
       method: "POST", body, allowEmpty: true, onSubmit,
