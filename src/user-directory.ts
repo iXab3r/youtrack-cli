@@ -77,3 +77,13 @@ export async function updateUserGeneralProfile(connection: Connection, userID: s
   }
   return mutate(connection, generalProfilePath(userID), body, fields(options, generalProfileFields));
 }
+
+
+const timeProfileFields = "id,periodFormat(id)";
+const timeProfilePath = (userID: string) => `api/users/${encodedID(userID, "user ID")}/profiles/timetracking`;
+export const getUserTimeProfile = readObjectAt(timeProfilePath, timeProfileFields);
+export async function updateUserTimeProfile(connection: Connection, userID: string, input: unknown, options: ProjectionOptions = {}) {
+  const body = mutationBody(input);
+  if (Object.hasOwn(body, "periodFormat") && body.periodFormat !== null) mutationBody(body.periodFormat);
+  return mutate(connection, timeProfilePath(userID), body, fields(options, timeProfileFields));
+}

@@ -55,6 +55,7 @@ export {
   getEnumValue, listStateBundles, getStateBundle, listStateValues, getStateValue,
 } from "./field-catalog.js";
 export {
+  getUserTimeProfile, updateUserTimeProfile,
   getUserGeneralProfile, updateUserGeneralProfile,
   getUserNotifications, updateUserNotifications,
   addUserBundleGroup, addUserBundleIndividual, removeUserBundleGroup, removeUserBundleIndividual,

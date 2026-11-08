@@ -722,3 +722,9 @@ export const generalProfileRecord = recordView<Item | null>({
     { label: "Timezone", value: item => text(nested(item?.timezone)?.presentation) ?? key(nested(item?.timezone)) },
     { label: "Locale", value: item => text(nested(item?.locale)?.name) ?? text(nested(item?.locale)?.locale) ?? key(nested(item?.locale)) }],
 });
+
+
+export const timeProfileRecord = recordView<Item | null>({
+  title: (_item, context) => joined("Time-tracking profile", submittedIdentity(context)?.args.user),
+  fields: [{ label: "Period format", value: item => key(nested(item?.periodFormat)) }],
+});
