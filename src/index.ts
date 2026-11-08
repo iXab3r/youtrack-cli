@@ -29,6 +29,7 @@ export {
 export { manifestRows, applyIssueBatch, type BatchRow } from "./issue-batch.js";
 export {
   listLinkTypes, getLinkType, listIssueLinks, getIssueLink, listLinkedIssues, addIssueLink,
+  listTagIssues, deleteTag, type TagIssueOptions,
   createTag, updateTag,
   removeIssueLink, listTags, getTag, getIssueTag, listIssueTags, addIssueTag, removeIssueTag,
 } from "./issue-relations.js";
