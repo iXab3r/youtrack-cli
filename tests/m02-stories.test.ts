@@ -21,3 +21,9 @@ test("US-016 read and set the exact issue project without discovery", async t =>
   await storyCase(t, { argv: ["issues", "project", "get", "DEMO /?", "--fields", "id"], method: "GET", path: "/api/issues/DEMO%20%2F%3F/project", query: [["fields", "id"]], response: detail, result: detail });
   await storyCase(t, { argv: ["issues", "project", "set", "DEMO /?", "--body", '{"id":"target /?"}', "--fields", "id", "--mute-update-notifications", "false"], method: "POST", path: "/api/issues/DEMO%20%2F%3F/project", query: [["fields", "id"], ["muteUpdateNotifications", "false"]], body: { id: "target /?" }, response: detail, result: detail, update: true });
 });
+
+test("US-017 native VCS create, state update and exact removal retain opaque IDs", async t => {
+  await storyCase(t, { argv: ["issues", "vcs-changes", "create", "DEMO-1", "--body", '{"version":"synthetic-version","state":4}', "--fields", "id", "--mute-update-notifications"], method: "POST", path: "/api/issues/DEMO-1/vcsChanges", query: [["fields", "id"], ["muteUpdateNotifications", "true"]], body: { version: "synthetic-version", state: 4 }, response: detail, result: detail, update: true });
+  await storyCase(t, { argv: ["issues", "vcs-changes", "update", "DEMO-1", "change /?", "--body", '{"state":2}', "--fields", "id", "--mute-update-notifications", "false"], method: "POST", path: "/api/issues/DEMO-1/vcsChanges/change%20%2F%3F", query: [["fields", "id"], ["muteUpdateNotifications", "false"]], body: { state: 2 }, response: undefined, result: null, update: true });
+  await storyCase(t, { argv: ["issues", "vcs-changes", "delete", "DEMO-1", "change /?"], method: "DELETE", path: "/api/issues/DEMO-1/vcsChanges/change%20%2F%3F", query: [], response: undefined, result: null, update: true });
+});
