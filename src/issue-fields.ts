@@ -1,9 +1,11 @@
 import {
+  customFieldQuery, issueListFields, readPage, page, type PageOptions,
   deleteObject,
   encodedID,
   fields,
   type ProjectionOptions,
   issuePath,
+  namedMutationBody,
   mutationBody,
   mutate,
   narrative,
@@ -29,7 +31,8 @@ function fieldPath(issueID: string, fieldID: string): string {
   return `${issuePath(issueID)}/customFields/${encodedID(fieldID, "field ID")}`;
 }
 
-export const getProject = readObjectAt(projectPath, "id,name,shortName,description,archived");
+const projectFields = "id,name,shortName,description,archived";
+export const getProject = readObjectAt(projectPath, projectFields);
 export const listProjectFields = readCollectionAt(
   (projectID: string) => `${projectPath(projectID)}/customFields`,
   projectFieldFields,
@@ -205,4 +208,57 @@ export async function updateProjectField(connection: Connection, projectID: stri
 
 export async function deleteIssue(connection: Connection, issueID: string, options: ProjectionOptions = {}) {
   return deleteObject(connection, issuePath(issueID), options);
+}
+
+
+/** Native project templates from the pinned primary reference. */
+export function projectTemplate(value: unknown): string {
+  const template = narrative(value, "template");
+  if (!["scrum", "kanban"].includes(template)) throw new Error("The project template must be scrum or kanban.");
+  return template;
+}
+export interface ProjectCreateOptions extends ProjectionOptions {
+  template?: string;
+}
+export async function createProject(connection: Connection, input: unknown, options: ProjectCreateOptions = {}) {
+  const body = namedMutationBody(input, true);
+  narrative(body.shortName, "short name");
+  narrative(mutationBody(body.leader).id, "leader ID");
+  const query = options.template === undefined ? {} : { template: projectTemplate(options.template) };
+  return mutate(connection, "api/admin/projects", body, fields(options, projectFields), {}, query);
+}
+export async function updateProject(connection: Connection, projectID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, projectPath(projectID), namedMutationBody(input, false), fields(options, projectFields));
+}
+
+
+const projectIssuesPath = (projectID: string) => `${projectPath(projectID)}/issues`;
+const scopedIssueFields = `${issueListFields},description,created`;
+export interface ProjectIssueOptions extends PageOptions {
+  customFields?: readonly string[];
+}
+export async function listProjectIssues(connection: Connection, projectID: string, options: ProjectIssueOptions = {}) {
+  return readPage(connection, projectIssuesPath(projectID), {
+    ...page(options, issueListFields), ...customFieldQuery(options.customFields),
+  });
+}
+export const getProjectIssue = readObjectAt(
+  (projectID: string, issueID: string) => `${projectIssuesPath(projectID)}/${encodedID(issueID, "issue ID")}`, scopedIssueFields,
+);
+export async function createProjectIssue(connection: Connection, projectID: string, input: unknown, options: WriteOptions = {}) {
+  const body = mutationBody(input);
+  narrative(body.summary, "summary");
+  if (Object.hasOwn(body, "description")) nullableText(body.description, "description");
+  return mutate(connection, projectIssuesPath(projectID), body, fields(options, scopedIssueFields), options);
+}
+export async function updateProjectIssue(connection: Connection, projectID: string, issueID: string, input: unknown, options: WriteOptions = {}) {
+  const body = mutationBody(input);
+  if (Object.hasOwn(body, "summary")) nullableText(body.summary, "summary");
+  if (Object.hasOwn(body, "description")) nullableText(body.description, "description");
+  return mutate(connection, `${projectIssuesPath(projectID)}/${encodedID(issueID, "issue ID")}`, body, fields(options, scopedIssueFields), options);
+}
+
+
+export async function deleteProjectIssue(connection: Connection, projectID: string, issueID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, `${projectIssuesPath(projectID)}/${encodedID(issueID, "issue ID")}`, options);
 }

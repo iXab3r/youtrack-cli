@@ -23,12 +23,15 @@ export {
   type AssistOptions, type CommandAssistOptions, type CommandApplyOptions,
 } from "./issue-query.js";
 export {
+  deleteProjectIssue,
+  listProjectIssues, getProjectIssue, createProjectIssue, updateProjectIssue, type ProjectIssueOptions,
+  createProject, updateProject, type ProjectCreateOptions,
   getProject, getProjectField, listProjectFields, listUsers, getIssueField, listIssueFields, setIssueField,
   deleteIssue, createIssue, updateIssue, createProjectField, updateProjectField,
 } from "./issue-fields.js";
 export { manifestRows, applyIssueBatch, type BatchRow } from "./issue-batch.js";
 export {
-  listLinkTypes, getLinkType, listIssueLinks, getIssueLink, listLinkedIssues, addIssueLink,
+  createLinkType, updateLinkType, deleteLinkType, listLinkTypes, getLinkType, listIssueLinks, getIssueLink, listLinkedIssues, addIssueLink,
   listTagIssues, deleteTag, type TagIssueOptions,
   createTag, updateTag,
   removeIssueLink, listTags, getTag, getIssueTag, listIssueTags, addIssueTag, removeIssueTag,
@@ -57,7 +60,7 @@ export {
   getEnumValue, listStateBundles, getStateBundle, listStateValues, getStateValue,
 } from "./field-catalog.js";
 export {
-  listUserSavedQueries, listUserTags,
+  createUser, updateUser, listUserSavedQueries, listUserTags,
   getUserTimeProfile, updateUserTimeProfile,
   getUserGeneralProfile, updateUserGeneralProfile,
   getUserNotifications, updateUserNotifications,
@@ -66,6 +69,7 @@ export {
   listUserBundleIndividuals, getUserBundleIndividual, getUser,
 } from "./user-directory.js";
 export {
+  createGroup, updateGroup, deleteGroup,
   addGroupMember,
   updateProjectTeam,
   addProjectTeamGroup, removeProjectTeamGroup,
@@ -74,10 +78,10 @@ export {
   listProjectTeamUsers, type MemberOptions,
 } from "./group-directory.js";
 export {
-  listArticles, getArticle, createArticle, updateArticle, listArticleComments, getArticleComment,
+  deleteArticle, listArticles, getArticle, createArticle, updateArticle, listArticleComments, getArticleComment,
   deleteArticleComment, addArticleComment, updateArticleComment, listProjectArticles, exportArticle,
 } from "./articles.js";
-export { createAgile, updateAgile, type AgileCreateOptions, listAgiles, getAgile, listSprints, getSprint, createSprint, updateSprint } from "./agile.js";
+export { deleteAgile, deleteSprint, createAgile, updateAgile, type AgileCreateOptions, listAgiles, getAgile, listSprints, getSprint, createSprint, updateSprint } from "./agile.js";
 export {
   listBuildBundles, getBuildBundle, listBuildValues, getBuildValue,
   listOwnedBundles, getOwnedBundle, listOwnedValues, getOwnedValue,
@@ -97,4 +101,6 @@ export {
 
 export { listIssueReactions, getIssueReaction, addIssueReaction, removeIssueReaction } from "./issue-reactions.js";
 
-export { createRoleAssignment, deleteRoleAssignment, listRoleAssignments, getRoleAssignment, listPermissions, listRoles, getRole } from "./access-catalog.js";
+export { createRole, updateRole, deleteRole, createRoleAssignment, deleteRoleAssignment, listRoleAssignments, getRoleAssignment, listPermissions, listRoles, getRole } from "./access-catalog.js";
+
+export { listOrganizations, getOrganization, createOrganization, updateOrganization, deleteOrganization } from "./organizations.js";

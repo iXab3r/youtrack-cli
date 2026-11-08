@@ -12,7 +12,7 @@ import {
   listIssueLinks,
   listIssueTags,
   listLinkedIssues,
-  listLinkTypes,
+  createLinkType, updateLinkType, deleteLinkType, listLinkTypes,
   listTags,
   removeIssueLink,
   removeIssueTag,
@@ -35,7 +35,10 @@ import {
 } from "./presentation.js";
 
 export const relationsRootCommands = [
-  command("link-types", "Inspect issue link types", [
+  command("link-types", "Inspect and manage issue link types", [
+    projectedBodyUpdate("create", "Create an issue link type", createLinkType, undefined, mutationWritten("Created link type")),
+    projectedBodyUpdate("update <type>", "Update a selected link type", updateLinkType, undefined, mutationWritten("Updated link type", "type")),
+    projectedDelete("delete <type>", "Delete a selected link type", deleteLinkType, mutationWritten("Deleted link type", "type")),
     pagedRead("list", "List link types", listLinkTypes, linkTypeTable),
     projectedRead("get <typeID>", "Show a link type", getLinkType, linkTypeRecord),
   ]),

@@ -1,4 +1,4 @@
-import { fields, mutate, deleteObject, mutationBody, requiredText, narrative, type Connection, type ProjectionOptions, encodedID, readCollectionAt, readObjectAt } from "./client.js";
+import { fields, mutate, deleteObject, mutationBody, nullableText, youTrackUrl, requiredText, narrative, type Connection, type ProjectionOptions, encodedID, readCollectionAt, readObjectAt } from "./client.js";
 
 const bundleRoot = "api/admin/customFieldSettings/bundles/user";
 const bundleFields = "id,name,isUpdateable";
@@ -95,3 +95,37 @@ export const listUserSavedQueries = readCollectionAt(
 export const listUserTags = readCollectionAt(
   (userID: string) => `api/users/${encodedID(userID, "user ID")}/tags`, "id,name",
 );
+
+
+function userBody(input: unknown, creating: boolean) {
+  const body = mutationBody(input);
+  if (creating || Object.hasOwn(body, "login")) narrative(body.login, "login");
+  if (creating || Object.hasOwn(body, "password")) narrative(body.password, "initial password");
+  if (Object.hasOwn(body, "email")) nullableText(body.email, "email");
+  return body;
+}
+async function writeUser(connection: Connection, path: string, body: ReturnType<typeof userBody>, options: ProjectionOptions) {
+  const password = body.password;
+  if (typeof password === "string" && !youTrackUrl(connection.baseUrl).startsWith("https:")) {
+    throw new Error("Password submission requires HTTPS.");
+  }
+  const origin = new URL(youTrackUrl(connection.baseUrl)).origin;
+  const transport = connection.fetch ?? globalThis.fetch;
+  // Core owns redirect traversal; this endpoint also scopes its credential-bearing JSON body.
+  const target = typeof password !== "string" ? connection : { ...connection, fetch: ((input, init) => {
+    const url = new URL(input instanceof Request ? input.url : input);
+    if (init?.body != null && (url.protocol !== "https:" || url.origin !== origin)) {
+      throw new Error("Password submission requires the original HTTPS origin.");
+    }
+    return transport(input, init);
+  }) as typeof globalThis.fetch };
+  return mutate(target, path, body, fields(options, userFields), {
+    ...options, ...(typeof password === "string" ? { sensitiveValues: [password] } : {}),
+  });
+}
+export async function createUser(connection: Connection, input: unknown, options: ProjectionOptions = {}) {
+  return writeUser(connection, "api/users", userBody(input, true), options);
+}
+export async function updateUser(connection: Connection, userID: string, input: unknown, options: ProjectionOptions = {}) {
+  return writeUser(connection, `api/users/${encodedID(userID, "user ID or login")}`, userBody(input, false), options);
+}

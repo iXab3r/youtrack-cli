@@ -1,9 +1,10 @@
 import {
+  deleteObject,
   encodedID,
   fields,
   mutate,
   mutationBody,
-  namedMutationBody,
+  narrative, namedMutationBody,
   nullableText,
   readCollectionAt,
   readObjectAt,
@@ -106,6 +107,14 @@ export async function updateSprint(
 }
 
 
+/** Native board templates from the pinned primary reference. */
+export function agileTemplate(value: unknown): string {
+  const template = narrative(value, "template");
+  if (!["kanban", "scrum", "version", "custom", "personal"].includes(template)) {
+    throw new Error("The board template must be kanban, scrum, version, custom or personal.");
+  }
+  return template;
+}
 export interface AgileCreateOptions extends ProjectionOptions { template?: string; }
 export async function createAgile(connection: Connection, input: unknown, options: AgileCreateOptions = {}) {
   const body = namedMutationBody(input, true);
@@ -115,8 +124,16 @@ export async function createAgile(connection: Connection, input: unknown, option
     return { ...project, id: requiredText(project.id as string, "project ID") };
   });
   return mutate(connection, "api/agiles", { ...body, projects }, agileFields, options,
-    options.template === undefined ? {} : { template: requiredText(options.template, "template") });
+    options.template === undefined ? {} : { template: agileTemplate(options.template) });
 }
 export async function updateAgile(connection: Connection, agile: string, input: unknown, options: ProjectionOptions = {}) {
   return mutate(connection, agilePath(agile), namedMutationBody(input, false), fields(options, agileFields));
+}
+
+
+export async function deleteAgile(connection: Connection, agileID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, agilePath(agileID), options);
+}
+export async function deleteSprint(connection: Connection, agileID: string, sprintID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, `${agilePath(agileID)}/sprints/${encodedID(sprintID, "sprint ID")}`, options);
 }

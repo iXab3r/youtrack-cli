@@ -170,3 +170,24 @@ test("installed M05 exports preserve native profile, repeated fields and selecte
   const time = await sdk.getUserTimeProfile({ baseUrl: "https://installed.example.test/context", token: "synthetic-installed", fetch: f.runtime.fetch }, "user");
   assert.equal(time.periodFormat.id, "FULL"); assert.equal(calls, 5);
 });
+
+test("installed M06 exports, scoped deletion and initial-password import retain their contracts", async t => {
+  const sdk = await import("@eyeauras/youtrack-cli");
+  for (const name of ["deleteArticle", "deleteAgile", "deleteSprint", "createProject", "updateProject", "listProjectIssues", "getProjectIssue", "createProjectIssue", "updateProjectIssue", "deleteProjectIssue", "createUser", "updateUser", "createGroup", "updateGroup", "deleteGroup", "listOrganizations", "getOrganization", "createOrganization", "updateOrganization", "deleteOrganization", "createRole", "updateRole", "deleteRole", "createLinkType", "updateLinkType", "deleteLinkType"]) assert.equal(typeof sdk[name], "function", name);
+  const f = await createCliFixture(t, { applicationId: "youtrack-cli", profiles: [{ name: "default", values: { url: "https://installed.example.test/context" }, permissions: ["ReadOnly", "Update"], secrets: { token: "synthetic-installed" } }] });
+  const password = "synthetic-initial-password"; let calls = 0;
+  f.runtime.fetch = async (input, init) => {
+    calls++; const u = new URL(input); assert.equal(new Headers(init.headers).get("authorization"), "Bearer synthetic-installed");
+    if (u.pathname === "/context/api/users") {
+      assert.equal(init.method, "POST"); assert.deepEqual(JSON.parse(init.body), { login: "synthetic-user", password });
+      return Response.json({ id: "synthetic-user", echo: password });
+    }
+    assert.equal(u.pathname, "/context/api/admin/projects/project/issues/issue");
+    assert.equal(init.method, "DELETE"); assert.equal(u.search, ""); return new Response(null, { status: 204 });
+  };
+  const app = f.createApplication(createYouTrackCli);
+  assert.deepEqual(await f.json(app, ["user", "initial-password", "import", "token", "--from-env"], { environment: { YOUTRACK_INITIAL_PASSWORD: password } }), { alias: "token", stored: true });
+  assert.equal(calls, 0);
+  assert.deepEqual(await f.json(app, ["user", "create", "--body", '{"login":"synthetic-user"}', "--password-secret", "token"]), { id: "synthetic-user", echo: "[redacted]" });
+  assert.equal(await f.json(app, ["project", "issues", "delete", "project", "issue"]), null); assert.equal(calls, 2);
+});

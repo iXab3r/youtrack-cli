@@ -2,6 +2,7 @@ import { command } from "@eyeauras/cli-factory";
 import { articlesExtraChildren, articleReactionCommand } from "./article-extras-commands.js";
 import { projectedDelete, pagedRead, projectedBodyUpdate, projectedRead, readCommand, notificationOptions, draftOptions } from "./cli-support.js";
 import {
+  deleteArticle,
   deleteArticleComment,
   addArticleComment,
   createArticle,
@@ -30,6 +31,7 @@ import {
 
 export const articlesRootCommands = [
   command("article", "Read and write knowledge-base articles", [
+    projectedDelete("delete <article>", "Delete a selected article", deleteArticle, mutationWritten("Deleted article", "article")),
     ...articlesExtraChildren,
     pagedRead("list", "List articles", listArticles, articleTable),
     projectedRead("get <article>", "Show an article", getArticle, articleRecord),

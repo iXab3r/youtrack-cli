@@ -47,6 +47,7 @@ import { fieldCatalogRootCommands, fieldCatalogBundleChildren } from "./field-ca
 import { userDirectoryUserChildren, userDirectoryBundleChildren } from "./user-directory-commands.js";
 import { groupDirectoryRootCommands, groupDirectoryProjectChildren } from "./group-directory-commands.js";
 import { articlesRootCommands, articlesProjectChildren } from "./articles-commands.js";
+import { organizationRootCommands } from "./organization-commands.js";
 import { accessCatalogRootCommands } from "./access-catalog-commands.js";
 import { agileRootCommands } from "./agile-commands.js";
 import { bundleValuesChildren } from "./bundle-values-commands.js";
@@ -74,7 +75,7 @@ const rootLayout = [
   ["Everyday", ["issues", "project", "user", "article", "agile", "sprint"]],
   ["Reference", [
     "field", "bundle", "tags", "link-types", "work-item-type", "time-tracking", "saved-queries",
-    "search", "commands", "activities", "work-items", "group", "role", "role-assignment", "permission-catalog",
+    "search", "commands", "activities", "work-items", "group", "role", "role-assignment", "permission-catalog", "organization",
   ]],
 ] as const;
 
@@ -94,6 +95,7 @@ export function createYouTrackCli(runtime?: CliRuntime): CliApplication {
     version: "0.8.0",
     applicationId: "youtrack-cli",
     permissions: {},
+    environmentKeys: ["YOUTRACK_INITIAL_PASSWORD"],
     profile: {
       fields: [
         {
@@ -129,6 +131,7 @@ export function createYouTrackCli(runtime?: CliRuntime): CliApplication {
       ...fieldCatalogRootCommands,
       ...groupDirectoryRootCommands,
       ...accessCatalogRootCommands,
+      ...organizationRootCommands,
       ...articlesRootCommands,
       ...agileRootCommands,
       command("bundle", "Inspect custom-field value bundles", [
@@ -136,12 +139,12 @@ export function createYouTrackCli(runtime?: CliRuntime): CliApplication {
         ...userDirectoryBundleChildren,
         ...bundleValuesChildren,
       ]),
-      command("user", "Inspect users", [
+      command("user", "Inspect and manage users", [
         ...fieldsUserChildren,
         ...userDirectoryUserChildren,
         projectedRead("me", "Show the signed-in user", readUser, userRecord),
       ]),
-      command("project", "Inspect projects", [
+      command("project", "Inspect and manage projects", [
         ...fieldsProjectChildren,
         ...timeSettingsProjectChildren,
         ...groupDirectoryProjectChildren,

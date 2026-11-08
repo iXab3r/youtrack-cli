@@ -7,6 +7,7 @@ import {
   mutationBody,
   namedMutationBody,
   narrative,
+  nullableText,
   fields,
   page,
   readPage,
@@ -131,4 +132,22 @@ export async function listTagIssues(connection: Connection, tagID: string, optio
 }
 export async function deleteTag(connection: Connection, tagID: string, options: ProjectionOptions = {}) {
   return deleteObject(connection, `api/tags/${encodedID(tagID, "tag ID")}`, options);
+}
+
+
+function linkTypeBody(input: unknown, creating: boolean) {
+  const body = namedMutationBody(input, creating);
+  if (creating || Object.hasOwn(body, "sourceToTarget")) narrative(body.sourceToTarget, "sourceToTarget");
+  if (creating || Object.hasOwn(body, "targetToSource")) nullableText(body.targetToSource, "targetToSource");
+  for (const key of ["directed", "aggregation", "readOnly"]) if (Object.hasOwn(body, key) && typeof body[key] !== "boolean") throw new Error(`The ${key} must be boolean.`);
+  return body;
+}
+export async function createLinkType(connection: Connection, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, "api/issueLinkTypes", linkTypeBody(input, true), fields(options, linkTypeFields));
+}
+export async function updateLinkType(connection: Connection, typeID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, `api/issueLinkTypes/${encodedID(typeID, "link type ID")}`, linkTypeBody(input, false), fields(options, linkTypeFields));
+}
+export async function deleteLinkType(connection: Connection, typeID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, `api/issueLinkTypes/${encodedID(typeID, "link type ID")}`, options);
 }

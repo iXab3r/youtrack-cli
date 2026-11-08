@@ -108,6 +108,50 @@ Compressed wire length is syntax-checked but not compared with decoded size. HTT
 Retry-After, empty/null mutation and UTF-8 BOM behavior are unchanged. No request is retried
 automatically. Runtime memory and service limits still apply.
 
+## M06: administration and scoped operations (unreleased source)
+
+This source includes M02–M06; npm0.8.0 contains M01. Milestones merge without version bumps or
+npm publication. M06 adds26REST operations; [current coverage](docs/rest-api-coverage/current/README.md)
+tracks the frozen282-operation universe and the complete remaining inventory.
+
+- `project create --body <json> [--template scrum|kanban]` requires native name, shortName and
+  leader.id; `project update <project>` preserves native metadata. Templates remain omitted when
+  not selected. Board creation accepts native kanban/scrum/version/custom/personal templates.
+- `project issues list/get/create/update/delete` uses the actual project-scoped endpoints,
+  selected project/issue IDs, repeated `--custom-field` selectors on lists and native notification
+  controls on writes. Project issue creation requires summary; updates preserve native nulls.
+- `article delete <article>`, `agile delete <agile>` and `sprint delete <agile> <sprint>` act only
+  on selected IDs. `group create/update/delete`, `organization list/get/create/update/delete`,
+  `role create/update/delete` and `link-types create/update/delete` expose native resources.
+  Role bodies retain permission objects with native id keys; no permission discovery is added.
+  Link-type creation requires name, sourceToTarget and targetToSource; the inward targetToSource
+  property may be null. DELETE defaults remain
+  query-free, with optional --fields. Reads use ReadOnly; remote writes require Update.
+
+`user create --body '{"login":"new-user"}' --password-secret initial-user-password` reads
+an initial password from the selected CLI profile's Core secret store. Provision that alias with
+`user initial-password import initial-user-password --from-env --profile dev` after configuring
+and signing in to that profile. A secure runner supplies `YOUTRACK_INITIAL_PASSWORD`; do not put
+its value in argv, shell history or `--body`. Import requires Update, makes no service request for
+an already configured/authenticated profile, and returns only the alias and storage acknowledgement.
+The namespaced alias `token` cannot overwrite the bearer credential. The password's exact bytes
+are stored; an absent or empty environment value fails. The platform store is authoritative and
+there is no plaintext fallback. Treat aliases as sensitive retained credentials: creation does not
+erase them after success or failure, and deleting a CLI profile removes its auth token, not these
+auxiliary entries. Administrators manage retained auxiliary entries through the platform store/SDK.
+
+Cancellation before secure-store persistence starts prevents the write. Once persistence has
+started, cancellation does not imply rollback; inspect the store before deciding to import again.
+
+Creation requires Update and HTTPS, sends the password only in the native JSON body, and has no
+environment fallback. Password-bearing redirects stay on the original HTTPS origin; same-origin
+HTTPS redirects retain normal behavior. CLI `--body.password` is rejected. Missing aliases return a profile-specific
+import follow-up. Results and diagnostic causes scrub known passwords, including JSON echoes;
+JSON/RPC never return the imported value. `user update <user> --body '{"email":null}'` uses the
+native user endpoint and preserves additional native fields. This email update follows the pinned
+endpoint sample despite the general User model's read-only annotation; no Hub calls or universal
+account-field/version compatibility are implied. Password rotation is not a CLI workflow.
+
 ## M05: self-service and targeted cleanup (unreleased main)
 
 This source includes M02–M05; npm0.8.0 contains M01. Milestones merge without version bumps or
@@ -179,7 +223,7 @@ publish npm or bump package versions. Current coverage and complete remaining ga
 [the current mapping](docs/rest-api-coverage/current/README.md).
 
 - `agile create --body <json> [--template <name>]` requires native `name` and explicit
-  `projects: [{"id":"PROJECT_ID"}]`. Template is a native query value, with no local closed enum.
+  `projects: [{"id":"PROJECT_ID"}]`. Template accepts `kanban`, `scrum`, `version`, `custom` or `personal`, as listed in the pinned reference.
   `agile update <agile> --body <json>` preserves omitted and additional native settings.
   Existing `sprint create <agile>` now accepts `--mute-update-notifications [boolean]`.
 - `bundle enum value create/update`, `bundle version value create/update` and

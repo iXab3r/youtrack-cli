@@ -141,24 +141,29 @@ function scrubUrl(text: string, token: string): string {
   }
 }
 
-export function scrubText(text: string, token: string): string {
-  if (!/\s/.test(text) && /[\/?#]/.test(text) && scrubUrl(text, token) === "[redacted]") {
-    return "[redacted]";
+export function scrubText(text: string, token: string, additional: readonly string[] = []): string {
+  const secrets = [...new Set([token, ...additional].filter(Boolean))];
+  for (const secret of secrets) {
+    if (!/\s/.test(text) && /[\/?#]/.test(text) && scrubUrl(text, secret) === "[redacted]") return "[redacted]";
+    text = text.replace(/(?:https?:\/\/|\.\.?\/|\/)[^\s"'<>]+/gi, (url) => scrubUrl(url, secret));
   }
-  return text.replace(/(?:https?:\/\/|\.\.?\/|\/)[^\s"'<>]+/gi, (url) => scrubUrl(url, token))
-    .replaceAll(token, "[redacted]");
+  // JSON echoes escape quotes, backslashes and control characters in submitted credentials.
+  const forms = [...new Set(secrets.flatMap(secret => [secret, JSON.stringify(secret).slice(1, -1)]))]
+    .sort((a, b) => b.length - a.length);
+  for (const secret of forms) text = text.replaceAll(secret, "[redacted]");
+  return text;
 }
 
-function scrub(value: YouTrackValue, token: string): YouTrackValue {
+function scrub(value: YouTrackValue, token: string, additional: readonly string[] = []): YouTrackValue {
   if (typeof value === "string") {
-    return scrubText(value, token);
+    return scrubText(value, token, additional);
   }
   if (Array.isArray(value)) {
-    return value.map((item) => scrub(item, token));
+    return value.map((item) => scrub(item, token, additional));
   }
   if (value !== null && typeof value === "object") {
     return Object.fromEntries(Object.entries(value).map(([key, item]) => [
-      scrubText(key, token), scrub(item, token),
+      scrubText(key, token, additional), scrub(item, token, additional),
     ]));
   }
   return value;
@@ -176,6 +181,7 @@ interface RequestOptions {
   allowEmpty?: boolean;
   onSubmit?: () => void;
   budget?: ByteBudget | undefined;
+  sensitiveValues?: readonly string[] | undefined;
 }
 
 async function request(
@@ -214,7 +220,7 @@ async function request(
     response = await fetchWithRedirects(connection.fetch ?? globalThis.fetch, url, init);
   } catch (cause) {
     throw new CliError("Could not reach YouTrack; check the URL, connectivity and TLS.", {
-      code: "request.failed", cause: diagnosticCause(cause, [token]),
+      code: "request.failed", cause: diagnosticCause(cause, [token, ...(options.sensitiveValues ?? [])]),
     });
   }
   if (!response.ok) {
@@ -232,7 +238,7 @@ async function request(
       }
     }
     // The status lets batch callers separate a definite rejection from an uncertain write.
-    throw new HttpError(response.status, `YouTrack answered HTTP ${response.status}.${retry}`);
+    throw new HttpError(response.status, `YouTrack answered HTTP ${response.status}.${scrubText(retry, token, options.sensitiveValues)}`);
   }
   let text: string;
   try {
@@ -247,7 +253,7 @@ async function request(
     throw new Error(options.budget === undefined
       ? "The response stream failed or was cancelled."
       : "The response stream failed, exceeded --max-bytes, or was cancelled.",
-    { cause: diagnosticCause(cause, [token]) });
+    { cause: diagnosticCause(cause, [token, ...(options.sensitiveValues ?? [])]) });
   }
   let value: YouTrackValue;
   try {
@@ -257,7 +263,7 @@ async function request(
     value = JSON.parse(text) as YouTrackValue;
   } catch (cause) {
     throw new Error(`Invalid ${responseName} response from YouTrack.`, {
-      cause: diagnosticCause(cause, [token], "Invalid JSON syntax."),
+      cause: diagnosticCause(cause, [token, ...(options.sensitiveValues ?? [])], "Invalid JSON syntax."),
     });
   }
   if (options.allowEmpty && value === null) {
@@ -571,15 +577,15 @@ export async function mutate(
   path: string,
   body: YouTrackObject,
   projection: string,
-  options: WriteOptions = {},
+  options: WriteOptions & { sensitiveValues?: readonly string[] } = {},
   extraQuery: QueryParameters = {},
 ): Promise<YouTrackObject | null> {
   const query = { ...extraQuery, ...writeQuery(options, projection) };
   return mutationResult(async onSubmit => {
     const value = await request(connection, path, query, "JSON", {
-      method: "POST", body, allowEmpty: true, onSubmit,
+      method: "POST", body, allowEmpty: true, onSubmit, sensitiveValues: options.sensitiveValues,
     });
-    return value === null ? null : object(scrub(value, connection.token.trim()));
+    return value === null ? null : object(scrub(value, connection.token.trim(), options.sensitiveValues));
   });
 }
 

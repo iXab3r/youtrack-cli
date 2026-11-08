@@ -1,25 +1,25 @@
 {
-  "baselineHead": "301655746b15a73c409b1b1efd431ba5cb483b98",
+  "baselineHead": "f6cbed934827cac404e4ab7bb710ea90b72ea0ec",
   "dateUTC": "2026-11-08",
   "total": 282,
-  "covered": 201,
+  "covered": 227,
   "partial": 0,
-  "missing": 81,
+  "missing": 55,
   "uncertain": 0,
-  "reached": 201,
+  "reached": 227,
   "byPermission": {
     "ReadOnly": {
       "total": 140,
-      "covered": 123,
+      "covered": 127,
       "partial": 0,
-      "missing": 17,
+      "missing": 13,
       "uncertain": 0
     },
     "Update": {
       "total": 142,
-      "covered": 78,
+      "covered": 100,
       "partial": 0,
-      "missing": 64,
+      "missing": 42,
       "uncertain": 0
     }
   },
@@ -54,16 +54,16 @@
     },
     "admin.organizations": {
       "total": 5,
-      "covered": 0,
+      "covered": 5,
       "partial": 0,
-      "missing": 5,
+      "missing": 0,
       "uncertain": 0
     },
     "admin.projects": {
       "total": 31,
-      "covered": 22,
+      "covered": 29,
       "partial": 0,
-      "missing": 9,
+      "missing": 2,
       "uncertain": 0
     },
     "admin.telemetry": {
@@ -82,16 +82,16 @@
     },
     "agiles": {
       "total": 10,
-      "covered": 8,
+      "covered": 10,
       "partial": 0,
-      "missing": 2,
+      "missing": 0,
       "uncertain": 0
     },
     "articles": {
       "total": 29,
-      "covered": 28,
+      "covered": 29,
       "partial": 0,
-      "missing": 1,
+      "missing": 0,
       "uncertain": 0
     },
     "assignedRoles": {
@@ -159,16 +159,16 @@
     },
     "groups": {
       "total": 9,
-      "covered": 6,
+      "covered": 9,
       "partial": 0,
-      "missing": 3,
+      "missing": 0,
       "uncertain": 0
     },
     "issueLinkTypes": {
       "total": 5,
-      "covered": 2,
+      "covered": 5,
       "partial": 0,
-      "missing": 3,
+      "missing": 0,
       "uncertain": 0
     },
     "issues": {
@@ -201,9 +201,9 @@
     },
     "roles": {
       "total": 5,
-      "covered": 2,
+      "covered": 5,
       "partial": 0,
-      "missing": 3,
+      "missing": 0,
       "uncertain": 0
     },
     "savedQueries": {
@@ -229,9 +229,9 @@
     },
     "users": {
       "total": 13,
-      "covered": 11,
+      "covered": 13,
       "partial": 0,
-      "missing": 2,
+      "missing": 0,
       "uncertain": 0
     },
     "workItems": {
@@ -246,6 +246,7 @@
     "issues attachments download <issueID> <attachmentID>",
     "issues batch validate",
     "issues batch apply",
+    "user initial-password import <alias>",
     "article attachment download <article> <attachment>",
     "article export <article>"
   ],
