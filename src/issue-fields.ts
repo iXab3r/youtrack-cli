@@ -211,6 +211,12 @@ export async function deleteIssue(connection: Connection, issueID: string, optio
 }
 
 
+/** Native project templates from the pinned primary reference. */
+export function projectTemplate(value: unknown): string {
+  const template = narrative(value, "template");
+  if (!["scrum", "kanban"].includes(template)) throw new Error("The project template must be scrum or kanban.");
+  return template;
+}
 export interface ProjectCreateOptions extends ProjectionOptions {
   template?: string;
 }
@@ -218,7 +224,7 @@ export async function createProject(connection: Connection, input: unknown, opti
   const body = namedMutationBody(input, true);
   narrative(body.shortName, "short name");
   narrative(mutationBody(body.leader).id, "leader ID");
-  const query = options.template === undefined ? {} : { template: requiredText(options.template, "template") };
+  const query = options.template === undefined ? {} : { template: projectTemplate(options.template) };
   return mutate(connection, "api/admin/projects", body, fields(options, projectFields), {}, query);
 }
 export async function updateProject(connection: Connection, projectID: string, input: unknown, options: ProjectionOptions = {}) {

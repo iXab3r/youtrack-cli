@@ -1,6 +1,6 @@
 import { command } from "@eyeauras/cli-factory";
 import { projectedDelete, pagedRead, projectedBodyUpdate, projectedRead, bodyOptions, projectionOptions, readOptions, updateCommand, notificationOptions } from "./cli-support.js";
-import { deleteAgile, deleteSprint, createAgile, updateAgile, createSprint, getAgile, getSprint, listAgiles, listSprints, updateSprint } from "./agile.js";
+import { agileTemplate, deleteAgile, deleteSprint, createAgile, updateAgile, createSprint, getAgile, getSprint, listAgiles, listSprints, updateSprint } from "./agile.js";
 import { mutationWritten, rememberSubmittedIdentity, agileRecord, agileTable, agileWritten, withView, sprintRecord, sprintTable, sprintWritten } from "./presentation.js";
 
 export const agileRootCommands = [
@@ -12,7 +12,7 @@ export const agileRootCommands = [
       rememberSubmittedIdentity(input, client.token);
       return result;
     },
-      [...bodyOptions, ...projectionOptions, { flags: "--template <name>", description: "Use a board template" }])),
+      [...bodyOptions, ...projectionOptions, { flags: "--template <name>", description: "Use a board template", parse: agileTemplate }])),
     projectedBodyUpdate("update <agile>", "Update an agile board", updateAgile, undefined, agileWritten("Updated")),
     pagedRead("list", "List agile boards", listAgiles, agileTable),
     projectedRead("get <agile>", "Show an agile board", getAgile, agileRecord),

@@ -2,7 +2,7 @@ import { command, type CommandDefinition } from "@eyeauras/cli-factory";
 import { bodyOptions, projectionOptions, readOptions, updateCommand, projectedBodyUpdate, notificationOptions, pagedRead, projectedRead } from "./cli-support.js";
 import {
   listProjectIssues, getProjectIssue, createProjectIssue, updateProjectIssue,
-  createProject, updateProject,
+  projectTemplate, createProject, updateProject,
   getProject,
   createProjectField, updateProjectField,
   getProjectField,
@@ -29,7 +29,7 @@ export const fieldsProjectChildren: readonly CommandDefinition[] = [
     const result = await createProject(client, options.body, { ...readOptions(options), ...(typeof options.template === "string" ? { template: options.template } : {}) });
     rememberSubmittedIdentity(input, client.token);
     return result;
-  }, [...bodyOptions, ...projectionOptions, { flags: "--template <name>", description: "Use a project template" }])),
+  }, [...bodyOptions, ...projectionOptions, { flags: "--template <name>", description: "Use a project template", parse: projectTemplate }])),
   projectedBodyUpdate("update <project>", "Update a selected project", updateProject, undefined, mutationWritten("Updated project", "project")),
   projectedRead("get <project>", "Show a project", getProject, projectRecord),
   command("field", "Inspect project custom-field settings", [

@@ -179,7 +179,7 @@ publish npm or bump package versions. Current coverage and complete remaining ga
 [the current mapping](docs/rest-api-coverage/current/README.md).
 
 - `agile create --body <json> [--template <name>]` requires native `name` and explicit
-  `projects: [{"id":"PROJECT_ID"}]`. Template is a native query value, with no local closed enum.
+  `projects: [{"id":"PROJECT_ID"}]`. Template accepts `kanban`, `scrum`, `version`, `custom` or `personal`, as listed in the pinned reference.
   `agile update <agile> --body <json>` preserves omitted and additional native settings.
   Existing `sprint create <agile>` now accepts `--mute-update-notifications [boolean]`.
 - `bundle enum value create/update`, `bundle version value create/update` and
