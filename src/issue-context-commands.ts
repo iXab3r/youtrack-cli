@@ -4,6 +4,8 @@ import { projectedBodyUpdate, notificationOptions, pagedRead, projectedRead, rea
 import {
   activityCategories,
   getActivitiesPage,
+  listActivities,
+  getActivity,
   getComment,
   getIssueProject,
   setIssueProject,
@@ -46,6 +48,7 @@ function activityReadOptions(options: Record<string, unknown>): ActivityOptions 
   return {
     ...readOptions(options),
     categories: String(options.categories),
+    ...(typeof options.issueQuery === "string" ? { issueQuery: options.issueQuery } : {}),
     ...(typeof options.author === "string" ? { author: options.author } : {}),
     ...(typeof options.activityStart === "string" ? { activityStart: options.activityStart } : {}),
     ...(typeof options.activityEnd === "string" ? { activityEnd: options.activityEnd } : {}),
@@ -57,12 +60,22 @@ function activityReadOptions(options: Record<string, unknown>): ActivityOptions 
 
 export const contextRootCommands = [
   command("activities", "Inspect activities across issues", [
+    withView(activityTable, readCommand("list", "List activity items across issues", (client, { options }) =>
+      listActivities(client, { ...readOptions(options), ...activityReadOptions(options) }), [
+        ...pageOptions, ...activityFilters,
+        { flags: "--categories <categories>", description: "Comma-separated activity categories", required: true, parse: activityCategories },
+        { flags: "--reverse", description: "Newest activities first" },
+        { flags: "--issue-query <query>", description: "Filter the activity issues" },
+      ])),
+    projectedRead("get <activityID>", "Show an activity item", getActivity, activityRecord),
     readCommand(
       "page",
       "Read one cursor page of activities",
       async (connection, { options }, context) =>
         getActivitiesPage(connection, activityReadOptions(options)),
-      activityOptions,
+      [...activityOptions, ...activityFilters,
+        { flags: "--activity-id <id>", description: "Center the page on an activity" },
+        { flags: "--issue-query <query>", description: "Filter the activity issues" }],
     ),
   ]),
 ];
