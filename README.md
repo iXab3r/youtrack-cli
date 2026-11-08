@@ -113,7 +113,7 @@ automatically. Runtime memory and service limits still apply.
 Copy the service base address, for example `https://youtrack.example.test/youtrack/`. Include any context path and port; omit `/api`, issue pages and query strings. HTTP and HTTPS are supported. Context segments named `api`, `app/rest`, `admin` or `issues` are
 valid deployment contexts; the CLI appends its own service endpoints to the configured base.
 Create/copy a permanent token in your YouTrack profile with the **YouTrack** service scope.
-See the [permanent-token guide](https://www.jetbrains.com/help/youtrack/devportal/Manage-Permanent-Token.html). Paste only its value: `FICTIONAL_TOKEN_VALUE` is a fictional example.
+See the [optional API reference: permanent-token guide](https://www.jetbrains.com/help/youtrack/devportal/Manage-Permanent-Token.html). Paste only its value: `FICTIONAL_TOKEN_VALUE` is a fictional example.
 Do not include `Bearer `, `Authorization:`, or surrounding quotes. The same guidance appears in
 `profile configure --help`, `auth login --help`, and before interactive input.
 
@@ -149,8 +149,8 @@ without `/api`, credentials, query or fragment. Normal redirects are followed, i
 same-host HTTP-to-HTTPS upgrades with authentication. Other origin changes remove credentials.
 
 Create a token in your YouTrack profile with the YouTrack service scope and only the
-account permissions you need. See JetBrains' [permanent token documentation](https://www.jetbrains.com/help/youtrack/devportal/authentication-with-permanent-token.html).
-The identity fields follow [My User Profile](https://www.jetbrains.com/help/youtrack/devportal/resource-api-users-me.html).
+account permissions you need. See JetBrains' [optional API reference: permanent token documentation](https://www.jetbrains.com/help/youtrack/devportal/authentication-with-permanent-token.html).
+The identity fields follow [optional API reference: My User Profile](https://www.jetbrains.com/help/youtrack/devportal/resource-api-users-me.html).
 
 The candidate is validated before storage in the operating-system credential store.
 Non-secret profiles live in current-user AppData for application `youtrack-cli`; the
@@ -427,7 +427,7 @@ a `CliError` carrying `.result`.
 
 This is a breaking change: scripts that previously relied on exit 0 plus `status: incomplete`
 must now handle the failure path and read the same summary from the appropriate surface.
-See the [0.6.1 release notes](https://github.com/iXab3r/EyeAuras.CliFactory/blob/bf79b80636bcdd790bbd6c25648842ae5213f267/CHANGELOG.md#061).
+See the [optional provenance: 0.6.1 release notes](https://github.com/iXab3r/EyeAuras.CliFactory/blob/bf79b80636bcdd790bbd6c25648842ae5213f267/CHANGELOG.md#061).
 
 `--failed-rows <path.json>` saves the `failed` and `unattempted` rows
 as a manifest at the requested path relative to the invocation working directory for deliberate resubmission; `uncertain` rows are left out and must
@@ -477,7 +477,7 @@ are not availability evidence, and failed prerequisites still fail the overall p
 writes, automatic pagination or further resource discovery occur. CI and arbitrary URL/token/
 command arguments are refused; inherited `YOUTRACK_TOKEN` is removed case-insensitively.
 The shared Core proof invoker keeps the 30-second timeout and separate 64-KiB stdout/stderr bounds;
-see the [shared CI and process contract](https://github.com/iXab3r/EyeAuras.CliFactory/blob/bf79b80636bcdd790bbd6c25648842ae5213f267/docs/testing.md).
+see the [shared CI and process contract](docs/testing.md).
 Do not run it in CI or add it to generic test commands. A failed proof requires local
 configuration/TLS/permission investigation; its payloads are deliberately not logged.
 
