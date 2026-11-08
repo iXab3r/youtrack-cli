@@ -2,7 +2,7 @@
 
 The scoped package provides the `youtrack-cli` command:
 
-Agents use the [shared YouTrack workflow](https://github.com/iXab3r/EyeAuras.CliFactory/blob/main/docs/practices/youtrack-agent-workflow.md):
+Agents use the [shared YouTrack workflow](docs/agent-workflow.md):
 our executable is primary; the separate Python `yt.exe` is an explicit fallback.
 The guide covers field selection, paging and preserving tracker/profile ownership.
 
@@ -20,9 +20,9 @@ On Windows, Core now stores DPAPI CurrentUser encrypted files under the selected
 AppData `secrets/` directory. Credential Manager is no longer used or migrated. Sign in again
 for each profile and reimport auxiliary secrets. Existing profiles and permissions remain.
 
-Licensed under MIT. See the [release guide](https://github.com/iXab3r/EyeAuras.CliFactory/blob/main/docs/npm-release.md).
+Licensed under MIT. See the [release guide](docs/release.md).
 
-YouTrack uses the same `@eyeauras/cli-factory` workspace as TeamCity. The CLI
+YouTrack consumes the exact published `@eyeauras/cli-factory` version declared in package.json. The CLI
 provides standard profiles/auth/permissions and 118 REST operations: 98 ReadOnly and 20 Update.
 Five workflow leaves reuse those operations instead of adding REST operations: issue and article
 attachment download, article export, and `issues batch validate/apply`. There are 121 service
@@ -73,10 +73,10 @@ complete issue selection. There are no old aliases or array-returning modes. Pro
 credentials need no reconfiguration and existing user files are untouched.
 
 ```powershell
-npm run youtrack -- project list --page-size 3 --profile youtrack-dev
-npm run youtrack -- issues list --query "project: DEMO #Unresolved" --profile youtrack-dev
-npm run youtrack -- issues get DEMO-1 --fields "id,summary,description" --profile youtrack-dev
-npm run youtrack -- issues comments list DEMO-1 --page-size 3 --profile youtrack-dev
+npm start -- project list --page-size 3 --profile youtrack-dev
+npm start -- issues list --query "project: DEMO #Unresolved" --profile youtrack-dev
+npm start -- issues get DEMO-1 --fields "id,summary,description" --profile youtrack-dev
+npm start -- issues comments list DEMO-1 --page-size 3 --profile youtrack-dev
 ```
 
 Handlers return domain values for human, `--json` and persistent `--json-rpc` output.
@@ -130,13 +130,13 @@ Build from the repository root with `npm run build`, then use your current termi
 the normal CLI pipeline; no wrapper or auxiliary terminal window is required:
 
 ```powershell
-npm run youtrack -- profile configure youtrack-dev
+npm start -- profile configure youtrack-dev
 ```
 
 Only if this terminal can see the existing configured profile, resume token login without changing it:
 
 ```powershell
-npm run youtrack -- auth login --profile youtrack-dev
+npm start -- auth login --profile youtrack-dev
 ```
 
 If login reports a missing profile, run `profile configure` first in that same terminal; do not assume
@@ -160,7 +160,7 @@ credential namespace is separate from TeamCity and every YouTrack profile is iso
 For automation, supply token input from a trusted secret source on stdin:
 
 ```powershell
-npm run youtrack -- auth login --profile youtrack-dev --token-stdin
+npm start -- auth login --profile youtrack-dev --token-stdin
 ```
 
 The factory selects a new candidate from explicit `--token-stdin`, then `YOUTRACK_TOKEN`,
@@ -205,7 +205,7 @@ and value selectors inside the write; the CLI performs no catalog reads or ID re
 `$type` is never inferred and nothing is cached.
 
 ```powershell
-npm run youtrack -- issues create --profile youtrack-dev --body '{"project":{"shortName":"DEMO"},"summary":"Example","customFields":[{"$type":"SingleEnumIssueCustomField","name":"Priority","value":{"name":"Major"}}]}'
+npm start -- issues create --profile youtrack-dev --body '{"project":{"shortName":"DEMO"},"summary":"Example","customFields":[{"$type":"SingleEnumIssueCustomField","name":"Priority","value":{"name":"Major"}}]}'
 ```
 
 Every narrative write also accepts a UTF-8 file for its text field: `--description-file` (issue
@@ -219,19 +219,19 @@ local size ceiling, and stdin is not used because JSON-RPC owns it.
 For Windows **CMD**, replace the example project ID before deliberately running a write:
 
 ```cmd
-npm run youtrack -- issues create --body "{\"project\":{\"id\":\"PROJECT_ID\"},\"summary\":\"Example issue\"}" --profile youtrack-dev
+npm start -- issues create --body "{\"project\":{\"id\":\"PROJECT_ID\"},\"summary\":\"Example issue\"}" --profile youtrack-dev
 ```
 
 The equivalent **PowerShell 7** command uses ordinary single quotes around JSON:
 
 ```powershell
-npm run youtrack -- issues create --body '{"project":{"id":"PROJECT_ID"},"summary":"Example issue"}' --profile youtrack-dev
+npm start -- issues create --body '{"project":{"id":"PROJECT_ID"},"summary":"Example issue"}' --profile youtrack-dev
 ```
 
 Windows **PowerShell 5.1** requires escaping the inner quotes through the npm/CMD pipeline:
 
 ```powershell
-npm run youtrack -- issues create --body '{\"project\":{\"id\":\"PROJECT_ID\"},\"summary\":\"Example issue\"}' --profile youtrack-dev
+npm start -- issues create --body '{\"project\":{\"id\":\"PROJECT_ID\"},\"summary\":\"Example issue\"}' --profile youtrack-dev
 ```
 
 Updates return `id,idReadable,summary,updated`; comment creation returns the same finite fields
@@ -364,9 +364,9 @@ It supports `--fields` for the response. No implicit file discovery is provided,
 grants permissions.
 
 ```powershell
-npm run youtrack -- issues attachments download DEMO-1 1-1 --profile youtrack-dev
-npm run youtrack -- issues attachments download DEMO-1 1-1 --output report.txt --max-bytes 1048576 --profile youtrack-dev
-npm run youtrack -- article attachment download KB-A-1 7-1 --profile youtrack-dev
+npm start -- issues attachments download DEMO-1 1-1 --profile youtrack-dev
+npm start -- issues attachments download DEMO-1 1-1 --output report.txt --max-bytes 1048576 --profile youtrack-dev
+npm start -- article attachment download KB-A-1 7-1 --profile youtrack-dev
 ```
 
 Issue and article attachment downloads first read the exact attachment's fixed metadata, then request only
@@ -427,7 +427,7 @@ a `CliError` carrying `.result`.
 
 This is a breaking change: scripts that previously relied on exit 0 plus `status: incomplete`
 must now handle the failure path and read the same summary from the appropriate surface.
-See the [0.6.1 release notes](../../CHANGELOG.md#061).
+See the [0.6.1 release notes](https://github.com/iXab3r/EyeAuras.CliFactory/blob/6b226682ef762dd49bd1c9d7eb8e7bf18e80acc8/CHANGELOG.md#061).
 
 `--failed-rows <path.json>` saves the `failed` and `unattempted` rows
 as a manifest at the requested path relative to the invocation working directory for deliberate resubmission; `uncertain` rows are left out and must
@@ -459,7 +459,7 @@ Not provided:
 After configuring a profile, explicitly run:
 
 ```powershell
-npm run test:integration --workspace @eyeauras/youtrack-cli -- --profile youtrack-dev
+npm run test:integration -- --profile youtrack-dev
 ```
 
 The explicit local proof uses twenty-four fixed ReadOnly rows through the compiled CLI, named profile
@@ -477,10 +477,15 @@ are not availability evidence, and failed prerequisites still fail the overall p
 writes, automatic pagination or further resource discovery occur. CI and arbitrary URL/token/
 command arguments are refused; inherited `YOUTRACK_TOKEN` is removed case-insensitively.
 The shared Core proof invoker keeps the 30-second timeout and separate 64-KiB stdout/stderr bounds;
-see the [shared CI and process contract](../../docs/testing.md).
+see the [shared CI and process contract](https://github.com/iXab3r/EyeAuras.CliFactory/blob/6b226682ef762dd49bd1c9d7eb8e7bf18e80acc8/docs/testing.md).
 Do not run it in CI or add it to generic test commands. A failed proof requires local
 configuration/TLS/permission investigation; its payloads are deliberately not logged.
 
 `npm test` builds and runs deterministic offline tests, including MSW against the actual
 client and declaration, synthetic profile/credential isolation, JSON-RPC and proof safety.
 Tests inject `AppArguments` rather than redirecting the user's data directories.
+
+## Source development
+
+`npm ci`, `npm test`, and `npm run test:package` build and test this repository independently.
+See [release and Core adoption gates](docs/release.md) and [migration provenance](docs/migration.md).
