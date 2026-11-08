@@ -74,3 +74,8 @@ test("US-058 read and maintain native organizations without hidden membership ch
 test("US-055 delete the selected issue through the explicit project scope", async t => {
   await storyCase(t, {"argv":["project","issues","delete","project /?","issue /?","--fields","id"],"method":"DELETE","path":"/api/admin/projects/project%20%2F%3F/issues/issue%20%2F%3F","query":[["fields","id"]],"response":undefined,"result":null,"update":true});
 });
+
+test("US-056 create users from scoped password aliases and preserve native email updates", async t => {
+  await storyCase(t, {"argv":["user","create","--body","{\"login\":\"synthetic-user\",\"email\":null}","--password-secret","initial-user-password","--fields","id"],"method":"POST","path":"/api/users","query":[["fields","id"]],"body":{"login":"synthetic-user","email":null,"password":"synthetic-initial-password"},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true,"secrets":{"user-initial-password:initial-user-password":"synthetic-initial-password"}});
+  await storyCase(t, {"argv":["user","update","user /?","--body","{\"email\":\"synthetic-user@example.test\"}","--fields","id"],"method":"POST","path":"/api/users/user%20%2F%3F","query":[["fields","id"]],"body":{"email":"synthetic-user@example.test"},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+});
