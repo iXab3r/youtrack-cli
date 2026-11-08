@@ -55,6 +55,7 @@ export {
   listWorkItemTypes, getWorkItemType, getWorkTimeSettings,
 } from "./time-settings.js";
 export {
+  createStateBundle, updateStateBundle, deleteStateBundle, deleteStateValue,
   createEnumBundle, updateEnumBundle, deleteEnumBundle, deleteEnumValue,
   deleteCustomField, createEnumValue, updateEnumValue, createStateValue, updateStateValue, getFieldDefaults, updateFieldDefaults, listFieldInstances,
   createCustomField, updateCustomField,

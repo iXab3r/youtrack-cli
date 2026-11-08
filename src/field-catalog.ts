@@ -101,3 +101,17 @@ export async function deleteEnumBundle(connection: Connection, bundleID: string,
 export async function deleteEnumValue(connection: Connection, bundleID: string, valueID: string, options: ProjectionOptions = {}) {
   return deleteObject(connection, valuePath("enum", bundleID, valueID), options);
 }
+
+
+export async function createStateBundle(connection: Connection, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, `${root}/bundles/state`, mutationBody(input), fields(options, bundleFields));
+}
+export async function updateStateBundle(connection: Connection, bundleID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, bundlePath("state", bundleID), mutationBody(input), fields(options, bundleFields));
+}
+export async function deleteStateBundle(connection: Connection, bundleID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, bundlePath("state", bundleID), options);
+}
+export async function deleteStateValue(connection: Connection, bundleID: string, valueID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, valuePath("state", bundleID, valueID), options);
+}

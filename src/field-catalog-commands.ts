@@ -11,6 +11,7 @@ import {
   getEnumBundle,
   getEnumValue,
   getStateBundle,
+  createStateBundle, updateStateBundle, deleteStateBundle, deleteStateValue,
   createStateValue, updateStateValue,
   getStateValue,
   listCustomFields,
@@ -60,10 +61,14 @@ export const fieldCatalogBundleChildren: readonly CommandDefinition[] = [
       projectedRead("get <bundle> <value>", "Show an enum value", getEnumValue),
     ]),
   ]),
-  command("state", "Inspect state bundles", [
+  command("state", "Inspect and manage state bundles", [
+    projectedBodyUpdate("create", "Create a state bundle", createStateBundle, undefined, mutationWritten("Created state bundle")),
+    projectedBodyUpdate("update <bundle>", "Update a state bundle", updateStateBundle, undefined, mutationWritten("Updated state bundle", "bundle")),
+    projectedDelete("delete <bundle>", "Delete a selected state bundle", deleteStateBundle, mutationWritten("Deleted state bundle", "bundle")),
     pagedRead("list", "List state bundles", listStateBundles, bundleTable),
     projectedRead("get <bundle>", "Show a state bundle", getStateBundle),
-    command("value", "Inspect state values", [
+    command("value", "Inspect and manage state values", [
+      projectedDelete("delete <bundle> <value>", "Delete a selected state value", deleteStateValue, mutationWritten("Deleted state value", "value", "bundle")),
       projectedBodyUpdate("create <bundle>", "Create a state value", createStateValue, undefined, bundleValueWritten),
       projectedBodyUpdate("update <bundle> <value>", "Update a state value", updateStateValue, undefined, bundleValueWritten),
       pagedRead("list <bundle>", "List the bundle's values", listStateValues, valueTable),
