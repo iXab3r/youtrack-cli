@@ -584,7 +584,15 @@ export const vcsRecord = recordView<Item | null>({
     { label: "State", value: item => count(item?.state) ?? text(nested(item?.state)?.id) }],
 });
 
-type SubmittedIdentity = { name: string | undefined; field: string | undefined; project: string | undefined; args: Record<string, string | undefined> };
+type SubmittedIdentity = {
+  name: string | undefined;
+  field: string | undefined;
+  project: string | undefined;
+  args: Record<string, string | undefined>;
+  role: string | undefined;
+  holder: string | undefined;
+  scope: string | undefined;
+};
 const submittedIdentities = new WeakMap<object, SubmittedIdentity>();
 
 /** Keep only credential-scrubbed human fallback labels; never alter the request or native result. */
@@ -595,6 +603,7 @@ export function rememberSubmittedIdentity(input: CommandInput, token: string): v
   submittedIdentities.set(input.options, {
     name: safe(body?.name) ?? safe(body?.id), field: safe(nested(body?.field)?.id), project: safe(input.args.project),
     args: Object.fromEntries(Object.entries(input.args).map(([name, value]) => [name, safe(value)])),
+    role: safe(nested(body?.role)?.id), holder: safe(nested(body?.holder)?.id), scope: safe(scopeLabel(nested(body?.scope))),
   });
 }
 const submittedIdentity = (context: ViewContext): SubmittedIdentity | undefined =>
@@ -674,7 +683,13 @@ export const roleAssignmentTable = tableView<Item, YouTrackPage>({
   empty: "No role assignments.", footer: pageFooter,
 });
 export const roleAssignmentRecord = recordView<Item | null>({
-  title: (item, context) => joined("Role assignment", key(item) ?? submittedIdentity(context)?.args.assignment),
+  title: (item, context) => {
+    const selected = submittedIdentity(context);
+    return joined("Role assignment", key(item) ?? selected?.args.assignment,
+      item === null && selected?.role ? `Role ${selected.role}` : undefined,
+      item === null && selected?.holder ? `Holder ${selected.holder}` : undefined,
+      item === null && selected?.scope ? `Scope ${selected.scope}` : undefined);
+  },
   fields: [{ label: "Role", value: item => roleLabel(nested(item?.role)) },
     { label: "Holder", value: item => holderLabel(nested(item?.holder)) },
     { label: "Scope", value: item => scopeLabel(nested(item?.scope)) }],

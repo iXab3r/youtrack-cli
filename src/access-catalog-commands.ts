@@ -1,12 +1,14 @@
 import { command } from "@eyeauras/cli-factory";
-import { pagedRead, projectedRead } from "./cli-support.js";
-import { listRoleAssignments, getRoleAssignment, listPermissions, listRoles, getRole } from "./access-catalog.js";
-import { namedTable, roleRecord, roleAssignmentRecord, roleAssignmentTable } from "./presentation.js";
+import { pagedRead, projectedRead, projectedBodyUpdate, projectedDelete } from "./cli-support.js";
+import { createRoleAssignment, deleteRoleAssignment, listRoleAssignments, getRoleAssignment, listPermissions, listRoles, getRole } from "./access-catalog.js";
+import { mutationWritten, namedTable, roleRecord, roleAssignmentRecord, roleAssignmentTable } from "./presentation.js";
 
 const queryOptions = [{ flags: "--query <query>", description: "Filter with a YouTrack access query" }];
 
 export const accessCatalogRootCommands = [
-  command("role-assignment", "Inspect role assignments", [
+  command("role-assignment", "Manage role assignments", [
+    projectedBodyUpdate("create", "Assign a role in the selected scope", createRoleAssignment, undefined, roleAssignmentRecord),
+    projectedDelete("delete <assignment>", "Revoke a role assignment", deleteRoleAssignment, mutationWritten("Revoked role assignment", "assignment")),
     pagedRead("list", "List role assignments", listRoleAssignments, roleAssignmentTable, queryOptions),
     projectedRead("get <assignment>", "Show a role assignment", getRoleAssignment, roleAssignmentRecord),
   ]),

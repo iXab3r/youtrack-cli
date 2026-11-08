@@ -1,5 +1,5 @@
 import {
-  encodedID, page, readPage, readCollectionAt, readObjectAt, requiredText,
+  fields, mutate, deleteObject, mutationBody, narrative, type ProjectionOptions, encodedID, page, readPage, readCollectionAt, readObjectAt, requiredText,
   type Connection, type IssueSearchOptions,
 } from "./client.js";
 
@@ -27,3 +27,18 @@ export async function listRoles(connection: Connection, options: IssueSearchOpti
 export const getRole = readObjectAt(
   (roleID: string) => `api/roles/${encodedID(roleID, "role ID")}`, roleFields,
 );
+
+
+export async function createRoleAssignment(connection: Connection, input: unknown, options: ProjectionOptions = {}) {
+  const body = mutationBody(input);
+  requiredText(narrative(mutationBody(body.role).id, "role ID"), "role ID");
+  requiredText(narrative(mutationBody(body.holder).id, "holder ID"), "holder ID");
+  const scope = mutationBody(body.scope);
+  requiredText(narrative(scope.$type, "scope type"), "scope type");
+  if (scope.$type === "ProjectScope") requiredText(narrative(mutationBody(scope.project).id, "project ID"), "project ID");
+  if (scope.$type === "OrganizationScope") requiredText(narrative(mutationBody(scope.organization).id, "organization ID"), "organization ID");
+  return mutate(connection, "api/assignedRoles", body, fields(options, assignmentFields));
+}
+export async function deleteRoleAssignment(connection: Connection, assignmentID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, `api/assignedRoles/${encodedID(assignmentID, "role assignment ID")}`, options);
+}
