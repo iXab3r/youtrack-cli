@@ -41,3 +41,8 @@ test("US-051 list searches and tags of an explicitly selected user", async t => 
   await storyCase(t, {"argv":["user","saved-queries","list","user /?","--fields","id","--start","7","--page-size","20"],"method":"GET","path":"/api/users/user%20%2F%3F/savedQueries","query":[["fields","id"],["$skip","7"],["$top","20"]],"response":[],"result":{"count":0,"items":[],"hasMore":false,"nextStart":null}});
   await storyCase(t, {"argv":["user","tags","list","user /?","--fields","id","--start","7","--page-size","20"],"method":"GET","path":"/api/users/user%20%2F%3F/tags","query":[["fields","id"],["$skip","7"],["$top","20"]],"response":[],"result":{"count":0,"items":[],"hasMore":false,"nextStart":null}});
 });
+
+test("US-052 filter groups and add the selected direct member without discovery", async t => {
+  await storyCase(t, {"argv":["group","list","--query","team name /?","--fields","id","--start","7","--page-size","20"],"method":"GET","path":"/api/groups","query":[["fields","id"],["$skip","7"],["$top","20"],["query","team name /?"]],"response":[],"result":{"count":0,"items":[],"hasMore":false,"nextStart":null}});
+  await storyCase(t, {"argv":["group","member","add","group /?","user /?","--body","{\"id\":\"user /?\",\"$type\":\"User\"}","--fields","id"],"method":"POST","path":"/api/groups/group%20%2F%3F/ownUsers/user%20%2F%3F","query":[["fields","id"]],"body":{"id":"user /?","$type":"User"},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+});
