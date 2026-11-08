@@ -16,3 +16,8 @@ test("US-049 read and update general profile using native descriptor objects", a
   await storyCase(t, {"argv":["user","profile","general","get","user /?","--fields","id"],"method":"GET","path":"/api/users/user%20%2F%3F/profiles/general","query":[["fields","id"]],"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"}});
   await storyCase(t, {"argv":["user","profile","general","update","user /?","--body","{\"timezone\":{\"id\":\"Europe/Berlin\"},\"locale\":{\"id\":\"synthetic-locale\",\"name\":null}}","--fields","id"],"method":"POST","path":"/api/users/user%20%2F%3F/profiles/general","query":[["fields","id"]],"body":{"timezone":{"id":"Europe/Berlin"},"locale":{"id":"synthetic-locale","name":null}},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
 });
+
+test("US-050 read and update native period format descriptors", async t => {
+  await storyCase(t, {"argv":["user","profile","time-tracking","get","user /?","--fields","id"],"method":"GET","path":"/api/users/user%20%2F%3F/profiles/timetracking","query":[["fields","id"]],"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"}});
+  await storyCase(t, {"argv":["user","profile","time-tracking","update","user /?","--body","{\"periodFormat\":{\"id\":\"FULL\",\"$type\":\"PeriodFieldFormat\"}}","--fields","id"],"method":"POST","path":"/api/users/user%20%2F%3F/profiles/timetracking","query":[["fields","id"]],"body":{"periodFormat":{"id":"FULL","$type":"PeriodFieldFormat"}},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+});
