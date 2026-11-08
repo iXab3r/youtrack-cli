@@ -108,9 +108,24 @@ Compressed wire length is syntax-checked but not compared with decoded size. HTT
 Retry-After, empty/null mutation and UTF-8 BOM behavior are unchanged. No request is retried
 automatically. Runtime memory and service limits still apply.
 
-## M06: administration and scoped operations (in development)
+## M06: administration and scoped operations (unreleased source)
 
-M06 is being verified on this branch; npm0.8.0 contains M01. No new release is planned.
+This source includes M02–M06; npm0.8.0 contains M01. Milestones merge without version bumps or
+npm publication. M06 adds26REST operations; [current coverage](docs/rest-api-coverage/current/README.md)
+tracks the frozen282-operation universe and the complete remaining inventory.
+
+- `project create --body <json> [--template scrum|kanban]` requires native name, shortName and
+  leader.id; `project update <project>` preserves native metadata. Templates remain omitted when
+  not selected. Board creation accepts native kanban/scrum/version/custom/personal templates.
+- `project issues list/get/create/update/delete` uses the actual project-scoped endpoints,
+  selected project/issue IDs, repeated `--custom-field` selectors on lists and native notification
+  controls on writes. Project issue creation requires summary; updates preserve native nulls.
+- `article delete <article>`, `agile delete <agile>` and `sprint delete <agile> <sprint>` act only
+  on selected IDs. `group create/update/delete`, `organization list/get/create/update/delete`,
+  `role create/update/delete` and `link-types create/update/delete` expose native resources.
+  Role bodies retain permission objects with native id keys; no permission discovery is added.
+  Link-type creation requires name, sourceToTarget and targetToSource. DELETE defaults remain
+  query-free, with optional --fields. Reads use ReadOnly; remote writes require Update.
 
 `user create --body '{"login":"new-user"}' --password-secret initial-user-password` reads
 an initial password from the selected CLI profile's Core secret store. Provision that alias with
