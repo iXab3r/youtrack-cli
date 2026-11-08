@@ -191,3 +191,27 @@ test("installed M06 exports, scoped deletion and initial-password import retain 
   assert.deepEqual(await f.json(app, ["user", "create", "--body", '{"login":"synthetic-user"}', "--password-secret", "token"]), { id: "synthetic-user", echo: "[redacted]" });
   assert.equal(await f.json(app, ["project", "issues", "delete", "project", "issue"]), null); assert.equal(calls, 2);
 });
+
+
+test("installed M07 exports preserve native work-time, bundle metadata and scoped deletion", async t => {
+  const sdk = await import("@eyeauras/youtrack-cli");
+  for (const name of ["createVersionBundle", "updateVersionBundle", "deleteVersionBundle", "deleteVersionValue", "createBuildBundle", "updateBuildBundle", "deleteBuildBundle", "createBuildValue", "updateBuildValue", "deleteBuildValue", "createOwnedBundle", "updateOwnedBundle", "deleteOwnedBundle", "createOwnedValue", "updateOwnedValue", "deleteOwnedValue", "deleteCustomField", "createEnumBundle", "updateEnumBundle", "deleteEnumBundle", "deleteEnumValue", "createStateBundle", "updateStateBundle", "deleteStateBundle", "deleteStateValue", "deleteProjectField", "deleteProject", "createWorkItemType", "updateWorkItemType", "deleteWorkItemType", "updateWorkTimeSettings", "createUserBundle", "updateUserBundle", "deleteUserBundle"]) assert.equal(typeof sdk[name], "function", name);
+  const f = await createCliFixture(t, { applicationId: "youtrack-cli", profiles: [{ name: "default", values: { url: "https://installed.example.test/context" }, permissions: ["ReadOnly", "Update"], secrets: { token: "synthetic-installed" } }] });
+  let calls = 0;
+  f.runtime.fetch = async (input, init) => {
+    calls++; const u = new URL(input); assert.equal(new Headers(init.headers).get("authorization"), "Bearer synthetic-installed");
+    if (u.pathname.endsWith("/workTimeSettings")) { assert.deepEqual(JSON.parse(init.body), { minutesADay: 450, workDays: [0,6,0] }); return Response.json({ minutesADay: 450 }); }
+    if (u.pathname.endsWith("/bundles/enum")) { assert.deepEqual(JSON.parse(init.body), { values: [] }); return new Response(null, { status: 204 }); }
+    if (u.pathname.endsWith("/bundles/ownedField/bundle/values/value")) { assert.deepEqual(JSON.parse(init.body), { owner: null, description: null }); return Response.json({ owner: null }); }
+    if (u.pathname.endsWith("/bundles/version/selected-bundle/values/synthetic-installed")) { assert.deepEqual(JSON.parse(init.body), {}); return new Response(null, { status: 204 }); }
+    assert.equal(u.pathname, "/context/api/admin/projects/project/customFields/field"); assert.equal(init.method, "DELETE"); assert.equal(u.search, ""); return new Response(null, { status: 204 });
+  };
+  const app = f.createApplication(createYouTrackCli);
+  assert.deepEqual(await f.json(app, ["time-tracking", "work-time", "update", "--body", '{"minutesADay":450,"workDays":[0,6,0]}']), { minutesADay: 450 });
+  const connection = { baseUrl: "https://installed.example.test/context", token: "synthetic-installed", fetch: f.runtime.fetch };
+  assert.equal(await sdk.createEnumBundle(connection, { values: [] }), null);
+  assert.deepEqual(await sdk.updateOwnedValue(connection, "bundle", "value", { owner: null, description: null }), { owner: null });
+  assert.equal(await f.json(app, ["project", "field", "delete", "project", "field"]), null);
+  const human = await f.run(app, ["bundle", "version", "value", "update", "selected-bundle", "synthetic-installed", "--body", "{}"]);
+  assert.equal(human.exitCode, 0, human.stderr); assert.doesNotMatch(human.stdout, /synthetic-installed/); assert.match(human.stdout, /selected-bundle/); assert.equal(calls, 5);
+});

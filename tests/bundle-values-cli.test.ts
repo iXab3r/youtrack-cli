@@ -39,7 +39,7 @@ for (const row of bundleCases) test(`bundle CLI ${row.argv.join(" ")} binds its 
   }
 });
 
-test("every bundle leaf requires ReadOnly even when Update is enabled", async (t) => {
+test("each bundle catalog read requires ReadOnly even when Update is enabled", async (t) => {
   const f = await configuredFixture(t);
   await f.cli.execute(["permissions", "revoke", "ReadOnly", "--profile", "dev"]);
   await f.cli.execute(["permissions", "grant", "Update", "--profile", "dev"]);
@@ -134,8 +134,9 @@ test("version value help lists its commands without accessing profile credential
   const f = await fixture(t);
   f.secrets.get = async () => { assert.fail("Help reached secrets"); };
   assert.equal(await f.cli.run(["bundle", "version", "value", "--help"]), 0);
-  assert.match(f.stdout(), /\nInspect version values\n/);
-  assert.match(f.stdout(), /list/);
-  assert.match(f.stdout(), /get/);
+  assert.match(f.stdout(), /^Usage: youtrack-cli bundle version value/);
+  for (const name of ["create", "update", "delete", "list", "get"]) {
+    assert.match(f.stdout(), new RegExp(`\\n  ${name}\\s+\\[options\\]`));
+  }
   assert.equal(f.stderr(), "");
 });

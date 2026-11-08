@@ -7,6 +7,7 @@ import {
   getUserNotifications, updateUserNotifications,
   addUserBundleGroup, addUserBundleIndividual, removeUserBundleGroup, removeUserBundleIndividual,
   getUser,
+  createUserBundle, updateUserBundle, deleteUserBundle,
   getUserBundle,
   getUserBundleGroup,
   getUserBundleIndividual,
@@ -83,7 +84,10 @@ export const userDirectoryUserChildren = [
 ];
 
 export const userDirectoryBundleChildren = [
-  command("user", "Inspect assignee bundles", [
+  command("user", "Inspect and manage assignee bundles", [
+    projectedBodyUpdate("create", "Create a user bundle", createUserBundle, undefined, mutationWritten("Created user bundle")),
+    projectedBodyUpdate("update <bundle>", "Update a user bundle", updateUserBundle, undefined, mutationWritten("Updated user bundle", "bundle")),
+    projectedDelete("delete <bundle>", "Delete a selected user bundle", deleteUserBundle, mutationWritten("Deleted user bundle", "bundle")),
     pagedRead("list", "List user bundles", listUserBundles, bundleTable),
     projectedRead("get <bundle>", "Show a user bundle", getUserBundle),
     command("member", "Inspect all bundle users, including group members", [

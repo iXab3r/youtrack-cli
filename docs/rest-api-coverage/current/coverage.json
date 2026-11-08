@@ -20,21 +20,64 @@
     "reference": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-customFieldSettings-bundles-build.html#delete-BuildBundle-method",
     "referenceQueryParameters": [],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "bundle build delete <bundle>",
+      "permission": "Update",
+      "options": [
+        "--fields <projection>"
+      ],
+      "location": "src/bundle-values-commands.ts:31",
+      "serviceFunctions": [
+        {
+          "file": "src/bundle-values.ts",
+          "symbol": "deleteBuildBundle",
+          "location": "src/bundle-values.ts:87"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:595:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at deleteObject (src/client.ts:594:10)",
+        "    at deleteBuildBundle (src/bundle-values.ts:88:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "DELETE /api/admin/customFieldSettings/bundles/build/{p1}/values/{p2}",
@@ -57,21 +100,64 @@
     "reference": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-customFieldSettings-bundles-build-bundleID-values.html#delete-BuildBundleElement-method",
     "referenceQueryParameters": [],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "bundle build value delete <bundle> <value>",
+      "permission": "Update",
+      "options": [
+        "--fields <projection>"
+      ],
+      "location": "src/bundle-values-commands.ts:37",
+      "serviceFunctions": [
+        {
+          "file": "src/bundle-values.ts",
+          "symbol": "deleteBuildValue",
+          "location": "src/bundle-values.ts:96"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:595:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at deleteObject (src/client.ts:594:10)",
+        "    at deleteBuildValue (src/bundle-values.ts:97:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "DELETE /api/admin/customFieldSettings/bundles/enum/{p1}",
@@ -94,21 +180,64 @@
     "reference": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-customFieldSettings-bundles-enum.html#delete-EnumBundle-method",
     "referenceQueryParameters": [],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "bundle enum delete <bundle>",
+      "permission": "Update",
+      "options": [
+        "--fields <projection>"
+      ],
+      "location": "src/field-catalog-commands.ts:53",
+      "serviceFunctions": [
+        {
+          "file": "src/field-catalog.ts",
+          "symbol": "deleteEnumBundle",
+          "location": "src/field-catalog.ts:98"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:595:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at deleteObject (src/client.ts:594:10)",
+        "    at deleteEnumBundle (src/field-catalog.ts:99:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "DELETE /api/admin/customFieldSettings/bundles/enum/{p1}/values/{p2}",
@@ -131,21 +260,64 @@
     "reference": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-customFieldSettings-bundles-enum-bundleID-values.html#delete-EnumBundleElement-method",
     "referenceQueryParameters": [],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "bundle enum value delete <bundle> <value>",
+      "permission": "Update",
+      "options": [
+        "--fields <projection>"
+      ],
+      "location": "src/field-catalog-commands.ts:57",
+      "serviceFunctions": [
+        {
+          "file": "src/field-catalog.ts",
+          "symbol": "deleteEnumValue",
+          "location": "src/field-catalog.ts:101"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:595:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at deleteObject (src/client.ts:594:10)",
+        "    at deleteEnumValue (src/field-catalog.ts:102:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "DELETE /api/admin/customFieldSettings/bundles/ownedField/{p1}",
@@ -168,21 +340,64 @@
     "reference": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-customFieldSettings-bundles-ownedField.html#delete-OwnedBundle-method",
     "referenceQueryParameters": [],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "bundle owned delete <bundle>",
+      "permission": "Update",
+      "options": [
+        "--fields <projection>"
+      ],
+      "location": "src/bundle-values-commands.ts:45",
+      "serviceFunctions": [
+        {
+          "file": "src/bundle-values.ts",
+          "symbol": "deleteOwnedBundle",
+          "location": "src/bundle-values.ts:107"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:595:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at deleteObject (src/client.ts:594:10)",
+        "    at deleteOwnedBundle (src/bundle-values.ts:108:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "DELETE /api/admin/customFieldSettings/bundles/ownedField/{p1}/values/{p2}",
@@ -205,21 +420,64 @@
     "reference": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-customFieldSettings-bundles-ownedField-bundleID-values.html#delete-OwnedBundleElement-method",
     "referenceQueryParameters": [],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "bundle owned value delete <bundle> <value>",
+      "permission": "Update",
+      "options": [
+        "--fields <projection>"
+      ],
+      "location": "src/bundle-values-commands.ts:51",
+      "serviceFunctions": [
+        {
+          "file": "src/bundle-values.ts",
+          "symbol": "deleteOwnedValue",
+          "location": "src/bundle-values.ts:121"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:595:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at deleteObject (src/client.ts:594:10)",
+        "    at deleteOwnedValue (src/bundle-values.ts:122:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "DELETE /api/admin/customFieldSettings/bundles/state/{p1}",
@@ -242,21 +500,64 @@
     "reference": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-customFieldSettings-bundles-state.html#delete-StateBundle-method",
     "referenceQueryParameters": [],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "bundle state delete <bundle>",
+      "permission": "Update",
+      "options": [
+        "--fields <projection>"
+      ],
+      "location": "src/field-catalog-commands.ts:67",
+      "serviceFunctions": [
+        {
+          "file": "src/field-catalog.ts",
+          "symbol": "deleteStateBundle",
+          "location": "src/field-catalog.ts:112"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:595:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at deleteObject (src/client.ts:594:10)",
+        "    at deleteStateBundle (src/field-catalog.ts:113:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "DELETE /api/admin/customFieldSettings/bundles/state/{p1}/values/{p2}",
@@ -279,21 +580,64 @@
     "reference": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-customFieldSettings-bundles-state-bundleID-values.html#delete-StateBundleElement-method",
     "referenceQueryParameters": [],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "bundle state value delete <bundle> <value>",
+      "permission": "Update",
+      "options": [
+        "--fields <projection>"
+      ],
+      "location": "src/field-catalog-commands.ts:71",
+      "serviceFunctions": [
+        {
+          "file": "src/field-catalog.ts",
+          "symbol": "deleteStateValue",
+          "location": "src/field-catalog.ts:115"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:595:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at deleteObject (src/client.ts:594:10)",
+        "    at deleteStateValue (src/field-catalog.ts:116:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "DELETE /api/admin/customFieldSettings/bundles/user/{p1}",
@@ -316,21 +660,64 @@
     "reference": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-customFieldSettings-bundles-user.html#delete-UserBundle-method",
     "referenceQueryParameters": [],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "bundle user delete <bundle>",
+      "permission": "Update",
+      "options": [
+        "--fields <projection>"
+      ],
+      "location": "src/user-directory-commands.ts:90",
+      "serviceFunctions": [
+        {
+          "file": "src/user-directory.ts",
+          "symbol": "deleteUserBundle",
+          "location": "src/user-directory.ts:140"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:595:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at deleteObject (src/client.ts:594:10)",
+        "    at deleteUserBundle (src/user-directory.ts:141:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "DELETE /api/admin/customFieldSettings/bundles/user/{p1}/groups/{p2}",
@@ -361,7 +748,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:94",
+      "location": "src/user-directory-commands.ts:98",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -441,7 +828,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:100",
+      "location": "src/user-directory-commands.ts:104",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -513,21 +900,64 @@
     "reference": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-customFieldSettings-bundles-version.html#delete-VersionBundle-method",
     "referenceQueryParameters": [],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "bundle version delete <bundle>",
+      "permission": "Update",
+      "options": [
+        "--fields <projection>"
+      ],
+      "location": "src/bundle-values-commands.ts:59",
+      "serviceFunctions": [
+        {
+          "file": "src/bundle-values.ts",
+          "symbol": "deleteVersionBundle",
+          "location": "src/bundle-values.ts:73"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:595:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at deleteObject (src/client.ts:594:10)",
+        "    at deleteVersionBundle (src/bundle-values.ts:74:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "DELETE /api/admin/customFieldSettings/bundles/version/{p1}/values/{p2}",
@@ -550,21 +980,64 @@
     "reference": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-customFieldSettings-bundles-version-bundleID-values.html#delete-VersionBundleElement-method",
     "referenceQueryParameters": [],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "bundle version value delete <bundle> <value>",
+      "permission": "Update",
+      "options": [
+        "--fields <projection>"
+      ],
+      "location": "src/bundle-values-commands.ts:63",
+      "serviceFunctions": [
+        {
+          "file": "src/bundle-values.ts",
+          "symbol": "deleteVersionValue",
+          "location": "src/bundle-values.ts:76"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:595:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at deleteObject (src/client.ts:594:10)",
+        "    at deleteVersionValue (src/bundle-values.ts:77:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "DELETE /api/admin/customFieldSettings/customFields/{p1}",
@@ -587,21 +1060,64 @@
     "reference": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-customFieldSettings-customFields.html#delete-CustomField-method",
     "referenceQueryParameters": [],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "field delete <field>",
+      "permission": "Update",
+      "options": [
+        "--fields <projection>"
+      ],
+      "location": "src/field-catalog-commands.ts:31",
+      "serviceFunctions": [
+        {
+          "file": "src/field-catalog.ts",
+          "symbol": "deleteCustomField",
+          "location": "src/field-catalog.ts:87"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:595:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at deleteObject (src/client.ts:594:10)",
+        "    at deleteCustomField (src/field-catalog.ts:88:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "DELETE /api/admin/organizations/{p1}",
@@ -704,21 +1220,64 @@
     "reference": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-projects.html#delete-Project-method",
     "referenceQueryParameters": [],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "project delete <project>",
+      "permission": "Update",
+      "options": [
+        "--fields <projection>"
+      ],
+      "location": "src/issue-fields-commands.ts:19",
+      "serviceFunctions": [
+        {
+          "file": "src/issue-fields.ts",
+          "symbol": "deleteProject",
+          "location": "src/issue-fields.ts:272"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:595:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at deleteObject (src/client.ts:594:10)",
+        "    at deleteProject (src/issue-fields.ts:273:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "DELETE /api/admin/projects/{p1}/customFields/{p2}",
@@ -741,21 +1300,64 @@
     "reference": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-projects-projectID-customFields.html#delete-ProjectCustomField-method",
     "referenceQueryParameters": [],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "project field delete <project> <field>",
+      "permission": "Update",
+      "options": [
+        "--fields <projection>"
+      ],
+      "location": "src/issue-fields-commands.ts:39",
+      "serviceFunctions": [
+        {
+          "file": "src/issue-fields.ts",
+          "symbol": "deleteProjectField",
+          "location": "src/issue-fields.ts:267"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:595:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at deleteObject (src/client.ts:594:10)",
+        "    at deleteProjectField (src/issue-fields.ts:268:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "DELETE /api/admin/projects/{p1}/issues/{p2}",
@@ -786,7 +1388,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/issue-fields-commands.ts:20",
+      "location": "src/issue-fields-commands.ts:21",
       "serviceFunctions": [
         {
           "file": "src/issue-fields.ts",
@@ -1026,7 +1628,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/time-settings-commands.ts:40",
+      "location": "src/time-settings-commands.ts:45",
       "serviceFunctions": [
         {
           "file": "src/time-settings.ts",
@@ -1098,21 +1700,64 @@
     "reference": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-timeTrackingSettings-workItemTypes.html#delete-WorkItemType-method",
     "referenceQueryParameters": [],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "work-item-type delete <type>",
+      "permission": "Update",
+      "options": [
+        "--fields <projection>"
+      ],
+      "location": "src/time-settings-commands.ts:32",
+      "serviceFunctions": [
+        {
+          "file": "src/time-settings.ts",
+          "symbol": "deleteWorkItemType",
+          "location": "src/time-settings.ts:65"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:595:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at deleteObject (src/client.ts:594:10)",
+        "    at deleteWorkItemType (src/time-settings.ts:66:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "DELETE /api/agiles/{p1}",
@@ -3286,7 +3931,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/bundle-values-commands.ts:26",
+      "location": "src/bundle-values-commands.ts:32",
       "serviceFunctions": [
         {
           "file": "src/bundle-values.ts",
@@ -3376,7 +4021,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/bundle-values-commands.ts:27",
+      "location": "src/bundle-values-commands.ts:33",
       "serviceFunctions": [
         {
           "file": "src/bundle-values.ts",
@@ -3475,7 +4120,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/bundle-values-commands.ts:29",
+      "location": "src/bundle-values-commands.ts:38",
       "serviceFunctions": [
         {
           "file": "src/bundle-values.ts",
@@ -3566,7 +4211,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/bundle-values-commands.ts:30",
+      "location": "src/bundle-values-commands.ts:39",
       "serviceFunctions": [
         {
           "file": "src/bundle-values.ts",
@@ -3664,7 +4309,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/field-catalog-commands.ts:48",
+      "location": "src/field-catalog-commands.ts:54",
       "serviceFunctions": [
         {
           "file": "src/field-catalog.ts",
@@ -3754,7 +4399,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/field-catalog-commands.ts:49",
+      "location": "src/field-catalog-commands.ts:55",
       "serviceFunctions": [
         {
           "file": "src/field-catalog.ts",
@@ -3853,7 +4498,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/field-catalog-commands.ts:53",
+      "location": "src/field-catalog-commands.ts:60",
       "serviceFunctions": [
         {
           "file": "src/field-catalog.ts",
@@ -3943,7 +4588,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/field-catalog-commands.ts:54",
+      "location": "src/field-catalog-commands.ts:61",
       "serviceFunctions": [
         {
           "file": "src/field-catalog.ts",
@@ -4041,7 +4686,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/bundle-values-commands.ts:34",
+      "location": "src/bundle-values-commands.ts:46",
       "serviceFunctions": [
         {
           "file": "src/bundle-values.ts",
@@ -4131,7 +4776,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/bundle-values-commands.ts:35",
+      "location": "src/bundle-values-commands.ts:47",
       "serviceFunctions": [
         {
           "file": "src/bundle-values.ts",
@@ -4230,7 +4875,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/bundle-values-commands.ts:37",
+      "location": "src/bundle-values-commands.ts:52",
       "serviceFunctions": [
         {
           "file": "src/bundle-values.ts",
@@ -4321,7 +4966,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/bundle-values-commands.ts:38",
+      "location": "src/bundle-values-commands.ts:53",
       "serviceFunctions": [
         {
           "file": "src/bundle-values.ts",
@@ -4420,7 +5065,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/field-catalog-commands.ts:58",
+      "location": "src/field-catalog-commands.ts:68",
       "serviceFunctions": [
         {
           "file": "src/field-catalog.ts",
@@ -4510,7 +5155,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/field-catalog-commands.ts:59",
+      "location": "src/field-catalog-commands.ts:69",
       "serviceFunctions": [
         {
           "file": "src/field-catalog.ts",
@@ -4608,7 +5253,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/field-catalog-commands.ts:63",
+      "location": "src/field-catalog-commands.ts:74",
       "serviceFunctions": [
         {
           "file": "src/field-catalog.ts",
@@ -4699,7 +5344,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/field-catalog-commands.ts:64",
+      "location": "src/field-catalog-commands.ts:75",
       "serviceFunctions": [
         {
           "file": "src/field-catalog.ts",
@@ -4798,7 +5443,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/user-directory-commands.ts:87",
+      "location": "src/user-directory-commands.ts:91",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -4889,7 +5534,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:88",
+      "location": "src/user-directory-commands.ts:92",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -4987,7 +5632,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/user-directory-commands.ts:90",
+      "location": "src/user-directory-commands.ts:94",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -5089,7 +5734,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/user-directory-commands.ts:95",
+      "location": "src/user-directory-commands.ts:99",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -5181,7 +5826,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:96",
+      "location": "src/user-directory-commands.ts:100",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -5280,7 +5925,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/user-directory-commands.ts:101",
+      "location": "src/user-directory-commands.ts:105",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -5372,7 +6017,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:102",
+      "location": "src/user-directory-commands.ts:106",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -5470,7 +6115,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/bundle-values-commands.ts:42",
+      "location": "src/bundle-values-commands.ts:60",
       "serviceFunctions": [
         {
           "file": "src/bundle-values.ts",
@@ -5560,7 +6205,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/bundle-values-commands.ts:43",
+      "location": "src/bundle-values-commands.ts:61",
       "serviceFunctions": [
         {
           "file": "src/bundle-values.ts",
@@ -5659,7 +6304,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/bundle-values-commands.ts:47",
+      "location": "src/bundle-values-commands.ts:66",
       "serviceFunctions": [
         {
           "file": "src/bundle-values.ts",
@@ -5750,7 +6395,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/bundle-values-commands.ts:48",
+      "location": "src/bundle-values-commands.ts:67",
       "serviceFunctions": [
         {
           "file": "src/bundle-values.ts",
@@ -5850,7 +6495,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/field-catalog-commands.ts:38",
+      "location": "src/field-catalog-commands.ts:41",
       "serviceFunctions": [
         {
           "file": "src/field-catalog.ts",
@@ -5940,7 +6585,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/field-catalog-commands.ts:39",
+      "location": "src/field-catalog-commands.ts:42",
       "serviceFunctions": [
         {
           "file": "src/field-catalog.ts",
@@ -6029,7 +6674,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/field-catalog-commands.ts:35",
+      "location": "src/field-catalog-commands.ts:38",
       "serviceFunctions": [
         {
           "file": "src/field-catalog.ts",
@@ -6121,7 +6766,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/field-catalog-commands.ts:32",
+      "location": "src/field-catalog-commands.ts:35",
       "serviceFunctions": [
         {
           "file": "src/field-catalog.ts",
@@ -6214,7 +6859,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/field-catalog-commands.ts:41",
+      "location": "src/field-catalog-commands.ts:44",
       "serviceFunctions": [
         {
           "file": "src/field-catalog.ts",
@@ -7040,7 +7685,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/issue-fields-commands.ts:36",
+      "location": "src/issue-fields-commands.ts:37",
       "serviceFunctions": [
         {
           "file": "src/issue-fields.ts",
@@ -7237,7 +7882,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/issue-fields-commands.ts:40",
+      "location": "src/issue-fields-commands.ts:42",
       "serviceFunctions": [
         {
           "file": "src/issue-fields.ts",
@@ -7327,7 +7972,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/issue-fields-commands.ts:41",
+      "location": "src/issue-fields-commands.ts:43",
       "serviceFunctions": [
         {
           "file": "src/issue-fields.ts",
@@ -7431,7 +8076,7 @@
         "--start <offset>",
         "--custom-field <name>"
       ],
-      "location": "src/issue-fields-commands.ts:21",
+      "location": "src/issue-fields-commands.ts:22",
       "serviceFunctions": [
         {
           "file": "src/issue-fields.ts",
@@ -7514,7 +8159,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/issue-fields-commands.ts:25",
+      "location": "src/issue-fields-commands.ts:26",
       "serviceFunctions": [
         {
           "file": "src/issue-fields.ts",
@@ -7994,7 +8639,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/time-settings-commands.ts:36",
+      "location": "src/time-settings-commands.ts:41",
       "serviceFunctions": [
         {
           "file": "src/time-settings.ts",
@@ -8091,7 +8736,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/time-settings-commands.ts:41",
+      "location": "src/time-settings-commands.ts:46",
       "serviceFunctions": [
         {
           "file": "src/time-settings.ts",
@@ -8182,7 +8827,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/time-settings-commands.ts:42",
+      "location": "src/time-settings-commands.ts:47",
       "serviceFunctions": [
         {
           "file": "src/time-settings.ts",
@@ -8310,7 +8955,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/time-settings-commands.ts:21",
+      "location": "src/time-settings-commands.ts:22",
       "serviceFunctions": [
         {
           "file": "src/time-settings.ts",
@@ -8407,7 +9052,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/time-settings-commands.ts:28",
+      "location": "src/time-settings-commands.ts:33",
       "serviceFunctions": [
         {
           "file": "src/time-settings.ts",
@@ -8498,7 +9143,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/time-settings-commands.ts:29",
+      "location": "src/time-settings-commands.ts:34",
       "serviceFunctions": [
         {
           "file": "src/time-settings.ts",
@@ -8585,7 +9230,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/time-settings-commands.ts:24",
+      "location": "src/time-settings-commands.ts:26",
       "serviceFunctions": [
         {
           "file": "src/time-settings.ts",
@@ -12222,7 +12867,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/issue-fields-commands.ts:51",
+      "location": "src/issue-fields-commands.ts:53",
       "serviceFunctions": [
         {
           "file": "src/issue-fields.ts",
@@ -12314,7 +12959,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/issue-fields-commands.ts:52",
+      "location": "src/issue-fields-commands.ts:54",
       "serviceFunctions": [
         {
           "file": "src/issue-fields.ts",
@@ -14286,7 +14931,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/issue-fields-commands.ts:46",
+      "location": "src/issue-fields-commands.ts:48",
       "serviceFunctions": [
         {
           "file": "src/issue-fields.ts",
@@ -14482,7 +15127,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:82",
+      "location": "src/user-directory-commands.ts:83",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -14571,7 +15216,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:74",
+      "location": "src/user-directory-commands.ts:75",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -14655,7 +15300,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:78",
+      "location": "src/user-directory-commands.ts:79",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -14737,7 +15382,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:70",
+      "location": "src/user-directory-commands.ts:71",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -14829,7 +15474,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/user-directory-commands.ts:63",
+      "location": "src/user-directory-commands.ts:64",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -14922,7 +15567,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/user-directory-commands.ts:66",
+      "location": "src/user-directory-commands.ts:67",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -15245,21 +15890,65 @@
       "fields"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "bundle build create",
+      "permission": "Update",
+      "options": [
+        "--body <json>",
+        "--fields <projection>"
+      ],
+      "location": "src/bundle-values-commands.ts:29",
+      "serviceFunctions": [
+        {
+          "file": "src/bundle-values.ts",
+          "symbol": "createBuildBundle",
+          "location": "src/bundle-values.ts:81"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:585:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at mutate (src/client.ts:584:10)",
+        "    at createBuildBundle (src/bundle-values.ts:82:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "POST /api/admin/customFieldSettings/bundles/build/{p1}",
@@ -15286,21 +15975,65 @@
       "fields"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "bundle build update <bundle>",
+      "permission": "Update",
+      "options": [
+        "--body <json>",
+        "--fields <projection>"
+      ],
+      "location": "src/bundle-values-commands.ts:30",
+      "serviceFunctions": [
+        {
+          "file": "src/bundle-values.ts",
+          "symbol": "updateBuildBundle",
+          "location": "src/bundle-values.ts:84"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:585:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at mutate (src/client.ts:584:10)",
+        "    at updateBuildBundle (src/bundle-values.ts:85:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "POST /api/admin/customFieldSettings/bundles/build/{p1}/values",
@@ -15327,21 +16060,65 @@
       "fields"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "bundle build value create <bundle>",
+      "permission": "Update",
+      "options": [
+        "--body <json>",
+        "--fields <projection>"
+      ],
+      "location": "src/bundle-values-commands.ts:35",
+      "serviceFunctions": [
+        {
+          "file": "src/bundle-values.ts",
+          "symbol": "createBuildValue",
+          "location": "src/bundle-values.ts:90"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:585:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at mutate (src/client.ts:584:10)",
+        "    at createBuildValue (src/bundle-values.ts:91:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "POST /api/admin/customFieldSettings/bundles/build/{p1}/values/{p2}",
@@ -15368,21 +16145,65 @@
       "fields"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "bundle build value update <bundle> <value>",
+      "permission": "Update",
+      "options": [
+        "--body <json>",
+        "--fields <projection>"
+      ],
+      "location": "src/bundle-values-commands.ts:36",
+      "serviceFunctions": [
+        {
+          "file": "src/bundle-values.ts",
+          "symbol": "updateBuildValue",
+          "location": "src/bundle-values.ts:93"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:585:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at mutate (src/client.ts:584:10)",
+        "    at updateBuildValue (src/bundle-values.ts:94:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "POST /api/admin/customFieldSettings/bundles/enum",
@@ -15409,21 +16230,65 @@
       "fields"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "bundle enum create",
+      "permission": "Update",
+      "options": [
+        "--body <json>",
+        "--fields <projection>"
+      ],
+      "location": "src/field-catalog-commands.ts:51",
+      "serviceFunctions": [
+        {
+          "file": "src/field-catalog.ts",
+          "symbol": "createEnumBundle",
+          "location": "src/field-catalog.ts:92"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:585:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at mutate (src/client.ts:584:10)",
+        "    at createEnumBundle (src/field-catalog.ts:93:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "POST /api/admin/customFieldSettings/bundles/enum/{p1}",
@@ -15450,21 +16315,65 @@
       "fields"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "bundle enum update <bundle>",
+      "permission": "Update",
+      "options": [
+        "--body <json>",
+        "--fields <projection>"
+      ],
+      "location": "src/field-catalog-commands.ts:52",
+      "serviceFunctions": [
+        {
+          "file": "src/field-catalog.ts",
+          "symbol": "updateEnumBundle",
+          "location": "src/field-catalog.ts:95"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:585:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at mutate (src/client.ts:584:10)",
+        "    at updateEnumBundle (src/field-catalog.ts:96:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "POST /api/admin/customFieldSettings/bundles/enum/{p1}/values",
@@ -15500,7 +16409,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/field-catalog-commands.ts:52",
+      "location": "src/field-catalog-commands.ts:59",
       "serviceFunctions": [
         {
           "file": "src/field-catalog.ts",
@@ -15585,7 +16494,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/field-catalog-commands.ts:51",
+      "location": "src/field-catalog-commands.ts:58",
       "serviceFunctions": [
         {
           "file": "src/field-catalog.ts",
@@ -15661,21 +16570,65 @@
       "fields"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "bundle owned create",
+      "permission": "Update",
+      "options": [
+        "--body <json>",
+        "--fields <projection>"
+      ],
+      "location": "src/bundle-values-commands.ts:43",
+      "serviceFunctions": [
+        {
+          "file": "src/bundle-values.ts",
+          "symbol": "createOwnedBundle",
+          "location": "src/bundle-values.ts:101"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:585:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at mutate (src/client.ts:584:10)",
+        "    at createOwnedBundle (src/bundle-values.ts:102:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "POST /api/admin/customFieldSettings/bundles/ownedField/{p1}",
@@ -15702,21 +16655,65 @@
       "fields"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "bundle owned update <bundle>",
+      "permission": "Update",
+      "options": [
+        "--body <json>",
+        "--fields <projection>"
+      ],
+      "location": "src/bundle-values-commands.ts:44",
+      "serviceFunctions": [
+        {
+          "file": "src/bundle-values.ts",
+          "symbol": "updateOwnedBundle",
+          "location": "src/bundle-values.ts:104"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:585:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at mutate (src/client.ts:584:10)",
+        "    at updateOwnedBundle (src/bundle-values.ts:105:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "POST /api/admin/customFieldSettings/bundles/ownedField/{p1}/values",
@@ -15743,21 +16740,65 @@
       "fields"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "bundle owned value create <bundle>",
+      "permission": "Update",
+      "options": [
+        "--body <json>",
+        "--fields <projection>"
+      ],
+      "location": "src/bundle-values-commands.ts:49",
+      "serviceFunctions": [
+        {
+          "file": "src/bundle-values.ts",
+          "symbol": "createOwnedValue",
+          "location": "src/bundle-values.ts:115"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:585:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at mutate (src/client.ts:584:10)",
+        "    at createOwnedValue (src/bundle-values.ts:116:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "POST /api/admin/customFieldSettings/bundles/ownedField/{p1}/values/{p2}",
@@ -15784,21 +16825,65 @@
       "fields"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "bundle owned value update <bundle> <value>",
+      "permission": "Update",
+      "options": [
+        "--body <json>",
+        "--fields <projection>"
+      ],
+      "location": "src/bundle-values-commands.ts:50",
+      "serviceFunctions": [
+        {
+          "file": "src/bundle-values.ts",
+          "symbol": "updateOwnedValue",
+          "location": "src/bundle-values.ts:118"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:585:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at mutate (src/client.ts:584:10)",
+        "    at updateOwnedValue (src/bundle-values.ts:119:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "POST /api/admin/customFieldSettings/bundles/state",
@@ -15825,21 +16910,65 @@
       "fields"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "bundle state create",
+      "permission": "Update",
+      "options": [
+        "--body <json>",
+        "--fields <projection>"
+      ],
+      "location": "src/field-catalog-commands.ts:65",
+      "serviceFunctions": [
+        {
+          "file": "src/field-catalog.ts",
+          "symbol": "createStateBundle",
+          "location": "src/field-catalog.ts:106"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:585:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at mutate (src/client.ts:584:10)",
+        "    at createStateBundle (src/field-catalog.ts:107:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "POST /api/admin/customFieldSettings/bundles/state/{p1}",
@@ -15866,21 +16995,65 @@
       "fields"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "bundle state update <bundle>",
+      "permission": "Update",
+      "options": [
+        "--body <json>",
+        "--fields <projection>"
+      ],
+      "location": "src/field-catalog-commands.ts:66",
+      "serviceFunctions": [
+        {
+          "file": "src/field-catalog.ts",
+          "symbol": "updateStateBundle",
+          "location": "src/field-catalog.ts:109"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:585:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at mutate (src/client.ts:584:10)",
+        "    at updateStateBundle (src/field-catalog.ts:110:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "POST /api/admin/customFieldSettings/bundles/state/{p1}/values",
@@ -15916,7 +17089,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/field-catalog-commands.ts:61",
+      "location": "src/field-catalog-commands.ts:72",
       "serviceFunctions": [
         {
           "file": "src/field-catalog.ts",
@@ -16001,7 +17174,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/field-catalog-commands.ts:62",
+      "location": "src/field-catalog-commands.ts:73",
       "serviceFunctions": [
         {
           "file": "src/field-catalog.ts",
@@ -16077,21 +17250,65 @@
       "fields"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "bundle user create",
+      "permission": "Update",
+      "options": [
+        "--body <json>",
+        "--fields <projection>"
+      ],
+      "location": "src/user-directory-commands.ts:88",
+      "serviceFunctions": [
+        {
+          "file": "src/user-directory.ts",
+          "symbol": "createUserBundle",
+          "location": "src/user-directory.ts:134"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:585:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at mutate (src/client.ts:584:10)",
+        "    at createUserBundle (src/user-directory.ts:135:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "POST /api/admin/customFieldSettings/bundles/user/{p1}",
@@ -16118,21 +17335,65 @@
       "fields"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "bundle user update <bundle>",
+      "permission": "Update",
+      "options": [
+        "--body <json>",
+        "--fields <projection>"
+      ],
+      "location": "src/user-directory-commands.ts:89",
+      "serviceFunctions": [
+        {
+          "file": "src/user-directory.ts",
+          "symbol": "updateUserBundle",
+          "location": "src/user-directory.ts:137"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:585:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at mutate (src/client.ts:584:10)",
+        "    at updateUserBundle (src/user-directory.ts:138:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "POST /api/admin/customFieldSettings/bundles/user/{p1}/groups",
@@ -16177,7 +17438,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:93",
+      "location": "src/user-directory-commands.ts:97",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -16280,7 +17541,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:99",
+      "location": "src/user-directory-commands.ts:103",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -16356,21 +17617,65 @@
       "fields"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "bundle version create",
+      "permission": "Update",
+      "options": [
+        "--body <json>",
+        "--fields <projection>"
+      ],
+      "location": "src/bundle-values-commands.ts:57",
+      "serviceFunctions": [
+        {
+          "file": "src/bundle-values.ts",
+          "symbol": "createVersionBundle",
+          "location": "src/bundle-values.ts:67"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:585:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at mutate (src/client.ts:584:10)",
+        "    at createVersionBundle (src/bundle-values.ts:68:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "POST /api/admin/customFieldSettings/bundles/version/{p1}",
@@ -16397,21 +17702,65 @@
       "fields"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "bundle version update <bundle>",
+      "permission": "Update",
+      "options": [
+        "--body <json>",
+        "--fields <projection>"
+      ],
+      "location": "src/bundle-values-commands.ts:58",
+      "serviceFunctions": [
+        {
+          "file": "src/bundle-values.ts",
+          "symbol": "updateVersionBundle",
+          "location": "src/bundle-values.ts:70"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:585:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at mutate (src/client.ts:584:10)",
+        "    at updateVersionBundle (src/bundle-values.ts:71:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "POST /api/admin/customFieldSettings/bundles/version/{p1}/values",
@@ -16447,7 +17796,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/bundle-values-commands.ts:46",
+      "location": "src/bundle-values-commands.ts:65",
       "serviceFunctions": [
         {
           "file": "src/bundle-values.ts",
@@ -16532,7 +17881,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/bundle-values-commands.ts:45",
+      "location": "src/bundle-values-commands.ts:64",
       "serviceFunctions": [
         {
           "file": "src/bundle-values.ts",
@@ -16574,7 +17923,8 @@
     "verification": {
       "existingOffline": "exercised-in-passing-suite",
       "testLocations": [
-        "tests/m03-stories.test.ts"
+        "tests/m03-stories.test.ts",
+        "tests/m07-stories.test.ts"
       ],
       "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
@@ -16631,7 +17981,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/field-catalog-commands.ts:29",
+      "location": "src/field-catalog-commands.ts:32",
       "serviceFunctions": [
         {
           "file": "src/field-catalog.ts",
@@ -16730,7 +18080,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/field-catalog-commands.ts:30",
+      "location": "src/field-catalog-commands.ts:33",
       "serviceFunctions": [
         {
           "file": "src/field-catalog.ts",
@@ -16822,7 +18172,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/field-catalog-commands.ts:36",
+      "location": "src/field-catalog-commands.ts:39",
       "serviceFunctions": [
         {
           "file": "src/field-catalog.ts",
@@ -17481,7 +18831,7 @@
         "--fields <projection>",
         "--template <name>"
       ],
-      "location": "src/issue-fields-commands.ts:29",
+      "location": "src/issue-fields-commands.ts:30",
       "serviceFunctions": [
         {
           "file": "src/issue-fields.ts",
@@ -17500,7 +18850,7 @@
         "    at mutationResult (src/client.ts:566:18)",
         "    at mutate (src/client.ts:584:10)",
         "    at createProject (src/issue-fields.ts:228:10)",
-        "    at updateCommand.flags (src/issue-fields-commands.ts:31:26)"
+        "    at updateCommand.flags (src/issue-fields-commands.ts:32:26)"
       ],
       "surfaces": {
         "execute": {
@@ -17573,7 +18923,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/issue-fields-commands.ts:35",
+      "location": "src/issue-fields-commands.ts:36",
       "serviceFunctions": [
         {
           "file": "src/issue-fields.ts",
@@ -17669,7 +19019,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/issue-fields-commands.ts:38",
+      "location": "src/issue-fields-commands.ts:40",
       "serviceFunctions": [
         {
           "file": "src/issue-fields.ts",
@@ -17765,7 +19115,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/issue-fields-commands.ts:39",
+      "location": "src/issue-fields-commands.ts:41",
       "serviceFunctions": [
         {
           "file": "src/issue-fields.ts",
@@ -17885,7 +19235,7 @@
         "--fields <projection>",
         "--mute-update-notifications [boolean]"
       ],
-      "location": "src/issue-fields-commands.ts:26",
+      "location": "src/issue-fields-commands.ts:27",
       "serviceFunctions": [
         {
           "file": "src/issue-fields.ts",
@@ -18005,7 +19355,7 @@
         "--fields <projection>",
         "--mute-update-notifications [boolean]"
       ],
-      "location": "src/issue-fields-commands.ts:27",
+      "location": "src/issue-fields-commands.ts:28",
       "serviceFunctions": [
         {
           "file": "src/issue-fields.ts",
@@ -18381,7 +19731,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/time-settings-commands.ts:35",
+      "location": "src/time-settings-commands.ts:40",
       "serviceFunctions": [
         {
           "file": "src/time-settings.ts",
@@ -18471,7 +19821,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/time-settings-commands.ts:39",
+      "location": "src/time-settings-commands.ts:44",
       "serviceFunctions": [
         {
           "file": "src/time-settings.ts",
@@ -18552,21 +19902,65 @@
       "fields"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "work-item-type create",
+      "permission": "Update",
+      "options": [
+        "--body <json>",
+        "--fields <projection>"
+      ],
+      "location": "src/time-settings-commands.ts:30",
+      "serviceFunctions": [
+        {
+          "file": "src/time-settings.ts",
+          "symbol": "createWorkItemType",
+          "location": "src/time-settings.ts:59"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:585:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at mutate (src/client.ts:584:10)",
+        "    at createWorkItemType (src/time-settings.ts:60:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "POST /api/admin/timeTrackingSettings/workItemTypes/{p1}",
@@ -18598,21 +19992,65 @@
       "fields"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "work-item-type update <type>",
+      "permission": "Update",
+      "options": [
+        "--body <json>",
+        "--fields <projection>"
+      ],
+      "location": "src/time-settings-commands.ts:31",
+      "serviceFunctions": [
+        {
+          "file": "src/time-settings.ts",
+          "symbol": "updateWorkItemType",
+          "location": "src/time-settings.ts:62"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:585:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at mutate (src/client.ts:584:10)",
+        "    at updateWorkItemType (src/time-settings.ts:63:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "POST /api/admin/timeTrackingSettings/workTimeSettings",
@@ -18646,21 +20084,65 @@
       "fields"
     ],
     "sourceCaveats": [],
-    "status": "missing",
-    "reason": "No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.",
-    "binding": null,
+    "status": "covered",
+    "reason": "The core action and documented query dimensions are exposed and observed. This is operation coverage, not exhaustive schema/value or version conformance.",
+    "binding": {
+      "command": "time-tracking work-time update",
+      "permission": "Update",
+      "options": [
+        "--body <json>",
+        "--fields <projection>"
+      ],
+      "location": "src/time-settings-commands.ts:25",
+      "serviceFunctions": [
+        {
+          "file": "src/time-settings.ts",
+          "symbol": "updateWorkTimeSettings",
+          "location": "src/time-settings.ts:71"
+        }
+      ],
+      "callStack": [
+        "    at request (src/client.ts:192:31)",
+        "    at <anonymous> (src/client.ts:585:25)",
+        "    at mutationResult (src/client.ts:566:18)",
+        "    at mutate (src/client.ts:584:10)",
+        "    at updateWorkTimeSettings (src/time-settings.ts:75:10)",
+        "    at <anonymous> (src/cli-support.ts:184:36)"
+      ],
+      "surfaces": {
+        "execute": {
+          "passed": true,
+          "requests": 1
+        },
+        "human": {
+          "passed": true,
+          "requests": 1
+        },
+        "json": {
+          "passed": true,
+          "requests": 1
+        },
+        "rpc": {
+          "passed": true,
+          "requests": 1
+        }
+      },
+      "deniedBeforeHttp": true
+    },
     "unsupportedQueryParameters": [],
     "disputedUnsupportedQueryParameters": [],
     "unsupportedBodyControls": [],
     "verification": {
-      "existingOffline": "no-shipped-handler",
-      "testLocations": [],
-      "generatedSurfaceSmoke": "not-applicable",
+      "existingOffline": "exercised-in-passing-suite",
+      "testLocations": [
+        "tests/m07-stories.test.ts"
+      ],
+      "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
       "independentReview": "not-performed"
     },
     "availableInDefaultReadOnlyProfile": false,
-    "requiresExplicitUpdateGrant": false
+    "requiresExplicitUpdateGrant": true
   },
   {
     "id": "POST /api/agiles",
@@ -21800,7 +23282,7 @@
         "--fields <projection>",
         "--mute-update-notifications [boolean]"
       ],
-      "location": "src/issue-fields-commands.ts:53",
+      "location": "src/issue-fields-commands.ts:55",
       "serviceFunctions": [
         {
           "file": "src/issue-fields.ts",
@@ -23352,7 +24834,7 @@
         "--fields <projection>",
         "--password-secret <alias>"
       ],
-      "location": "src/user-directory-commands.ts:50",
+      "location": "src/user-directory-commands.ts:51",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -23367,7 +24849,7 @@
         "    at mutate (src/client.ts:584:10)",
         "    at writeUser (src/user-directory.ts:122:10)",
         "    at createUser (src/user-directory.ts:127:10)",
-        "    at updateCommand.flags (src/user-directory-commands.ts:57:26)"
+        "    at updateCommand.flags (src/user-directory-commands.ts:58:26)"
       ],
       "surfaces": {
         "execute": {
@@ -23462,7 +24944,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:61",
+      "location": "src/user-directory-commands.ts:62",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -23477,7 +24959,7 @@
         "    at mutate (src/client.ts:584:10)",
         "    at writeUser (src/user-directory.ts:122:10)",
         "    at updateUser (src/user-directory.ts:130:10)",
-        "    at <anonymous> (src/user-directory-commands.ts:61:104)",
+        "    at <anonymous> (src/user-directory-commands.ts:62:104)",
         "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
@@ -23557,7 +25039,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:75",
+      "location": "src/user-directory-commands.ts:76",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -23657,7 +25139,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:79",
+      "location": "src/user-directory-commands.ts:80",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -23746,7 +25228,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:71",
+      "location": "src/user-directory-commands.ts:72",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",

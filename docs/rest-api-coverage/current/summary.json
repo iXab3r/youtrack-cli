@@ -1,12 +1,12 @@
 {
-  "baselineHead": "f6cbed934827cac404e4ab7bb710ea90b72ea0ec",
+  "baselineHead": "ff1d50fc4a87387e42b010a615589fc0468cb414",
   "dateUTC": "2026-11-08",
   "total": 282,
-  "covered": 227,
+  "covered": 261,
   "partial": 0,
-  "missing": 55,
+  "missing": 21,
   "uncertain": 0,
-  "reached": 227,
+  "reached": 261,
   "byPermission": {
     "ReadOnly": {
       "total": 140,
@@ -17,9 +17,9 @@
     },
     "Update": {
       "total": 142,
-      "covered": 100,
+      "covered": 134,
       "partial": 0,
-      "missing": 42,
+      "missing": 8,
       "uncertain": 0
     }
   },
@@ -61,9 +61,9 @@
     },
     "admin.projects": {
       "total": 31,
-      "covered": 29,
+      "covered": 31,
       "partial": 0,
-      "missing": 2,
+      "missing": 0,
       "uncertain": 0
     },
     "admin.telemetry": {
@@ -75,9 +75,9 @@
     },
     "admin.timeTrackingSettings": {
       "total": 8,
-      "covered": 4,
+      "covered": 8,
       "partial": 0,
-      "missing": 4,
+      "missing": 0,
       "uncertain": 0
     },
     "agiles": {
@@ -103,44 +103,44 @@
     },
     "bundles.build": {
       "total": 10,
-      "covered": 4,
+      "covered": 10,
       "partial": 0,
-      "missing": 6,
+      "missing": 0,
       "uncertain": 0
     },
     "bundles.enum": {
       "total": 10,
-      "covered": 6,
+      "covered": 10,
       "partial": 0,
-      "missing": 4,
+      "missing": 0,
       "uncertain": 0
     },
     "bundles.ownedField": {
       "total": 10,
-      "covered": 4,
+      "covered": 10,
       "partial": 0,
-      "missing": 6,
+      "missing": 0,
       "uncertain": 0
     },
     "bundles.state": {
       "total": 10,
-      "covered": 6,
+      "covered": 10,
       "partial": 0,
-      "missing": 4,
+      "missing": 0,
       "uncertain": 0
     },
     "bundles.user": {
       "total": 14,
-      "covered": 11,
+      "covered": 14,
       "partial": 0,
-      "missing": 3,
+      "missing": 0,
       "uncertain": 0
     },
     "bundles.version": {
       "total": 10,
-      "covered": 6,
+      "covered": 10,
       "partial": 0,
-      "missing": 4,
+      "missing": 0,
       "uncertain": 0
     },
     "commands": {
@@ -152,9 +152,9 @@
     },
     "customFields": {
       "total": 9,
-      "covered": 8,
+      "covered": 9,
       "partial": 0,
-      "missing": 1,
+      "missing": 0,
       "uncertain": 0
     },
     "groups": {

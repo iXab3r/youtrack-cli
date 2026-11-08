@@ -1,4 +1,4 @@
-import { fields, mutate, mutationBody, namedMutationBody, narrative, requiredText, type Connection, type ProjectionOptions, encodedID, readCollectionAt, readObjectAt } from "./client.js";
+import { fields, mutate, deleteObject, mutationBody, namedMutationBody, narrative, requiredText, type Connection, type ProjectionOptions, encodedID, readCollectionAt, readObjectAt } from "./client.js";
 
 const root = "api/admin/customFieldSettings";
 const customFieldFields = "id,name,fieldType(id,presentation,valueType,isMultiValue),aliases";
@@ -81,4 +81,37 @@ export async function createCustomField(connection: Connection, input: unknown, 
 }
 export async function updateCustomField(connection: Connection, fieldID: string, input: unknown, options: ProjectionOptions = {}) {
   return mutate(connection, `${root}/customFields/${encodedID(fieldID, "field ID")}`, namedMutationBody(input, false), fields(options, customFieldFields));
+}
+
+
+export async function deleteCustomField(connection: Connection, fieldID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, `${root}/customFields/${encodedID(fieldID, "field ID")}`, options);
+}
+
+
+export async function createEnumBundle(connection: Connection, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, `${root}/bundles/enum`, mutationBody(input), fields(options, bundleFields));
+}
+export async function updateEnumBundle(connection: Connection, bundleID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, bundlePath("enum", bundleID), mutationBody(input), fields(options, bundleFields));
+}
+export async function deleteEnumBundle(connection: Connection, bundleID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, bundlePath("enum", bundleID), options);
+}
+export async function deleteEnumValue(connection: Connection, bundleID: string, valueID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, valuePath("enum", bundleID, valueID), options);
+}
+
+
+export async function createStateBundle(connection: Connection, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, `${root}/bundles/state`, mutationBody(input), fields(options, bundleFields));
+}
+export async function updateStateBundle(connection: Connection, bundleID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, bundlePath("state", bundleID), mutationBody(input), fields(options, bundleFields));
+}
+export async function deleteStateBundle(connection: Connection, bundleID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, bundlePath("state", bundleID), options);
+}
+export async function deleteStateValue(connection: Connection, bundleID: string, valueID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, valuePath("state", bundleID, valueID), options);
 }

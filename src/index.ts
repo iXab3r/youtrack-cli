@@ -23,7 +23,7 @@ export {
   type AssistOptions, type CommandAssistOptions, type CommandApplyOptions,
 } from "./issue-query.js";
 export {
-  deleteProjectIssue,
+  deleteProject, deleteProjectField, deleteProjectIssue,
   listProjectIssues, getProjectIssue, createProjectIssue, updateProjectIssue, type ProjectIssueOptions,
   createProject, updateProject, type ProjectCreateOptions,
   getProject, getProjectField, listProjectFields, listUsers, getIssueField, listIssueFields, setIssueField,
@@ -48,13 +48,16 @@ export {
 } from "./issue-time.js";
 export { listIssueAttachments, getIssueAttachment, uploadIssueAttachment, updateIssueAttachment, deleteIssueAttachment } from "./issue-attachments.js";
 export {
+  updateWorkTimeSettings, createWorkItemType, updateWorkItemType, deleteWorkItemType,
   updateProjectTimeSettings,
   addProjectWorkItemType, removeProjectWorkItemType,
   getProjectTimeSettings, listProjectWorkItemTypes, getProjectWorkItemType, getGlobalTimeSettings,
   listWorkItemTypes, getWorkItemType, getWorkTimeSettings,
 } from "./time-settings.js";
 export {
-  createEnumValue, updateEnumValue, createStateValue, updateStateValue, getFieldDefaults, updateFieldDefaults, listFieldInstances,
+  createStateBundle, updateStateBundle, deleteStateBundle, deleteStateValue,
+  createEnumBundle, updateEnumBundle, deleteEnumBundle, deleteEnumValue,
+  deleteCustomField, createEnumValue, updateEnumValue, createStateValue, updateStateValue, getFieldDefaults, updateFieldDefaults, listFieldInstances,
   createCustomField, updateCustomField,
   listCustomFields, getCustomField, listFieldTypes, listEnumBundles, getEnumBundle, listEnumValues,
   getEnumValue, listStateBundles, getStateBundle, listStateValues, getStateValue,
@@ -65,6 +68,7 @@ export {
   getUserGeneralProfile, updateUserGeneralProfile,
   getUserNotifications, updateUserNotifications,
   addUserBundleGroup, addUserBundleIndividual, removeUserBundleGroup, removeUserBundleIndividual,
+  createUserBundle, updateUserBundle, deleteUserBundle,
   listUserBundles, getUserBundle, listUserBundleMembers, listUserBundleGroups, getUserBundleGroup,
   listUserBundleIndividuals, getUserBundleIndividual, getUser,
 } from "./user-directory.js";
@@ -83,8 +87,11 @@ export {
 } from "./articles.js";
 export { deleteAgile, deleteSprint, createAgile, updateAgile, type AgileCreateOptions, listAgiles, getAgile, listSprints, getSprint, createSprint, updateSprint } from "./agile.js";
 export {
+  createBuildBundle, updateBuildBundle, deleteBuildBundle, createBuildValue, updateBuildValue, deleteBuildValue,
   listBuildBundles, getBuildBundle, listBuildValues, getBuildValue,
+  createOwnedBundle, updateOwnedBundle, deleteOwnedBundle, createOwnedValue, updateOwnedValue, deleteOwnedValue,
   listOwnedBundles, getOwnedBundle, listOwnedValues, getOwnedValue,
+  createVersionBundle, updateVersionBundle, deleteVersionBundle, deleteVersionValue,
   createVersionValue, updateVersionValue,
   listVersionBundles, getVersionBundle, listVersionValues, getVersionValue,
 } from "./bundle-values.js";
