@@ -24,7 +24,7 @@ export {
 } from "./issue-query.js";
 export {
   getProject, getProjectField, listProjectFields, listUsers, getIssueField, listIssueFields, setIssueField,
-  createIssue, updateIssue, createProjectField, updateProjectField,
+  deleteIssue, createIssue, updateIssue, createProjectField, updateProjectField,
 } from "./issue-fields.js";
 export { manifestRows, applyIssueBatch, type BatchRow } from "./issue-batch.js";
 export {

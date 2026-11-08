@@ -1,4 +1,5 @@
 import {
+  deleteObject,
   encodedID,
   fields,
   type ProjectionOptions,
@@ -199,4 +200,9 @@ export async function createProjectField(connection: Connection, projectID: stri
 }
 export async function updateProjectField(connection: Connection, projectID: string, fieldID: string, input: unknown, options: ProjectionOptions = {}) {
   return mutate(connection, `${projectPath(projectID)}/customFields/${encodedID(fieldID, "project field ID")}`, mutationBody(input), fields(options, projectFieldFields));
+}
+
+
+export async function deleteIssue(connection: Connection, issueID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, issuePath(issueID), options);
 }
