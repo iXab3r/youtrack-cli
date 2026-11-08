@@ -1,6 +1,7 @@
 import { command } from "@eyeauras/cli-factory";
 import { pagedRead, projectedRead, projectedBodyUpdate, projectedDelete } from "./cli-support.js";
 import {
+  createWorkItemType, updateWorkItemType, deleteWorkItemType,
   updateProjectTimeSettings,
   addProjectWorkItemType, removeProjectWorkItemType,
   getGlobalTimeSettings,
@@ -24,7 +25,10 @@ export const timeSettingsRootCommands = [
       projectedRead("get", "Show the work schedule", getWorkTimeSettings),
     ]),
   ]),
-  command("work-item-type", "Inspect work item types", [
+  command("work-item-type", "Inspect and manage work item types", [
+    projectedBodyUpdate("create", "Create a work item type", createWorkItemType, undefined, mutationWritten("Created work item type")),
+    projectedBodyUpdate("update <type>", "Update a selected work item type", updateWorkItemType, undefined, mutationWritten("Updated work item type", "type")),
+    projectedDelete("delete <type>", "Delete a selected work item type", deleteWorkItemType, mutationWritten("Deleted work item type", "type")),
     pagedRead("list", "List work item types", listWorkItemTypes, typeTable),
     projectedRead("get <type>", "Show a work item type", getWorkItemType),
   ]),

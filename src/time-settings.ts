@@ -1,4 +1,4 @@
-import { fields, mutate, deleteObject, mutationBody, narrative, requiredText, type Connection, type ProjectionOptions, encodedID, readCollectionAt, readObjectAt } from "./client.js";
+import { fields, mutate, deleteObject, mutationBody, namedMutationBody, narrative, requiredText, type Connection, type ProjectionOptions, encodedID, readCollectionAt, readObjectAt } from "./client.js";
 
 const globalSettingsPath = "api/admin/timeTrackingSettings";
 const typeFields = "id,name,autoAttached";
@@ -48,4 +48,20 @@ export async function removeProjectWorkItemType(connection: Connection, projectI
 
 export async function updateProjectTimeSettings(connection: Connection, projectID: string, input: unknown, options: ProjectionOptions = {}) {
   return mutate(connection, projectSettingsPath(projectID), mutationBody(input), fields(options, projectFields));
+}
+
+
+function workItemTypeBody(input: unknown, creating: boolean) {
+  const body = namedMutationBody(input, creating);
+  if (Object.hasOwn(body, "autoAttached") && typeof body.autoAttached !== "boolean") throw new Error("The autoAttached flag must be boolean.");
+  return body;
+}
+export async function createWorkItemType(connection: Connection, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, `${globalSettingsPath}/workItemTypes`, workItemTypeBody(input, true), fields(options, typeFields));
+}
+export async function updateWorkItemType(connection: Connection, typeID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, `${globalSettingsPath}/workItemTypes/${encodedID(typeID, "work item type ID")}`, workItemTypeBody(input, false), fields(options, typeFields));
+}
+export async function deleteWorkItemType(connection: Connection, typeID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, `${globalSettingsPath}/workItemTypes/${encodedID(typeID, "work item type ID")}`, options);
 }
