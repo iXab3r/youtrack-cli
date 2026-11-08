@@ -16,3 +16,8 @@ test("US-012 create and edit saved searches preserve native fields and projectio
   await storyCase(t, { argv: ["saved-queries", "create", "--body", '{"name":"Synthetic queue","query":null,"visibleFor":null}', "--fields", "id"], method: "POST", path: "/api/savedQueries", query: [["fields", "id"]], body: { name: "Synthetic queue", query: null, visibleFor: null }, response: detail, result: detail, update: true });
   await storyCase(t, { argv: ["saved-queries", "update", "q /?", "--body", '{"query":"project: DEMO","updateableBy":null}', "--fields", "id"], method: "POST", path: "/api/savedQueries/q%20%2F%3F", query: [["fields", "id"]], body: { query: "project: DEMO", updateableBy: null }, response: undefined, result: null, update: true });
 });
+
+test("US-016 read and set the exact issue project without discovery", async t => {
+  await storyCase(t, { argv: ["issues", "project", "get", "DEMO /?", "--fields", "id"], method: "GET", path: "/api/issues/DEMO%20%2F%3F/project", query: [["fields", "id"]], response: detail, result: detail });
+  await storyCase(t, { argv: ["issues", "project", "set", "DEMO /?", "--body", '{"id":"target /?"}', "--fields", "id", "--mute-update-notifications", "false"], method: "POST", path: "/api/issues/DEMO%20%2F%3F/project", query: [["fields", "id"], ["muteUpdateNotifications", "false"]], body: { id: "target /?" }, response: detail, result: detail, update: true });
+});
