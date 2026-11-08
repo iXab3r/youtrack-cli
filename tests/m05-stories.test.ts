@@ -21,3 +21,18 @@ test("US-050 read and update native period format descriptors", async t => {
   await storyCase(t, {"argv":["user","profile","time-tracking","get","user /?","--fields","id"],"method":"GET","path":"/api/users/user%20%2F%3F/profiles/timetracking","query":[["fields","id"]],"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"}});
   await storyCase(t, {"argv":["user","profile","time-tracking","update","user /?","--body","{\"periodFormat\":{\"id\":\"FULL\",\"$type\":\"PeriodFieldFormat\"}}","--fields","id"],"method":"POST","path":"/api/users/user%20%2F%3F/profiles/timetracking","query":[["fields","id"]],"body":{"periodFormat":{"id":"FULL","$type":"PeriodFieldFormat"}},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
 });
+
+test("M05 profile descriptor preflight and empty replies preserve selected users", async t => {
+  const f = await configuredFixture(t, { permissions: ["ReadOnly", "Update"] }); let calls = 0;
+  server.use(http.all("*", () => { calls++; return new HttpResponse(null, { status: 204 }); }));
+  for (const argv of [
+    ["user", "profile", "general", "update", "user", "--body", '{"timezone":"Europe/Berlin"}'],
+    ["user", "profile", "time-tracking", "update", "user", "--body", '{"periodFormat":"FULL"}'],
+  ]) { await assert.rejects(f.cli.execute(argv)); assert.equal(calls, 0); }
+  for (const kind of ["general", "time-tracking"]) {
+    const argv = ["user", "profile", kind, "update", "Selected-user", "--body", "{}"];
+    const r = await f.run(f.cli, argv); assert.equal(r.exitCode, 0, r.stderr); assert.match(r.stdout, /Selected-user/); assert.equal(await f.json(f.cli, argv), null);
+    const hidden = await f.run(f.cli, ["user", "profile", kind, "update", "synthetic-token", "--body", "{}"]);
+    assert.equal(hidden.exitCode, 0, hidden.stderr); assert.doesNotMatch(hidden.stdout + hidden.stderr, /synthetic-token/); assert.match(hidden.stdout, /redacted/);
+  }
+});
