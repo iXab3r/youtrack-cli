@@ -1,20 +1,22 @@
 # Аудит публичного YouTrack REST API — 2026-11-08
 
+Это frozen baseline 0.7.1. [Текущее покрытие после M01](current/summary.json) и [полный current mapping](current/coverage.json) публикуются отдельно; исходные цифры и source hashes ниже сохранены.
+
 На baseline `1c501faf75435bc671e3ee314c1938db3dadcd9f` конечный опубликованный census содержит **282 операции**: **93 covered, 23 partial, 164 missing, 2 uncertain**. Полное покрытие по приведённому ниже критерию — **32,98%**. Действие доступно хотя бы в основном варианте для **118/282 = 41,84%**. Эти два процента отвечают на разные вопросы.
 
 Аудит не реализует отложенные функции и не меняет Issue #1. Генератор и inventory — подготовленные локальные изменения; runtime, зависимости, commands, CI и версии не менялись. Независимое review не проводилось; повторная генерация и отдельный алгоритм пересчёта являются self-check.
 
 ## Вселенная и provenance
 
-Машиночитаемый первичный источник: [официальный OpenAPI публичного JetBrains YouTrack](https://youtrack.jetbrains.com/api/openapi.json), полученный 2026-11-08: OAS `3.0.1`, `info.version: 2026.4`, **157 paths / 281 METHOD+path operations**. SHA-256 исходных bytes:
+Машиночитаемый первичный источник: [optional API reference: официальный OpenAPI публичного JetBrains YouTrack](https://youtrack.jetbrains.com/api/openapi.json), полученный 2026-11-08: OAS `3.0.1`, `info.version: 2026.4`, **157 paths / 281 METHOD+path operations**. SHA-256 исходных bytes:
 
 `08d7f307974004570acab1903d66c663710432ff70bffa6c601b70de27ccfb9b`
 
 Это версия опубликованной схемы конкретного публичного развёртывания JetBrains. Build/version установленного пользователем сервера не запрашивался. Ни schema version, ни HTTP availability не являются обещанием совместимости CLI со всеми выпусками, Cloud/Server edition или remote permissions.
 
-Независимый источник множества: [полный официальный Resources index](https://www.jetbrains.com/help/youtrack/devportal/api-resources.html), дата страницы 2026-11-04, HTML built-on `2026-11-06T17:28:18.886702316`. Генератор прочитал **все 169 связанные resource/operations pages** в официальном Markdown-представлении. Supported methods + Resource дают те же **281 операции**, после нормализации path placeholders. 25 страниц не объявляют собственных методов: большинство перенаправляет к operations page; deprecated `issueTags` не получает выдуманную операцию. Полные URLs, hashes каждой страницы и список этих 25 страниц находятся в [source-lock.json](source-lock.json).
+Независимый источник множества: [optional API reference: полный официальный Resources index](https://www.jetbrains.com/help/youtrack/devportal/api-resources.html), дата страницы 2026-11-04, HTML built-on `2026-11-06T17:28:18.886702316`. Генератор прочитал **все 169 связанные resource/operations pages** в официальном Markdown-представлении. Supported methods + Resource дают те же **281 операции**, после нормализации path placeholders. 25 страниц не объявляют собственных методов: большинство перенаправляет к operations page; deprecated `issueTags` не получает выдуманную операцию. Полные URLs, hashes каждой страницы и список этих 25 страниц находятся в [source-lock.json](source-lock.json).
 
-[Документация OpenAPI](https://www.jetbrains.com/help/youtrack/devportal/youtrack-openapi-specification.html) отдельно определяет metadata route `/api/openapi.json`. Он получен обычным публичным GET и включён отдельной **282-й** операцией. Сопоставимый с историческим Issue #1 business-only denominator: **281 = 93 covered + 23 partial + 163 missing + 2 uncertain**; reachable **118/281 = 41,99%**, covered **93/281 = 33,10%**. Разница знаменателей всегда равна одной metadata operation.
+[optional API reference: Документация OpenAPI](https://www.jetbrains.com/help/youtrack/devportal/youtrack-openapi-specification.html) отдельно определяет metadata route `/api/openapi.json`. Он получен обычным публичным GET и включён отдельной **282-й** операцией. Сопоставимый с историческим Issue #1 business-only denominator: **281 = 93 covered + 23 partial + 163 missing + 2 uncertain**; reachable **118/281 = 41,99%**, covered **93/281 = 33,10%**. Разница знаменателей всегда равна одной metadata operation.
 
 Upstream URLs изменяемы, неизменяемой upstream revision для этого набора не заявляется. Источник закреплён датой, raw hashes и сохранённой минимальной проекцией [official-operations.json](official-operations.json); raw captures остаются ignored. Повторное скачивание откажет при drift, а не молча заменит baseline. Проекция содержит факты операций/параметров, без server configuration, полных DTO schemas, credentials и samples.
 
@@ -95,7 +97,7 @@ Upstream URLs изменяемы, неизменяемой upstream revision д�
 
 ## Сверка с deferred Issue #1
 
-[Issue #1](https://github.com/iXab3r/youtrack-cli/issues/1) и owner comment от 2026-11-07 сохраняют deferred scope; аудит не выдаёт approval. Исторические 163 строки: 140 P2 + 23 P3, 41 ReadOnly + 122 Update. Текущие missing business operations тоже 163, однако **множества отличаются**:
+[optional tracker reference: Issue #1](https://github.com/iXab3r/youtrack-cli/issues/1) и owner comment от 2026-11-07 сохраняют deferred scope; аудит не выдаёт approval. Исторические 163 строки: 140 P2 + 23 P3, 41 ReadOnly + 122 Update. Текущие missing business operations тоже 163, однако **множества отличаются**:
 
 - 162 identities совпадают.
 - Историческая `POST /api/assignedRoles/{roleID}` отсутствует в captured current OAS, Markdown и свежем HTML.
@@ -109,11 +111,11 @@ Upstream URLs изменяемы, неизменяемой upstream revision д�
 
 Данный finite denominator охватывает опубликованные built-in resources и документированную schema metadata route. Он **не** утверждает, что известен каждый URL, принимаемый любой инсталляцией.
 
-- Separate Hub REST `/api/rest/...` и OAuth не включены. Текущие YouTrack `/api/users`, groups, roles, organizations, project teams включены: они не исключаются лишь потому, что пересекаются с Hub. [REST changelog](https://www.jetbrains.com/help/youtrack/devportal/api-changelog.html) датирует identity/team additions 2026.1, `User.userType` — 2026.2; [URL guide](https://www.jetbrains.com/help/youtrack/devportal/api-url-and-endpoints.html) различает Cloud/Server base contexts. Audit не назначает новый supported-version policy.
+- Separate Hub REST `/api/rest/...` и OAuth не включены. Текущие YouTrack `/api/users`, groups, roles, organizations, project teams включены: они не исключаются лишь потому, что пересекаются с Hub. [optional API reference: REST changelog](https://www.jetbrains.com/help/youtrack/devportal/api-changelog.html) датирует identity/team additions 2026.1, `User.userType` — 2026.2; [optional API reference: URL guide](https://www.jetbrains.com/help/youtrack/devportal/api-url-and-endpoints.html) различает Cloud/Server base contexts. Audit не назначает новый supported-version policy.
 - Deprecated `/rest`, internal/UI, workflow/import JavaScript API не являются этим публичным REST universe.
 - App extension handlers имеют пять документированных scopes, но конечный список зависит от установленных приложений. Пять templates не превращаются в пять покрываемых операций; их нет в denominator. ReadOnly для произвольного handler не предполагается.
 - Issue/article binary downloads следуют единственной URL из точной attachment metadata, без bearer/cookies. Это существующие workflow capabilities, не дополнительные фиксированные routes: подписанная/CDN/file URL не добавляет выдуманную `/api/files` operation. Article export и batch validate/apply также переиспользуют существующие операции.
-- Три Reports candidates из исторического [официального support example](https://youtrack-support.jetbrains.com/hc/en-us/community/posts/17238863984402-Time-report-query) отсутствуют в текущих полном resource index и OAS: `GET reports/{reportID}`, `GET reports/{reportID}/status`, `POST reports/{reportID}/status`. Текущее version support **не установлено**; они остаются вне denominator и не получают invented implementation approval. Supplemental uncertainty отдельно от двух uncertain completeness rows внутри census.
+- Три Reports candidates из исторического [optional API reference: официального support example](https://youtrack-support.jetbrains.com/hc/en-us/community/posts/17238863984402-Time-report-query) отсутствуют в текущих полном resource index и OAS: `GET reports/{reportID}`, `GET reports/{reportID}/status`, `POST reports/{reportID}/status`. Текущее version support **не установлено**; они остаются вне denominator и не получают invented implementation approval. Supplemental uncertainty отдельно от двух uncertain completeness rows внутри census.
 
 ## Доказательства и границы проверки
 
@@ -153,7 +155,7 @@ Probe использует сохранённую minimal official projection. �
 ```sh
 node -e "require('node:fs').writeFileSync('.workspace/workstreams/rest-api-coverage-audit/test-requests.ndjson', '')"
 node --enable-source-maps --import ./scripts/rest-api-audit/observe-tests.mjs --test dist/tests/*.test.js
-node scripts/rest-api-audit/generate.mjs
+node scripts/rest-api-audit/generate.mjs .workspace/workstreams/rest-api-coverage-audit .workspace/workstreams/rest-api-coverage-audit/regenerated-mapping
 ```
 
 Raw source replay — отдельный read-only public-source шаг. Mutable upstream content должен **совпасть с pinned hashes**; drift требует нового явно записанного baseline, а не обхода проверки:

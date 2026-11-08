@@ -1,0 +1,256 @@
+{
+  "baselineHead": "a699875f17b34d8bd0bba19a59f7829b0ac11041",
+  "dateUTC": "2026-11-08",
+  "total": 282,
+  "covered": 119,
+  "partial": 9,
+  "missing": 154,
+  "uncertain": 0,
+  "reached": 128,
+  "byPermission": {
+    "ReadOnly": {
+      "total": 140,
+      "covered": 101,
+      "partial": 2,
+      "missing": 37,
+      "uncertain": 0
+    },
+    "Update": {
+      "total": 142,
+      "covered": 18,
+      "partial": 7,
+      "missing": 117,
+      "uncertain": 0
+    }
+  },
+  "byGroup": {
+    "activities": {
+      "total": 2,
+      "covered": 0,
+      "partial": 0,
+      "missing": 2,
+      "uncertain": 0
+    },
+    "activitiesPage": {
+      "total": 1,
+      "covered": 0,
+      "partial": 1,
+      "missing": 0,
+      "uncertain": 0
+    },
+    "admin.databaseBackup": {
+      "total": 5,
+      "covered": 0,
+      "partial": 0,
+      "missing": 5,
+      "uncertain": 0
+    },
+    "admin.globalSettings": {
+      "total": 14,
+      "covered": 0,
+      "partial": 0,
+      "missing": 14,
+      "uncertain": 0
+    },
+    "admin.organizations": {
+      "total": 5,
+      "covered": 0,
+      "partial": 0,
+      "missing": 5,
+      "uncertain": 0
+    },
+    "admin.projects": {
+      "total": 31,
+      "covered": 12,
+      "partial": 0,
+      "missing": 19,
+      "uncertain": 0
+    },
+    "admin.telemetry": {
+      "total": 1,
+      "covered": 0,
+      "partial": 0,
+      "missing": 1,
+      "uncertain": 0
+    },
+    "admin.timeTrackingSettings": {
+      "total": 8,
+      "covered": 4,
+      "partial": 0,
+      "missing": 4,
+      "uncertain": 0
+    },
+    "agiles": {
+      "total": 10,
+      "covered": 5,
+      "partial": 1,
+      "missing": 4,
+      "uncertain": 0
+    },
+    "articles": {
+      "total": 29,
+      "covered": 9,
+      "partial": 5,
+      "missing": 15,
+      "uncertain": 0
+    },
+    "assignedRoles": {
+      "total": 4,
+      "covered": 0,
+      "partial": 0,
+      "missing": 4,
+      "uncertain": 0
+    },
+    "bundles.build": {
+      "total": 10,
+      "covered": 4,
+      "partial": 0,
+      "missing": 6,
+      "uncertain": 0
+    },
+    "bundles.enum": {
+      "total": 10,
+      "covered": 4,
+      "partial": 0,
+      "missing": 6,
+      "uncertain": 0
+    },
+    "bundles.ownedField": {
+      "total": 10,
+      "covered": 4,
+      "partial": 0,
+      "missing": 6,
+      "uncertain": 0
+    },
+    "bundles.state": {
+      "total": 10,
+      "covered": 4,
+      "partial": 0,
+      "missing": 6,
+      "uncertain": 0
+    },
+    "bundles.user": {
+      "total": 14,
+      "covered": 7,
+      "partial": 0,
+      "missing": 7,
+      "uncertain": 0
+    },
+    "bundles.version": {
+      "total": 10,
+      "covered": 4,
+      "partial": 0,
+      "missing": 6,
+      "uncertain": 0
+    },
+    "commands": {
+      "total": 2,
+      "covered": 1,
+      "partial": 1,
+      "missing": 0,
+      "uncertain": 0
+    },
+    "customFields": {
+      "total": 9,
+      "covered": 3,
+      "partial": 0,
+      "missing": 6,
+      "uncertain": 0
+    },
+    "groups": {
+      "total": 9,
+      "covered": 4,
+      "partial": 1,
+      "missing": 4,
+      "uncertain": 0
+    },
+    "issueLinkTypes": {
+      "total": 5,
+      "covered": 2,
+      "partial": 0,
+      "missing": 3,
+      "uncertain": 0
+    },
+    "issues": {
+      "total": 48,
+      "covered": 41,
+      "partial": 0,
+      "missing": 7,
+      "uncertain": 0
+    },
+    "issuesGetter": {
+      "total": 1,
+      "covered": 1,
+      "partial": 0,
+      "missing": 0,
+      "uncertain": 0
+    },
+    "metadata": {
+      "total": 1,
+      "covered": 0,
+      "partial": 0,
+      "missing": 1,
+      "uncertain": 0
+    },
+    "permissions": {
+      "total": 1,
+      "covered": 0,
+      "partial": 0,
+      "missing": 1,
+      "uncertain": 0
+    },
+    "roles": {
+      "total": 5,
+      "covered": 0,
+      "partial": 0,
+      "missing": 5,
+      "uncertain": 0
+    },
+    "savedQueries": {
+      "total": 5,
+      "covered": 2,
+      "partial": 0,
+      "missing": 3,
+      "uncertain": 0
+    },
+    "search": {
+      "total": 1,
+      "covered": 1,
+      "partial": 0,
+      "missing": 0,
+      "uncertain": 0
+    },
+    "tags": {
+      "total": 6,
+      "covered": 2,
+      "partial": 0,
+      "missing": 4,
+      "uncertain": 0
+    },
+    "users": {
+      "total": 13,
+      "covered": 3,
+      "partial": 0,
+      "missing": 10,
+      "uncertain": 0
+    },
+    "workItems": {
+      "total": 2,
+      "covered": 2,
+      "partial": 0,
+      "missing": 0,
+      "uncertain": 0
+    }
+  },
+  "workflowLeaves": [
+    "issues attachments download <issueID> <attachmentID>",
+    "issues batch validate",
+    "issues batch apply",
+    "article attachment download <article> <attachment>",
+    "article export <article>"
+  ],
+  "testOnlyTransportOperations": [
+    "DELETE /api/issues/{p1}"
+  ],
+  "verificationEvidenceGaps": []
+}

@@ -23,10 +23,10 @@ for each profile and reimport auxiliary secrets. Existing profiles and permissio
 Licensed under MIT. See the [release guide](docs/release.md).
 
 YouTrack consumes the exact published `@eyeauras/cli-factory` version declared in package.json. The CLI
-provides standard profiles/auth/permissions and 118 REST operations: 98 ReadOnly and 20 Update.
+provides standard profiles/auth/permissions and 128 REST operations: 103 ReadOnly and 25 Update.
 Five workflow leaves reuse those operations instead of adding REST operations: issue and article
-attachment download, article export, and `issues batch validate/apply`. There are 121 service
-leaves: 116 for REST operations plus these five. Two `--direct` selectors each select a second
+attachment download, article export, and `issues batch validate/apply`. There are 131 service
+leaves: 126 for REST operations plus these five. Two `--direct` selectors each select a second
 REST endpoint without adding another leaf.
 The foundational read projections are:
 
@@ -48,7 +48,7 @@ onboarding or credential access on CLI, execute and RPC. The static errors are
 `--page-size must be a nonnegative safe decimal integer.` and
 `--start must be a nonnegative integer.`; they never include the supplied input.
 Directly callable service methods retain their own range validation.
-All 47 offset lists return `{count,items,hasMore,nextStart}` across library, CLI, execute and RPC.
+All 49 offset lists return `{count,items,hasMore,nextStart}` across library, CLI, execute and RPC.
 Each ordinary list makes one request without lookahead and rejects an oversized server page.
 Nonempty pages have `hasMore:null`, including short pages: a server cap is not end evidence.
 Continue at `nextStart`, which advances by actual returned rows. A positive-size empty page has
@@ -80,13 +80,13 @@ npm start -- issues comments list DEMO-1 --page-size 3 --profile youtrack-dev
 ```
 
 Handlers return domain values for human, `--json` and persistent `--json-rpc` output.
-Empty collections are `[]`. Signed/credential-bearing URLs and the active bearer token are
+Empty offset collections have an empty `items` array. Signed/credential-bearing URLs and the active bearer token are
 scrubbed recursively, including explicitly projected nested fields. Unsigned URLs remain
 unchanged. An HTTP error status fails with Core's `HttpError` (`YouTrack answered HTTP 404.`,
 codes `http.notFound`, `http.unauthorized` with an `auth login` follow-up, `http.rateLimited` with
 safe Retry-After text, and so on), never with raw server errors or authentication material.
 Remote mutations require the Update gate, described below. The ReadOnly download and export
-commands write only their explicitly requested local file beneath profile AppData.
+commands write only their explicitly requested local file in the invocation directory or explicit output path.
 
 ### Reading output
 
@@ -107,6 +107,48 @@ or cancellation fail with `The response stream failed or was cancelled.` without
 Compressed wire length is syntax-checked but not compared with decoded size. HTTP status,
 Retry-After, empty/null mutation and UTF-8 BOM behavior are unchanged. No request is retried
 automatically. Runtime memory and service limits still apply.
+
+## M01: issue workflows in 0.8.0
+
+The API inventory is frozen at 282 published operations (281 business routes plus schema metadata).
+M01 exposes 128 routes. Complete operation contracts cover 119/282 (42.20%); nine reachable routes
+still have explicitly deferred request controls. The [frozen audit](docs/rest-api-coverage/README.md)
+and [current mapping](docs/rest-api-coverage/current/coverage.json) keep these measures separate.
+
+- `issues list --custom-field <name>` is repeatable. Names, order and duplicates are preserved
+  as repeated native `customFields` parameters, including every request made by `--all`.
+- `issues activity list <issueID> --categories <categories>` reads one offset page;
+  `issues activity get <issueID> <activityID>` reads one item. These differ from the native
+  `issues activity page` cursor resource. The issue list/page support `--author`,
+  `--activity-start` and `--activity-end`; only the cursor page accepts `--activity-id`.
+  Cursor values and direction remain opaque, without automatic traversal. Activity time bounds
+  remain literal API strings, including native Long values.
+- Issue create/update, custom-field set, comment add/update, attachment upload, link add and
+  work-item add/update accept `--fields` and `--mute-update-notifications [boolean]`.
+  An omitted notification flag sends no parameter; a bare flag means true, and `false` is sent
+  as false. The server enforces Apply Commands Silently; this does not mute workflow notifications.
+  Only issue create and comment add accept `--draft-id`. Keep `--body` required; use `{}` when
+  publishing a draft without additional fields. Normal issue creation still requires project/summary.
+- `work-items list` adds `--author`, `--creator`, `--start-date`, `--end-date`, `--work-start`,
+  `--work-end`, `--created-start`, `--created-end`, `--updated-start`, `--updated-end`.
+  `--start` stays the raw offset; `--work-start` selects the native temporal `start` filter.
+  Filter values remain literal strings so a native Long does not lose precision in JavaScript.
+  YouTrack validates date formats, interval semantics and applicability.
+- `tags list --query <query>` searches the tag catalogue. `issues tags get <issueID> <tagID>`
+  inspects one assignment; tag add and existing tag/link remove commands accept `--fields`.
+- `issues attachments update <issueID> <attachmentID> --body <json>` updates native metadata.
+  `issues attachments delete <issueID> <attachmentID>` and
+  `issues work-items delete <issueID> <itemID>` remove only the selected resource.
+- `issues comments reaction list/get/add/remove` take issue/comment IDs, plus a reaction ID
+  for get/remove. Add requires `--body` containing native `reaction`; names are not restricted
+  to a hard-coded list. Reads use ReadOnly; add/remove use Update, even when remote service
+  permissions call these operations reads.
+
+Every new read/write supports `--fields`. DELETE projections follow the explicit official
+parameter tables; an omitted projection preserves the prior query-free DELETE. Successful empty
+write bodies return JSON null; nonempty native results are scrubbed as usual. Optional fields do
+not imply response/version guarantees beyond the public contract. All writes stay Update-gated,
+with no implicit lookup, automatic retry, target expansion or binary transfer follow-up.
 
 ## URL and token input
 

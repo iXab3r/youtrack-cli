@@ -55,8 +55,9 @@ issue = json.loads((a.capture / 'issue-1.json').read_text())
 backlog = {norm(key) for key in re.findall(r'\| P[23] \| (?:ReadOnly|Update) \| `([^`]+)`', issue['body'])}
 missing = {norm(row['id']) for row in rows if row['status'] == 'missing'}
 assert len(backlog) == 163
-assert missing - backlog == {'GET /api/openapi.json', 'POST /api/assignedRoles'}
-assert backlog - missing == {'POST /api/assignedRoles/{}'}
+reached = {norm(row['id']) for row in rows if row['binding']}
+current_backlog = (backlog - {'POST /api/assignedRoles/{}'}) | {'POST /api/assignedRoles', 'GET /api/openapi.json'}
+assert missing == current_backlog - reached
 assert len((a.generated / 'coverage.tsv').read_text().splitlines()) == 283
 result = {'verdict': 'SELF-CHECK PASS', 'independentReview': False,
           'rawOasEqualsFullReference': True, 'referenceOperations': 281, 'metadataOperations': 1,

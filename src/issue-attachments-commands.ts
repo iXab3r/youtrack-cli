@@ -9,12 +9,12 @@ import {
   listIssueAttachments,
   uploadIssueAttachment,
 } from "./issue-attachments.js";
-import { attachmentRecord, attachmentTable, uploadedAttachments, withView, done, arg } from "./presentation.js";
+import { attachmentRecord, attachmentTable, uploadedAttachments, withView, done, arg, updatedAttachment } from "./presentation.js";
 
 export const attachmentsIssueChildren = [
   command("attachments", "Inspect, upload or download attachments", [
     attachmentDownloadCommand,
-    projectedBodyUpdate("update <issueID> <attachmentID>", "Update an attachment", updateIssueAttachment, undefined, attachmentRecord),
+    projectedBodyUpdate("update <issueID> <attachmentID>", "Update an attachment", updateIssueAttachment, undefined, updatedAttachment),
     withView(done(context => `Deleted attachment ${arg(context, "attachmentID")}.`), updateCommand(
       "delete <issueID> <attachmentID>", "Delete an attachment", (client, { args, options }) =>
         deleteIssueAttachment(client, args.issueID, args.attachmentID, readOptions(options)), projectionOptions,

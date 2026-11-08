@@ -1,5 +1,5 @@
 import { command } from "@eyeauras/cli-factory";
-import { bodyUpdate, projectedBodyUpdate, pagedRead, projectedRead, updateCommand, notificationOptions, projectionOptions, readOptions } from "./cli-support.js";
+import { projectedBodyUpdate, pagedRead, projectedRead, updateCommand, notificationOptions, projectionOptions, readOptions } from "./cli-support.js";
 import {
   addIssueLink,
   addIssueTag,

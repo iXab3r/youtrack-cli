@@ -552,3 +552,22 @@ export const reactionRecord = recordView<Item | null>({
     { label: "Author", value: item => login(item ?? undefined) },
   ],
 });
+
+export const activityTable = tableView<Item, YouTrackPage>({
+  rows: page => page.items,
+  columns: [id, { header: "CATEGORY", value: item => text(nested(item.category)?.id) },
+    { header: "AUTHOR", value: login }, { header: "WHEN", value: item => instant(item.timestamp), format: "age" }],
+  empty: "No activity items.", footer: pageFooter,
+});
+export const activityRecord = recordView<Item>({
+  title: item => joined("Activity", key(item)),
+  fields: [
+    { label: "Category", value: item => text(nested(item.category)?.id) },
+    { label: "Author", value: login },
+    { label: "When", value: item => instant(item.timestamp) },
+  ],
+});
+export const updatedAttachment = recordView<Item | null>({
+  title: (item, context) => joined("Updated attachment", key(item) ?? arg(context, "attachmentID")),
+  fields: [{ label: "Name", value: item => text(item?.name) }, { label: "Size", value: item => count(item?.size), format: "bytes" }],
+});

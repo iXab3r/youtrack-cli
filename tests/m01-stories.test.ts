@@ -57,6 +57,16 @@ async function storyCase(t: TestContext, row: StoryCase) {
   assert.equal(replies[0]?.error, undefined);
   assert.deepEqual(replies[0]?.result, row.result);
   assert.equal(calls, 4);
+  for (const status of [400, 401, 403, 404, 409, 429, 500]) {
+    let rejectedCalls = 0;
+    server.use(http.all("*", () => { rejectedCalls++; return new HttpResponse("synthetic-token private-response", { status }); }));
+    await assert.rejects(f.cli.execute(argv), (error: unknown) => {
+      assert.match((error as Error).message, new RegExp(`HTTP ${status}`));
+      assert.doesNotMatch((error as Error).message, /synthetic-token|private-response/);
+      return true;
+    });
+    assert.equal(rejectedCalls, 1, "No automatic retry after rejection");
+  }
   await f.cli.execute(["permissions", "revoke", row.update ? "Update" : "ReadOnly"]);
   await assert.rejects(f.cli.execute(argv), (e: unknown) => (e as { code: string }).code === "permission.denied");
   assert.equal(calls, 4);
@@ -172,4 +182,45 @@ test("US-011 comment reactions list, detail, add and remove retain native values
   const body = { reaction: "future-reaction-value", author: { id: "synthetic-user" }, nativeMetadata: true };
   await storyCase(t, { argv: ["issues", "comments", "reaction", "add", "DEMO-1", "comment/1", "--body", JSON.stringify(body), "--fields", "id"], method: "POST", path: base, query: [["fields", "id"]], body, response: detail, result: detail, update: true });
   await storyCase(t, { argv: ["issues", "comments", "reaction", "remove", "DEMO-1", "comment/1", "reaction/1", "--fields", "id"], method: "DELETE", path: base + "/reaction%2F1", query: [["fields", "id"]], response: undefined, result: null, update: true });
+});
+
+test("M01 native empty writes retain useful human confirmations and invalid controls precede effects", async t => {
+  const f = await configuredFixture(t, { permissions: ["Update"] });
+  let calls = 0;
+  server.use(http.all("*", () => { calls++; return new HttpResponse(null, { status: 204 }); }));
+  const updated = await f.run(f.cli, ["issues", "attachments", "update", "DEMO-1", "synthetic-file", "--body", '{"name":"renamed.txt"}']);
+  assert.equal(updated.exitCode, 0, updated.stderr);
+  assert.match(updated.stdout, /Updated attachment.*synthetic-file/);
+  const deleted = await f.run(f.cli, ["issues", "work-items", "delete", "DEMO-1", "synthetic-work"]);
+  assert.equal(deleted.exitCode, 0, deleted.stderr);
+  assert.match(deleted.stdout, /Deleted work item synthetic-work/);
+  assert.equal(calls, 2);
+  await assert.rejects(f.cli.execute(["issues", "update", "DEMO-1", "--body", "{}", "--mute-update-notifications", "invalid-synthetic-private"]), /must be true or false/);
+  assert.equal(calls, 2);
+});
+
+test("M01 interleaved RPC keeps profile auth, permissions and failures isolated", async t => {
+  const f = await configuredFixture(t, { permissions: ["ReadOnly"] });
+  await f.cli.execute(["profile", "create", "other", "--url", "https://other.example.test/track"]);
+  await f.secrets.set("ai-cli-factory:youtrack-cli", "other:token", "synthetic-other");
+  const calls: string[] = [];
+  server.use(http.all("*", ({ request }) => {
+    const url = new URL(request.url);
+    const other = url.hostname === "other.example.test";
+    assert.equal(request.headers.get("authorization"), other ? "Bearer synthetic-other" : "Bearer synthetic-token");
+    calls.push(url.hostname + url.pathname);
+    if (other) return new HttpResponse("synthetic-other private response", { status: 403 });
+    return HttpResponse.json({ id: "synthetic-reaction", reaction: "synthetic-token" });
+  }));
+  const replies = await f.rpc(f.cli, [
+    ["issues", "comments", "reaction", "get", "DEMO-1", "comment", "reaction", "--profile", "dev"],
+    ["issues", "tags", "get", "DEMO-1", "tag", "--profile", "other"],
+    ["issues", "work-items", "delete", "DEMO-1", "work", "--profile", "dev"],
+    ["issues", "activity", "get", "DEMO-1", "activity", "--profile", "dev"],
+  ]) as { result?: { reaction: string }; error?: { data: { code: string } } }[];
+  assert.equal(replies[0]?.result?.reaction, "[redacted]");
+  assert.equal(replies[1]?.error?.data.code, "http.forbidden");
+  assert.equal(replies[2]?.error?.data.code, "permission.denied");
+  assert.equal(replies[3]?.error, undefined);
+  assert.equal(calls.length, 3);
 });

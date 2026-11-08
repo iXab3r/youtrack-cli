@@ -14,7 +14,7 @@ import {
   updateComment,
   type ActivityOptions,
 } from "./issue-context.js";
-import { commentShown, commentUpdated, sprintTable, namedTable, withView } from "./presentation.js";
+import { commentShown, commentUpdated, sprintTable, activityTable, activityRecord, withView } from "./presentation.js";
 
 const activityOptions: readonly OptionDefinition[] = [
   ...projectionOptions,
@@ -64,13 +64,13 @@ export const contextRootCommands = [
 
 export const contextIssueChildren = [
   command("activity", "Inspect the issue activity stream", [
-    withView(namedTable("ACTIVITY", "No activity items."), readCommand("list <issueID>", "List activity items", (client, { args, options }) =>
+    withView(activityTable, readCommand("list <issueID>", "List activity items", (client, { args, options }) =>
       listIssueActivities(client, args.issueID, { ...readOptions(options), ...activityReadOptions(options) }), [
         ...pageOptions, ...activityFilters,
         { flags: "--categories <categories>", description: "Comma-separated activity categories", required: true, parse: activityCategories },
         { flags: "--reverse", description: "Newest activities first" },
       ])),
-    projectedRead("get <issueID> <activityID>", "Show an activity item", getIssueActivity),
+    projectedRead("get <issueID> <activityID>", "Show an activity item", getIssueActivity, activityRecord),
     readCommand(
       "page <issueID>",
       "Read one cursor page of activities",

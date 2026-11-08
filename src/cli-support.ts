@@ -145,11 +145,6 @@ type ReadOperation<Syntax extends string> = (
   ...arguments_: [...CommandValues<Syntax>, IssueSearchOptions]
 ) => unknown;
 
-type BodyOperation<Syntax extends string> = (
-  connection: Connection,
-  ...arguments_: [...CommandValues<Syntax>, unknown]
-) => unknown;
-
 type ProjectedBodyOperation<Syntax extends string> = (
   connection: Connection,
   ...arguments_: [...CommandValues<Syntax>, unknown, WriteOptions]
@@ -218,20 +213,6 @@ export function projectedRead<const Syntax extends string>(
   return operationCommand(
     readCommand, syntax, description, operation, projectionOptions,
     (options) => [readOptions(options)],
-    view,
-  );
-}
-
-export function bodyUpdate<const Syntax extends string>(
-  syntax: Syntax,
-  description: string,
-  operation: BodyOperation<Syntax>,
-  textField?: string,
-  view?: HumanView,
-): CommandDefinition {
-  return operationCommand(
-    updateCommand, syntax, description, operation, bodyInputOptions(textField),
-    async (options) => [await bodyInput(options, textField)],
     view,
   );
 }

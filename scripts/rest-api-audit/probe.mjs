@@ -53,7 +53,7 @@ try{
    const argv=[...args];
    for(const option of n.options||[]){if(!option.required)continue;
     const flag=option.flags.split(' ')[0];let value='synthetic';
-    if(flag==='--body')value=JSON.stringify({project:{id:'synthetic-project'},summary:'Synthetic audit',text:'Synthetic text',name:'Synthetic sprint',id:'synthetic-target',$type:'SimpleIssueCustomField',value:'Synthetic',duration:{minutes:1}});
+    if(flag==='--body')value=JSON.stringify({project:{id:'synthetic-project'},summary:'Synthetic audit',text:'Synthetic text',reaction:'thanks',name:'Synthetic sprint',id:'synthetic-target',$type:'SimpleIssueCustomField',value:'Synthetic',duration:{minutes:1}});
     if(flag==='--file')value=resolve(f.root,'upload.txt');
     if(flag==='--query')value='synthetic query';if(flag==='--issues')value='DEMO-1';if(flag==='--categories')value='CommentsCategory';
     argv.push(flag,value);
