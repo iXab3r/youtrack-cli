@@ -110,3 +110,34 @@ test("installed M03 exports and native board-template query survive packaging", 
   await app.execute(["permissions", "revoke", "Update"]);
   await assert.rejects(app.execute(argv), { code: "permission.denied" }); assert.equal(calls, 1);
 });
+
+test("installed M04 access catalogs, exports and notification resource retain their native contracts", async t => {
+  const sdk = await import("@eyeauras/youtrack-cli");
+  for (const name of [
+    "addUserBundleGroup", "addUserBundleIndividual", "removeUserBundleGroup", "removeUserBundleIndividual",
+    "createCustomField", "updateCustomField", "addProjectWorkItemType", "removeProjectWorkItemType", "updateProjectTimeSettings",
+    "listRoleAssignments", "getRoleAssignment", "listPermissions", "listRoles", "getRole", "createRoleAssignment", "deleteRoleAssignment",
+    "addProjectTeamUser", "removeProjectTeamUser", "addProjectTeamGroup", "removeProjectTeamGroup", "updateProjectTeam",
+    "getUserNotifications", "updateUserNotifications",
+  ]) assert.equal(typeof sdk[name], "function", name);
+  const f = await createCliFixture(t, { applicationId: "youtrack-cli", profiles: [{ name: "default", values: { url: "https://installed.example.test/context" }, permissions: ["ReadOnly", "Update"], secrets: { token: "synthetic-installed" } }] });
+  const body = { holder: { id: "holder", $type: "User" }, role: { id: "role" }, scope: { $type: "GlobalScope" } };
+  let calls = 0;
+  f.runtime.fetch = async (input, init) => {
+    calls++; const u = new URL(input);
+    assert.equal(new Headers(init.headers).get("authorization"), "Bearer synthetic-installed");
+    if (u.pathname === "/context/api/roles") {
+      assert.equal(u.searchParams.get("query"), "permission:synthetic-key"); return Response.json([]);
+    }
+    if (u.pathname === "/context/api/assignedRoles") {
+      assert.equal(init.method, "POST"); assert.deepEqual(JSON.parse(init.body), body); return new Response(null, { status: 204 });
+    }
+    assert.equal(u.pathname, "/context/api/users/selected%20user/profiles/notifications");
+    return Response.json({ emailNotificationsEnabled: false });
+  };
+  const app = f.createApplication(createYouTrackCli);
+  assert.equal((await f.json(app, ["role", "list", "--query", "permission:synthetic-key"])).count, 0);
+  assert.equal(await f.json(app, ["role-assignment", "create", "--body", JSON.stringify(body)]), null);
+  const result = await sdk.getUserNotifications({ baseUrl: "https://installed.example.test/context", token: "synthetic-installed", fetch: f.runtime.fetch }, "selected user");
+  assert.equal(result.emailNotificationsEnabled, false); assert.equal(calls, 3);
+});

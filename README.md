@@ -22,11 +22,11 @@ for each profile and reimport auxiliary secrets. Existing profiles and permissio
 
 Licensed under MIT. See the [release guide](docs/release.md).
 
-YouTrack consumes the exact published `@eyeauras/cli-factory` version declared in package.json. The CLI
-provides standard profiles/auth/permissions and 162 REST operations: 112 ReadOnly and 50 Update.
+YouTrack consumes the exact published `@eyeauras/cli-factory` version declared in package.json. The current source
+provides profiles/auth/permissions and 185 REST operations: 118 ReadOnly and 67 Update.
 Five workflow leaves reuse those operations instead of adding REST operations: issue and article
-attachment download, article export, and `issues batch validate/apply`. There are 165 service
-leaves: 160 for REST operations plus these five. Two `--direct` selectors each select a second
+attachment download, article export, and `issues batch validate/apply`. There are 188 service
+leaves: 183 for REST operations plus these five. Two `--direct` selectors each select a second
 REST endpoint without adding another leaf.
 The foundational read projections are:
 
@@ -48,7 +48,7 @@ onboarding or credential access on CLI, execute and RPC. The static errors are
 `--page-size must be a nonnegative safe decimal integer.` and
 `--start must be a nonnegative integer.`; they never include the supplied input.
 Directly callable service methods retain their own range validation.
-All 53 offset lists return `{count,items,hasMore,nextStart}` across library, CLI, execute and RPC.
+All 56 offset lists return `{count,items,hasMore,nextStart}` across library, CLI, execute and RPC.
 Each ordinary list makes one request without lookahead and rejects an oversized server page.
 Nonempty pages have `hasMore:null`, including short pages: a server cap is not end evidence.
 Continue at `nextStart`, which advances by actual returned rows. A positive-size empty page has
@@ -108,6 +108,40 @@ Compressed wire length is syntax-checked but not compared with decoded size. HTT
 Retry-After, empty/null mutation and UTF-8 BOM behavior are unchanged. No request is retried
 automatically. Runtime memory and service limits still apply.
 
+## M04: project setup and team (unreleased main)
+
+Building this source includes M02–M04; npm 0.8.0 contains M01. Milestones merge without version
+bumps or npm releases. The complete [current mapping](docs/rest-api-coverage/current/README.md)
+uses the same frozen official source and separates complete coverage from reachable operations.
+
+- `bundle user group create/remove` and `bundle user individual create/remove` add or remove
+  existing IDs from a user bundle; creation bodies contain `id`. They do not create users or groups.
+- `field create --body '{"name":"Severity","fieldType":{"id":"enum[1]"}}'` creates a global field.
+  `field update <field> --body <json>` preserves omitted and additional native metadata.
+- `project work-item-type create <project> --body '{"id":"TYPE_ID"}'` attaches an existing global
+  work type. `delete <project> <type>` removes its project association. `project time-tracking update
+  <project> --body <json>` changes native enabled/estimate/timeSpent settings, including false/null.
+- `role-assignment list [--query <query>]` and `get <assignment>`, `role list [--query <query>]`
+  and `get <role>`, and `permission-catalog list` are ReadOnly service catalogs. Access queries stay
+  native, including exact-match suffixes and whitespace. Root `permissions` manages CLI safety gates.
+- `role-assignment create --body <json>` requires selected holder/role IDs and native scope `$type`;
+  ProjectScope/OrganizationScope also require their project/organization ID. Native extra properties
+  and holder types are retained. `delete <assignment>` revokes that assignment without discovery.
+- `project team user add/remove` changes direct ownUsers; `project team group add/remove` changes
+  direct group associations. Add bodies contain the existing `id`. `project team update <project>
+  --body <json>` passes native ownUsers/groups, including empty lists, to YouTrack; no local merge,
+  inherited-membership expansion or role grant is synthesized.
+- `user profile notifications get/update <user>` reads or changes that user's native preferences.
+  Update takes `--body <json>`, for example `{"emailNotificationsEnabled":false}`. Boolean false
+  survives in machine output and prints as “no” in the human view.
+
+All mutations require Update; service-side management rights are separate. Writes support `--fields`;
+DELETE defaults omit it unless selected. Native JSON/RPC and scrubbed human confirmations retain their
+contracts. The pinned reference marks access catalogs/project teams available since YouTrack 2026.1;
+this is documentation provenance, with no live or cross-version conformance claim. A conflicting
+notification syntax table appends profileID; the pinned OAS/resource and concrete examples select
+`/api/users/{userID}/profiles/notifications`, used here without an additional profile selector.
+
 ## M03: iterations and working catalogs (unreleased main)
 
 These source additions follow M02; npm 0.8.0 still contains the M01 release. Milestones do not
@@ -143,7 +177,7 @@ remain separate from the CLI gate. No live service or cross-version conformance 
 
 npm 0.8.0 contains M01. Building this source revision includes M02; milestone completion
 does not bump a version or publish npm. The same frozen
-282-operation source now targets 145 complete contracts and 147 reachable operations; final
+282-operation source had 145 complete contracts and 147 reachable operations at M02 completion; current
 verified counts and all remaining gaps are in [the current mapping](docs/rest-api-coverage/current/README.md).
 
 - `saved-queries create --body <json>` and `saved-queries update <queryID> --body <json>`
