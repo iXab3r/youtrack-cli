@@ -27,3 +27,8 @@ test("US-017 native VCS create, state update and exact removal retain opaque IDs
   await storyCase(t, { argv: ["issues", "vcs-changes", "update", "DEMO-1", "change /?", "--body", '{"state":2}', "--fields", "id", "--mute-update-notifications", "false"], method: "POST", path: "/api/issues/DEMO-1/vcsChanges/change%20%2F%3F", query: [["fields", "id"], ["muteUpdateNotifications", "false"]], body: { state: 2 }, response: undefined, result: null, update: true });
   await storyCase(t, { argv: ["issues", "vcs-changes", "delete", "DEMO-1", "change /?"], method: "DELETE", path: "/api/issues/DEMO-1/vcsChanges/change%20%2F%3F", query: [], response: undefined, result: null, update: true });
 });
+
+test("US-018 command controls retain explicit targets, false flags, caret and native visibility", async t => {
+  const body = { query: "State Fixed", issues: [{ idReadable: "DEMO-1" }, { id: "2-1" }], comment: "Synthetic\ncontext", visibility: { $type: "CommandLimitedVisibility", permittedGroups: [{ id: "g /?" }], permittedUsers: [] }, caret: -1, silent: false, runAs: "synthetic-login" };
+  await storyCase(t, { argv: ["commands", "apply", "--query", "State Fixed", "--issues", "DEMO-1,2-1", "--comment", "Synthetic\ncontext", "--visibility", JSON.stringify(body.visibility), "--caret", "-1", "--silent", "false", "--run-as", "synthetic-login", "--fields", "id", "--mute-update-notifications", "false"], method: "POST", path: "/api/commands", query: [["fields", "id"], ["muteUpdateNotifications", "false"]], body, response: detail, result: detail, update: true });
+});
