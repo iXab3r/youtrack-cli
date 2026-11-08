@@ -65,3 +65,19 @@ test("US-063 a rejected global deletion does not replay or compensate project fi
 test("US-064 delete only the caller-selected project", async t => {
   await storyCase(t, {"argv":["project","delete","project /?"],"method":"DELETE","path":"/api/admin/projects/project%20%2F%3F","query":[],"response":undefined,"result":null,"update":true});
 });
+
+test("US-065 maintain enum bundles and delete selected values", async t => {
+  await storyCase(t, {"argv":["bundle","enum","create","--body","{\"name\":\"Synthetic enum bundle\",\"values\":[{\"name\":\"Synthetic value\"}]}","--fields","id"],"method":"POST","path":"/api/admin/customFieldSettings/bundles/enum","query":[["fields","id"]],"body":{"name":"Synthetic enum bundle","values":[{"name":"Synthetic value"}]},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["bundle","enum","update","bundle /?","--body","{\"name\":\"Renamed enum bundle\",\"values\":[]}","--fields","id"],"method":"POST","path":"/api/admin/customFieldSettings/bundles/enum/bundle%20%2F%3F","query":[["fields","id"]],"body":{"name":"Renamed enum bundle","values":[]},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["bundle","enum","delete","bundle /?","--fields","id"],"method":"DELETE","path":"/api/admin/customFieldSettings/bundles/enum/bundle%20%2F%3F","query":[["fields","id"]],"response":undefined,"result":null,"update":true});
+  await storyCase(t, {"argv":["bundle","enum","value","delete","bundle /?","value /?"],"method":"DELETE","path":"/api/admin/customFieldSettings/bundles/enum/bundle%20%2F%3F/values/value%20%2F%3F","query":[],"response":undefined,"result":null,"update":true});
+});
+
+test("US-065 bundle bodies keep sample metadata without inventing a required bundle name", async t => {
+  const f = await configuredFixture(t, { permissions: ["Update"] }); const seen: unknown[] = [];
+  server.use(http.post("*", async ({ request }) => { seen.push(await request.json()); return new HttpResponse(null, { status: 204 }); }));
+  assert.equal(await f.cli.execute(["bundle", "enum", "create", "--body", '{"values":[]}']), null);
+  const r = await f.run(f.cli, ["bundle", "enum", "create", "--body", '{"name":"Selected enum bundle","values":[]}']);
+  assert.equal(r.exitCode, 0, r.stderr); assert.match(r.stdout, /Selected enum bundle/);
+  assert.deepEqual(seen, [{ values: [] }, { name: "Selected enum bundle", values: [] }]);
+});
