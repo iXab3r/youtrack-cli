@@ -9,7 +9,7 @@ import {
   type HumanView,
   type OptionDefinition,
 } from "@eyeauras/cli-factory";
-import { inputFilePath, page, youTrackUrl, type Connection, type IssueSearchOptions, type WriteOptions } from "./client.js";
+import { inputFilePath, page, youTrackUrl, type Connection, type IssueSearchOptions, type ProjectionOptions, type WriteOptions } from "./client.js";
 import { rememberSubmittedIdentity, withView } from "./presentation.js";
 
 export const bodyOptions: readonly OptionDefinition[] = [
@@ -235,6 +235,17 @@ export function projectedBodyUpdate<const Syntax extends string>(
     async (options) => [await bodyInput(options, textField), writeOptions(options)],
     view,
   );
+}
+
+/** Projection-only DELETE commands use the same admitted binder as other service operations. */
+export function projectedDelete<const Syntax extends string>(
+  syntax: Syntax,
+  description: string,
+  operation: (connection: Connection, ...arguments_: [...CommandValues<Syntax>, ProjectionOptions]) => unknown,
+  view: HumanView,
+): CommandDefinition {
+  return operationCommand(updateCommand, syntax, description, operation, projectionOptions,
+    (options) => [readOptions(options)], view);
 }
 
 export function readOptions(options: Record<string, unknown>): IssueSearchOptions {

@@ -46,6 +46,7 @@ import { fieldCatalogRootCommands, fieldCatalogBundleChildren } from "./field-ca
 import { userDirectoryUserChildren, userDirectoryBundleChildren } from "./user-directory-commands.js";
 import { groupDirectoryRootCommands, groupDirectoryProjectChildren } from "./group-directory-commands.js";
 import { articlesRootCommands, articlesProjectChildren } from "./articles-commands.js";
+import { accessCatalogRootCommands } from "./access-catalog-commands.js";
 import { agileRootCommands } from "./agile-commands.js";
 import { bundleValuesChildren } from "./bundle-values-commands.js";
 import {
@@ -71,7 +72,7 @@ const rootLayout = [
   ["Everyday", ["issues", "project", "user", "article", "agile", "sprint"]],
   ["Reference", [
     "field", "bundle", "tags", "link-types", "work-item-type", "time-tracking", "saved-queries",
-    "search", "commands", "activities", "work-items", "group",
+    "search", "commands", "activities", "work-items", "group", "role", "role-assignment", "permission-catalog",
   ]],
 ] as const;
 
@@ -125,6 +126,7 @@ export function createYouTrackCli(runtime?: CliRuntime): CliApplication {
       ...timeSettingsRootCommands,
       ...fieldCatalogRootCommands,
       ...groupDirectoryRootCommands,
+      ...accessCatalogRootCommands,
       ...articlesRootCommands,
       ...agileRootCommands,
       command("bundle", "Inspect custom-field value bundles", [

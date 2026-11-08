@@ -43,19 +43,27 @@ export {
 } from "./issue-time.js";
 export { listIssueAttachments, getIssueAttachment, uploadIssueAttachment, updateIssueAttachment, deleteIssueAttachment } from "./issue-attachments.js";
 export {
+  updateProjectTimeSettings,
+  addProjectWorkItemType, removeProjectWorkItemType,
   getProjectTimeSettings, listProjectWorkItemTypes, getProjectWorkItemType, getGlobalTimeSettings,
   listWorkItemTypes, getWorkItemType, getWorkTimeSettings,
 } from "./time-settings.js";
 export {
   createEnumValue, updateEnumValue, createStateValue, updateStateValue, getFieldDefaults, updateFieldDefaults, listFieldInstances,
+  createCustomField, updateCustomField,
   listCustomFields, getCustomField, listFieldTypes, listEnumBundles, getEnumBundle, listEnumValues,
   getEnumValue, listStateBundles, getStateBundle, listStateValues, getStateValue,
 } from "./field-catalog.js";
 export {
+  getUserNotifications, updateUserNotifications,
+  addUserBundleGroup, addUserBundleIndividual, removeUserBundleGroup, removeUserBundleIndividual,
   listUserBundles, getUserBundle, listUserBundleMembers, listUserBundleGroups, getUserBundleGroup,
   listUserBundleIndividuals, getUserBundleIndividual, getUser,
 } from "./user-directory.js";
 export {
+  updateProjectTeam,
+  addProjectTeamGroup, removeProjectTeamGroup,
+  addProjectTeamUser, removeProjectTeamUser,
   listGroups, getGroup, listGroupMembers, listSubgroups, getProjectTeam, listProjectTeamGroups,
   listProjectTeamUsers, type MemberOptions,
 } from "./group-directory.js";
@@ -81,3 +89,5 @@ export {
 } from "./attachment-download.js";
 
 export { listIssueReactions, getIssueReaction, addIssueReaction, removeIssueReaction } from "./issue-reactions.js";
+
+export { createRoleAssignment, deleteRoleAssignment, listRoleAssignments, getRoleAssignment, listPermissions, listRoles, getRole } from "./access-catalog.js";

@@ -53,7 +53,8 @@ try{
    const argv=[...args];
    for(const option of n.options||[]){if(!option.required)continue;
     const flag=option.flags.split(' ')[0];let value='synthetic';
-    if(flag==='--body')value=JSON.stringify({project:{id:'synthetic-project'},projects:[{id:'synthetic-project'}],field:{id:'synthetic-field'},summary:'Synthetic audit',text:'Synthetic text',reaction:'thanks',name:'Synthetic sprint',query:'project: DEMO',version:'synthetic-version',state:1,id:'synthetic-target',$type:'SimpleIssueCustomField',value:'Synthetic',duration:{minutes:1}});
+    if(flag==='--body')value=JSON.stringify({project:{id:'synthetic-project'},projects:[{id:'synthetic-project'}],field:{id:'synthetic-field'},fieldType:{id:'enum[1]'},summary:'Synthetic audit',text:'Synthetic text',reaction:'thanks',name:'Synthetic sprint',query:'project: DEMO',version:'synthetic-version',state:1,id:'synthetic-target',$type:'SimpleIssueCustomField',value:'Synthetic',duration:{minutes:1}});
+    if(flag==='--body' && syntax==='role-assignment create')value=JSON.stringify({role:{id:'synthetic-role'},holder:{id:'synthetic-holder',$type:'User'},scope:{$type:'ProjectScope',project:{id:'synthetic-project'}}});
     if(flag==='--file')value=resolve(f.root,'upload.txt');
     if(flag==='--query')value='synthetic query';if(flag==='--issues')value='DEMO-1';if(flag==='--categories')value='CommentsCategory';
     argv.push(flag,value);

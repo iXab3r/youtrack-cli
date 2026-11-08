@@ -151,7 +151,7 @@ test("reading every page reports progress to a person only", async (t) => {
 test("help groups the root commands and every everyday description is short", async (t) => {
   const { stdout } = await human(t, ["--help"]);
   assert.match(stdout, /Everyday:\n {2}issues +Read and update issues\n/);
-  assert.match(stdout, /Reference:\n {2}field +Inspect custom fields and their types\n/);
+  assert.match(stdout, /Reference:\n {2}field +Manage custom fields and inspect their types\n/);
   assert.match(stdout, /Examples:\n {2}youtrack-cli issues list --query/);
   assert.doesNotMatch(stdout, /List one page of|non-secret|explicitly|\(required\) *$/m);
   const issues = await human(t, ["issues", "--help"]);

@@ -1,6 +1,8 @@
 import { command } from "@eyeauras/cli-factory";
-import { pagedRead, projectedRead } from "./cli-support.js";
+import { pagedRead, projectedRead, projectedBodyUpdate, projectedDelete } from "./cli-support.js";
 import {
+  getUserNotifications, updateUserNotifications,
+  addUserBundleGroup, addUserBundleIndividual, removeUserBundleGroup, removeUserBundleIndividual,
   getUser,
   getUserBundle,
   getUserBundleGroup,
@@ -10,11 +12,17 @@ import {
   listUserBundleMembers,
   listUserBundles,
 } from "./user-directory.js";
-import { groupRecord, groupTable, namedTable, userRecord, userTable } from "./presentation.js";
+import { notificationRecord, mutationWritten, groupRecord, groupTable, namedTable, userRecord, userTable } from "./presentation.js";
 
 const bundleTable = namedTable("BUNDLE", "No user bundles.");
 
 export const userDirectoryUserChildren = [
+  command("profile", "Inspect and change user profile settings", [
+    command("notifications", "Manage notification preferences", [
+      projectedRead("get <user>", "Show user notification preferences", getUserNotifications, notificationRecord),
+      projectedBodyUpdate("update <user>", "Update user notification preferences", updateUserNotifications, undefined, notificationRecord),
+    ]),
+  ]),
   projectedRead("get <user>", "Show a user by ID or login", getUser, userRecord),
 ];
 
@@ -25,11 +33,15 @@ export const userDirectoryBundleChildren = [
     command("member", "Inspect all bundle users, including group members", [
       pagedRead("list <bundle>", "List all bundle users", listUserBundleMembers, userTable),
     ]),
-    command("group", "Inspect the bundle's groups", [
+    command("group", "Manage the bundle's groups", [
+      projectedBodyUpdate("create <bundle>", "Add an existing group to the bundle", addUserBundleGroup, undefined, mutationWritten("Added group", undefined, "bundle")),
+      projectedDelete("remove <bundle> <group>", "Remove a group from the bundle", removeUserBundleGroup, mutationWritten("Removed group", "group", "bundle")),
       pagedRead("list <bundle>", "List the bundle's groups", listUserBundleGroups, groupTable),
       projectedRead("get <bundle> <group>", "Show a bundle group", getUserBundleGroup, groupRecord),
     ]),
-    command("individual", "Inspect users added directly to the bundle", [
+    command("individual", "Manage users added directly to the bundle", [
+      projectedBodyUpdate("create <bundle>", "Add an existing user to the bundle", addUserBundleIndividual, undefined, mutationWritten("Added user", undefined, "bundle")),
+      projectedDelete("remove <bundle> <user>", "Remove a user from the bundle", removeUserBundleIndividual, mutationWritten("Removed user", "user", "bundle")),
       pagedRead("list <bundle>", "List directly added users", listUserBundleIndividuals, userTable),
       projectedRead("get <bundle> <user>", "Show a directly added user", getUserBundleIndividual, userRecord),
     ]),

@@ -584,16 +584,26 @@ export const vcsRecord = recordView<Item | null>({
     { label: "State", value: item => count(item?.state) ?? text(nested(item?.state)?.id) }],
 });
 
-type SubmittedIdentity = { name: string | undefined; field: string | undefined; project: string | undefined };
+type SubmittedIdentity = {
+  name: string | undefined;
+  field: string | undefined;
+  project: string | undefined;
+  args: Record<string, string | undefined>;
+  role: string | undefined;
+  holder: string | undefined;
+  scope: string | undefined;
+};
 const submittedIdentities = new WeakMap<object, SubmittedIdentity>();
 
 /** Keep only credential-scrubbed human fallback labels; never alter the request or native result. */
 export function rememberSubmittedIdentity(input: CommandInput, token: string): void {
   const body = nested(input.options.body);
-  if (!body) return;
+
   const safe = (value: unknown) => typeof value === "string" ? scrubText(value, token.trim()) : undefined;
   submittedIdentities.set(input.options, {
-    name: safe(body.name), field: safe(nested(body.field)?.id), project: safe(input.args.project),
+    name: safe(body?.name) ?? safe(body?.id), field: safe(nested(body?.field)?.id), project: safe(input.args.project),
+    args: Object.fromEntries(Object.entries(input.args).map(([name, value]) => [name, safe(value)])),
+    role: safe(nested(body?.role)?.id), holder: safe(nested(body?.holder)?.id), scope: safe(scopeLabel(nested(body?.scope))),
   });
 }
 const submittedIdentity = (context: ViewContext): SubmittedIdentity | undefined =>
@@ -641,4 +651,66 @@ export const fieldInstanceTable = tableView<Item, YouTrackPage>({
   columns: [id, { header: "PROJECT", value: item => text(nested(item.project)?.shortName) ?? text(nested(item.project)?.name) },
     { header: "FIELD", value: item => text(nested(item.field)?.name) }],
   empty: "No projects use this field.", footer: pageFooter,
+});
+
+
+/** Mutation confirmations use scrubbed result/request identities, including native empty replies. */
+export const mutationWritten = (label: string, selectedArgument?: string, ...contextArguments: string[]): HumanView => recordView<Item | null>({
+  title: (item, context) => joined(label, text(item?.name) ?? text(item?.login) ?? key(item) ?? submittedName(context)
+    ?? (selectedArgument === undefined ? undefined : submittedIdentity(context)?.args[selectedArgument]),
+    ...contextArguments.map(name => submittedIdentity(context)?.args[name])),
+  fields: [{ label: "ID", value: item => key(item) }],
+});
+
+
+export const projectTimeRecord = recordView<Item | null>({
+  title: (item, context) => joined("Time tracking", key(item), submittedIdentity(context)?.args.project),
+  fields: [{ label: "Enabled", value: item => booleanText(item?.enabled) },
+    { label: "Estimate field", value: item => text(nested(nested(item?.estimate)?.field)?.name) ?? key(nested(item?.estimate)) },
+    { label: "Time spent field", value: item => text(nested(nested(item?.timeSpent)?.field)?.name) ?? key(nested(item?.timeSpent)) }],
+});
+
+const roleLabel = (item: Item | undefined): string | undefined => text(item?.name) ?? key(item);
+const holderLabel = (item: Item | undefined): string | undefined => text(item?.login) ?? text(item?.name) ?? key(item);
+const scopeLabel = (item: Item | undefined): string | undefined => text(nested(item?.project)?.name)
+  ?? key(nested(item?.project)) ?? text(nested(item?.organization)?.name) ?? key(nested(item?.organization))
+  ?? (item?.$type === "GlobalScope" ? "Global" : key(item));
+export const roleAssignmentTable = tableView<Item, YouTrackPage>({
+  rows: page => page.items,
+  columns: [id, { header: "ROLE", value: item => roleLabel(nested(item.role)) },
+    { header: "HOLDER", value: item => holderLabel(nested(item.holder)) },
+    { header: "SCOPE", value: item => scopeLabel(nested(item.scope)) }],
+  empty: "No role assignments.", footer: pageFooter,
+});
+export const roleAssignmentRecord = recordView<Item | null>({
+  title: (item, context) => {
+    const selected = submittedIdentity(context);
+    return joined("Role assignment", key(item) ?? selected?.args.assignment,
+      item === null && selected?.role ? `Role ${selected.role}` : undefined,
+      item === null && selected?.holder ? `Holder ${selected.holder}` : undefined,
+      item === null && selected?.scope ? `Scope ${selected.scope}` : undefined);
+  },
+  fields: [{ label: "Role", value: item => roleLabel(nested(item?.role)) },
+    { label: "Holder", value: item => holderLabel(nested(item?.holder)) },
+    { label: "Scope", value: item => scopeLabel(nested(item?.scope)) }],
+});
+export const roleRecord = recordView<Item | null>({
+  title: (item, context) => text(item?.name) ?? key(item) ?? submittedIdentity(context)?.args.role,
+  fields: [{ label: "ID", value: item => key(item) }, { label: "Description", value: item => text(item?.description) },
+    { label: "Immutable", value: item => booleanText(item?.immutable) },
+    { label: "Permissions", value: item => Array.isArray(item?.permissions) ? item.permissions.length : undefined }],
+});
+
+
+export const notificationRecord = recordView<Item | null>({
+  title: (_item, context) => joined("Notifications", submittedIdentity(context)?.args.user),
+  fields: [{ label: "Own changes", value: item => booleanText(item?.notifyOnOwnChanges) },
+    { label: "Email", value: item => booleanText(item?.emailNotificationsEnabled) },
+    { label: "Mentions", value: item => booleanText(item?.mentionNotificationsEnabled) },
+    { label: "Duplicates", value: item => booleanText(item?.duplicateClusterNotificationsEnabled) },
+    { label: "Mailbox integration", value: item => booleanText(item?.mailboxIntegrationNotificationsEnabled) },
+    { label: "Plain text email", value: item => booleanText(item?.usePlainTextEmails) },
+    { label: "Watch on comment", value: item => booleanText(item?.autoWatchOnComment) },
+    { label: "Watch on create", value: item => booleanText(item?.autoWatchOnCreate) },
+    { label: "Watch on vote", value: item => booleanText(item?.autoWatchOnVote) }],
 });

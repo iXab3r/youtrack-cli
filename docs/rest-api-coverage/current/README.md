@@ -1,110 +1,124 @@
-# M03: iterations and working catalogs
+# M04: project setup and team
 
-Ten owner-authorized stories: US-029/031/032/033/034/035/014/036/037/038.
-[optional tracker reference: delivery](https://github.com/iXab3r/youtrack-cli/issues/95) and its
-[optional tracker reference: milestone](https://github.com/iXab3r/youtrack-cli/milestone/3) own acceptance and final status.
-The owner requested sequential review/merge/main-CI/closure, with one independent read-only
-reviewer per milestone/rechecks and no per-milestone release. Product stays 0.8.0, Core exact 0.7.1.
-M02/M03 additions are unreleased source; npm 0.8.0 contains M01.
+Ten owner-authorized stories US-039–048. [Delivery](https://github.com/iXab3r/youtrack-cli/issues/132)
+and [milestone](https://github.com/iXab3r/youtrack-cli/milestone/4) own final acceptance/status.
+The owner approved sequential review, merge, exact-main CI and closure with one independent
+read-only reviewer per milestone/rechecks and no per-milestone releases. Product stays0.8.0,
+Core exact0.7.1. npm0.8.0 contains M01; M02–M04 are source additions awaiting a future release.
 
 ## Frozen universe and result
 
-The original official source has **282 operations** (281 business plus schema metadata).
-M02 ended at 145 complete / 147 reachable. M03 completes **16 contracts: 15 new routes and
-one existing sprint completeness improvement**. Current: **161 covered, 1 partial, 120 missing,
-0 uncertain**; **162 reachable** (112 ReadOnly / 50 Update). Full coverage **57.09%**, +5.67
-percentage points; reachability **57.45%**, +5.32 points. There are 165 leaves (160 ordinary REST
-leaves plus five workflows), 167 variants including two --direct selectors, and 53 offset lists.
-These are separate measures; CLI leaves do not define the REST denominator.
+The original official source has **282 operations**, including281business and one schema metadata
+operation. M03 ended at161complete/162reachable. M04 adds23new routes, completing all23contracts:
+**184covered,1partial,97missing,0uncertain;185reachable (118ReadOnly/67Update)**.
+Full coverage65.25%, +8.16percentage points; reachability65.60%, +8.16points. The remaining partial
+is group-members query support, assigned to the approved later milestone; no gap is silently closed.
 
-Every operation/binding/permission/surface/test is in [JSON](coverage.json), [TSV](coverage.tsv)
-and [summary](summary.json), using [pinned facts](../official-operations.json) and
-[source provenance](../source-lock.json). The original 0.7.1 audit stays frozen. baselineHead is
-observed code lineage; product/test/package fingerprints additionally rule out source drift.
+There are188service leaves (183ordinary REST plus five workflows),190variants including two
+--direct selectors, and56offset lists. These are separate measures, not the REST denominator.
+Every operation/binding/permission/surface/test/reason remains in [JSON](coverage.json),
+[TSV](coverage.tsv) and [summary](summary.json), using [pinned facts](../official-operations.json)
+and [source provenance](../source-lock.json). Original0.7.1audit remains unchanged. baselineHead
+records source lineage; per-file product/test/package fingerprints additionally guard source drift.
 
-## Contract decisions
+## Native contracts and source discrepancies
 
-Board creation requires native name and explicit projects(id); the planning example's name-only
-body was corrected before red tests. The optional template query is preserved as native text,
-with server validation. A small extra-query argument on the existing service mutate helper
-serves this concrete control, retaining common preflight/dispatch/uncertainty boundaries.
-No raw query/proxy command is exposed. Sprint create gets declared notification controls,
-including omitted, bare true, true and false; defaults and update behavior remain intact.
+User-bundle groups/individuals POSTs add existing IDs, not new directory entities. Global custom-field
+creation requires name and fieldType.id; updates preserve omitted and extra native metadata. Project
+work-item-type POST attaches an existing global type by id, correcting the planning name-only example
+before red tests. Project time settings retain false/null and native estimate/timeSpent references.
 
-Enum/version/state value creation requires name, while updates preserve omissions and extra
-native fields. One small shared named-body validator avoids copying that check across actual
-consumers. Native archived/released/isResolved flags, color/sharing references, dates/nulls and
-metadata remain unchanged. isResolved is catalog metadata, not a synthesized state-machine event.
-Tags are global objects, separate from issue/article assignment routes.
+ReadOnly access catalogs preserve native query text, including whitespace/exact-match suffixes. They
+are separate from local CLI permissions. Role assignment requires holder/role IDs and scope.$type;
+known project/organization scopes require their IDs. Unknown native types/properties remain server
+validation, without hidden identity lookup, role grant, fallback or closed local type registry.
+The pinned reference marks access catalogs/project teams available since2026.1; this is documentation
+provenance, not tested deployed-server or cross-version support.
 
-Field defaults expose common metadata by default; caller-selected --fields handles native subtype
-bundle/defaultValues without type discovery. Updates preserve subtype $type and native arrays,
-null and false. Project-field creation requires explicit field(id) and ProjectCustomField $type;
-YouTrack owns compatibility validation. Updates use the project-instance ID, not the prototype ID.
-Field instances list the associated projects through one ordinary raw-offset page, without lookahead
-or automatic traversal. All mutations retain Update; new reads are ReadOnly. No implicit lookup,
-permission grant, retry, compensation or new compatibility/version policy.
+Team ownUsers changes direct participation; group changes preserve native group types. Team updates
+pass ownUsers/groups and empty lists to YouTrack without local merge, inherited-member expansion or
+transaction/retry assumptions. Native body properties remain intact. Notification updates preserve
+booleans such as emailNotificationsEnabled=false. Its syntax table appends profileID, conflicting
+with the frozen OAS/resource path and concrete examples. The selected operation is the unchanged
+/api/users/{userID}/profiles/notifications; no extra operation/profile-ID lookup is invented.
 
-## Verification and limits
+DELETE optional --fields follows the earlier source-discrepancy disposition: field tables name it
+while request syntax/OAS omit it. The selected projection is forwarded; default DELETE stays
+query-free. No live server conformance is inferred from this offline disposition.
 
-All ten stories have committed red runs on separate branches before code; public issues record
-red/green heads. **493 offline tests** pass, including 21 M03 nodes covering all 16 contracts
-through human/JSON/execute/RPC, exact native requests, opposite-category denial, remote failures,
-ambiguous writes, native null/false/epoch dates, required-ID/template preflight, instance paging
-and readable empty mutation replies. Existing M01/M02 transport/profile/cancellation/EPIPE/diagnostic
-and proof-preflight regressions remain green. Tests use native fetch/MSW, memory secrets and synthetic
-profiles; no live proof. Installed checks cover SDK exports and the actual board-template query.
-Local Cake Verify receipts include installed CLI/RPC/EPIPE checks and two release-safety tests;
-no release target runs. Final CI/review/merge status belongs in the delivery issue.
+All writes require Update, reads ReadOnly; server management rights remain separate. Existing
+profiles/auth/secrets, native JSON/RPC/execute, raw-offset pages, no lookahead, cancellation, EPIPE,
+diagnostic codes/causes, preflight and dispatched-unknown outcomes stay tested. No automatic mutation
+retry/compensation or raw proxy/CRUD runtime is added. Empty human confirmations retain scrubbed
+selected identities/context; selected IDs are fallbacks rather than repeated result IDs.
 
-Fresh traversal: 165 leaves / 167 variants, all 162 operations, no failed variant. Mapping uses a
-493-test native-request trace; repeat generation is byte-identical. A separate raw-OAS/reference
-algorithm reconciles all identities/counts. This is **author self-check, not independent review**.
-Independent verdict and exact-main CI are separate gates. No deployed-server, Cloud/Server or
-cross-version conformance is claimed; full means the declared operation/input dimensions, not
-exhaustive schema/value/live validation.
+## Verification and review boundaries
 
-## Final shorter-batch authoring input
+Each story has a committed red run on its own branch before implementation; public issues record
+red/green commits. Author **509offline tests (16M04nodes) PASS**, covering all23contracts across
+human/JSON/execute/RPC, native encoded paths/projections/query/body, opposite-category denial, remote
+failures, mutation ambiguity, local identity/scope preflight, empty/sparse confirmations, credential
+labels, false flags, native scopes and raw-offset/zero-size/overflow behavior. All shipped regressions
+remain green. Tests use native fetch/MSW, synthetic profiles and memory secrets; no live proof.
 
-Baseline 147 reachable, now 162 (+15); cumulative +44 from the original 118. Core pin/integrity
-unchanged, zero local Core implementation changes. New reads reuse existing collection/object/page
-helpers; writes reuse mutate/projectedBodyUpdate and small native body checks. The existing transport's
-extra-query argument handles the real board template without a framework/CRUD registry. Shared story
-assertions and Core-owned profiles/admission/secrets/output/cancellation/EPIPE remain unchanged.
+Local Cake Verify includes installed package tests for all23new SDK exports, native access queries,
+scoped empty-create results and notification resource paths, plus existing installed CLI/RPC/EPIPE
+checks and two release-safety checks. No release target/version bump/npm publication occurs.
+Fresh traversal188leaves/190variants/185operations has no failed variants. Mapping uses the509-test
+native-request trace; repeat generation is byte-identical. Separate raw-OAS/reference reconciliation
+reports no unexplained operations/duplicates. This is **author self-check, not independent review**.
+Final full-M04 review and exact-main CI are separate gates recorded in the tracker.
 
-Physical nonblank lines, comments included, generated output excluded:
+## +50 checkpoint and final shorter batch
 
-| Surface | M02 baseline | Current | Delta |
-|---|---:|---:|---:|
-| src | 4270 | 4433 | +163 |
-| tests | 7976 | 8111 | +135 |
-| integration-tests | 165 | 165 | +0 |
-| scripts | 1104 | 1122 | +18 |
+Original baseline118reachable; M04 began at162 (+44). US039/040 added six unique operations; at168
+(+50), implementation stopped. [Independent checkpoint](https://github.com/iXab3r/youtrack-cli/issues/173)
+found one accepted MINOR: duplicate selected IDs in sparse human confirmations. [Bug174](https://github.com/iXab3r/youtrack-cli/issues/174)
+was fixed with regression5094fff before correctionb414073; the same reviewer rechecked36focused tests
+and reported PASS without unresolved findings. Author corrected498-test/probe/repeat/raw-source
+checks also passed. Evidence and concrete sample diffs were published before operation51/US041.
 
-Tests/tooling are separate from integration source; counts are inputs to simplicity review, not
-proof of reduced runtime cost. Upstream handwritten Core source is absent, so its size is not
-invented. No CI, package/dependency/version changes or copied runtime implementation.
+The final remaining17new operations bring185reachable, cumulative+67. Final shorter-batch authoring
+review remains part of the full milestone review. Core pin/integrity are unchanged with zero local
+Core source changes; upstream handwritten Core source is absent, so no invented size is reported.
+Physical nonblank handwritten lines, comments included, generated output excluded. src/tests/proof
+are TypeScript; scripts count all tracked audit/build tooling separately:
 
-After build, run probe.mjs and observe-tests.mjs into an ignored capture, then regenerate with
-`node scripts/rest-api-audit/generate.mjs <capture> docs/rest-api-coverage/current`. Capture/extract
-and the separate crosscheck.py stay public-source-only reproducibility tools.
+| Surface | Original baseline | M04 baseline | Current | Delta M04 | Delta original |
+|---|---:|---:|---:|---:|---:|
+| src | 3813 | 4433 | 4671 | +238 | +858 |
+| tests | 7482 | 8111 | 8264 | +153 | +782 |
+| integration-tests | 165 | 165 | 165 | +0 | +0 |
+| scripts | 559 | 1122 | 1153 | +31 | +594 |
 
+Counts refer to source lineage73854f2 and git-tracked paths under src/,tests/,integration-tests/,scripts/;
+subsequent generated-doc changes do not alter those counts. Tests/tooling stay separate from source;
+source growth is not presented as an authoring reduction.
 
-Empty successful creates retain the selected name or prototype/project identity in the human title.
-The invocation-local fallback stores only labels scrubbed by the existing service response sanitizer;
-it leaves the submitted body, SDK result and JSON/RPC null unchanged. Weak references avoid a persistent
-label cache. This adds a small presentation-only concept because native empty results have no identity.
-Regression coverage includes six create families, credential/signed-URL labels and unchanged bodies.
+Same-capability comparisons, including all helper cost:
 
-Same-capability authoring samples (included in the total source delta above):
+- Detail: original getProject/readObjectAt/projectedRead remain; new getRole/getRoleAssignment and
+  getUserNotifications reuse that boundary with concrete paths/default projections. No resolver layer.
+- Collection: original listProjectFields/readCollectionAt/pagedRead remain; listPermissions reuses
+  them. listRoles/listRoleAssignments directly add the native query to page/readPage, because the
+  ordinary collection helper does not forward query. Native whitespace and offset contracts survive.
+- Mutation: M04-baseline addArticleTag (revision534cd54aa4b33aa4ba3184d0e8bcfc1e7d3f7b15) spells
+  native id validation/mutate/fields directly. New team-user,
+  team-group and work-type attachments use that same direct pattern. User-bundle group/individual
+  share only a local memberBody check. Field/assignment creation adds real required native selectors;
+  no weak validation or omitted behavior is counted as reduced glue.
+- Six concrete DELETE declarations use the11-line projectedDelete binder over existing admitted
+  operationCommand. It removes repeated option/argument wiring while service paths remain visible.
+  No runtime policy or new transport/dependency/DSL is introduced.
+- Human labels reuse the service sanitizer and invocation-local WeakMap for native empty responses.
+  A small mutation view distinguishes selected identity from owner context; domain views render
+  settings flags, holders and scopes without raw metadata. All state/helper cost is counted above.
 
-- Detail: existing getIssueProject binds readObjectAt to issuePath(issueID) + "/project".
-  New getFieldDefaults binds readObjectAt to defaultsPath(fieldID), ending in "/fieldDefaults".
-  Both preserve projection selection, ReadOnly admission and one request; the resource path differs.
-- List: existing listArticleTags and new listFieldInstances use collection → ordinary raw-offset page.
-  Neither adds lookahead, aggregation or discovery; the new default projection names the project.
-- Mutation: existing updateSprint is byte-unchanged. New updateEnumValue uses mutate with an explicit
-  bundle/value path and namedMutationBody(input, false); both preserve native JSON through mutate and select output with fields(options, defaults). That validator shares
-  object/name validation with board/tag/state/version consumers while retaining extra native properties.
-  Board create adds the concrete template query argument to the same mutate boundary. These additions
-  increase source size; no claimed code reduction hides domain validation or moves it into Core.
+No new shared Core mechanism is proposed; existing targetCommands/profiles/secrets/admission/output/
+RPC/cancellation/EPIPE APIs remain service-neutral and unchanged. The complexity tradeoff is a few
+local presentation/validation helpers with actual consumers, while direct service calls remain easy
+to inspect. Concrete diffs/checkpoint verdict are public in173; final verdict belongs to delivery132.
+
+Reproduce after build: run probe.mjs and observe-tests.mjs into an ignored capture, generate.mjs twice,
+compare coverage JSON/TSV/summary bytes, then crosscheck.py against pinned raw OAS/reference captures.
+See the frozen audit README for exact commands and source-drift limitations.
