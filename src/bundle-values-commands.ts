@@ -7,6 +7,7 @@ import {
   createVersionValue,
   updateVersionValue,
   getBuildValue,
+  createOwnedBundle, updateOwnedBundle, deleteOwnedBundle, createOwnedValue, updateOwnedValue, deleteOwnedValue,
   getOwnedBundle,
   getOwnedValue,
   getVersionBundle,
@@ -38,10 +39,16 @@ export const bundleValuesChildren: readonly CommandDefinition[] = [
       projectedRead("get <bundle> <value>", "Show a build value", getBuildValue),
     ]),
   ]),
-  command("owned", "Inspect owned-field bundles", [
+  command("owned", "Inspect and manage owned-field bundles", [
+    projectedBodyUpdate("create", "Create an owned-field bundle", createOwnedBundle, undefined, mutationWritten("Created owned-field bundle")),
+    projectedBodyUpdate("update <bundle>", "Update an owned-field bundle", updateOwnedBundle, undefined, mutationWritten("Updated owned-field bundle", "bundle")),
+    projectedDelete("delete <bundle>", "Delete a selected owned-field bundle", deleteOwnedBundle, mutationWritten("Deleted owned-field bundle", "bundle")),
     pagedRead("list", "List owned-field bundles", listOwnedBundles, bundleTable),
     projectedRead("get <bundle>", "Show an owned-field bundle", getOwnedBundle),
-    command("value", "Inspect owned values", [
+    command("value", "Inspect and manage owned values", [
+      projectedBodyUpdate("create <bundle>", "Create an owned value", createOwnedValue, undefined, bundleValueWritten),
+      projectedBodyUpdate("update <bundle> <value>", "Update an owned value", updateOwnedValue, undefined, bundleValueWritten),
+      projectedDelete("delete <bundle> <value>", "Delete a selected owned value", deleteOwnedValue, mutationWritten("Deleted owned value", "value", "bundle")),
       pagedRead("list <bundle>", "List the bundle's values", listOwnedValues, valueTable),
       projectedRead("get <bundle> <value>", "Show an owned value", getOwnedValue),
     ]),

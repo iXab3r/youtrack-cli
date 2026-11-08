@@ -96,3 +96,28 @@ export async function updateBuildValue(connection: Connection, bundleID: string,
 export async function deleteBuildValue(connection: Connection, bundleID: string, valueID: string, options: ProjectionOptions = {}) {
   return deleteObject(connection, valuePath("build", bundleID, valueID), options);
 }
+
+
+export async function createOwnedBundle(connection: Connection, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, bundlePath("ownedField"), mutationBody(input), fields(options, bundleFields));
+}
+export async function updateOwnedBundle(connection: Connection, bundleID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, bundlePath("ownedField", bundleID), mutationBody(input), fields(options, bundleFields));
+}
+export async function deleteOwnedBundle(connection: Connection, bundleID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, bundlePath("ownedField", bundleID), options);
+}
+function ownedValueBody(input: unknown, creating: boolean) {
+  const body = namedMutationBody(input, creating);
+  if (Object.hasOwn(body, "owner") && body.owner !== null) mutationBody(body.owner);
+  return body;
+}
+export async function createOwnedValue(connection: Connection, bundleID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, valuePath("ownedField", bundleID), ownedValueBody(input, true), fields(options, ownedValueFields));
+}
+export async function updateOwnedValue(connection: Connection, bundleID: string, valueID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, valuePath("ownedField", bundleID, valueID), ownedValueBody(input, false), fields(options, ownedValueFields));
+}
+export async function deleteOwnedValue(connection: Connection, bundleID: string, valueID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, valuePath("ownedField", bundleID, valueID), options);
+}

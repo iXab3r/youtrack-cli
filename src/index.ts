@@ -88,6 +88,7 @@ export { deleteAgile, deleteSprint, createAgile, updateAgile, type AgileCreateOp
 export {
   createBuildBundle, updateBuildBundle, deleteBuildBundle, createBuildValue, updateBuildValue, deleteBuildValue,
   listBuildBundles, getBuildBundle, listBuildValues, getBuildValue,
+  createOwnedBundle, updateOwnedBundle, deleteOwnedBundle, createOwnedValue, updateOwnedValue, deleteOwnedValue,
   listOwnedBundles, getOwnedBundle, listOwnedValues, getOwnedValue,
   createVersionBundle, updateVersionBundle, deleteVersionBundle, deleteVersionValue,
   createVersionValue, updateVersionValue,
