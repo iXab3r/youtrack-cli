@@ -65,3 +65,15 @@ export const getUserNotifications = readObjectAt(notificationsPath, notification
 export async function updateUserNotifications(connection: Connection, userID: string, input: unknown, options: ProjectionOptions = {}) {
   return mutate(connection, notificationsPath(userID), mutationBody(input), fields(options, notificationFields));
 }
+
+
+const generalProfileFields = "id,dateFieldFormat(id,presentation,pattern,datePattern),timezone(id,presentation,offset),locale(id,name,locale)";
+const generalProfilePath = (userID: string) => `api/users/${encodedID(userID, "user ID")}/profiles/general`;
+export const getUserGeneralProfile = readObjectAt(generalProfilePath, generalProfileFields);
+export async function updateUserGeneralProfile(connection: Connection, userID: string, input: unknown, options: ProjectionOptions = {}) {
+  const body = mutationBody(input);
+  for (const attribute of ["dateFieldFormat", "timezone", "locale"]) {
+    if (Object.hasOwn(body, attribute) && body[attribute] !== null) mutationBody(body[attribute]);
+  }
+  return mutate(connection, generalProfilePath(userID), body, fields(options, generalProfileFields));
+}
