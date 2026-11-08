@@ -43,6 +43,7 @@ export {
 } from "./issue-time.js";
 export { listIssueAttachments, getIssueAttachment, uploadIssueAttachment, updateIssueAttachment, deleteIssueAttachment } from "./issue-attachments.js";
 export {
+  addProjectWorkItemType, removeProjectWorkItemType,
   getProjectTimeSettings, listProjectWorkItemTypes, getProjectWorkItemType, getGlobalTimeSettings,
   listWorkItemTypes, getWorkItemType, getWorkTimeSettings,
 } from "./time-settings.js";

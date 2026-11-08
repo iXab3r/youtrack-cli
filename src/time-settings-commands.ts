@@ -1,6 +1,7 @@
 import { command } from "@eyeauras/cli-factory";
-import { pagedRead, projectedRead } from "./cli-support.js";
+import { pagedRead, projectedRead, projectedBodyUpdate, projectedDelete } from "./cli-support.js";
 import {
+  addProjectWorkItemType, removeProjectWorkItemType,
   getGlobalTimeSettings,
   getProjectTimeSettings,
   getProjectWorkItemType,
@@ -9,7 +10,7 @@ import {
   listProjectWorkItemTypes,
   listWorkItemTypes,
 } from "./time-settings.js";
-import { namedTable } from "./presentation.js";
+import { mutationWritten, namedTable } from "./presentation.js";
 
 const typeTable = namedTable("TYPE", "No work item types.");
 
@@ -32,7 +33,9 @@ export const timeSettingsProjectChildren = [
   command("time-tracking", "Inspect project time-tracking settings", [
     projectedRead("get <project>", "Show the project's time-tracking settings", getProjectTimeSettings),
   ]),
-  command("work-item-type", "Inspect the project's work item types", [
+  command("work-item-type", "Manage the project's work item types", [
+    projectedBodyUpdate("create <project>", "Add an existing work item type", addProjectWorkItemType, undefined, mutationWritten("Added work item type", undefined, "project")),
+    projectedDelete("delete <project> <type>", "Remove a work item type from the project", removeProjectWorkItemType, mutationWritten("Removed work item type", "type", "project")),
     pagedRead("list <project>", "List the project's work item types", listProjectWorkItemTypes, typeTable),
     projectedRead("get <project> <type>", "Show a project work item type", getProjectWorkItemType),
   ]),

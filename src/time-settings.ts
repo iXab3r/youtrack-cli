@@ -1,4 +1,4 @@
-import { encodedID, readCollectionAt, readObjectAt } from "./client.js";
+import { fields, mutate, deleteObject, mutationBody, narrative, requiredText, type Connection, type ProjectionOptions, encodedID, readCollectionAt, readObjectAt } from "./client.js";
 
 const globalSettingsPath = "api/admin/timeTrackingSettings";
 const typeFields = "id,name,autoAttached";
@@ -34,3 +34,13 @@ export const getWorkTimeSettings = readObjectAt(
   `${globalSettingsPath}/workTimeSettings`,
   workTimeFields,
 );
+
+
+export async function addProjectWorkItemType(connection: Connection, projectID: string, input: unknown, options: ProjectionOptions = {}) {
+  const body = mutationBody(input);
+  requiredText(narrative(body.id, "work item type ID"), "work item type ID");
+  return mutate(connection, `${projectSettingsPath(projectID)}/workItemTypes`, body, fields(options, typeFields));
+}
+export async function removeProjectWorkItemType(connection: Connection, projectID: string, typeID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, `${projectSettingsPath(projectID)}/workItemTypes/${encodedID(typeID, "work item type ID")}`, options);
+}
