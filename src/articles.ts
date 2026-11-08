@@ -1,5 +1,6 @@
 import { saveFile, type PublishedFile } from "@eyeauras/cli-factory";
 import {
+  deleteObject,
   encodedID,
   fields,
   mutate,
@@ -139,3 +140,8 @@ export const listProjectArticles = readCollectionAt(
   (projectID: string) => `api/admin/projects/${encodedID(projectID, "project ID")}/articles`,
   articleListFields,
 );
+
+
+export async function deleteArticleComment(connection: Connection, articleID: string, commentID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, `${articlePath(articleID)}/comments/${encodedID(commentID, "comment ID")}`, options);
+}

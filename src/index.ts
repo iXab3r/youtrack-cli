@@ -75,7 +75,7 @@ export {
 } from "./group-directory.js";
 export {
   listArticles, getArticle, createArticle, updateArticle, listArticleComments, getArticleComment,
-  addArticleComment, updateArticleComment, listProjectArticles, exportArticle,
+  deleteArticleComment, addArticleComment, updateArticleComment, listProjectArticles, exportArticle,
 } from "./articles.js";
 export { createAgile, updateAgile, type AgileCreateOptions, listAgiles, getAgile, listSprints, getSprint, createSprint, updateSprint } from "./agile.js";
 export {
