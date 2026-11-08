@@ -95,3 +95,19 @@ test("US-044 assign a selected holder and role in a native explicit scope, then 
   await storyCase(t, {"argv":["role-assignment","create","--body","{\"holder\":{\"id\":\"user /?\",\"$type\":\"User\"},\"role\":{\"id\":\"role /?\"},\"scope\":{\"$type\":\"ProjectScope\",\"project\":{\"id\":\"project /?\"}},\"$type\":\"AssignedRole\"}","--fields","id"],"method":"POST","path":"/api/assignedRoles","query":[["fields","id"]],"body":{"holder":{"id":"user /?","$type":"User"},"role":{"id":"role /?"},"scope":{"$type":"ProjectScope","project":{"id":"project /?"}},"$type":"AssignedRole"},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
   await storyCase(t, {"argv":["role-assignment","delete","assignment /?","--fields","id"],"method":"DELETE","path":"/api/assignedRoles/assignment%20%2F%3F","query":[["fields","id"]],"response":undefined,"result":null,"update":true});
 });
+
+test("US-044 assignment creation requires selected identities and preserves scoped empty confirmations", async t => {
+  const f = await configuredFixture(t, { permissions: ["Update"] }); let calls = 0; let sent: unknown;
+  server.use(http.post("*", async ({ request }) => { calls++; sent = await request.json(); return new HttpResponse(null, { status: 204 }); }));
+  for (const body of [{ role: { id: "role" } }, { role: { id: "role" }, holder: { id: "holder" } }, { role: { id: "role" }, holder: { id: "holder" }, scope: {} }]) {
+    await assert.rejects(f.cli.execute(["role-assignment", "create", "--body", JSON.stringify(body)])); assert.equal(calls, 0);
+  }
+  const body = { role: { id: "Selected-role" }, holder: { id: "Selected-holder", $type: "User" }, scope: { $type: "GlobalScope" } };
+  const argv = ["role-assignment", "create", "--body", JSON.stringify(body)];
+  const shown = await f.run(f.cli, argv); assert.equal(shown.exitCode, 0, shown.stderr);
+  assert.match(shown.stdout, /Selected-role/); assert.match(shown.stdout, /Selected-holder/); assert.match(shown.stdout, /Global/);
+  assert.doesNotMatch(shown.stdout, /\$type|GlobalScope/); assert.deepEqual(sent, body); assert.equal(await f.json(f.cli, argv), null);
+  const secretBody = { role: { id: "synthetic-token" }, holder: { id: "synthetic-token" }, scope: { $type: "ProjectScope", project: { id: "synthetic-token" } } };
+  const hidden = await f.run(f.cli, ["role-assignment", "create", "--body", JSON.stringify(secretBody)]);
+  assert.equal(hidden.exitCode, 0, hidden.stderr); assert.doesNotMatch(hidden.stdout + hidden.stderr, /synthetic-token/); assert.match(hidden.stdout, /redacted/); assert.deepEqual(sent, secretBody);
+});
