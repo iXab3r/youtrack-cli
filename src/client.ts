@@ -174,6 +174,7 @@ interface RequestOptions {
   method?: "GET" | "POST" | "DELETE";
   body?: YouTrackObject | FormData;
   allowEmpty?: boolean;
+  onSubmit?: () => void;
   budget?: ByteBudget | undefined;
 }
 
@@ -194,18 +195,23 @@ async function request(
   const token = normalizeBearerToken(connection.token);
   const body = options.body;
   const multipart = body instanceof FormData;
+  const init: RequestInit = {
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+      ...(body === undefined || multipart ? {} : { "Content-Type": "application/json" }),
+    },
+    method: options.method ?? "GET",
+    ...(body === undefined ? {} : { body: multipart ? body : JSON.stringify(body) }),
+    ...(connection.signal === undefined ? {} : { signal: connection.signal }),
+  };
+  if (options.onSubmit) {
+    connection.signal?.throwIfAborted();
+    options.onSubmit();
+  }
   let response: Response;
   try {
-    response = await fetchWithRedirects(connection.fetch ?? globalThis.fetch, url, {
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${token}`,
-        ...(body === undefined || multipart ? {} : { "Content-Type": "application/json" }),
-      },
-      method: options.method ?? "GET",
-      ...(body === undefined ? {} : { body: multipart ? body : JSON.stringify(body) }),
-      ...(connection.signal === undefined ? {} : { signal: connection.signal }),
-    });
+    response = await fetchWithRedirects(connection.fetch ?? globalThis.fetch, url, init);
   } catch (cause) {
     throw new CliError("Could not reach YouTrack; check the URL, connectivity and TLS.", {
       code: "request.failed", cause: diagnosticCause(cause, [token]),
@@ -539,11 +545,12 @@ export function nullableText(value: unknown, label: string): string | null {
 }
 
 /** A received 4xx is a rejection; other post-submission failures cannot prove no write. */
-async function mutationResult<T>(operation: () => Promise<T>): Promise<T> {
+async function mutationResult<T>(operation: (onSubmit: () => void) => Promise<T>): Promise<T> {
+  let submitted = false;
   try {
-    return await operation();
+    return await operation(() => { submitted = true; });
   } catch (error) {
-    if (error instanceof Error && !(error instanceof HttpError && error.status >= 400 && error.status < 500)) {
+    if (submitted && error instanceof Error && !(error instanceof HttpError && error.status >= 400 && error.status < 500)) {
       error.message += " The write outcome is unknown.";
     }
     throw error;
@@ -558,9 +565,9 @@ export async function mutate(
   options: WriteOptions = {},
 ): Promise<YouTrackObject | null> {
   const query = writeQuery(options, projection);
-  return mutationResult(async () => {
+  return mutationResult(async onSubmit => {
     const value = await request(connection, path, query, "JSON", {
-      method: "POST", body, allowEmpty: true,
+      method: "POST", body, allowEmpty: true, onSubmit,
     });
     return value === null ? null : object(scrub(value, connection.token.trim()));
   });
@@ -568,8 +575,8 @@ export async function mutate(
 
 export async function deleteObject(connection: Connection, path: string, options: ProjectionOptions = {}): Promise<YouTrackObject | null> {
   const query = options.fields === undefined ? {} : { fields: fields(options, "") };
-  return mutationResult(async () => {
-    const value = await request(connection, path, query, "JSON", { method: "DELETE", allowEmpty: true });
+  return mutationResult(async onSubmit => {
+    const value = await request(connection, path, query, "JSON", { method: "DELETE", allowEmpty: true, onSubmit });
     return value === null ? null : object(scrub(value, connection.token.trim()));
   });
 }
@@ -582,9 +589,9 @@ export async function uploadObjectCollection(
   options: WriteOptions = {},
 ): Promise<YouTrackObject[] | null> {
   const query = writeQuery(options, projection);
-  return mutationResult(async () => {
+  return mutationResult(async onSubmit => {
     const value = await request(connection, path, query, "JSON", {
-      method: "POST", body, allowEmpty: true,
+      method: "POST", body, allowEmpty: true, onSubmit,
     });
     if (value === null) return null;
     if (!Array.isArray(value)) throw new Error("Invalid upload collection response from YouTrack.");
