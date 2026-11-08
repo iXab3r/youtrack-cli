@@ -145,3 +145,8 @@ export const listProjectArticles = readCollectionAt(
 export async function deleteArticleComment(connection: Connection, articleID: string, commentID: string, options: ProjectionOptions = {}) {
   return deleteObject(connection, `${articlePath(articleID)}/comments/${encodedID(commentID, "comment ID")}`, options);
 }
+
+
+export async function deleteArticle(connection: Connection, articleID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, articlePath(articleID), options);
+}
