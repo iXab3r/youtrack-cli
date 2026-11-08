@@ -1,5 +1,6 @@
 import {
   encodedID,
+  deleteObject,
   fields,
   issuePath,
   mutate,
@@ -13,6 +14,7 @@ import {
   type Connection,
   type IssueSearchOptions,
   type ProjectionOptions,
+  type WriteOptions,
   type YouTrackObject,
 } from "./client.js";
 
@@ -118,13 +120,14 @@ export async function addWorkItem(
   connection: Connection,
   issueID: string,
   input: unknown,
-  options: ProjectionOptions = {},
+  options: WriteOptions = {},
 ) {
   return mutate(
     connection,
     workItemsPath(issueID),
     workItemBody(input, true),
     fields(options, workItemFields),
+    options,
   );
 }
 
@@ -133,12 +136,17 @@ export async function updateWorkItem(
   issueID: string,
   itemID: string,
   input: unknown,
-  options: ProjectionOptions = {},
+  options: WriteOptions = {},
 ) {
   return mutate(
     connection,
     `${workItemsPath(issueID)}/${encodedID(itemID, "work item ID")}`,
     workItemBody(input, false),
     fields(options, workItemFields),
+    options,
   );
+}
+
+export async function deleteIssueWorkItem(connection: Connection, issueID: string, itemID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, `${workItemsPath(issueID)}/${encodedID(itemID, "work item ID")}`, options);
 }

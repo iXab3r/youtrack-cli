@@ -551,8 +551,9 @@ export async function mutate(
   return value === null ? null : object(scrub(value, connection.token.trim()));
 }
 
-export async function deleteObject(connection: Connection, path: string): Promise<YouTrackObject | null> {
-  const value = await request(connection, path, {}, "JSON", { method: "DELETE", allowEmpty: true });
+export async function deleteObject(connection: Connection, path: string, options: ProjectionOptions = {}): Promise<YouTrackObject | null> {
+  const query = options.fields === undefined ? {} : { fields: fields(options, "") };
+  const value = await request(connection, path, query, "JSON", { method: "DELETE", allowEmpty: true });
   return value === null ? null : object(scrub(value, connection.token.trim()));
 }
 
