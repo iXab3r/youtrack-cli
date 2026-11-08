@@ -1,7 +1,8 @@
 import { command, type CommandDefinition } from "@eyeauras/cli-factory";
-import { pagedRead, projectedRead } from "./cli-support.js";
+import { pagedRead, projectedRead, projectedBodyUpdate } from "./cli-support.js";
 import {
   getBuildBundle,
+  createVersionValue,
   getBuildValue,
   getOwnedBundle,
   getOwnedValue,
@@ -14,7 +15,7 @@ import {
   listVersionBundles,
   listVersionValues,
 } from "./bundle-values.js";
-import { namedTable } from "./presentation.js";
+import { namedTable, bundleValueWritten } from "./presentation.js";
 
 const bundleTable = namedTable("BUNDLE", "No bundles.");
 const valueTable = namedTable("VALUE", "No values.");
@@ -40,6 +41,7 @@ export const bundleValuesChildren: readonly CommandDefinition[] = [
     pagedRead("list", "List version bundles", listVersionBundles, bundleTable),
     projectedRead("get <bundle>", "Show a version bundle", getVersionBundle),
     command("value", "Inspect version values", [
+      projectedBodyUpdate("create <bundle>", "Create a version value", createVersionValue, undefined, bundleValueWritten),
       pagedRead("list <bundle>", "List the bundle's values", listVersionValues, valueTable),
       projectedRead("get <bundle> <value>", "Show a version value", getVersionValue),
     ]),
