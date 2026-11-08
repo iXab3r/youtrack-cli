@@ -598,3 +598,8 @@ export const bundleValueWritten = recordView<Item | null>({
     { label: "Start date", value: item => instant(item?.startDate) },
     { label: "Resolved state", value: item => booleanText(item?.isResolved) }],
 });
+
+export const tagWritten = recordView<Item | null>({
+  title: (item, context) => joined("Tag", text(item?.name) ?? key(item) ?? arg(context, "tagID")),
+  fields: [{ label: "ID", value: item => key(item) }],
+});

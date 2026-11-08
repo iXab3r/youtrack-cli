@@ -3,6 +3,7 @@ import { projectedBodyUpdate, pagedRead, projectedRead, updateCommand, notificat
 import {
   addIssueLink,
   addIssueTag,
+  createTag, updateTag,
   getIssueLink,
   getLinkType,
   getTag,
@@ -27,7 +28,7 @@ import {
   linkedIssueList,
   tagAdded,
   tagRecord,
-  tagTable,
+  tagTable, tagWritten,
   withView,
 } from "./presentation.js";
 
@@ -36,7 +37,9 @@ export const relationsRootCommands = [
     pagedRead("list", "List link types", listLinkTypes, linkTypeTable),
     projectedRead("get <typeID>", "Show a link type", getLinkType, linkTypeRecord),
   ]),
-  command("tags", "Inspect tags", [
+  command("tags", "Inspect and maintain tags", [
+    projectedBodyUpdate("create", "Create a working tag", createTag, undefined, tagWritten),
+    projectedBodyUpdate("update <tagID>", "Update a working tag", updateTag, undefined, tagWritten),
     pagedRead("list", "List visible tags", listTags, tagTable, [{ flags: "--query <query>", description: "Filter tags by query" }]),
     projectedRead("get <tagID>", "Show a tag", getTag, tagRecord),
   ]),
