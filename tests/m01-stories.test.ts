@@ -303,3 +303,27 @@ test("M01 review: uncertain writes retain sanitized causes; read POST and local 
     assert.doesNotMatch(error.message, /unknown/i); return true;
   });
 });
+
+
+test("M01 review: invalid local write inputs and pre-aborted writes never claim an unknown outcome", async () => {
+  let calls = 0;
+  const connection = { baseUrl: "https://youtrack.example.test", token: "synthetic-token", fetch: (async () => {
+    calls++; return new Response(null, { status: 204 });
+  }) as typeof fetch };
+  const aborted = AbortSignal.abort(new Error("Synthetic local cancellation"));
+  for (const invalid of [{ ...connection, baseUrl: "invalid-url" }, { ...connection, token: "invalid\ntoken" }, { ...connection, signal: aborted }]) {
+    for (const operation of [
+      () => mutate(invalid, "api/issues/DEMO-1", {}, "id"),
+      () => deleteObject(invalid, "api/issues/DEMO-1/attachments/file"),
+      () => uploadObjectCollection(invalid, "api/issues/DEMO-1/attachments", new FormData(), "id"),
+    ]) await assert.rejects(operation(), (error: Error) => {
+      assert.doesNotMatch(error.message, /outcome is unknown/i); return true;
+    });
+  }
+  const cyclic: Record<string, never> = {};
+  Object.assign(cyclic, { self: cyclic });
+  await assert.rejects(mutate(connection, "api/issues/DEMO-1", cyclic, "id"), (error: Error) => {
+    assert.doesNotMatch(error.message, /outcome is unknown/i); return true;
+  });
+  assert.equal(calls, 0);
+});
