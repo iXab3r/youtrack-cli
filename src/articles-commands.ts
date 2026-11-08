@@ -1,5 +1,5 @@
 import { command } from "@eyeauras/cli-factory";
-import { articlesExtraChildren } from "./article-extras-commands.js";
+import { articlesExtraChildren, articleReactionCommand } from "./article-extras-commands.js";
 import { pagedRead, projectedBodyUpdate, projectedRead, readCommand, notificationOptions, draftOptions } from "./cli-support.js";
 import {
   addArticleComment,
@@ -45,6 +45,7 @@ export const articlesRootCommands = [
     projectedBodyUpdate("create", "Create an article", createArticle, "content", createdArticle, [...draftOptions, ...notificationOptions]),
     projectedBodyUpdate("update <article>", "Update the summary or content", updateArticle, "content", updatedArticle, notificationOptions),
     command("comment", "Read and write article comments", [
+      articleReactionCommand,
       pagedRead("list <article>", "List comments", listArticleComments, commentTable),
       projectedRead("get <article> <comment>", "Show a comment", getArticleComment, commentShown),
       projectedBodyUpdate("add <article>", "Add a comment", addArticleComment, "text", commentAdded("article"), [...draftOptions, ...notificationOptions]),

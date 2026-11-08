@@ -4,6 +4,7 @@ import { articleAttachmentDownloadCommand } from "./attachment-download-commands
 import { pagedRead, projectedBodyUpdate, projectedRead, updateCommand, projectionOptions, readOptions, writeOptions, notificationOptions } from "./cli-support.js";
 import {
   getArticleAttachment,
+  listArticleReactions, getArticleReaction, addArticleReaction, removeArticleReaction,
   listArticleTags, getArticleTag, addArticleTag, removeArticleTag,
   getChildArticle,
   getParentArticle,
@@ -12,7 +13,7 @@ import {
   uploadArticleAttachment,
   updateArticleAttachment, deleteArticleAttachment,
 } from "./article-extras.js";
-import { articleRecord, articleTable, attachmentRecord, attachmentTable, uploadedAttachments, updatedAttachment, tagTable, tagRecord, tagAdded, arg, done, withView } from "./presentation.js";
+import { articleRecord, articleTable, attachmentRecord, attachmentTable, uploadedAttachments, reactionRecord, reactionTable, updatedAttachment, tagTable, tagRecord, tagAdded, arg, done, withView } from "./presentation.js";
 
 export const articlesExtraChildren = [
   command("tag", "Read and change article tag relations", [
@@ -58,3 +59,12 @@ export const articlesExtraChildren = [
     projectedRead("get <article>", "Show the parent article", getParentArticle, articleRecord),
   ]),
 ];
+
+
+export const articleReactionCommand = command("reaction", "Read and change article comment reactions", [
+  pagedRead("list <article> <comment>", "List article comment reactions", listArticleReactions, reactionTable),
+  projectedRead("get <article> <comment> <reaction>", "Show an article comment reaction", getArticleReaction, reactionRecord),
+  projectedBodyUpdate("add <article> <comment>", "Add an article comment reaction", addArticleReaction, undefined, reactionRecord),
+  withView(done(context => `Removed reaction ${arg(context, "reaction")}.`), updateCommand(
+    "remove <article> <comment> <reaction>", "Remove an article comment reaction", (client, { args }) => removeArticleReaction(client, args.article, args.comment, args.reaction))),
+]);

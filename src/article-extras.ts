@@ -3,6 +3,7 @@ import {
   encodedID,
   mutate,
   mutationBody,
+  nullableText,
   requiredText,
   deleteObject,
   fields,
@@ -90,4 +91,17 @@ export async function updateArticleAttachment(connection: Connection, articleID:
 }
 export async function deleteArticleAttachment(connection: Connection, articleID: string, attachmentID: string) {
   return deleteObject(connection, `${articlePath(articleID)}/attachments/${encodedID(attachmentID, "attachment ID")}`);
+}
+
+
+const articleReactionFields = "id,reaction,author(id,login)";
+const articleReactionsPath = (articleID: string, commentID: string) => `${articlePath(articleID)}/comments/${encodedID(commentID, "comment ID")}/reactions`;
+export const listArticleReactions = readCollectionAt(articleReactionsPath, articleReactionFields);
+export const getArticleReaction = readObjectAt((articleID: string, commentID: string, reactionID: string) => `${articleReactionsPath(articleID, commentID)}/${encodedID(reactionID, "reaction ID")}`, articleReactionFields);
+export async function addArticleReaction(connection: Connection, articleID: string, commentID: string, input: unknown, options: ProjectionOptions = {}) {
+  const body = mutationBody(input);
+  return mutate(connection, articleReactionsPath(articleID, commentID), { ...body, reaction: nullableText(body.reaction, "reaction") }, fields(options, articleReactionFields));
+}
+export async function removeArticleReaction(connection: Connection, articleID: string, commentID: string, reactionID: string) {
+  return deleteObject(connection, `${articleReactionsPath(articleID, commentID)}/${encodedID(reactionID, "reaction ID")}`);
 }
