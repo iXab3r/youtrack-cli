@@ -1,4 +1,4 @@
-import { encodedID, readCollectionAt, readObjectAt } from "./client.js";
+import { fields, mutate, deleteObject, mutationBody, requiredText, narrative, type Connection, type ProjectionOptions, encodedID, readCollectionAt, readObjectAt } from "./client.js";
 
 const bundleRoot = "api/admin/customFieldSettings/bundles/user";
 const bundleFields = "id,name,isUpdateable";
@@ -35,3 +35,23 @@ export const getUser = readObjectAt(
   (userID: string) => `api/users/${encodedID(userID, "user ID or login")}`,
   userFields,
 );
+
+
+function memberBody(input: unknown) {
+  const body = mutationBody(input);
+  requiredText(narrative(body.id, "member ID"), "member ID");
+  return body;
+}
+
+export async function addUserBundleGroup(connection: Connection, bundleID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, `${bundlePath(bundleID)}/groups`, memberBody(input), fields(options, groupFields));
+}
+export async function addUserBundleIndividual(connection: Connection, bundleID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, `${bundlePath(bundleID)}/individuals`, memberBody(input), fields(options, userFields));
+}
+export async function removeUserBundleGroup(connection: Connection, bundleID: string, groupID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, `${bundlePath(bundleID)}/groups/${encodedID(groupID, "group ID")}`, options);
+}
+export async function removeUserBundleIndividual(connection: Connection, bundleID: string, userID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, `${bundlePath(bundleID)}/individuals/${encodedID(userID, "user ID")}`, options);
+}

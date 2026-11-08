@@ -52,6 +52,7 @@ export {
   getEnumValue, listStateBundles, getStateBundle, listStateValues, getStateValue,
 } from "./field-catalog.js";
 export {
+  addUserBundleGroup, addUserBundleIndividual, removeUserBundleGroup, removeUserBundleIndividual,
   listUserBundles, getUserBundle, listUserBundleMembers, listUserBundleGroups, getUserBundleGroup,
   listUserBundleIndividuals, getUserBundleIndividual, getUser,
 } from "./user-directory.js";

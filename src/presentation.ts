@@ -584,16 +584,17 @@ export const vcsRecord = recordView<Item | null>({
     { label: "State", value: item => count(item?.state) ?? text(nested(item?.state)?.id) }],
 });
 
-type SubmittedIdentity = { name: string | undefined; field: string | undefined; project: string | undefined };
+type SubmittedIdentity = { name: string | undefined; field: string | undefined; project: string | undefined; args: Record<string, string | undefined> };
 const submittedIdentities = new WeakMap<object, SubmittedIdentity>();
 
 /** Keep only credential-scrubbed human fallback labels; never alter the request or native result. */
 export function rememberSubmittedIdentity(input: CommandInput, token: string): void {
   const body = nested(input.options.body);
-  if (!body) return;
+
   const safe = (value: unknown) => typeof value === "string" ? scrubText(value, token.trim()) : undefined;
   submittedIdentities.set(input.options, {
-    name: safe(body.name), field: safe(nested(body.field)?.id), project: safe(input.args.project),
+    name: safe(body?.name) ?? safe(body?.id), field: safe(nested(body?.field)?.id), project: safe(input.args.project),
+    args: Object.fromEntries(Object.entries(input.args).map(([name, value]) => [name, safe(value)])),
   });
 }
 const submittedIdentity = (context: ViewContext): SubmittedIdentity | undefined =>
@@ -641,4 +642,12 @@ export const fieldInstanceTable = tableView<Item, YouTrackPage>({
   columns: [id, { header: "PROJECT", value: item => text(nested(item.project)?.shortName) ?? text(nested(item.project)?.name) },
     { header: "FIELD", value: item => text(nested(item.field)?.name) }],
   empty: "No projects use this field.", footer: pageFooter,
+});
+
+
+/** Mutation confirmations use scrubbed result/request identities, including native empty replies. */
+export const mutationWritten = (label: string, ...arguments_: string[]): HumanView => recordView<Item | null>({
+  title: (item, context) => joined(label, text(item?.name) ?? text(item?.login) ?? key(item) ?? submittedName(context),
+    ...arguments_.map(name => submittedIdentity(context)?.args[name])),
+  fields: [{ label: "ID", value: item => key(item) }],
 });
