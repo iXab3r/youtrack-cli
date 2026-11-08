@@ -56,3 +56,9 @@ test("US-023 article tags read, assign and remove relations without deleting glo
   await storyCase(t, { argv: ["article", "tag", "add", "KB-1", "--body", '{"id":"tag /?","color":{"id":"synthetic-style"}}', "--fields", "id"], method: "POST", path: "/api/articles/KB-1/tags", query: [["fields", "id"]], body: { id: "tag /?", color: { id: "synthetic-style" } }, response: detail, result: detail, update: true });
   await storyCase(t, { argv: ["article", "tag", "remove", "KB-1", "tag /?"], method: "DELETE", path: "/api/articles/KB-1/tags/tag%20%2F%3F", query: [], response: undefined, result: null, update: true });
 });
+
+test("US-025 article attachment upload controls, native metadata and exact deletion", async t => {
+  await storyCase(t, { argv: ["article", "attachment", "upload", "KB-1", "--file", "$UPLOAD", "--fields", "id", "--mute-update-notifications", "false"], method: "POST", path: "/api/articles/KB-1/attachments", query: [["fields", "id"], ["muteUpdateNotifications", "false"]], multipart: "Synthetic article attachment", response: [detail], result: [detail], update: true });
+  await storyCase(t, { argv: ["article", "attachment", "update", "KB-1", "file /?", "--body", '{"name":"Synthetic.txt","visibility":null}', "--fields", "id"], method: "POST", path: "/api/articles/KB-1/attachments/file%20%2F%3F", query: [["fields", "id"]], body: { name: "Synthetic.txt", visibility: null }, response: detail, result: detail, update: true });
+  await storyCase(t, { argv: ["article", "attachment", "delete", "KB-1", "file /?"], method: "DELETE", path: "/api/articles/KB-1/attachments/file%20%2F%3F", query: [], response: undefined, result: null, update: true });
+});
