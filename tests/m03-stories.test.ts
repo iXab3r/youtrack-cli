@@ -55,3 +55,7 @@ test("US-037 attach and configure explicit prototype and project-field IDs", asy
   await storyCase(t, { argv: ["project", "field", "create", "project /?", "--body", JSON.stringify(body), "--fields", "id"], method: "POST", path: "/api/admin/projects/project%20%2F%3F/customFields", query: [["fields", "id"]], body, response: detail, result: detail, update: true });
   await storyCase(t, { argv: ["project", "field", "update", "project /?", "instance /?", "--body", '{"canBeEmpty":true,"emptyFieldText":null,"defaultValues":[]}', "--fields", "id"], method: "POST", path: "/api/admin/projects/project%20%2F%3F/customFields/instance%20%2F%3F", query: [["fields", "id"]], body: { canBeEmpty: true, emptyFieldText: null, defaultValues: [] }, response: undefined, result: null, update: true });
 });
+
+test("US-038 list projects using a field as a bounded native instance page", async t => {
+  await storyCase(t, { argv: ["field", "instance", "list", "field /?", "--fields", "id,project(id)", "--start", "7", "--page-size", "20"], method: "GET", path: "/api/admin/customFieldSettings/customFields/field%20%2F%3F/instances", query: [["fields", "id,project(id)"], ["$skip", "7"], ["$top", "20"]], response: [], result: emptyPage });
+});
