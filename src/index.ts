@@ -101,3 +101,5 @@ export {
 export { listIssueReactions, getIssueReaction, addIssueReaction, removeIssueReaction } from "./issue-reactions.js";
 
 export { createRoleAssignment, deleteRoleAssignment, listRoleAssignments, getRoleAssignment, listPermissions, listRoles, getRole } from "./access-catalog.js";
+
+export { listOrganizations, getOrganization, createOrganization, updateOrganization, deleteOrganization } from "./organizations.js";
