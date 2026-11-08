@@ -1,6 +1,7 @@
 import { command, type CommandDefinition } from "@eyeauras/cli-factory";
-import { projectedBodyUpdate, notificationOptions, pagedRead, projectedRead } from "./cli-support.js";
+import { bodyOptions, projectionOptions, readOptions, updateCommand, projectedBodyUpdate, notificationOptions, pagedRead, projectedRead } from "./cli-support.js";
 import {
+  createProject, updateProject,
   getProject,
   createProjectField, updateProjectField,
   getProjectField,
@@ -10,9 +11,16 @@ import {
   listIssueFields,
   setIssueField,
 } from "./issue-fields.js";
-import { issueFieldRecord, issueFieldTable, projectFieldTable, projectFieldRecord, projectRecord, userTable } from "./presentation.js";
+import { rememberSubmittedIdentity, mutationWritten, withView, issueFieldRecord, issueFieldTable, projectFieldTable, projectFieldRecord, projectRecord, userTable } from "./presentation.js";
 
 export const fieldsProjectChildren: readonly CommandDefinition[] = [
+  withView(mutationWritten("Created project"), updateCommand("create", "Create a project with the selected leader", async (client, input) => {
+    const { options } = input;
+    const result = await createProject(client, options.body, { ...readOptions(options), ...(typeof options.template === "string" ? { template: options.template } : {}) });
+    rememberSubmittedIdentity(input, client.token);
+    return result;
+  }, [...bodyOptions, ...projectionOptions, { flags: "--template <name>", description: "Use a project template" }])),
+  projectedBodyUpdate("update <project>", "Update a selected project", updateProject, undefined, mutationWritten("Updated project", "project")),
   projectedRead("get <project>", "Show a project", getProject, projectRecord),
   command("field", "Inspect project custom-field settings", [
     projectedBodyUpdate("create <project>", "Attach a custom field", createProjectField, undefined, projectFieldRecord),

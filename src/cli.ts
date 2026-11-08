@@ -141,7 +141,7 @@ export function createYouTrackCli(runtime?: CliRuntime): CliApplication {
         ...userDirectoryUserChildren,
         projectedRead("me", "Show the signed-in user", readUser, userRecord),
       ]),
-      command("project", "Inspect projects", [
+      command("project", "Inspect and manage projects", [
         ...fieldsProjectChildren,
         ...timeSettingsProjectChildren,
         ...groupDirectoryProjectChildren,

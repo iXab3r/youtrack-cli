@@ -4,6 +4,7 @@ import {
   fields,
   type ProjectionOptions,
   issuePath,
+  namedMutationBody, requiredText,
   mutationBody,
   mutate,
   narrative,
@@ -29,7 +30,8 @@ function fieldPath(issueID: string, fieldID: string): string {
   return `${issuePath(issueID)}/customFields/${encodedID(fieldID, "field ID")}`;
 }
 
-export const getProject = readObjectAt(projectPath, "id,name,shortName,description,archived");
+const projectFields = "id,name,shortName,description,archived";
+export const getProject = readObjectAt(projectPath, projectFields);
 export const listProjectFields = readCollectionAt(
   (projectID: string) => `${projectPath(projectID)}/customFields`,
   projectFieldFields,
@@ -205,4 +207,19 @@ export async function updateProjectField(connection: Connection, projectID: stri
 
 export async function deleteIssue(connection: Connection, issueID: string, options: ProjectionOptions = {}) {
   return deleteObject(connection, issuePath(issueID), options);
+}
+
+
+export interface ProjectCreateOptions extends ProjectionOptions {
+  template?: string;
+}
+export async function createProject(connection: Connection, input: unknown, options: ProjectCreateOptions = {}) {
+  const body = namedMutationBody(input, true);
+  narrative(body.shortName, "short name");
+  narrative(mutationBody(body.leader).id, "leader ID");
+  const query = options.template === undefined ? {} : { template: requiredText(options.template, "template") };
+  return mutate(connection, "api/admin/projects", body, fields(options, projectFields), {}, query);
+}
+export async function updateProject(connection: Connection, projectID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, projectPath(projectID), namedMutationBody(input, false), fields(options, projectFields));
 }
