@@ -70,3 +70,7 @@ test("US-058 read and maintain native organizations without hidden membership ch
   await storyCase(t, {"argv":["organization","update","org /?","--body","{\"name\":\"Renamed organization\"}","--fields","id"],"method":"POST","path":"/api/admin/organizations/org%20%2F%3F","query":[["fields","id"]],"body":{"name":"Renamed organization"},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
   await storyCase(t, {"argv":["organization","delete","org /?"],"method":"DELETE","path":"/api/admin/organizations/org%20%2F%3F","query":[],"response":undefined,"result":null,"update":true});
 });
+
+test("US-055 delete the selected issue through the explicit project scope", async t => {
+  await storyCase(t, {"argv":["project","issues","delete","project /?","issue /?","--fields","id"],"method":"DELETE","path":"/api/admin/projects/project%20%2F%3F/issues/issue%20%2F%3F","query":[["fields","id"]],"response":undefined,"result":null,"update":true});
+});
