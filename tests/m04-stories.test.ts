@@ -43,3 +43,18 @@ test("US-040 create typed global fields and edit native metadata without discove
   await storyCase(t, { argv: ["field", "create", "--body", '{"name":"Synthetic field","fieldType":{"id":"enum[1]"},"aliases":null,"isAutoAttached":false}', "--fields", "id"], method: "POST", path: "/api/admin/customFieldSettings/customFields", query: [["fields", "id"]], body: { name: "Synthetic field", fieldType: { id: "enum[1]" }, aliases: null, isAutoAttached: false }, response: detail, result: detail, update: true });
   await storyCase(t, { argv: ["field", "update", "field /?", "--body", '{"localizedName":null,"isDisplayedInIssueList":false}', "--fields", "id"], method: "POST", path: "/api/admin/customFieldSettings/customFields/field%20%2F%3F", query: [["fields", "id"]], body: { localizedName: null, isDisplayedInIssueList: false }, response: undefined, result: null, update: true });
 });
+
+test("US-040 missing type/name fails locally and empty field writes name their selection", async t => {
+  const f = await configuredFixture(t, { permissions: ["Update"] }); let calls = 0;
+  server.use(http.all("*", () => { calls++; return new HttpResponse(null, { status: 204 }); }));
+  for (const body of [{ name: "Synthetic" }, { fieldType: { id: "enum[1]" } }, { name: "Synthetic", fieldType: {} }]) {
+    await assert.rejects(f.cli.execute(["field", "create", "--body", JSON.stringify(body)])); assert.equal(calls, 0);
+  }
+  for (const argv of [
+    ["field", "create", "--body", '{"name":"Selected field","fieldType":{"id":"enum[1]"}}'],
+    ["field", "update", "Selected field", "--body", '{"aliases":null}'],
+  ]) {
+    const r = await f.run(f.cli, argv); assert.equal(r.exitCode, 0, r.stderr); assert.match(r.stdout, /Selected field/);
+    assert.equal(await f.json(f.cli, argv), null);
+  }
+});
