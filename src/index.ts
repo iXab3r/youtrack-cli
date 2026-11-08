@@ -86,6 +86,7 @@ export {
 } from "./articles.js";
 export { deleteAgile, deleteSprint, createAgile, updateAgile, type AgileCreateOptions, listAgiles, getAgile, listSprints, getSprint, createSprint, updateSprint } from "./agile.js";
 export {
+  createBuildBundle, updateBuildBundle, deleteBuildBundle, createBuildValue, updateBuildValue, deleteBuildValue,
   listBuildBundles, getBuildBundle, listBuildValues, getBuildValue,
   listOwnedBundles, getOwnedBundle, listOwnedValues, getOwnedValue,
   createVersionBundle, updateVersionBundle, deleteVersionBundle, deleteVersionValue,

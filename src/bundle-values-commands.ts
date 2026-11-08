@@ -1,6 +1,7 @@
 import { command, type CommandDefinition } from "@eyeauras/cli-factory";
 import { pagedRead, projectedRead, projectedBodyUpdate, projectedDelete } from "./cli-support.js";
 import {
+  createBuildBundle, updateBuildBundle, deleteBuildBundle, createBuildValue, updateBuildValue, deleteBuildValue,
   getBuildBundle,
   createVersionBundle, updateVersionBundle, deleteVersionBundle, deleteVersionValue,
   createVersionValue,
@@ -23,10 +24,16 @@ const bundleTable = namedTable("BUNDLE", "No bundles.");
 const valueTable = namedTable("VALUE", "No values.");
 
 export const bundleValuesChildren: readonly CommandDefinition[] = [
-  command("build", "Inspect build bundles", [
+  command("build", "Inspect and manage build bundles", [
+    projectedBodyUpdate("create", "Create a build bundle", createBuildBundle, undefined, mutationWritten("Created build bundle")),
+    projectedBodyUpdate("update <bundle>", "Update a build bundle", updateBuildBundle, undefined, mutationWritten("Updated build bundle", "bundle")),
+    projectedDelete("delete <bundle>", "Delete a selected build bundle", deleteBuildBundle, mutationWritten("Deleted build bundle", "bundle")),
     pagedRead("list", "List build bundles", listBuildBundles, bundleTable),
     projectedRead("get <bundle>", "Show a build bundle", getBuildBundle),
-    command("value", "Inspect build values", [
+    command("value", "Inspect and manage build values", [
+      projectedBodyUpdate("create <bundle>", "Create a build value", createBuildValue, undefined, bundleValueWritten),
+      projectedBodyUpdate("update <bundle> <value>", "Update a build value", updateBuildValue, undefined, bundleValueWritten),
+      projectedDelete("delete <bundle> <value>", "Delete a selected build value", deleteBuildValue, mutationWritten("Deleted build value", "value", "bundle")),
       pagedRead("list <bundle>", "List the bundle's values", listBuildValues, valueTable),
       projectedRead("get <bundle> <value>", "Show a build value", getBuildValue),
     ]),

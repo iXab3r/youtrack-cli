@@ -617,7 +617,9 @@ export const agileWritten = (verb: string): HumanView => recordView<Item | null>
 
 const booleanText = (value: unknown): string | undefined => typeof value === "boolean" ? value ? "yes" : "no" : undefined;
 export const bundleValueWritten = recordView<Item | null>({
-  title: (item, context) => joined("Value", text(item?.name) ?? key(item) ?? submittedName(context) ?? arg(context, "value")),
+  title: (item, context) => joined("Value",
+    text(item?.name) ?? key(item) ?? submittedName(context) ?? submittedIdentity(context)?.args.value,
+    submittedIdentity(context)?.args.bundle),
   fields: [{ label: "ID", value: item => key(item) },
     { label: "Archived", value: item => booleanText(item?.archived) },
     { label: "Released", value: item => booleanText(item?.released) },

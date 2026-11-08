@@ -76,3 +76,23 @@ export async function deleteVersionBundle(connection: Connection, bundleID: stri
 export async function deleteVersionValue(connection: Connection, bundleID: string, valueID: string, options: ProjectionOptions = {}) {
   return deleteObject(connection, valuePath("version", bundleID, valueID), options);
 }
+
+
+export async function createBuildBundle(connection: Connection, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, bundlePath("build"), mutationBody(input), fields(options, bundleFields));
+}
+export async function updateBuildBundle(connection: Connection, bundleID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, bundlePath("build", bundleID), mutationBody(input), fields(options, bundleFields));
+}
+export async function deleteBuildBundle(connection: Connection, bundleID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, bundlePath("build", bundleID), options);
+}
+export async function createBuildValue(connection: Connection, bundleID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, valuePath("build", bundleID), namedMutationBody(input, true), fields(options, buildValueFields));
+}
+export async function updateBuildValue(connection: Connection, bundleID: string, valueID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, valuePath("build", bundleID, valueID), namedMutationBody(input, false), fields(options, buildValueFields));
+}
+export async function deleteBuildValue(connection: Connection, bundleID: string, valueID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, valuePath("build", bundleID, valueID), options);
+}
