@@ -25,3 +25,7 @@ test("US-031 create a named enum choice with native metadata", async t => {
 test("US-032 update and archive an exact enum value without discovery", async t => {
   await storyCase(t, { argv: ["bundle", "enum", "value", "update", "bundle /?", "value /?", "--body", '{"archived":true,"description":null}', "--fields", "id"], method: "POST", path: "/api/admin/customFieldSettings/bundles/enum/bundle%20%2F%3F/values/value%20%2F%3F", query: [["fields", "id"]], body: { archived: true, description: null }, response: undefined, result: null, update: true });
 });
+
+test("US-033 create a version with native null dates and false release state", async t => {
+  await storyCase(t, { argv: ["bundle", "version", "value", "create", "bundle /?", "--body", '{"name":"Synthetic version","releaseDate":null,"startDate":0,"released":false}', "--fields", "id"], method: "POST", path: "/api/admin/customFieldSettings/bundles/version/bundle%20%2F%3F/values", query: [["fields", "id"]], body: { name: "Synthetic version", releaseDate: null, startDate: 0, released: false }, response: detail, result: detail, update: true });
+});
