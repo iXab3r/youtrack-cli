@@ -1,6 +1,7 @@
 import { command } from "@eyeauras/cli-factory";
 import { pagedRead, projectedRead, projectedBodyUpdate, projectedDelete } from "./cli-support.js";
 import {
+  updateProjectTimeSettings,
   addProjectWorkItemType, removeProjectWorkItemType,
   getGlobalTimeSettings,
   getProjectTimeSettings,
@@ -10,7 +11,7 @@ import {
   listProjectWorkItemTypes,
   listWorkItemTypes,
 } from "./time-settings.js";
-import { mutationWritten, namedTable } from "./presentation.js";
+import { projectTimeRecord, mutationWritten, namedTable } from "./presentation.js";
 
 const typeTable = namedTable("TYPE", "No work item types.");
 
@@ -30,7 +31,8 @@ export const timeSettingsRootCommands = [
 ];
 
 export const timeSettingsProjectChildren = [
-  command("time-tracking", "Inspect project time-tracking settings", [
+  command("time-tracking", "Manage project time-tracking settings", [
+    projectedBodyUpdate("update <project>", "Update project time-tracking settings", updateProjectTimeSettings, undefined, projectTimeRecord),
     projectedRead("get <project>", "Show the project's time-tracking settings", getProjectTimeSettings),
   ]),
   command("work-item-type", "Manage the project's work item types", [

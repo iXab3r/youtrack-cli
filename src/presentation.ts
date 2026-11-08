@@ -652,3 +652,11 @@ export const mutationWritten = (label: string, selectedArgument?: string, ...con
     ...contextArguments.map(name => submittedIdentity(context)?.args[name])),
   fields: [{ label: "ID", value: item => key(item) }],
 });
+
+
+export const projectTimeRecord = recordView<Item | null>({
+  title: (item, context) => joined("Time tracking", key(item), submittedIdentity(context)?.args.project),
+  fields: [{ label: "Enabled", value: item => booleanText(item?.enabled) },
+    { label: "Estimate field", value: item => text(nested(nested(item?.estimate)?.field)?.name) ?? key(nested(item?.estimate)) },
+    { label: "Time spent field", value: item => text(nested(nested(item?.timeSpent)?.field)?.name) ?? key(nested(item?.timeSpent)) }],
+});

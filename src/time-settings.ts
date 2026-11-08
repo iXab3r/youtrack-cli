@@ -44,3 +44,8 @@ export async function addProjectWorkItemType(connection: Connection, projectID: 
 export async function removeProjectWorkItemType(connection: Connection, projectID: string, typeID: string, options: ProjectionOptions = {}) {
   return deleteObject(connection, `${projectSettingsPath(projectID)}/workItemTypes/${encodedID(typeID, "work item type ID")}`, options);
 }
+
+
+export async function updateProjectTimeSettings(connection: Connection, projectID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, projectSettingsPath(projectID), mutationBody(input), fields(options, projectFields));
+}
