@@ -1,12 +1,16 @@
 import { command } from "@eyeauras/cli-factory";
 import { pagedRead, projectedBodyUpdate, projectedRead, bodyOptions, projectionOptions, readOptions, updateCommand, notificationOptions } from "./cli-support.js";
 import { createAgile, updateAgile, createSprint, getAgile, getSprint, listAgiles, listSprints, updateSprint } from "./agile.js";
-import { agileRecord, agileTable, agileWritten, withView, sprintRecord, sprintTable, sprintWritten } from "./presentation.js";
+import { rememberSubmittedIdentity, agileRecord, agileTable, agileWritten, withView, sprintRecord, sprintTable, sprintWritten } from "./presentation.js";
 
 export const agileRootCommands = [
   command("agile", "Inspect and manage agile boards", [
-    withView(agileWritten("Created"), updateCommand("create", "Create an agile board", (client, { options }) =>
-      createAgile(client, options.body, { ...readOptions(options), ...(typeof options.template === "string" ? { template: options.template } : {}) }),
+    withView(agileWritten("Created"), updateCommand("create", "Create an agile board", async (client, input) => {
+      const { options } = input;
+      const result = await createAgile(client, options.body, { ...readOptions(options), ...(typeof options.template === "string" ? { template: options.template } : {}) });
+      rememberSubmittedIdentity(input, client.token);
+      return result;
+    },
       [...bodyOptions, ...projectionOptions, { flags: "--template <name>", description: "Use a board template" }])),
     projectedBodyUpdate("update <agile>", "Update an agile board", updateAgile, undefined, agileWritten("Updated")),
     pagedRead("list", "List agile boards", listAgiles, agileTable),

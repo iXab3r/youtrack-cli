@@ -3,10 +3,11 @@ import {
   recordView,
   tableView,
   type CommandDefinition,
+  type CommandInput,
   type HumanView,
   type ViewContext,
 } from "@eyeauras/cli-factory";
-import type { YouTrackObject, YouTrackPage } from "./client.js";
+import { scrubText, type YouTrackObject, type YouTrackPage } from "./client.js";
 
 type Item = YouTrackObject;
 
@@ -583,14 +584,30 @@ export const vcsRecord = recordView<Item | null>({
     { label: "State", value: item => count(item?.state) ?? text(nested(item?.state)?.id) }],
 });
 
+type SubmittedIdentity = { name?: string; field?: string; project?: string };
+const submittedIdentities = new WeakMap<object, SubmittedIdentity>();
+
+/** Keep only credential-scrubbed human fallback labels; never alter the request or native result. */
+export function rememberSubmittedIdentity(input: CommandInput, token: string): void {
+  const body = nested(input.options.body);
+  if (!body) return;
+  const safe = (value: unknown) => typeof value === "string" ? scrubText(value, token.trim()) : undefined;
+  submittedIdentities.set(input.options, {
+    name: safe(body.name), field: safe(nested(body.field)?.id), project: safe(input.args.project),
+  });
+}
+const submittedIdentity = (context: ViewContext): SubmittedIdentity | undefined =>
+  context.input ? submittedIdentities.get(context.input.options) : undefined;
+const submittedName = (context: ViewContext): string | undefined => submittedIdentity(context)?.name;
+
 export const agileWritten = (verb: string): HumanView => recordView<Item | null>({
-  title: (item, context) => joined(`${verb} board`, text(item?.name) ?? key(item) ?? arg(context, "agile")),
+  title: (item, context) => joined(`${verb} board`, text(item?.name) ?? key(item) ?? submittedName(context) ?? arg(context, "agile")),
   fields: [{ label: "ID", value: item => key(item) }],
 });
 
 const booleanText = (value: unknown): string | undefined => typeof value === "boolean" ? value ? "yes" : "no" : undefined;
 export const bundleValueWritten = recordView<Item | null>({
-  title: (item, context) => joined("Value", text(item?.name) ?? key(item) ?? arg(context, "value")),
+  title: (item, context) => joined("Value", text(item?.name) ?? key(item) ?? submittedName(context) ?? arg(context, "value")),
   fields: [{ label: "ID", value: item => key(item) },
     { label: "Archived", value: item => booleanText(item?.archived) },
     { label: "Released", value: item => booleanText(item?.released) },
@@ -600,7 +617,7 @@ export const bundleValueWritten = recordView<Item | null>({
 });
 
 export const tagWritten = recordView<Item | null>({
-  title: (item, context) => joined("Tag", text(item?.name) ?? key(item) ?? arg(context, "tagID")),
+  title: (item, context) => joined("Tag", text(item?.name) ?? key(item) ?? submittedName(context) ?? arg(context, "tagID")),
   fields: [{ label: "ID", value: item => key(item) }],
 });
 
@@ -612,7 +629,8 @@ export const fieldDefaultsRecord = recordView<Item | null>({
 });
 
 export const projectFieldRecord = recordView<Item | null>({
-  title: (item, context) => joined("Project field", text(nested(item?.field)?.name) ?? key(item) ?? arg(context, "field")),
+  title: (item, context) => joined("Project field", text(nested(item?.field)?.name) ?? key(item) ?? submittedIdentity(context)?.field ?? arg(context, "field"),
+    item === null && submittedIdentity(context)?.field !== undefined ? submittedIdentity(context)?.project : undefined),
   fields: [{ label: "ID", value: item => key(item) },
     { label: "Can be empty", value: item => booleanText(item?.canBeEmpty) },
     { label: "Public", value: item => booleanText(item?.isPublic) }],

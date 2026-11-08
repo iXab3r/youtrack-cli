@@ -10,7 +10,7 @@ import {
   type OptionDefinition,
 } from "@eyeauras/cli-factory";
 import { inputFilePath, page, youTrackUrl, type Connection, type IssueSearchOptions, type WriteOptions } from "./client.js";
-import { withView } from "./presentation.js";
+import { rememberSubmittedIdentity, withView } from "./presentation.js";
 
 export const bodyOptions: readonly OptionDefinition[] = [
   {
@@ -180,11 +180,15 @@ function operationCommand<const Syntax extends string>(
   const definition = leaf(
     syntax,
     description,
-    async (connection, input) => Reflect.apply(operation, undefined, [
-      connection,
-      ...positionalArguments(names, input.args),
-      ...await operationOptions(input.options),
-    ]),
+    async (connection, input) => {
+      const result = await Reflect.apply(operation, undefined, [
+        connection,
+        ...positionalArguments(names, input.args),
+        ...await operationOptions(input.options),
+      ]);
+      if (view) rememberSubmittedIdentity(input, connection.token);
+      return result;
+    },
     options,
   );
   return view === undefined ? definition : withView(view, definition);

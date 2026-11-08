@@ -141,7 +141,7 @@ function scrubUrl(text: string, token: string): string {
   }
 }
 
-function scrubText(text: string, token: string): string {
+export function scrubText(text: string, token: string): string {
   if (!/\s/.test(text) && /[\/?#]/.test(text) && scrubUrl(text, token) === "[redacted]") {
     return "[redacted]";
   }
