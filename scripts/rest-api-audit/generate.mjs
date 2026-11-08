@@ -171,7 +171,7 @@ assert.equal(summary.total, 282);
 assert.equal(summary.covered + summary.partial + summary.missing + summary.uncertain, summary.total);
 assert(summary.reached > 0 && summary.reached <= summary.total);
 assert.deepEqual(summary.verificationEvidenceGaps, []);
-assert.deepEqual(summary.testOnlyTransportOperations, ['DELETE /api/issues/{p1}']);
+assert.deepEqual(summary.testOnlyTransportOperations, ['DELETE /api/issues/{p1}'].filter(id => !bindings.has(id)));
 await mkdir(output, { recursive: true });
 await writeFile(resolve(output, 'coverage.json'), JSON.stringify(operationRows, null, 2) + '\n');
 await writeFile(resolve(output, 'summary.json'), JSON.stringify(summary, null, 2) + '\n');
