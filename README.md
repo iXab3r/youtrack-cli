@@ -108,6 +108,39 @@ Compressed wire length is syntax-checked but not compared with decoded size. HTT
 Retry-After, empty/null mutation and UTF-8 BOM behavior are unchanged. No request is retried
 automatically. Runtime memory and service limits still apply.
 
+## M07: schema and work-time lifecycle (unreleased source)
+
+This source includes M02–M07; npm0.8.0 contains M01. Milestones merge without version bumps or
+npm publication. M07 adds34REST operations; [current coverage](docs/rest-api-coverage/current/README.md)
+retains the frozen282-operation universe and the complete21-operation remainder.
+
+- `work-item-type create/update/delete` manages global work types, with native name and
+  autoAttached. Creation requires name; project-specific attachment/removal remains under
+  `project work-item-type` and does not delete the global type.
+- `time-tracking work-time update --body '{"minutesADay":450,"workDays":[1,2,3,4,5]}'` updates
+  the native calendar. Values use the source's Int32 representation. Order and duplicate workDays
+  survive; there is no locale conversion, positive-only rule or additional limit guessed from
+  examples. YouTrack validates domain constraints. firstDayOfWeek/daysAWeek remain server-owned;
+  passing extra native metadata does not promise that the server changes read-only attributes.
+- `project field delete <project> <field>` removes that project field instance. `field delete
+  <field>` deletes the selected global custom field. These are separate IDs/scopes; no automatic
+  detach, cascade, scan or compensation is added. `project delete <project>` deletes that project.
+- `bundle enum/state/version/build/owned/user create/update/delete` manages the named family.
+  Native values/groups/individuals and sample-supported name metadata are passed unchanged.
+  The pinned create descriptions declare no required bundle name, and schemas omit it; no local
+  mandatory-name constraint or universal bundle DTO is invented. YouTrack remains authoritative.
+- `bundle enum/state/version value delete <bundle> <value>` removes a selected value.
+  `bundle build/owned value create/update/delete` adds native lifecycle operations. Value creation
+  requires name. Build assembleDate/description and owned owner/description preserve native null;
+  non-null owners use descriptor objects, without user discovery. Native extra fields remain.
+
+All M07 operations require Update; server management rights still apply. DELETE defaults are
+query-free with optional --fields, under the documented field-table-only source disposition.
+Successful empty replies remain null in JSON/RPC; human confirmations use scrubbed identities and
+bundle context, including adjacent existing version/enum/state value commands. A later failure
+never replays or rolls back an earlier user command. Existing profiles/auth, native projections,
+paging, diagnostics, EPIPE and unknown-write outcomes remain. No live/version conformance is claimed.
+
 ## M06: administration and scoped operations (unreleased source)
 
 This source includes M02–M06; npm0.8.0 contains M01. Milestones merge without version bumps or
