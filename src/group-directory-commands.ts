@@ -1,6 +1,7 @@
 import { command } from "@eyeauras/cli-factory";
-import { pagedRead, projectedRead, readCommand, pageOptions, readOptions } from "./cli-support.js";
+import { projectedBodyUpdate, projectedDelete, pagedRead, projectedRead, readCommand, pageOptions, readOptions } from "./cli-support.js";
 import {
+  addProjectTeamUser, removeProjectTeamUser,
   getGroup,
   getProjectTeam,
   listGroupMembers,
@@ -9,7 +10,7 @@ import {
   listProjectTeamUsers,
   listSubgroups,
 } from "./group-directory.js";
-import { groupRecord, groupTable, userTable, withView } from "./presentation.js";
+import { mutationWritten, groupRecord, groupTable, userTable, withView } from "./presentation.js";
 
 const memberOptions = [
   ...pageOptions,
@@ -44,7 +45,9 @@ export const groupDirectoryProjectChildren = [
     command("group", "Inspect the team's groups", [
       pagedRead("list <project>", "List the team's groups", listProjectTeamGroups, groupTable),
     ]),
-    command("user", "Inspect the team's users", [
+    command("user", "Manage the team's users", [
+      projectedBodyUpdate("add <project>", "Add a direct team user", addProjectTeamUser, undefined, mutationWritten("Added team user", undefined, "project")),
+      projectedDelete("remove <project> <user>", "Remove a direct team user", removeProjectTeamUser, mutationWritten("Removed team user", "user", "project")),
       withView(userTable, readCommand(
         "list <project>",
         "List team users, including group members",
