@@ -138,7 +138,7 @@ const operationRows = facts.map(fact => {
   };
   const supported = new Set((binding?.options ?? []).map(option => wireName(option.split(" ")[0].slice(2))));
   const unsupported = binding ? fact.queryParameters.filter(parameter => !supported.has(parameter)) : [];
-  const unsupportedBodyControls = fact.id === 'POST /api/commands' ? ['comment', 'visibility', 'caret', 'silent', 'runAs'] : [];
+  const unsupportedBodyControls = fact.id === 'POST /api/commands' ? ['comment', 'visibility', 'caret', 'silent', 'runAs'].filter(control => !supported.has(control)) : [];
   const disputed = binding ? fact.disputedQueryParameters.filter(parameter => !supported.has(parameter)) : [];
   const status = !binding ? 'missing' : disputed.length ? 'uncertain' : unsupported.length || unsupportedBodyControls.length ? 'partial' : 'covered';
   return { ...fact, status, reason: !binding ? 'No shipped service handler reaches this METHOD/path. Generic transport, projections and command-language effects do not count.'

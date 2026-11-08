@@ -114,7 +114,7 @@ export const contextIssueChildren = [
     projectedBodyUpdate("create <issueID>", "Link a VCS change", createVcsChange, undefined, vcsRecord, notificationOptions),
     projectedBodyUpdate("update <issueID> <changeID>", "Update the VCS change state", updateVcsChange, undefined, vcsRecord, notificationOptions),
     withView(done(context => `Removed VCS relation ${arg(context, "changeID")}.`), updateCommand(
-      "delete <issueID> <changeID>", "Remove a VCS relation", (client, { args }) => deleteVcsChange(client, args.issueID, args.changeID))),
+      "delete <issueID> <changeID>", "Remove a VCS relation", (client, { args, options }) => deleteVcsChange(client, args.issueID, args.changeID, readOptions(options)), projectionOptions)),
     pagedRead("list <issueID>", "List VCS changes and pull requests", listVcsChanges),
     projectedRead(
       "get <issueID> <changeID>",

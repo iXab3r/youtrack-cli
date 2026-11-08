@@ -21,13 +21,13 @@ export const articlesExtraChildren = [
     projectedRead("get <article> <tag>", "Show an article tag", getArticleTag, tagRecord),
     projectedBodyUpdate("add <article>", "Assign a tag to the article", addArticleTag, undefined, tagAdded),
     withView(done(context => `Removed tag ${arg(context, "tag")} from article ${arg(context, "article")}.`), updateCommand(
-      "remove <article> <tag>", "Remove an article tag relation", (client, { args }) => removeArticleTag(client, args.article, args.tag))),
+      "remove <article> <tag>", "Remove an article tag relation", (client, { args, options }) => removeArticleTag(client, args.article, args.tag, readOptions(options)), projectionOptions)),
   ]),
   command("attachment", "Inspect, upload or download article attachments", [
     articleAttachmentDownloadCommand,
     projectedBodyUpdate("update <article> <attachmentID>", "Update article attachment metadata", updateArticleAttachment, undefined, updatedAttachment),
     withView(done(context => `Deleted attachment ${arg(context, "attachment")} from article ${arg(context, "article")}.`), updateCommand(
-      "delete <article> <attachment>", "Delete an article attachment", (client, { args }) => deleteArticleAttachment(client, args.article, args.attachment))),
+      "delete <article> <attachment>", "Delete an article attachment", (client, { args, options }) => deleteArticleAttachment(client, args.article, args.attachment, readOptions(options)), projectionOptions)),
     pagedRead("list <article>", "List attachments", listArticleAttachments, attachmentTable),
     projectedRead("get <article> <attachment>", "Show an attachment", getArticleAttachment, attachmentRecord),
     withView(uploadedAttachments, updateCommand(
@@ -66,5 +66,5 @@ export const articleReactionCommand = command("reaction", "Read and change artic
   projectedRead("get <article> <comment> <reaction>", "Show an article comment reaction", getArticleReaction, reactionRecord),
   projectedBodyUpdate("add <article> <comment>", "Add an article comment reaction", addArticleReaction, undefined, reactionRecord),
   withView(done(context => `Removed reaction ${arg(context, "reaction")}.`), updateCommand(
-    "remove <article> <comment> <reaction>", "Remove an article comment reaction", (client, { args }) => removeArticleReaction(client, args.article, args.comment, args.reaction))),
+    "remove <article> <comment> <reaction>", "Remove an article comment reaction", (client, { args, options }) => removeArticleReaction(client, args.article, args.comment, args.reaction, readOptions(options)), projectionOptions)),
 ]);

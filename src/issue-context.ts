@@ -177,8 +177,8 @@ export async function createVcsChange(connection: Connection, issueID: string, i
 export async function updateVcsChange(connection: Connection, issueID: string, changeID: string, input: unknown, options: WriteOptions = {}) {
   return mutate(connection, `${issuePath(issueID)}/vcsChanges/${encodedID(changeID, "change ID")}`, mutationBody(input), vcsFields, options);
 }
-export async function deleteVcsChange(connection: Connection, issueID: string, changeID: string) {
-  return deleteObject(connection, `${issuePath(issueID)}/vcsChanges/${encodedID(changeID, "change ID")}`);
+export async function deleteVcsChange(connection: Connection, issueID: string, changeID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, `${issuePath(issueID)}/vcsChanges/${encodedID(changeID, "change ID")}`, options);
 }
 
 

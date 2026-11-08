@@ -141,7 +141,8 @@ verified counts and all remaining gaps are in [the current mapping](docs/rest-ap
 All new reads are ReadOnly; mutations are Update. Project/VCS writes, command application and
 article/comment writes expose `--fields` and the API's `--mute-update-notifications [boolean]`
 where declared. Notification omission sends no parameter; false is not turned into true.
-New DELETE commands use the documented query-free request. Tag/reaction/VCS removal does not
+New DELETE commands accept optional `--fields` from the explicit reference parameter tables;
+omission retains query-free requests. Tag/reaction/VCS removal does not
 delete the related global object. No automatic write retry or rollback is introduced; ambiguous
 post-dispatch failures keep the unknown-outcome diagnostics added in M01.
 

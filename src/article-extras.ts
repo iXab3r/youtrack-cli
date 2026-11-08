@@ -78,8 +78,8 @@ export async function addArticleTag(connection: Connection, articleID: string, i
   const body = mutationBody(input);
   return mutate(connection, `${articlePath(articleID)}/tags`, { ...body, id: requiredText(body.id as string, "tag ID") }, fields(options, tagFields));
 }
-export async function removeArticleTag(connection: Connection, articleID: string, tagID: string) {
-  return deleteObject(connection, `${articlePath(articleID)}/tags/${encodedID(tagID, "tag ID")}`);
+export async function removeArticleTag(connection: Connection, articleID: string, tagID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, `${articlePath(articleID)}/tags/${encodedID(tagID, "tag ID")}`, options);
 }
 
 
@@ -89,8 +89,8 @@ export async function updateArticleAttachment(connection: Connection, articleID:
     ...body, ...(Object.hasOwn(body, "name") ? { name: requiredText(body.name as string, "name") } : {}),
   }, fields(options, attachmentFields));
 }
-export async function deleteArticleAttachment(connection: Connection, articleID: string, attachmentID: string) {
-  return deleteObject(connection, `${articlePath(articleID)}/attachments/${encodedID(attachmentID, "attachment ID")}`);
+export async function deleteArticleAttachment(connection: Connection, articleID: string, attachmentID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, `${articlePath(articleID)}/attachments/${encodedID(attachmentID, "attachment ID")}`, options);
 }
 
 
@@ -102,6 +102,6 @@ export async function addArticleReaction(connection: Connection, articleID: stri
   const body = mutationBody(input);
   return mutate(connection, articleReactionsPath(articleID, commentID), { ...body, reaction: nullableText(body.reaction, "reaction") }, fields(options, articleReactionFields));
 }
-export async function removeArticleReaction(connection: Connection, articleID: string, commentID: string, reactionID: string) {
-  return deleteObject(connection, `${articleReactionsPath(articleID, commentID)}/${encodedID(reactionID, "reaction ID")}`);
+export async function removeArticleReaction(connection: Connection, articleID: string, commentID: string, reactionID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, `${articleReactionsPath(articleID, commentID)}/${encodedID(reactionID, "reaction ID")}`, options);
 }
