@@ -95,3 +95,20 @@ test("US-067 maintain version bundles and delete selected values", async t => {
   await storyCase(t, {"argv":["bundle","version","delete","bundle /?","--fields","id"],"method":"DELETE","path":"/api/admin/customFieldSettings/bundles/version/bundle%20%2F%3F","query":[["fields","id"]],"response":undefined,"result":null,"update":true});
   await storyCase(t, {"argv":["bundle","version","value","delete","bundle /?","value /?"],"method":"DELETE","path":"/api/admin/customFieldSettings/bundles/version/bundle%20%2F%3F/values/value%20%2F%3F","query":[],"response":undefined,"result":null,"update":true});
 });
+
+test("US-068 maintain build bundles and native value metadata", async t => {
+  await storyCase(t, {"argv":["bundle","build","create","--body","{\"name\":\"Synthetic build bundle\",\"values\":[{\"name\":\"Synthetic build value\",\"archived\":false,\"assembleDate\":null}]}","--fields","id"],"method":"POST","path":"/api/admin/customFieldSettings/bundles/build","query":[["fields","id"]],"body":{"name":"Synthetic build bundle","values":[{"name":"Synthetic build value","archived":false,"assembleDate":null}]},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["bundle","build","update","bundle /?","--body","{\"values\":[]}","--fields","id"],"method":"POST","path":"/api/admin/customFieldSettings/bundles/build/bundle%20%2F%3F","query":[["fields","id"]],"body":{"values":[]},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["bundle","build","value","create","bundle /?","--body","{\"name\":\"Synthetic build value\",\"archived\":false,\"assembleDate\":null}","--fields","id"],"method":"POST","path":"/api/admin/customFieldSettings/bundles/build/bundle%20%2F%3F/values","query":[["fields","id"]],"body":{"name":"Synthetic build value","archived":false,"assembleDate":null},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["bundle","build","value","update","bundle /?","value /?","--body","{\"description\":null,\"ordinal\":0,\"archived\":true,\"assembleDate\":0}","--fields","id"],"method":"POST","path":"/api/admin/customFieldSettings/bundles/build/bundle%20%2F%3F/values/value%20%2F%3F","query":[["fields","id"]],"body":{"description":null,"ordinal":0,"archived":true,"assembleDate":0},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["bundle","build","delete","bundle /?"],"method":"DELETE","path":"/api/admin/customFieldSettings/bundles/build/bundle%20%2F%3F","query":[],"response":undefined,"result":null,"update":true});
+  await storyCase(t, {"argv":["bundle","build","value","delete","bundle /?","value /?","--fields","id"],"method":"DELETE","path":"/api/admin/customFieldSettings/bundles/build/bundle%20%2F%3F/values/value%20%2F%3F","query":[["fields","id"]],"response":undefined,"result":null,"update":true});
+});
+
+test("US-068 build value creation needs a name and empty replies identify its bundle", async t => {
+  const f = await configuredFixture(t, { permissions: ["Update"] }); let calls = 0;
+  server.use(http.post("*", () => { calls++; return new HttpResponse(null, { status: 204 }); }));
+  await assert.rejects(f.cli.execute(["bundle", "build", "value", "create", "selected-bundle", "--body", '{"assembleDate":null}'])); assert.equal(calls, 0);
+  const result = await f.run(f.cli, ["bundle", "build", "value", "create", "selected-bundle", "--body", '{"name":"Selected build","assembleDate":null}']);
+  assert.equal(result.exitCode, 0, result.stderr); assert.match(result.stdout, /Selected build/); assert.match(result.stdout, /selected-bundle/); assert.equal(calls, 1);
+});
