@@ -82,3 +82,11 @@ test("US-041 attach and detach existing project work types by native ID", async 
 test("US-042 update project time settings with native references and false", async t => {
   await storyCase(t, {"argv":["project","time-tracking","update","project /?","--body","{\"enabled\":false,\"estimate\":{\"id\":\"project-field\"},\"timeSpent\":null}","--fields","id"],"method":"POST","path":"/api/admin/projects/project%20%2F%3F/timeTrackingSettings","query":[["fields","id"]],"body":{"enabled":false,"estimate":{"id":"project-field"},"timeSpent":null},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
 });
+
+test("US-043 read service roles, assignments and permission catalog without local grants", async t => {
+  await storyCase(t, {"argv":["role-assignment","list","--fields","id","--start","7","--page-size","20","--query","scope:project! holder:user!"],"method":"GET","path":"/api/assignedRoles","query":[["fields","id"],["$skip","7"],["$top","20"],["query","scope:project! holder:user!"]],"response":[],"result":{"count":0,"items":[],"hasMore":false,"nextStart":null}});
+  await storyCase(t, {"argv":["permission-catalog","list","--fields","id","--start","7","--page-size","20"],"method":"GET","path":"/api/permissions","query":[["fields","id"],["$skip","7"],["$top","20"]],"response":[],"result":{"count":0,"items":[],"hasMore":false,"nextStart":null}});
+  await storyCase(t, {"argv":["role","list","--fields","id","--start","7","--page-size","20","--query","permission:synthetic-key"],"method":"GET","path":"/api/roles","query":[["fields","id"],["$skip","7"],["$top","20"],["query","permission:synthetic-key"]],"response":[],"result":{"count":0,"items":[],"hasMore":false,"nextStart":null}});
+  await storyCase(t, {"argv":["role-assignment","get","selected /?","--fields","id"],"method":"GET","path":"/api/assignedRoles/selected%20%2F%3F","query":[["fields","id"]],"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"}});
+  await storyCase(t, {"argv":["role","get","selected /?","--fields","id"],"method":"GET","path":"/api/roles/selected%20%2F%3F","query":[["fields","id"]],"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"}});
+});
