@@ -24,11 +24,12 @@ export {
 } from "./issue-query.js";
 export {
   getProject, getProjectField, listProjectFields, listUsers, getIssueField, listIssueFields, setIssueField,
-  createIssue, updateIssue,
+  createIssue, updateIssue, createProjectField, updateProjectField,
 } from "./issue-fields.js";
 export { manifestRows, applyIssueBatch, type BatchRow } from "./issue-batch.js";
 export {
   listLinkTypes, getLinkType, listIssueLinks, getIssueLink, listLinkedIssues, addIssueLink,
+  createTag, updateTag,
   removeIssueLink, listTags, getTag, getIssueTag, listIssueTags, addIssueTag, removeIssueTag,
 } from "./issue-relations.js";
 export {
@@ -46,6 +47,7 @@ export {
   listWorkItemTypes, getWorkItemType, getWorkTimeSettings,
 } from "./time-settings.js";
 export {
+  createEnumValue, updateEnumValue, createStateValue, updateStateValue, getFieldDefaults, updateFieldDefaults, listFieldInstances,
   listCustomFields, getCustomField, listFieldTypes, listEnumBundles, getEnumBundle, listEnumValues,
   getEnumValue, listStateBundles, getStateBundle, listStateValues, getStateValue,
 } from "./field-catalog.js";
@@ -61,10 +63,11 @@ export {
   listArticles, getArticle, createArticle, updateArticle, listArticleComments, getArticleComment,
   addArticleComment, updateArticleComment, listProjectArticles, exportArticle,
 } from "./articles.js";
-export { listAgiles, getAgile, listSprints, getSprint, createSprint, updateSprint } from "./agile.js";
+export { createAgile, updateAgile, type AgileCreateOptions, listAgiles, getAgile, listSprints, getSprint, createSprint, updateSprint } from "./agile.js";
 export {
   listBuildBundles, getBuildBundle, listBuildValues, getBuildValue,
   listOwnedBundles, getOwnedBundle, listOwnedValues, getOwnedValue,
+  createVersionValue, updateVersionValue,
   listVersionBundles, getVersionBundle, listVersionValues, getVersionValue,
 } from "./bundle-values.js";
 export {

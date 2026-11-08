@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { after, afterEach, before, test } from "node:test";
 import { http, HttpResponse } from "msw";
 import { setupServer } from "msw/node";
+import { createAgile } from "../src/agile.js";
 import { configuredFixture } from "./cli-fixture.js";
 import { createStoryCase, type StoryCase } from "./story-case.js";
 const server = setupServer();
@@ -58,4 +59,52 @@ test("US-037 attach and configure explicit prototype and project-field IDs", asy
 
 test("US-038 list projects using a field as a bounded native instance page", async t => {
   await storyCase(t, { argv: ["field", "instance", "list", "field /?", "--fields", "id,project(id)", "--start", "7", "--page-size", "20"], method: "GET", path: "/api/admin/customFieldSettings/customFields/field%20%2F%3F/instances", query: [["fields", "id,project(id)"], ["$skip", "7"], ["$top", "20"]], response: [], result: emptyPage });
+});
+
+test("M03 required identities and template preflight fail before HTTP with known local state", async t => {
+  const f = await configuredFixture(t, { permissions: ["Update"] });
+  let calls = 0;
+  server.use(http.all("*", () => { calls++; return HttpResponse.json({}); }));
+  for (const argv of [
+    ["agile", "create", "--body", '{"name":"Synthetic"}'],
+    ["agile", "create", "--body", '{"name":"Synthetic","projects":[{}]}'],
+    ["bundle", "enum", "value", "create", "bundle", "--body", "{}"],
+    ["tags", "create", "--body", "{}"],
+    ["project", "field", "create", "project", "--body", '{"field":{"id":"prototype"}}'],
+  ]) await assert.rejects(f.cli.execute(argv), (error: Error) => { assert.doesNotMatch(error.message, /outcome is unknown/i); return true; });
+  assert.equal(calls, 0);
+  await assert.rejects(createAgile({ baseUrl: "https://youtrack.example.test", token: "synthetic-token", fetch: (async () => { calls++; return Response.json({}); }) as typeof fetch },
+    { name: "Synthetic", projects: [{ id: "p" }] }, { template: false } as never), (error: Error) => {
+      assert.match(error.message, /template.*text/i); assert.doesNotMatch(error.message, /unknown/i); return true;
+    });
+  assert.equal(calls, 0);
+});
+
+test("M03 field instances retain raw offset rows, zero-size uncertainty and preflight overflow", async t => {
+  const f = await configuredFixture(t, { permissions: ["ReadOnly"] });
+  const argv = ["field", "instance", "list", "field"];
+  let calls = 0;
+  server.use(http.get("*", ({ request }) => {
+    calls++; const q = new URL(request.url).searchParams;
+    return HttpResponse.json(q.get("$top") === "0" ? [] : [{ id: "same", project: null }, { id: "same", project: null }]);
+  }));
+  assert.deepEqual(await f.cli.execute([...argv, "--page-size", "2", "--start", "3"]), { count: 2, items: [{ id: "same", project: null }, { id: "same", project: null }], hasMore: null, nextStart: 5 });
+  assert.deepEqual(await f.cli.execute([...argv, "--page-size", "0"]), { count: 0, items: [], hasMore: null, nextStart: null });
+  const before = calls;
+  await assert.rejects(f.cli.execute([...argv, "--page-size", "1", "--start", String(Number.MAX_SAFE_INTEGER)]));
+  assert.equal(calls, before);
+});
+
+test("M03 human native flags and dates stay readable with empty mutation replies", async t => {
+  const f = await configuredFixture(t, { permissions: ["Update"] });
+  server.use(http.post("*", () => HttpResponse.json({ id: "synthetic-version", name: "Synthetic", released: false, archived: false, releaseDate: 0, startDate: null, $type: "VersionBundleElement" })));
+  const shown = await f.run(f.cli, ["bundle", "version", "value", "update", "bundle", "value", "--body", '{"released":false}']);
+  assert.equal(shown.exitCode, 0, shown.stderr);
+  assert.match(shown.stdout, /Released.*no/i);
+  assert.match(shown.stdout, /1970/);
+  assert.doesNotMatch(shown.stdout, /\$type|VersionBundleElement/);
+  server.use(http.post("*", () => new HttpResponse(null, { status: 204 })));
+  for (const argv of [["agile", "update", "board", "--body", "{}"], ["field", "defaults", "update", "field", "--body", "{}"], ["project", "field", "update", "project", "field", "--body", "{}"], ["tags", "update", "tag", "--body", "{}"]]) {
+    const r = await f.run(f.cli, argv); assert.equal(r.exitCode, 0, r.stderr); assert.ok(r.stdout.trim());
+  }
 });
