@@ -1,4 +1,4 @@
-import { encodedID, readCollectionAt, readObjectAt } from "./client.js";
+import { fields, mutate, namedMutationBody, type Connection, type ProjectionOptions, encodedID, readCollectionAt, readObjectAt } from "./client.js";
 
 const root = "api/admin/customFieldSettings";
 const customFieldFields = "id,name,fieldType(id,presentation,valueType,isMultiValue),aliases";
@@ -44,3 +44,7 @@ export const getStateValue = readObjectAt(
   (bundleID: string, valueID: string) => valuePath("state", bundleID, valueID),
   stateValueFields,
 );
+
+export async function createEnumValue(connection: Connection, bundleID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, valuePath("enum", bundleID), namedMutationBody(input, true), fields(options, enumValueFields));
+}

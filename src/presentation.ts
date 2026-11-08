@@ -587,3 +587,14 @@ export const agileWritten = (verb: string): HumanView => recordView<Item | null>
   title: (item, context) => joined(`${verb} board`, text(item?.name) ?? key(item) ?? arg(context, "agile")),
   fields: [{ label: "ID", value: item => key(item) }],
 });
+
+const booleanText = (value: unknown): string | undefined => typeof value === "boolean" ? value ? "yes" : "no" : undefined;
+export const bundleValueWritten = recordView<Item | null>({
+  title: (item, context) => joined("Value", text(item?.name) ?? key(item) ?? arg(context, "value")),
+  fields: [{ label: "ID", value: item => key(item) },
+    { label: "Archived", value: item => booleanText(item?.archived) },
+    { label: "Released", value: item => booleanText(item?.released) },
+    { label: "Release date", value: item => instant(item?.releaseDate) },
+    { label: "Start date", value: item => instant(item?.startDate) },
+    { label: "Resolved state", value: item => booleanText(item?.isResolved) }],
+});

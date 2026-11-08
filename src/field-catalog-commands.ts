@@ -1,7 +1,8 @@
 import { command, type CommandDefinition } from "@eyeauras/cli-factory";
-import { pagedRead, projectedRead } from "./cli-support.js";
+import { pagedRead, projectedRead, projectedBodyUpdate } from "./cli-support.js";
 import {
   getCustomField,
+  createEnumValue,
   getEnumBundle,
   getEnumValue,
   getStateBundle,
@@ -13,7 +14,7 @@ import {
   listStateBundles,
   listStateValues,
 } from "./field-catalog.js";
-import { fieldTable, namedTable } from "./presentation.js";
+import { fieldTable, namedTable, bundleValueWritten } from "./presentation.js";
 
 const bundleTable = namedTable("BUNDLE", "No bundles.");
 const valueTable = namedTable("VALUE", "No values.");
@@ -33,6 +34,7 @@ export const fieldCatalogBundleChildren: readonly CommandDefinition[] = [
     pagedRead("list", "List enum bundles", listEnumBundles, bundleTable),
     projectedRead("get <bundle>", "Show an enum bundle", getEnumBundle),
     command("value", "Inspect enum values", [
+      projectedBodyUpdate("create <bundle>", "Create an enum value", createEnumValue, undefined, bundleValueWritten),
       pagedRead("list <bundle>", "List the bundle's values", listEnumValues, valueTable),
       projectedRead("get <bundle> <value>", "Show an enum value", getEnumValue),
     ]),
