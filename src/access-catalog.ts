@@ -1,5 +1,5 @@
 import {
-  fields, mutate, deleteObject, mutationBody, narrative, type ProjectionOptions, encodedID, page, readPage, readCollectionAt, readObjectAt, requiredText,
+  fields, mutate, deleteObject, mutationBody, namedMutationBody, narrative, type ProjectionOptions, encodedID, page, readPage, readCollectionAt, readObjectAt, requiredText,
   type Connection, type IssueSearchOptions,
 } from "./client.js";
 
@@ -41,4 +41,15 @@ export async function createRoleAssignment(connection: Connection, input: unknow
 }
 export async function deleteRoleAssignment(connection: Connection, assignmentID: string, options: ProjectionOptions = {}) {
   return deleteObject(connection, `api/assignedRoles/${encodedID(assignmentID, "role assignment ID")}`, options);
+}
+
+
+export async function createRole(connection: Connection, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, "api/roles", namedMutationBody(input, false), fields(options, roleFields));
+}
+export async function updateRole(connection: Connection, roleID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, `api/roles/${encodedID(roleID, "role ID")}`, namedMutationBody(input, false), fields(options, roleFields));
+}
+export async function deleteRole(connection: Connection, roleID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, `api/roles/${encodedID(roleID, "role ID")}`, options);
 }

@@ -85,3 +85,14 @@ test("US-059 create update and delete roles with native permission references", 
   await storyCase(t, {"argv":["role","update","role /?","--body","{\"description\":null,\"permissions\":[]}","--fields","id"],"method":"POST","path":"/api/roles/role%20%2F%3F","query":[["fields","id"]],"body":{"description":null,"permissions":[]},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
   await storyCase(t, {"argv":["role","delete","role /?","--fields","id"],"method":"DELETE","path":"/api/roles/role%20%2F%3F","query":[["fields","id"]],"response":undefined,"result":null,"update":true});
 });
+
+
+test("US-059 native role bodies do not invent a required name or permission-key enum", async t => {
+  const f = await configuredFixture(t, { permissions: ["Update"] }); let calls = 0;
+  server.use(http.post("*", async ({ request }) => {
+    calls++; assert.deepEqual(await request.json(), { permissions: [{ id: "future.native.permission", $type: "Permission" }], description: null });
+    return HttpResponse.json({ id: "synthetic-role" });
+  }));
+  assert.deepEqual(await f.cli.execute(["role", "create", "--body", JSON.stringify({ permissions: [{ id: "future.native.permission", $type: "Permission" }], description: null })]), { id: "synthetic-role" });
+  assert.equal(calls, 1);
+});
