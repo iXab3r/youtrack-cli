@@ -106,14 +106,15 @@ export async function addArticleComment(
   connection: Connection,
   articleID: string,
   input: unknown,
-  options: ProjectionOptions = {},
+  options: WriteOptions = {},
 ): Promise<YouTrackObject | null> {
   const body = mutationBody(input);
   return mutate(
     connection,
     `${articlePath(articleID)}/comments`,
-    { ...body, text: nullableText(body.text, "text") },
+    { ...body, ...(options.draftId === undefined || Object.hasOwn(body, "text") ? { text: nullableText(body.text, "text") } : {}) },
     fields(options, articleCommentFields),
+    options,
   );
 }
 
@@ -122,7 +123,7 @@ export async function updateArticleComment(
   articleID: string,
   commentID: string,
   input: unknown,
-  options: ProjectionOptions = {},
+  options: WriteOptions = {},
 ): Promise<YouTrackObject | null> {
   const body = mutationBody(input);
   return mutate(
@@ -130,6 +131,7 @@ export async function updateArticleComment(
     `${articlePath(articleID)}/comments/${encodedID(commentID, "comment ID")}`,
     { ...body, ...(Object.hasOwn(body, "text") ? { text: nullableText(body.text, "text") } : {}) },
     fields(options, articleCommentFields),
+    options,
   );
 }
 

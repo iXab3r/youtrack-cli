@@ -47,13 +47,14 @@ export const articlesRootCommands = [
     command("comment", "Read and write article comments", [
       pagedRead("list <article>", "List comments", listArticleComments, commentTable),
       projectedRead("get <article> <comment>", "Show a comment", getArticleComment, commentShown),
-      projectedBodyUpdate("add <article>", "Add a comment", addArticleComment, "text", commentAdded("article")),
+      projectedBodyUpdate("add <article>", "Add a comment", addArticleComment, "text", commentAdded("article"), [...draftOptions, ...notificationOptions]),
       projectedBodyUpdate(
         "update <article> <comment>",
         "Replace a comment's text",
         updateArticleComment,
         "text",
         commentUpdated("article", "comment"),
+        notificationOptions,
       ),
     ]),
   ], {
