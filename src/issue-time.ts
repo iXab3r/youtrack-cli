@@ -1,5 +1,6 @@
 import {
   encodedID,
+  deleteObject,
   fields,
   issuePath,
   mutate,
@@ -10,9 +11,11 @@ import {
   readCollectionAt,
   readObjectAt,
   requiredText,
+  type QueryParameters,
   type Connection,
   type IssueSearchOptions,
   type ProjectionOptions,
+  type WriteOptions,
   type YouTrackObject,
 } from "./client.js";
 
@@ -33,9 +36,35 @@ export const getIssueWorkItem = readObjectAt(
   workItemFields,
 );
 
-export async function listWorkItems(connection: Connection, options: IssueSearchOptions = {}) {
+export interface WorkItemOptions extends IssueSearchOptions {
+  author?: string | readonly string[];
+  creator?: string | readonly string[];
+  startDate?: string;
+  endDate?: string;
+  workStart?: string;
+  workEnd?: string;
+  createdStart?: string;
+  createdEnd?: string;
+  updatedStart?: string;
+  updatedEnd?: string;
+}
+
+/** Values remain strings on the wire so a native Long need not fit a JS number. */
+export async function listWorkItems(connection: Connection, options: WorkItemOptions = {}) {
+  const filters: QueryParameters = {};
+  const names = ["startDate", "endDate", "workStart", "workEnd", "createdStart", "createdEnd", "updatedStart", "updatedEnd"] as const;
+  for (const name of names) {
+    const value = options[name];
+    if (value !== undefined) filters[name === "workStart" ? "start" : name === "workEnd" ? "end" : name] = requiredText(value, name);
+  }
+  for (const name of ["author", "creator"] as const) {
+    const value = options[name];
+    if (value !== undefined) filters[name] = Array.isArray(value)
+      ? value.map(item => requiredText(item, name))
+      : requiredText(value as string, name);
+  }
   return readPage(connection, "api/workItems", {
-    ...page(options, workItemFields),
+    ...page(options, workItemFields), ...filters,
     ...(options.query === undefined ? {} : { query: requiredText(options.query, "query") }),
   });
 }
@@ -118,13 +147,14 @@ export async function addWorkItem(
   connection: Connection,
   issueID: string,
   input: unknown,
-  options: ProjectionOptions = {},
+  options: WriteOptions = {},
 ) {
   return mutate(
     connection,
     workItemsPath(issueID),
     workItemBody(input, true),
     fields(options, workItemFields),
+    options,
   );
 }
 
@@ -133,12 +163,17 @@ export async function updateWorkItem(
   issueID: string,
   itemID: string,
   input: unknown,
-  options: ProjectionOptions = {},
+  options: WriteOptions = {},
 ) {
   return mutate(
     connection,
     `${workItemsPath(issueID)}/${encodedID(itemID, "work item ID")}`,
     workItemBody(input, false),
     fields(options, workItemFields),
+    options,
   );
+}
+
+export async function deleteIssueWorkItem(connection: Connection, issueID: string, itemID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, `${workItemsPath(issueID)}/${encodedID(itemID, "work item ID")}`, options);
 }

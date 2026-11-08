@@ -32,3 +32,36 @@ test("installed offset budgets, cursors, profiles and cancellation retain 0.7 be
     requests++;controller.abort(new Error("synthetic cancellation"));return Response.json([{id:"0"}]);
   }},{pageSize:1,maxResults:2}));assert.equal(requests,1);
 });
+
+test("installed M01 exports and declarations retain repeatable fields, reactions and admission", async t => {
+  const exports = await import("@eyeauras/youtrack-cli");
+  for (const name of ["listIssueActivities", "getIssueActivity", "getIssueTag", "deleteIssueWorkItem", "updateIssueAttachment", "deleteIssueAttachment", "listIssueReactions", "getIssueReaction", "addIssueReaction", "removeIssueReaction"]) {
+    assert.equal(typeof exports[name], "function", name);
+  }
+  const f = await createCliFixture(t, { applicationId: "youtrack-cli", profiles: [{
+    name: "default", values: { url: "https://installed.example.test/context" },
+    permissions: ["ReadOnly", "Update"], secrets: { token: "synthetic-installed" },
+  }] });
+  let calls = 0;
+  f.runtime.fetch = async (input, init) => {
+    calls++;
+    const url = new URL(input);
+    assert.equal(new Headers(init.headers).get("authorization"), "Bearer synthetic-installed");
+    if (url.pathname === "/context/api/issues") {
+      assert.deepEqual(url.searchParams.getAll("customFields"), ["State", "Priority"]);
+      return Response.json([]);
+    }
+    assert.equal(url.pathname, "/context/api/issues/DEMO-1/comments/comment/reactions");
+    assert.equal(init.method, "POST");
+    assert.deepEqual(JSON.parse(init.body), { reaction: "thanks" });
+    return Response.json({ id: "synthetic-reaction", reaction: "thanks" });
+  };
+  const app = f.createApplication(createYouTrackCli);
+  const page = await f.json(app, ["issues", "list", "--custom-field", "State", "--custom-field", "Priority"]);
+  assert.deepEqual(page, { count: 0, items: [], hasMore: false, nextStart: null });
+  const add = ["issues", "comments", "reaction", "add", "DEMO-1", "comment", "--body", '{"reaction":"thanks"}'];
+  assert.equal((await f.json(app, add)).reaction, "thanks");
+  await app.execute(["permissions", "revoke", "Update"]);
+  await assert.rejects(app.execute(add), { code: "permission.denied" });
+  assert.equal(calls, 2);
+});

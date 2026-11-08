@@ -11,6 +11,7 @@ export {
   type IssueSearchOptions,
   type PageOptions,
   type ProjectionOptions,
+  type WriteOptions,
   type YouTrackObject,
   type YouTrackPage,
   type YouTrackUser,
@@ -27,17 +28,17 @@ export {
 export { manifestRows, applyIssueBatch, type BatchRow } from "./issue-batch.js";
 export {
   listLinkTypes, getLinkType, listIssueLinks, getIssueLink, listLinkedIssues, addIssueLink,
-  removeIssueLink, listTags, getTag, listIssueTags, addIssueTag, removeIssueTag,
+  removeIssueLink, listTags, getTag, getIssueTag, listIssueTags, addIssueTag, removeIssueTag,
 } from "./issue-relations.js";
 export {
-  getActivitiesPage, getIssueActivitiesPage, getComment, updateComment, listIssueSprints,
+  getActivitiesPage, getIssueActivitiesPage, listIssueActivities, getIssueActivity, getComment, updateComment, listIssueSprints,
   listVcsChanges, getVcsChange, type ActivityOptions,
 } from "./issue-context.js";
 export {
   getTimeTracking, listIssueWorkItems, getIssueWorkItem, listWorkItems, getWorkItem,
-  addWorkItem, updateWorkItem,
+  addWorkItem, updateWorkItem, deleteIssueWorkItem, type WorkItemOptions,
 } from "./issue-time.js";
-export { listIssueAttachments, getIssueAttachment, uploadIssueAttachment } from "./issue-attachments.js";
+export { listIssueAttachments, getIssueAttachment, uploadIssueAttachment, updateIssueAttachment, deleteIssueAttachment } from "./issue-attachments.js";
 export {
   getProjectTimeSettings, listProjectWorkItemTypes, getProjectWorkItemType, getGlobalTimeSettings,
   listWorkItemTypes, getWorkItemType, getWorkTimeSettings,
@@ -71,3 +72,5 @@ export {
 export {
   downloadIssueAttachment, downloadArticleAttachment, type DownloadOptions, type AttachmentDownloadResult,
 } from "./attachment-download.js";
+
+export { listIssueReactions, getIssueReaction, addIssueReaction, removeIssueReaction } from "./issue-reactions.js";

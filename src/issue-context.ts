@@ -9,18 +9,25 @@ import {
   readCollection,
   readCollectionAt,
   readObject,
+  readPage,
   readObjectAt,
   requiredText,
   type Connection,
   type PageOptions,
+  type YouTrackPage,
   type ProjectionOptions,
   type YouTrackObject,
+  type WriteOptions,
 } from "./client.js";
 
 export interface ActivityOptions extends ProjectionOptions {
   categories: string;
   cursor?: string;
   reverse?: boolean;
+  author?: string;
+  activityStart?: string;
+  activityEnd?: string;
+  activityId?: string;
 }
 
 const activityFields =
@@ -39,6 +46,10 @@ function activityQuery(options: ActivityOptions): Record<string, string> {
   return {
     fields: fields(options, activityFields),
     categories: activityCategories(options.categories),
+    ...(options.author === undefined ? {} : { author: requiredText(options.author, "author") }),
+    ...(options.activityStart === undefined ? {} : { start: requiredText(options.activityStart, "activity start") }),
+    ...(options.activityEnd === undefined ? {} : { end: requiredText(options.activityEnd, "activity end") }),
+    ...(options.activityId === undefined ? {} : { activityId: requiredText(options.activityId, "activity ID") }),
     ...(options.cursor === undefined ? {} : { cursor: requiredText(options.cursor, "cursor") }),
     ...(options.reverse === undefined ? {} : { reverse: String(options.reverse) }),
   };
@@ -104,6 +115,7 @@ export async function updateComment(
   issueID: string,
   commentID: string,
   input: unknown,
+  options: WriteOptions = {},
 ): Promise<YouTrackObject | null> {
   const body = mutationBody(input);
   return mutate(
@@ -111,6 +123,7 @@ export async function updateComment(
     `${issuePath(issueID)}/comments/${encodedID(commentID, "comment ID")}`,
     { ...body, ...(Object.hasOwn(body, "text") ? { text: nullableText(body.text, "text") } : {}) },
     commentFields,
+    options,
   );
 }
 
@@ -126,4 +139,21 @@ export const getVcsChange = readObjectAt(
   (issueID: string, changeID: string) =>
     `${issuePath(issueID)}/vcsChanges/${encodedID(changeID, "change ID")}`,
   vcsFields,
+);
+
+/** Offset history is separate from the native cursor-page resource. */
+export async function listIssueActivities(
+  connection: Connection,
+  issueID: string,
+  options: ActivityOptions & PageOptions,
+): Promise<YouTrackPage> {
+  return readPage(connection, `${issuePath(issueID)}/activities`, {
+    ...page(options, "id,$type,timestamp,author(id,login),category(id)"),
+    ...activityQuery({ ...options, fields: fields(options, "id,$type,timestamp,author(id,login),category(id)") }),
+  });
+}
+
+export const getIssueActivity = readObjectAt(
+  (issueID: string, activityID: string) => `${issuePath(issueID)}/activities/${encodedID(activityID, "activity ID")}`,
+  "id,$type,timestamp,author(id,login),category(id)",
 );

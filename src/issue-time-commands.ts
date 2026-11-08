@@ -1,7 +1,8 @@
 import { command } from "@eyeauras/cli-factory";
-import { pagedRead, projectedBodyUpdate, projectedRead, readCommand, pageOptions, readOptions } from "./cli-support.js";
+import { pagedRead, projectedBodyUpdate, projectedRead, readCommand, pageOptions, readOptions, notificationOptions, updateCommand, projectionOptions } from "./cli-support.js";
 import {
   addWorkItem,
+  deleteIssueWorkItem,
   getIssueWorkItem,
   getTimeTracking,
   getWorkItem,
@@ -9,16 +10,29 @@ import {
   listWorkItems,
   updateWorkItem,
 } from "./issue-time.js";
-import { withView, workItemTable } from "./presentation.js";
+import { withView, workItemTable, done, arg } from "./presentation.js";
 
 export const timeRootCommands = [
   command("work-items", "Inspect work items across issues", [
     withView(workItemTable, readCommand(
       "list",
       "List work items",
-      async (connection, { options }, context) => listWorkItems(connection, readOptions(options)),
+      async (connection, { options }, context) => listWorkItems(connection, {
+        ...readOptions(options),
+        ...(options.author === undefined ? {} : { author: options.author as string[] }),
+        ...(options.creator === undefined ? {} : { creator: options.creator as string[] }),
+        ...Object.fromEntries(["startDate", "endDate", "workStart", "workEnd", "createdStart", "createdEnd", "updatedStart", "updatedEnd"]
+          .filter(name => typeof options[name] === "string").map(name => [name, options[name]])),
+      }),
       [
           ...pageOptions,
+          ...["author", "creator"].map(name => ({
+            flags: `--${name} <value>`, description: `Filter by ${name} (repeatable)`,
+            parse: (value: string, previous: unknown) => [...(Array.isArray(previous) ? previous : []), value],
+          })),
+          ...["start-date", "end-date", "work-start", "work-end", "created-start", "created-end", "updated-start", "updated-end"].map(name => ({
+            flags: `--${name} <value>`, description: `Filter by ${name.replaceAll("-", " ")}`,
+          })),
           { flags: "--query <query>", description: "Issue search query" },
         ],
     )),
@@ -31,9 +45,13 @@ export const timeIssueChildren = [
     projectedRead("get <issueID>", "Show time-tracking status", getTimeTracking),
   ]),
   command("work-items", "Inspect and record time spent", [
+    withView(done(context => `Deleted work item ${arg(context, "itemID")}.`), updateCommand(
+      "delete <issueID> <itemID>", "Delete a work item", (client, { args, options }) =>
+        deleteIssueWorkItem(client, args.issueID, args.itemID, readOptions(options)), projectionOptions,
+    )),
     pagedRead("list <issueID>", "List the issue's work items", listIssueWorkItems, workItemTable),
     projectedRead("get <issueID> <itemID>", "Show a work item", getIssueWorkItem),
-    projectedBodyUpdate("add <issueID>", "Add a work item", addWorkItem),
-    projectedBodyUpdate("update <issueID> <itemID>", "Update a work item", updateWorkItem),
+    projectedBodyUpdate("add <issueID>", "Add a work item", addWorkItem, undefined, undefined, notificationOptions),
+    projectedBodyUpdate("update <issueID> <itemID>", "Update a work item", updateWorkItem, undefined, undefined, notificationOptions),
   ]),
 ];

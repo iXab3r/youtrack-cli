@@ -9,7 +9,7 @@ import {
   type HumanView,
   type OptionDefinition,
 } from "@eyeauras/cli-factory";
-import { inputFilePath, page, youTrackUrl, type Connection, type IssueSearchOptions } from "./client.js";
+import { inputFilePath, page, youTrackUrl, type Connection, type IssueSearchOptions, type WriteOptions } from "./client.js";
 import { withView } from "./presentation.js";
 
 export const bodyOptions: readonly OptionDefinition[] = [
@@ -63,6 +63,27 @@ async function bodyInput(options: Record<string, unknown>, textField?: string): 
 export const projectionOptions: readonly OptionDefinition[] = [
   { flags: "--fields <projection>", description: "YouTrack fields projection" },
 ];
+/** Omitted controls remain omitted; an explicit false travels to the native API. */
+export const notificationOptions: readonly OptionDefinition[] = [{
+  flags: "--mute-update-notifications [boolean]", description: "Suppress notifications (true or false)",
+  parse(value) {
+    if (value === "true") return true;
+    if (value === "false") return false;
+    throw new Error("The notification control must be true or false.");
+  },
+}];
+export const draftOptions: readonly OptionDefinition[] = [
+  { flags: "--draft-id <id>", description: "Publish an existing draft" },
+];
+
+export function writeOptions(options: Record<string, unknown>): WriteOptions {
+  return {
+    ...(typeof options.fields === "string" ? { fields: options.fields } : {}),
+    ...(typeof options.draftId === "string" ? { draftId: options.draftId } : {}),
+    ...(typeof options.muteUpdateNotifications === "boolean" ? { muteUpdateNotifications: options.muteUpdateNotifications } : {}),
+  };
+}
+
 export const pageOptions: readonly OptionDefinition[] = [
   ...projectionOptions,
   {
@@ -124,14 +145,9 @@ type ReadOperation<Syntax extends string> = (
   ...arguments_: [...CommandValues<Syntax>, IssueSearchOptions]
 ) => unknown;
 
-type BodyOperation<Syntax extends string> = (
-  connection: Connection,
-  ...arguments_: [...CommandValues<Syntax>, unknown]
-) => unknown;
-
 type ProjectedBodyOperation<Syntax extends string> = (
   connection: Connection,
-  ...arguments_: [...CommandValues<Syntax>, unknown, IssueSearchOptions]
+  ...arguments_: [...CommandValues<Syntax>, unknown, WriteOptions]
 ) => unknown;
 
 function positionalNames(syntax: string): string[] {
@@ -179,9 +195,10 @@ export function pagedRead<const Syntax extends string>(
   description: string,
   operation: ReadOperation<Syntax>,
   view?: HumanView,
+  extraOptions: readonly OptionDefinition[] = [],
 ): CommandDefinition {
   return operationCommand(
-    readCommand, syntax, description, operation, pageOptions,
+    readCommand, syntax, description, operation, [...pageOptions, ...extraOptions],
     (options) => [readOptions(options)],
     view,
   );
@@ -200,31 +217,18 @@ export function projectedRead<const Syntax extends string>(
   );
 }
 
-export function bodyUpdate<const Syntax extends string>(
-  syntax: Syntax,
-  description: string,
-  operation: BodyOperation<Syntax>,
-  textField?: string,
-  view?: HumanView,
-): CommandDefinition {
-  return operationCommand(
-    updateCommand, syntax, description, operation, bodyInputOptions(textField),
-    async (options) => [await bodyInput(options, textField)],
-    view,
-  );
-}
-
 export function projectedBodyUpdate<const Syntax extends string>(
   syntax: Syntax,
   description: string,
   operation: ProjectedBodyOperation<Syntax>,
   textField?: string,
   view?: HumanView,
+  extraOptions: readonly OptionDefinition[] = [],
 ): CommandDefinition {
   return operationCommand(
     updateCommand, syntax, description, operation,
-    [...bodyInputOptions(textField), ...projectionOptions],
-    async (options) => [await bodyInput(options, textField), readOptions(options)],
+    [...bodyInputOptions(textField), ...projectionOptions, ...extraOptions],
+    async (options) => [await bodyInput(options, textField), writeOptions(options)],
     view,
   );
 }
@@ -235,6 +239,7 @@ export function readOptions(options: Record<string, unknown>): IssueSearchOption
     ...(typeof options.pageSize === "number" ? { pageSize: options.pageSize } : {}),
     ...(typeof options.start === "number" ? { start: options.start } : {}),
     ...(typeof options.query === "string" ? { query: options.query } : {}),
+    ...(Array.isArray(options.customField) ? { customFields: options.customField as string[] } : {}),
     ...(typeof options.maxResults === "number" ? { maxResults: options.maxResults } : {}),
     ...(typeof options.maxBytes === "number" ? { maxBytes: options.maxBytes } : {}),
   };

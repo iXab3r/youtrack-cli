@@ -24,9 +24,27 @@ export type YouTrackValue = null | boolean | number | string | YouTrackObject | 
 export interface YouTrackObject {
   [field: string]: YouTrackValue;
 }
+export type QueryParameters = Record<string, string | readonly string[]>;
+
 export interface ProjectionOptions {
   fields?: string;
 }
+export interface WriteOptions extends ProjectionOptions {
+  draftId?: string;
+  muteUpdateNotifications?: boolean;
+}
+
+export function writeQuery(options: WriteOptions, projection: string): Record<string, string> {
+  if (options.muteUpdateNotifications !== undefined && typeof options.muteUpdateNotifications !== "boolean") {
+    throw new Error("The notification control must be boolean.");
+  }
+  return {
+    fields: fields(options, projection),
+    ...(options.draftId === undefined ? {} : { draftId: requiredText(options.draftId, "draft ID") }),
+    ...(options.muteUpdateNotifications === undefined ? {} : { muteUpdateNotifications: String(options.muteUpdateNotifications) }),
+  };
+}
+
 export interface PageOptions extends ProjectionOptions {
   pageSize?: number;
   start?: number;
@@ -40,6 +58,7 @@ export interface YouTrackPage<T = YouTrackObject> {
 }
 export interface IssueSearchOptions extends PageOptions {
   query?: string;
+  customFields?: readonly string[];
   /** Read every page; fail instead of returning more issues. */
   maxResults?: number;
   progress?: (message: string) => void;
@@ -155,33 +174,44 @@ interface RequestOptions {
   method?: "GET" | "POST" | "DELETE";
   body?: YouTrackObject | FormData;
   allowEmpty?: boolean;
+  onSubmit?: () => void;
   budget?: ByteBudget | undefined;
 }
 
 async function request(
   connection: Connection,
   path: string,
-  query: Record<string, string>,
+  query: QueryParameters,
   responseName = "JSON",
   options: RequestOptions = {},
 ): Promise<YouTrackValue> {
   const url = new URL(path, youTrackUrl(connection.baseUrl));
-  url.search = new URLSearchParams(query).toString();
+  const parameters = new URLSearchParams();
+  for (const [name, value] of Object.entries(query)) {
+    if (typeof value === "string") parameters.append(name, value);
+    else for (const item of value) parameters.append(name, item);
+  }
+  url.search = parameters.toString();
   const token = normalizeBearerToken(connection.token);
   const body = options.body;
   const multipart = body instanceof FormData;
+  const init: RequestInit = {
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+      ...(body === undefined || multipart ? {} : { "Content-Type": "application/json" }),
+    },
+    method: options.method ?? "GET",
+    ...(body === undefined ? {} : { body: multipart ? body : JSON.stringify(body) }),
+    ...(connection.signal === undefined ? {} : { signal: connection.signal }),
+  };
+  if (options.onSubmit) {
+    connection.signal?.throwIfAborted();
+    options.onSubmit();
+  }
   let response: Response;
   try {
-    response = await fetchWithRedirects(connection.fetch ?? globalThis.fetch, url, {
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${token}`,
-        ...(body === undefined || multipart ? {} : { "Content-Type": "application/json" }),
-      },
-      method: options.method ?? "GET",
-      ...(body === undefined ? {} : { body: multipart ? body : JSON.stringify(body) }),
-      ...(connection.signal === undefined ? {} : { signal: connection.signal }),
-    });
+    response = await fetchWithRedirects(connection.fetch ?? globalThis.fetch, url, init);
   } catch (cause) {
     throw new CliError("Could not reach YouTrack; check the URL, connectivity and TLS.", {
       code: "request.failed", cause: diagnosticCause(cause, [token]),
@@ -239,7 +269,7 @@ async function request(
 export async function readObject(
   connection: Connection,
   path: string,
-  query: Record<string, string>,
+  query: QueryParameters,
   body?: YouTrackObject,
 ): Promise<YouTrackObject> {
   const options: RequestOptions = body === undefined ? {} : { method: "POST", body };
@@ -249,7 +279,7 @@ export async function readObject(
 export async function readNullableObject(
   connection: Connection,
   path: string,
-  query: Record<string, string>,
+  query: QueryParameters,
 ): Promise<YouTrackObject | null> {
   const value = scrub(await request(connection, path, query), connection.token.trim());
   return value === null ? null : object(value);
@@ -278,7 +308,7 @@ export async function getAttachmentDownloadMetadata(
 export async function readCollection(
   connection: Connection,
   path: string,
-  query: Record<string, string>,
+  query: QueryParameters,
   budget?: ByteBudget,
 ): Promise<YouTrackObject[]> {
   const value = scrub(await request(connection, path, query, "JSON", { budget }), connection.token.trim());
@@ -295,7 +325,7 @@ export async function readCollection(
 export async function readPage(
   connection: Connection,
   path: string,
-  query: Record<string, string>,
+  query: QueryParameters,
   budget?: ByteBudget,
 ): Promise<YouTrackPage> {
   const items = await readCollection(connection, path, query, budget);
@@ -312,7 +342,7 @@ export async function readPage(
 export async function readPages(
   connection: Connection,
   path: string,
-  query: Record<string, string>,
+  query: QueryParameters,
   { pageSize, start, maxResults, budget, progress }: {
     pageSize: number; start: number; maxResults: number; budget?: ByteBudget | undefined;
     progress?: ((message: string) => void) | undefined;
@@ -449,9 +479,15 @@ export async function listIssues(
   connection: Connection,
   options: IssueSearchOptions = {},
 ): Promise<YouTrackPage> {
-  const query: Record<string, string> = {
+  const query: QueryParameters = {
     ...page(options, issueListFields),
     ...(options.query === undefined ? {} : { query: requiredText(options.query, "query") }),
+    ...(options.customFields === undefined ? {} : {
+      customFields: (() => {
+        if (!Array.isArray(options.customFields)) throw new Error("The custom fields must be a list of names.");
+        return options.customFields.map(value => requiredText(value, "custom field name"));
+      })(),
+    }),
   };
   const budget = options.maxBytes === undefined
     ? undefined
@@ -508,21 +544,41 @@ export function nullableText(value: unknown, label: string): string | null {
   return value;
 }
 
+/** A received 4xx is a rejection; other post-submission failures cannot prove no write. */
+async function mutationResult<T>(operation: (onSubmit: () => void) => Promise<T>): Promise<T> {
+  let submitted = false;
+  try {
+    return await operation(() => { submitted = true; });
+  } catch (error) {
+    if (submitted && error instanceof Error && !(error instanceof HttpError && error.status >= 400 && error.status < 500)) {
+      error.message += " The write outcome is unknown.";
+    }
+    throw error;
+  }
+}
+
 export async function mutate(
   connection: Connection,
   path: string,
   body: YouTrackObject,
   projection: string,
+  options: WriteOptions = {},
 ): Promise<YouTrackObject | null> {
-  const value = await request(connection, path, { fields: projection }, "JSON", {
-    method: "POST", body, allowEmpty: true,
+  const query = writeQuery(options, projection);
+  return mutationResult(async onSubmit => {
+    const value = await request(connection, path, query, "JSON", {
+      method: "POST", body, allowEmpty: true, onSubmit,
+    });
+    return value === null ? null : object(scrub(value, connection.token.trim()));
   });
-  return value === null ? null : object(scrub(value, connection.token.trim()));
 }
 
-export async function deleteObject(connection: Connection, path: string): Promise<YouTrackObject | null> {
-  const value = await request(connection, path, {}, "JSON", { method: "DELETE", allowEmpty: true });
-  return value === null ? null : object(scrub(value, connection.token.trim()));
+export async function deleteObject(connection: Connection, path: string, options: ProjectionOptions = {}): Promise<YouTrackObject | null> {
+  const query = options.fields === undefined ? {} : { fields: fields(options, "") };
+  return mutationResult(async onSubmit => {
+    const value = await request(connection, path, query, "JSON", { method: "DELETE", allowEmpty: true, onSubmit });
+    return value === null ? null : object(scrub(value, connection.token.trim()));
+  });
 }
 
 export async function uploadObjectCollection(
@@ -530,27 +586,28 @@ export async function uploadObjectCollection(
   path: string,
   body: FormData,
   projection: string,
+  options: WriteOptions = {},
 ): Promise<YouTrackObject[] | null> {
-  const value = await request(connection, path, { fields: projection }, "JSON", {
-    method: "POST", body, allowEmpty: true,
+  const query = writeQuery(options, projection);
+  return mutationResult(async onSubmit => {
+    const value = await request(connection, path, query, "JSON", {
+      method: "POST", body, allowEmpty: true, onSubmit,
+    });
+    if (value === null) return null;
+    if (!Array.isArray(value)) throw new Error("Invalid upload collection response from YouTrack.");
+    return value.map((item) => object(scrub(item, connection.token.trim())));
   });
-  if (value === null) {
-    return null;
-  }
-  if (!Array.isArray(value)) {
-    throw new Error("Invalid upload collection response from YouTrack.");
-  }
-  return value.map((item) => object(scrub(item, connection.token.trim())));
 }
 
 export async function addComment(
   connection: Connection,
   issueID: string,
   input: unknown,
+  options: WriteOptions = {},
 ): Promise<YouTrackObject | null> {
   const body = mutationBody(input);
   return mutate(connection, `${issuePath(issueID)}/comments`, {
     ...body,
     ...(Object.hasOwn(body, "text") ? { text: nullableText(body.text, "text") } : {}),
-  }, commentFields);
+  }, commentFields, options);
 }

@@ -5,10 +5,17 @@ import {
   mutate,
   mutationBody,
   narrative,
+  fields,
+  page,
+  readPage,
+  requiredText,
   readCollectionAt,
   readObjectAt,
   type Connection,
   type YouTrackObject,
+  type IssueSearchOptions,
+  type WriteOptions,
+  type ProjectionOptions,
 } from "./client.js";
 
 const linkTypeFields = "id,name,directed,sourceToTarget,targetToSource";
@@ -47,8 +54,9 @@ export async function addIssueLink(
   issueID: string,
   linkID: string,
   input: unknown,
+  options: WriteOptions = {},
 ): Promise<YouTrackObject | null> {
-  return mutate(connection, `${linkPath(issueID, linkID)}/issues`, targetBody(input), linkedIssueFields);
+  return mutate(connection, `${linkPath(issueID, linkID)}/issues`, targetBody(input), linkedIssueFields, options);
 }
 
 export async function removeIssueLink(
@@ -56,16 +64,27 @@ export async function removeIssueLink(
   issueID: string,
   linkID: string,
   targetIssueID: string,
+  options: ProjectionOptions = {},
 ): Promise<YouTrackObject | null> {
   return deleteObject(
     connection,
     `${linkPath(issueID, linkID)}/issues/${encodedID(targetIssueID, "target issue ID")}`,
+    options,
   );
 }
 
-export const listTags = readCollectionAt("api/tags", tagFields);
+export async function listTags(connection: Connection, options: IssueSearchOptions = {}) {
+  return readPage(connection, "api/tags", {
+    ...page(options, tagFields),
+    ...(options.query === undefined ? {} : { query: requiredText(options.query, "query") }),
+  });
+}
 export const getTag = readObjectAt(
   (tagID: string) => `api/tags/${encodedID(tagID, "tag ID")}`,
+  tagFields,
+);
+export const getIssueTag = readObjectAt(
+  (issueID: string, tagID: string) => `${issuePath(issueID)}/tags/${encodedID(tagID, "tag ID")}`,
   tagFields,
 );
 export const listIssueTags = readCollectionAt(
@@ -77,14 +96,16 @@ export async function addIssueTag(
   connection: Connection,
   issueID: string,
   input: unknown,
+  options: WriteOptions = {},
 ): Promise<YouTrackObject | null> {
-  return mutate(connection, `${issuePath(issueID)}/tags`, targetBody(input), tagFields);
+  return mutate(connection, `${issuePath(issueID)}/tags`, targetBody(input), fields(options, tagFields));
 }
 
 export async function removeIssueTag(
   connection: Connection,
   issueID: string,
   tagID: string,
+  options: ProjectionOptions = {},
 ): Promise<YouTrackObject | null> {
-  return deleteObject(connection, `${issuePath(issueID)}/tags/${encodedID(tagID, "tag ID")}`);
+  return deleteObject(connection, `${issuePath(issueID)}/tags/${encodedID(tagID, "tag ID")}`, options);
 }

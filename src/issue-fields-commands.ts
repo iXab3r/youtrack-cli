@@ -1,5 +1,5 @@
 import { command, type CommandDefinition } from "@eyeauras/cli-factory";
-import { bodyUpdate, pagedRead, projectedRead } from "./cli-support.js";
+import { projectedBodyUpdate, notificationOptions, pagedRead, projectedRead } from "./cli-support.js";
 import {
   getProject,
   getProjectField,
@@ -27,12 +27,13 @@ export const fieldsIssueChildren: readonly CommandDefinition[] = [
   command("fields", "Read and set custom fields", [
     pagedRead("list <issueID>", "List the issue's custom fields", listIssueFields, issueFieldTable),
     projectedRead("get <issueID> <fieldID>", "Show a custom field", getIssueField, issueFieldRecord),
-    bodyUpdate(
+    projectedBodyUpdate(
       "set <issueID> <fieldID>",
       "Set a field value or state event",
       setIssueField,
       undefined,
       issueFieldRecord,
+      notificationOptions,
     ),
   ]),
 ];

@@ -20,7 +20,9 @@ import {
   youTrackUrlHelp,
 } from "./client.js";
 import {
-  bodyUpdate,
+  projectedBodyUpdate,
+  notificationOptions,
+  draftOptions,
   fileOption,
   pagedRead,
   pageOptions,
@@ -86,7 +88,7 @@ export function createYouTrackCli(runtime?: CliRuntime): CliApplication {
     name: "youtrack-cli",
     description: "AI-friendly access to YouTrack",
     examples: [...issueExamples.slice(0, 3), "article get KB-A-7", "project list"],
-    version: "0.7.1",
+    version: "0.8.0",
     applicationId: "youtrack-cli",
     permissions: {},
     profile: {
@@ -149,13 +151,14 @@ export function createYouTrackCli(runtime?: CliRuntime): CliApplication {
         ...fieldsIssueChildren,
         ...attachmentsIssueChildren,
         ...queryIssueChildren,
-        bodyUpdate("create", "Create an issue", createIssue, "description", createdIssue),
-        bodyUpdate(
+        projectedBodyUpdate("create", "Create an issue", createIssue, "description", createdIssue, [...notificationOptions, ...draftOptions]),
+        projectedBodyUpdate(
           "update <issueID>",
           "Update the summary, description or custom fields",
           updateIssue,
           "description",
           updatedIssue,
+          notificationOptions,
         ),
         withView(issueTable, readCommand(
           "list",
@@ -166,6 +169,10 @@ export function createYouTrackCli(runtime?: CliRuntime): CliApplication {
           [
             ...pageOptions,
             { flags: "--query <query>", description: "YouTrack search query" },
+            {
+              flags: "--custom-field <name>", description: "Select a custom field (repeatable)",
+              parse: (value, previous) => [...(Array.isArray(previous) ? previous : []), value],
+            },
             { flags: "--all", description: "Read every page (needs --max-results)" },
             {
               flags: "--max-results <count>", description: "Fail above this many issues",
@@ -213,7 +220,7 @@ export function createYouTrackCli(runtime?: CliRuntime): CliApplication {
         ]),
         command("comments", "Read and add comments", [
           ...contextCommentChildren,
-          bodyUpdate("add <issueID>", "Add a comment", addComment, "text", commentAdded("issueID")),
+          projectedBodyUpdate("add <issueID>", "Add a comment", addComment, "text", commentAdded("issueID"), [...notificationOptions, ...draftOptions]),
           pagedRead("list <issueID>", "List comments", listComments, commentTable),
         ]),
       ], { examples: issueExamples }),
