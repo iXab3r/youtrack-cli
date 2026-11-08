@@ -33,6 +33,7 @@ export {
   removeIssueLink, listTags, getTag, getIssueTag, listIssueTags, addIssueTag, removeIssueTag,
 } from "./issue-relations.js";
 export {
+  deleteIssueComment,
   getIssueProject, setIssueProject, createVcsChange, updateVcsChange, deleteVcsChange, listActivities, getActivity,
   getActivitiesPage, getIssueActivitiesPage, listIssueActivities, getIssueActivity, getComment, updateComment, listIssueSprints,
   listVcsChanges, getVcsChange, type ActivityOptions,

@@ -190,3 +190,8 @@ export async function listActivities(connection: Connection, options: ActivityOp
 }
 export const getActivity = readObjectAt((activityID: string) => `api/activities/${encodedID(activityID, "activity ID")}`,
   "id,$type,timestamp,author(id,login),category(id)");
+
+
+export async function deleteIssueComment(connection: Connection, issueID: string, commentID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, `${issuePath(issueID)}/comments/${encodedID(commentID, "comment ID")}`, options);
+}
