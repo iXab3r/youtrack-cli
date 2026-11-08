@@ -73,3 +73,8 @@ test("M04 sparse mutation confirmations name the selected identity once and reta
     if (argv[0] === "bundle") assert.match(title, /bundle-1/);
   }
 });
+
+test("US-041 attach and detach existing project work types by native ID", async t => {
+  await storyCase(t, {"argv":["project","work-item-type","create","project /?","--body","{\"id\":\"type /?\"}","--fields","id"],"method":"POST","path":"/api/admin/projects/project%20%2F%3F/timeTrackingSettings/workItemTypes","query":[["fields","id"]],"body":{"id":"type /?"},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["project","work-item-type","delete","project /?","type /?","--fields","id"],"method":"DELETE","path":"/api/admin/projects/project%20%2F%3F/timeTrackingSettings/workItemTypes/type%20%2F%3F","query":[["fields","id"]],"response":undefined,"result":null,"update":true});
+});
