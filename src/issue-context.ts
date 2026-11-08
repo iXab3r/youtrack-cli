@@ -1,5 +1,6 @@
 import {
   encodedID,
+  deleteObject,
   fields,
   issuePath,
   mutate,
@@ -163,4 +164,17 @@ export const getIssueProject = readObjectAt((issueID: string) => `${issuePath(is
 export async function setIssueProject(connection: Connection, issueID: string, input: unknown, options: WriteOptions = {}) {
   const body = mutationBody(input);
   return mutate(connection, `${issuePath(issueID)}/project`, { ...body, id: requiredText(body.id as string, "project ID") }, "id,name,shortName", options);
+}
+
+
+export async function createVcsChange(connection: Connection, issueID: string, input: unknown, options: WriteOptions = {}) {
+  const body = mutationBody(input);
+  if (!Object.hasOwn(body, "state")) throw new Error("A new VCS change requires state.");
+  return mutate(connection, `${issuePath(issueID)}/vcsChanges`, { ...body, version: nullableText(body.version, "version") }, vcsFields, options);
+}
+export async function updateVcsChange(connection: Connection, issueID: string, changeID: string, input: unknown, options: WriteOptions = {}) {
+  return mutate(connection, `${issuePath(issueID)}/vcsChanges/${encodedID(changeID, "change ID")}`, mutationBody(input), vcsFields, options);
+}
+export async function deleteVcsChange(connection: Connection, issueID: string, changeID: string) {
+  return deleteObject(connection, `${issuePath(issueID)}/vcsChanges/${encodedID(changeID, "change ID")}`);
 }

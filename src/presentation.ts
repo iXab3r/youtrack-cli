@@ -576,3 +576,9 @@ export const savedQueryRecord = recordView<Item | null>({
   title: item => joined("Saved search", text(item?.name) ?? key(item)),
   fields: [{ label: "ID", value: item => key(item) }, { label: "Query", value: item => text(item?.query) }],
 });
+
+export const vcsRecord = recordView<Item | null>({
+  title: (item, context) => joined("VCS change", key(item) ?? arg(context, "changeID")),
+  fields: [{ label: "Version", value: item => text(item?.version) },
+    { label: "State", value: item => count(item?.state) ?? text(nested(item?.state)?.id) }],
+});

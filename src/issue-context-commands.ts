@@ -1,6 +1,6 @@
 import { issueReactionCommand } from "./issue-reactions-commands.js";
 import { command, type OptionDefinition } from "@eyeauras/cli-factory";
-import { projectedBodyUpdate, notificationOptions, pagedRead, projectedRead, readCommand, pageOptions, projectionOptions, readOptions } from "./cli-support.js";
+import { projectedBodyUpdate, notificationOptions, pagedRead, projectedRead, readCommand, pageOptions, projectionOptions, readOptions, updateCommand } from "./cli-support.js";
 import {
   activityCategories,
   getActivitiesPage,
@@ -11,12 +11,15 @@ import {
   listIssueActivities,
   getIssueActivitiesPage,
   getVcsChange,
+  createVcsChange,
+  updateVcsChange,
+  deleteVcsChange,
   listIssueSprints,
   listVcsChanges,
   updateComment,
   type ActivityOptions,
 } from "./issue-context.js";
-import { commentShown, commentUpdated, projectRecord, arg, done, sprintTable, activityTable, activityRecord, withView } from "./presentation.js";
+import { commentShown, commentUpdated, projectRecord, vcsRecord, arg, done, sprintTable, activityTable, activityRecord, withView } from "./presentation.js";
 
 const activityOptions: readonly OptionDefinition[] = [
   ...projectionOptions,
@@ -95,6 +98,10 @@ export const contextIssueChildren = [
     pagedRead("list <issueID>", "List the issue's sprints", listIssueSprints, sprintTable),
   ]),
   command("vcs-changes", "Inspect linked VCS changes and pull requests", [
+    projectedBodyUpdate("create <issueID>", "Link a VCS change", createVcsChange, undefined, vcsRecord, notificationOptions),
+    projectedBodyUpdate("update <issueID> <changeID>", "Update the VCS change state", updateVcsChange, undefined, vcsRecord, notificationOptions),
+    withView(done(context => `Removed VCS relation ${arg(context, "changeID")}.`), updateCommand(
+      "delete <issueID> <changeID>", "Remove a VCS relation", (client, { args }) => deleteVcsChange(client, args.issueID, args.changeID))),
     pagedRead("list <issueID>", "List VCS changes and pull requests", listVcsChanges),
     projectedRead(
       "get <issueID> <changeID>",
