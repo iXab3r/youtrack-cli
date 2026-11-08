@@ -130,3 +130,8 @@ test("US-006 work item writes expose mute controls and exact deletion with optio
   }
   await storyCase(t, { argv: ["issues", "work-items", "delete", "DEMO-1", "item/1", "--fields", "id"], method: "DELETE", path: "/api/issues/DEMO-1/timeTracking/workItems/item%2F1", query: [["fields", "id"]], response: undefined, result: null, update: true });
 });
+
+test("US-007 work-item date/author filters stay distinct from offset paging", async t => {
+  await storyCase(t, { argv: ["work-items", "list", "--fields", "id", "--start", "7", "--author", "me", "--creator", "creator/opaque", "--start-date", "2026-01-01", "--end-date", "2026-01-31", "--work-start", "-1", "--work-end", "9223372036854775807", "--created-start", "0", "--created-end", "1", "--updated-start", "2", "--updated-end", "3"],
+    method: "GET", path: "/api/workItems", query: [["fields", "id"], ["$top", "50"], ["$skip", "7"], ["author", "me"], ["creator", "creator/opaque"], ["startDate", "2026-01-01"], ["endDate", "2026-01-31"], ["start", "-1"], ["end", "9223372036854775807"], ["createdStart", "0"], ["createdEnd", "1"], ["updatedStart", "2"], ["updatedEnd", "3"]], response: [], result: emptyPage });
+});
