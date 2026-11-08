@@ -5,6 +5,7 @@ import {
   getCustomField,
   listFieldInstances,
   getFieldDefaults, updateFieldDefaults,
+  createEnumBundle, updateEnumBundle, deleteEnumBundle, deleteEnumValue,
   createEnumValue,
   updateEnumValue,
   getEnumBundle,
@@ -45,10 +46,14 @@ export const fieldCatalogRootCommands: readonly CommandDefinition[] = [
 ];
 
 export const fieldCatalogBundleChildren: readonly CommandDefinition[] = [
-  command("enum", "Inspect enum bundles", [
+  command("enum", "Inspect and manage enum bundles", [
+    projectedBodyUpdate("create", "Create an enum bundle", createEnumBundle, undefined, mutationWritten("Created enum bundle")),
+    projectedBodyUpdate("update <bundle>", "Update an enum bundle", updateEnumBundle, undefined, mutationWritten("Updated enum bundle", "bundle")),
+    projectedDelete("delete <bundle>", "Delete a selected enum bundle", deleteEnumBundle, mutationWritten("Deleted enum bundle", "bundle")),
     pagedRead("list", "List enum bundles", listEnumBundles, bundleTable),
     projectedRead("get <bundle>", "Show an enum bundle", getEnumBundle),
-    command("value", "Inspect enum values", [
+    command("value", "Inspect and manage enum values", [
+      projectedDelete("delete <bundle> <value>", "Delete a selected enum value", deleteEnumValue, mutationWritten("Deleted enum value", "value", "bundle")),
       projectedBodyUpdate("update <bundle> <value>", "Update an enum value", updateEnumValue, undefined, bundleValueWritten),
       projectedBodyUpdate("create <bundle>", "Create an enum value", createEnumValue, undefined, bundleValueWritten),
       pagedRead("list <bundle>", "List the bundle's values", listEnumValues, valueTable),

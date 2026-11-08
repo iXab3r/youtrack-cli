@@ -87,3 +87,17 @@ export async function updateCustomField(connection: Connection, fieldID: string,
 export async function deleteCustomField(connection: Connection, fieldID: string, options: ProjectionOptions = {}) {
   return deleteObject(connection, `${root}/customFields/${encodedID(fieldID, "field ID")}`, options);
 }
+
+
+export async function createEnumBundle(connection: Connection, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, `${root}/bundles/enum`, mutationBody(input), fields(options, bundleFields));
+}
+export async function updateEnumBundle(connection: Connection, bundleID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, bundlePath("enum", bundleID), mutationBody(input), fields(options, bundleFields));
+}
+export async function deleteEnumBundle(connection: Connection, bundleID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, bundlePath("enum", bundleID), options);
+}
+export async function deleteEnumValue(connection: Connection, bundleID: string, valueID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, valuePath("enum", bundleID, valueID), options);
+}
