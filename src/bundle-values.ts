@@ -1,4 +1,4 @@
-import { fields, mutate, namedMutationBody, type Connection, type ProjectionOptions, encodedID, readCollectionAt, readObjectAt } from "./client.js";
+import { fields, mutate, deleteObject, mutationBody, namedMutationBody, type Connection, type ProjectionOptions, encodedID, readCollectionAt, readObjectAt } from "./client.js";
 
 type BundleKind = "build" | "ownedField" | "version";
 
@@ -61,4 +61,18 @@ export async function createVersionValue(connection: Connection, bundleID: strin
 
 export async function updateVersionValue(connection: Connection, bundleID: string, valueID: string, input: unknown, options: ProjectionOptions = {}) {
   return mutate(connection, valuePath("version", bundleID, valueID), namedMutationBody(input, false), fields(options, versionValueFields));
+}
+
+
+export async function createVersionBundle(connection: Connection, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, bundlePath("version"), mutationBody(input), fields(options, bundleFields));
+}
+export async function updateVersionBundle(connection: Connection, bundleID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, bundlePath("version", bundleID), mutationBody(input), fields(options, bundleFields));
+}
+export async function deleteVersionBundle(connection: Connection, bundleID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, bundlePath("version", bundleID), options);
+}
+export async function deleteVersionValue(connection: Connection, bundleID: string, valueID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, valuePath("version", bundleID, valueID), options);
 }

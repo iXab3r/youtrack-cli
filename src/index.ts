@@ -88,6 +88,7 @@ export { deleteAgile, deleteSprint, createAgile, updateAgile, type AgileCreateOp
 export {
   listBuildBundles, getBuildBundle, listBuildValues, getBuildValue,
   listOwnedBundles, getOwnedBundle, listOwnedValues, getOwnedValue,
+  createVersionBundle, updateVersionBundle, deleteVersionBundle, deleteVersionValue,
   createVersionValue, updateVersionValue,
   listVersionBundles, getVersionBundle, listVersionValues, getVersionValue,
 } from "./bundle-values.js";
