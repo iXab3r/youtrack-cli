@@ -1299,10 +1299,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at <anonymous> (src/client.ts:572:25)",
-        "    at mutationResult (src/client.ts:544:18)",
-        "    at deleteObject (src/client.ts:571:10)",
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:579:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at deleteObject (src/client.ts:578:10)",
         "    at deleteIssueAttachment (src/issue-attachments.ts:49:10)",
         "    at <anonymous> (src/issue-attachments-commands.ts:20:9)"
       ],
@@ -1335,7 +1335,9 @@
         "tests/m01-stories.test.ts",
         "tests/m01-stories.test.ts:283",
         "tests/m01-stories.test.ts:285",
-        "tests/m01-stories.test.ts:300"
+        "tests/m01-stories.test.ts:300",
+        "tests/m01-stories.test.ts:317",
+        "tests/m01-stories.test.ts:319"
       ],
       "generatedSurfaceSmoke": "passed",
       "liveService": "not-run",
@@ -1419,10 +1421,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at <anonymous> (src/client.ts:572:25)",
-        "    at mutationResult (src/client.ts:544:18)",
-        "    at deleteObject (src/client.ts:571:10)",
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:579:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at deleteObject (src/client.ts:578:10)",
         "    at removeIssueReaction (src/issue-reactions.ts:22:10)",
         "    at <anonymous> (src/issue-reactions-commands.ts:12:7)"
       ],
@@ -1499,10 +1501,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at <anonymous> (src/client.ts:572:25)",
-        "    at mutationResult (src/client.ts:544:18)",
-        "    at deleteObject (src/client.ts:571:10)",
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:579:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at deleteObject (src/client.ts:578:10)",
         "    at removeIssueLink (src/issue-relations.ts:69:10)",
         "    at <anonymous> (src/issue-relations-commands.ts:55:9)"
       ],
@@ -1586,10 +1588,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at <anonymous> (src/client.ts:572:25)",
-        "    at mutationResult (src/client.ts:544:18)",
-        "    at deleteObject (src/client.ts:571:10)",
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:579:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at deleteObject (src/client.ts:578:10)",
         "    at removeIssueTag (src/issue-relations.ts:110:10)",
         "    at <anonymous> (src/issue-relations-commands.ts:73:9)"
       ],
@@ -1679,10 +1681,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at <anonymous> (src/client.ts:572:25)",
-        "    at mutationResult (src/client.ts:544:18)",
-        "    at deleteObject (src/client.ts:571:10)",
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:579:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at deleteObject (src/client.ts:578:10)",
         "    at deleteIssueWorkItem (src/issue-time.ts:178:10)",
         "    at <anonymous> (src/issue-time-commands.ts:50:9)"
       ],
@@ -2060,8 +2062,8 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
         "    at activityPage (src/issue-context.ts:63:24)",
         "    at getActivitiesPage (src/issue-context.ts:96:10)",
         "    at <anonymous> (src/issue-context-commands.ts:59:9)"
@@ -2166,10 +2168,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -2256,9 +2258,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -2355,10 +2357,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -2446,9 +2448,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -2544,10 +2546,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -2634,9 +2636,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -2733,10 +2735,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -2823,9 +2825,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -2921,10 +2923,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -3011,9 +3013,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -3110,10 +3112,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -3201,9 +3203,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -3300,10 +3302,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -3390,9 +3392,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -3488,10 +3490,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -3579,9 +3581,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -3678,10 +3680,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -3769,9 +3771,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -3867,10 +3869,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -3969,10 +3971,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -4061,9 +4063,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -4160,10 +4162,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -4252,9 +4254,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -4350,10 +4352,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -4440,9 +4442,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -4539,10 +4541,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -4630,9 +4632,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -4730,10 +4732,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -4820,9 +4822,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -5009,10 +5011,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -5654,14 +5656,14 @@
         {
           "file": "src/client.ts",
           "symbol": "listProjects",
-          "location": "src/client.ts:463"
+          "location": "src/client.ts:469"
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -5750,9 +5752,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -5849,10 +5851,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -5947,10 +5949,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -6037,9 +6039,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -6220,9 +6222,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -6319,10 +6321,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -6423,9 +6425,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
         "    at listProjectTeamUsers (src/group-directory.ts:55:10)",
         "    at <anonymous> (src/group-directory-commands.ts:52:11)"
       ],
@@ -6526,9 +6528,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
         "    at listProjectTeamUsers (src/group-directory.ts:55:10)",
         "    at <anonymous> (src/group-directory-commands.ts:52:11)"
       ],
@@ -6618,9 +6620,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -6715,10 +6717,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -6806,9 +6808,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -6934,9 +6936,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -7031,10 +7033,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -7122,9 +7124,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -7209,9 +7211,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -7306,10 +7308,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -7389,9 +7391,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -7481,10 +7483,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -7564,9 +7566,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -7656,10 +7658,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -7744,9 +7746,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -7842,10 +7844,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -7929,9 +7931,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -8027,10 +8029,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -8114,9 +8116,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -8211,10 +8213,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -8299,9 +8301,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -8476,8 +8478,8 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readNullableObject (src/client.ts:278:29)",
+        "    at request (src/client.ts:186:31)",
+        "    at readNullableObject (src/client.ts:284:29)",
         "    at getParentArticle (src/article-extras.ts:60:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
@@ -8770,10 +8772,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -8864,9 +8866,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -8964,9 +8966,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
         "    at listGroupMembers (src/group-directory.ts:36:10)",
         "    at <anonymous> (src/group-directory-commands.ts:28:11)"
       ],
@@ -9065,10 +9067,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -9169,9 +9171,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
         "    at listGroupMembers (src/group-directory.ts:36:10)",
         "    at <anonymous> (src/group-directory-commands.ts:28:11)"
       ],
@@ -9272,10 +9274,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -9360,9 +9362,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -9465,7 +9467,7 @@
         {
           "file": "src/client.ts",
           "symbol": "listIssues",
-          "location": "src/client.ts:472"
+          "location": "src/client.ts:478"
         },
         {
           "file": "src/attachment-download.ts",
@@ -9474,10 +9476,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at listIssues (src/client.ts:489:48)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at listIssues (src/client.ts:495:48)",
         "    at commands.readCommand.flags (src/cli.ts:167:20)"
       ],
       "surfaces": {
@@ -9586,13 +9588,13 @@
         {
           "file": "src/client.ts",
           "symbol": "getIssue",
-          "location": "src/client.ts:500"
+          "location": "src/client.ts:506"
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -9726,9 +9728,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
         "    at listIssueActivities (src/issue-context.ts:150:10)",
         "    at readCommand.flags (src/issue-context-commands.ts:68:7)"
       ],
@@ -9809,9 +9811,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -9926,8 +9928,8 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
         "    at activityPage (src/issue-context.ts:63:24)",
         "    at getIssueActivitiesPage (src/issue-context.ts:104:10)",
         "    at readCommand.flags (src/issue-context-commands.ts:78:9)"
@@ -10020,10 +10022,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -10107,9 +10109,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -10230,14 +10232,14 @@
         {
           "file": "src/client.ts",
           "symbol": "listComments",
-          "location": "src/client.ts:501"
+          "location": "src/client.ts:507"
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -10323,9 +10325,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -10415,10 +10417,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -10498,9 +10500,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -10590,10 +10592,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -10682,9 +10684,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -10784,10 +10786,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -10873,9 +10875,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -10970,10 +10972,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -11109,10 +11111,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -11202,10 +11204,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -11291,9 +11293,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -11373,9 +11375,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -11471,10 +11473,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -11562,9 +11564,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -11660,10 +11662,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -11743,9 +11745,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -12013,10 +12015,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -12100,9 +12102,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -12200,9 +12202,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
         "    at listTags (src/issue-relations.ts:77:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
@@ -12289,9 +12291,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -12438,10 +12440,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
-        "    at <anonymous> (src/client.ts:416:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
+        "    at <anonymous> (src/client.ts:422:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -12524,13 +12526,13 @@
         {
           "file": "src/client.ts",
           "symbol": "readUser",
-          "location": "src/client.ts:454"
+          "location": "src/client.ts:460"
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at currentUser (src/client.ts:441:23)",
-        "    at readUser (src/client.ts:459:7)",
+        "    at request (src/client.ts:186:31)",
+        "    at currentUser (src/client.ts:447:23)",
+        "    at readUser (src/client.ts:465:7)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -12634,9 +12636,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -13011,9 +13013,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readCollection (src/client.ts:308:29)",
-        "    at readPage (src/client.ts:325:23)",
+        "    at request (src/client.ts:186:31)",
+        "    at readCollection (src/client.ts:314:29)",
+        "    at readPage (src/client.ts:331:23)",
         "    at listWorkItems (src/issue-time.ts:66:10)",
         "    at readCommand.map.flags (src/issue-time-commands.ts:20:51)"
       ],
@@ -13106,9 +13108,9 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
-        "    at <anonymous> (src/client.ts:434:12)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
+        "    at <anonymous> (src/client.ts:440:12)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -15720,10 +15722,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at <anonymous> (src/client.ts:562:25)",
-        "    at mutationResult (src/client.ts:544:18)",
-        "    at mutate (src/client.ts:561:10)",
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:569:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at mutate (src/client.ts:568:10)",
         "    at createSprint (src/agile.ts:82:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
@@ -15825,10 +15827,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at <anonymous> (src/client.ts:562:25)",
-        "    at mutationResult (src/client.ts:544:18)",
-        "    at mutate (src/client.ts:561:10)",
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:569:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at mutate (src/client.ts:568:10)",
         "    at updateSprint (src/agile.ts:97:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
@@ -15924,10 +15926,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at <anonymous> (src/client.ts:562:25)",
-        "    at mutationResult (src/client.ts:544:18)",
-        "    at mutate (src/client.ts:561:10)",
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:569:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at mutate (src/client.ts:568:10)",
         "    at createArticle (src/articles.ts:60:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
@@ -16028,10 +16030,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at <anonymous> (src/client.ts:562:25)",
-        "    at mutationResult (src/client.ts:544:18)",
-        "    at mutate (src/client.ts:561:10)",
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:569:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at mutate (src/client.ts:568:10)",
         "    at updateArticle (src/articles.ts:80:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
@@ -16157,10 +16159,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at <anonymous> (src/client.ts:586:25)",
-        "    at mutationResult (src/client.ts:544:18)",
-        "    at uploadObjectCollection (src/client.ts:585:10)",
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:593:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at uploadObjectCollection (src/client.ts:592:10)",
         "    at uploadArticleAttachment (src/article-extras.ts:42:10)"
       ],
       "surfaces": {
@@ -16421,10 +16423,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at <anonymous> (src/client.ts:562:25)",
-        "    at mutationResult (src/client.ts:544:18)",
-        "    at mutate (src/client.ts:561:10)",
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:569:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at mutate (src/client.ts:568:10)",
         "    at addArticleComment (src/articles.ts:109:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
@@ -16536,10 +16538,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at <anonymous> (src/client.ts:562:25)",
-        "    at mutationResult (src/client.ts:544:18)",
-        "    at mutate (src/client.ts:561:10)",
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:569:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at mutate (src/client.ts:568:10)",
         "    at updateArticleComment (src/articles.ts:125:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
@@ -16785,10 +16787,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at <anonymous> (src/client.ts:562:25)",
-        "    at mutationResult (src/client.ts:544:18)",
-        "    at mutate (src/client.ts:561:10)",
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:569:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at mutate (src/client.ts:568:10)",
         "    at applyCommands (src/issue-query.ts:90:10)",
         "    at updateCommand (src/issue-query-commands.ts:59:51)"
       ],
@@ -16898,8 +16900,8 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
         "    at assistCommands (src/issue-query.ts:106:11)",
         "    at <anonymous> (src/issue-query-commands.ts:70:51)"
       ],
@@ -17293,10 +17295,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at <anonymous> (src/client.ts:562:25)",
-        "    at mutationResult (src/client.ts:544:18)",
-        "    at mutate (src/client.ts:561:10)",
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:569:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at mutate (src/client.ts:568:10)",
         "    at createIssue (src/issue-fields.ts:179:10)"
       ],
       "surfaces": {
@@ -17431,10 +17433,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at <anonymous> (src/client.ts:562:25)",
-        "    at mutationResult (src/client.ts:544:18)",
-        "    at mutate (src/client.ts:561:10)",
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:569:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at mutate (src/client.ts:568:10)",
         "    at updateIssue (src/issue-fields.ts:189:10)"
       ],
       "surfaces": {
@@ -17472,6 +17474,9 @@
         "tests/m01-stories.test.ts",
         "tests/m01-stories.test.ts:282",
         "tests/m01-stories.test.ts:285",
+        "tests/m01-stories.test.ts:316",
+        "tests/m01-stories.test.ts:319",
+        "tests/m01-stories.test.ts:325",
         "tests/mutations.test.ts",
         "tests/mutations.test.ts:117",
         "tests/mutations.test.ts:46",
@@ -17544,10 +17549,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at <anonymous> (src/client.ts:586:25)",
-        "    at mutationResult (src/client.ts:544:18)",
-        "    at uploadObjectCollection (src/client.ts:585:10)",
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:593:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at uploadObjectCollection (src/client.ts:592:10)",
         "    at uploadIssueAttachment (src/issue-attachments.ts:39:10)"
       ],
       "surfaces": {
@@ -17587,6 +17592,8 @@
         "tests/m01-stories.test.ts",
         "tests/m01-stories.test.ts:284",
         "tests/m01-stories.test.ts:285",
+        "tests/m01-stories.test.ts:318",
+        "tests/m01-stories.test.ts:319",
         "tests/transport.test.ts",
         "tests/transport.test.ts:79",
         "tests/transport.test.ts:84",
@@ -17663,10 +17670,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at <anonymous> (src/client.ts:562:25)",
-        "    at mutationResult (src/client.ts:544:18)",
-        "    at mutate (src/client.ts:561:10)",
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:569:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at mutate (src/client.ts:568:10)",
         "    at updateIssueAttachment (src/issue-attachments.ts:45:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
@@ -17769,15 +17776,15 @@
         {
           "file": "src/client.ts",
           "symbol": "addComment",
-          "location": "src/client.ts:595"
+          "location": "src/client.ts:602"
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at <anonymous> (src/client.ts:562:25)",
-        "    at mutationResult (src/client.ts:544:18)",
-        "    at mutate (src/client.ts:561:10)",
-        "    at addComment (src/client.ts:602:10)",
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:569:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at mutate (src/client.ts:568:10)",
+        "    at addComment (src/client.ts:609:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
       "surfaces": {
@@ -17892,10 +17899,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at <anonymous> (src/client.ts:562:25)",
-        "    at mutationResult (src/client.ts:544:18)",
-        "    at mutate (src/client.ts:561:10)",
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:569:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at mutate (src/client.ts:568:10)",
         "    at updateComment (src/issue-context.ts:121:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
@@ -17987,10 +17994,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at <anonymous> (src/client.ts:562:25)",
-        "    at mutationResult (src/client.ts:544:18)",
-        "    at mutate (src/client.ts:561:10)",
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:569:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at mutate (src/client.ts:568:10)",
         "    at addIssueReaction (src/issue-reactions.ts:17:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
@@ -18083,10 +18090,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at <anonymous> (src/client.ts:562:25)",
-        "    at mutationResult (src/client.ts:544:18)",
-        "    at mutate (src/client.ts:561:10)",
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:569:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at mutate (src/client.ts:568:10)",
         "    at setIssueField (src/issue-fields.ts:128:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
@@ -18213,10 +18220,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at <anonymous> (src/client.ts:562:25)",
-        "    at mutationResult (src/client.ts:544:18)",
-        "    at mutate (src/client.ts:561:10)",
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:569:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at mutate (src/client.ts:568:10)",
         "    at addIssueLink (src/issue-relations.ts:59:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
@@ -18351,10 +18358,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at <anonymous> (src/client.ts:562:25)",
-        "    at mutationResult (src/client.ts:544:18)",
-        "    at mutate (src/client.ts:561:10)",
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:569:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at mutate (src/client.ts:568:10)",
         "    at addIssueTag (src/issue-relations.ts:101:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
@@ -18448,10 +18455,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at <anonymous> (src/client.ts:562:25)",
-        "    at mutationResult (src/client.ts:544:18)",
-        "    at mutate (src/client.ts:561:10)",
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:569:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at mutate (src/client.ts:568:10)",
         "    at addWorkItem (src/issue-time.ts:152:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
@@ -18547,10 +18554,10 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at <anonymous> (src/client.ts:562:25)",
-        "    at mutationResult (src/client.ts:544:18)",
-        "    at mutate (src/client.ts:561:10)",
+        "    at request (src/client.ts:186:31)",
+        "    at <anonymous> (src/client.ts:569:25)",
+        "    at mutationResult (src/client.ts:551:18)",
+        "    at mutate (src/client.ts:568:10)",
         "    at updateWorkItem (src/issue-time.ts:168:10)",
         "    at <anonymous> (src/cli-support.ts:183:42)"
       ],
@@ -18765,8 +18772,8 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
         "    at countIssues (src/issue-query.ts:141:23)",
         "    at <anonymous> (src/issue-query-commands.ts:95:49)"
       ],
@@ -19043,8 +19050,8 @@
         }
       ],
       "callStack": [
-        "    at request (src/client.ts:185:31)",
-        "    at readObject (src/client.ts:270:29)",
+        "    at request (src/client.ts:186:31)",
+        "    at readObject (src/client.ts:276:29)",
         "    at assistSearch (src/issue-query.ts:126:11)",
         "    at <anonymous> (src/issue-query-commands.ts:81:51)"
       ],

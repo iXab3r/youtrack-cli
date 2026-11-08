@@ -43,7 +43,7 @@ exactly one opaque encoded path; no discovery, retries or automatic target expan
 ## Verification and retained boundaries
 
 Every story has a committed red acceptance run before feature code on its own branch. Final local
-Verify passed **455 offline tests**, installed executable/export/native-fetch checks, persistent RPC,
+Verify passed **456 offline tests**, installed executable/export/native-fetch checks, persistent RPC,
 closed-reader EPIPE 141, file publication contracts, and **2 release-safety tests**. No live proof ran.
 The installed contract covers repeated field selections, new reactions, library exports and admission.
 
@@ -78,8 +78,8 @@ Physical nonblank source counts (comments included, generated output excluded):
 
 | Surface | Baseline | Current | Delta |
 |---|---:|---:|---:|
-| src | 3813 | 4093 | +280 |
-| tests | 7482 | 7767 | +285 |
+| src | 3813 | 4100 | +287 |
+| tests | 7482 | 7789 | +307 |
 | integration-tests | 165 | 165 | +0 |
 | scripts | 559 | 1079 | +520 |
 
