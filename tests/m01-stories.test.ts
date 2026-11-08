@@ -158,3 +158,9 @@ test("US-005 attachment upload controls, metadata update and exact deletion stay
   await storyCase(t, { argv: ["issues", "attachments", "update", "DEMO-1", "file/1", "--body", '{"name":"renamed.txt","nativeMetadata":true}', "--fields", "id"], method: "POST", path: "/api/issues/DEMO-1/attachments/file%2F1", query: [["fields", "id"]], body: { name: "renamed.txt", nativeMetadata: true }, response: detail, result: detail, update: true });
   await storyCase(t, { argv: ["issues", "attachments", "delete", "DEMO-1", "file/1", "--fields", "id"], method: "DELETE", path: "/api/issues/DEMO-1/attachments/file%2F1", query: [["fields", "id"]], response: undefined, result: null, update: true });
 });
+
+test("US-009 relationship writes expose native projections without deleting related entities", async t => {
+  await storyCase(t, { argv: ["issues", "links", "add", "DEMO-1", "link/dir", "--body", '{"id":"target/opaque","native":true}', "--fields", "id", "--mute-update-notifications", "false"], method: "POST", path: "/api/issues/DEMO-1/links/link%2Fdir/issues", query: [["fields", "id"], ["muteUpdateNotifications", "false"]], body: { id: "target/opaque", native: true }, response: detail, result: detail, update: true });
+  await storyCase(t, { argv: ["issues", "links", "remove", "DEMO-1", "link/dir", "target/opaque", "--fields", "id"], method: "DELETE", path: "/api/issues/DEMO-1/links/link%2Fdir/issues/target%2Fopaque", query: [["fields", "id"]], response: undefined, result: null, update: true });
+  await storyCase(t, { argv: ["issues", "tags", "remove", "DEMO-1", "tag/opaque", "--fields", "id"], method: "DELETE", path: "/api/issues/DEMO-1/tags/tag%2Fopaque", query: [["fields", "id"]], response: undefined, result: null, update: true });
+});
