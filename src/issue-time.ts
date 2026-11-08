@@ -35,9 +35,29 @@ export const getIssueWorkItem = readObjectAt(
   workItemFields,
 );
 
-export async function listWorkItems(connection: Connection, options: IssueSearchOptions = {}) {
+export interface WorkItemOptions extends IssueSearchOptions {
+  author?: string;
+  creator?: string;
+  startDate?: string;
+  endDate?: string;
+  workStart?: string;
+  workEnd?: string;
+  createdStart?: string;
+  createdEnd?: string;
+  updatedStart?: string;
+  updatedEnd?: string;
+}
+
+/** Values remain strings on the wire so a native Long need not fit a JS number. */
+export async function listWorkItems(connection: Connection, options: WorkItemOptions = {}) {
+  const filters: Record<string, string> = {};
+  const names = ["author", "creator", "startDate", "endDate", "workStart", "workEnd", "createdStart", "createdEnd", "updatedStart", "updatedEnd"] as const;
+  for (const name of names) {
+    const value = options[name];
+    if (value !== undefined) filters[name === "workStart" ? "start" : name === "workEnd" ? "end" : name] = requiredText(value, name);
+  }
   return readPage(connection, "api/workItems", {
-    ...page(options, workItemFields),
+    ...page(options, workItemFields), ...filters,
     ...(options.query === undefined ? {} : { query: requiredText(options.query, "query") }),
   });
 }

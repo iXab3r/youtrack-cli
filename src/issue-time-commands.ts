@@ -17,9 +17,16 @@ export const timeRootCommands = [
     withView(workItemTable, readCommand(
       "list",
       "List work items",
-      async (connection, { options }, context) => listWorkItems(connection, readOptions(options)),
+      async (connection, { options }, context) => listWorkItems(connection, {
+        ...readOptions(options),
+        ...Object.fromEntries(["author", "creator", "startDate", "endDate", "workStart", "workEnd", "createdStart", "createdEnd", "updatedStart", "updatedEnd"]
+          .filter(name => typeof options[name] === "string").map(name => [name, options[name]])),
+      }),
       [
           ...pageOptions,
+          ...["author", "creator", "start-date", "end-date", "work-start", "work-end", "created-start", "created-end", "updated-start", "updated-end"].map(name => ({
+            flags: `--${name} <value>`, description: `Filter by ${name.replaceAll("-", " ")}`,
+          })),
           { flags: "--query <query>", description: "Issue search query" },
         ],
     )),
