@@ -36,3 +36,10 @@ test("US-053 project creation needs a native leader and names empty successful r
   const r = await f.run(f.cli, argv); assert.equal(r.exitCode, 0, r.stderr); assert.match(r.stdout, /Selected-project/); assert.equal(calls, 1);
   assert.equal(await f.json(f.cli, argv), null);
 });
+
+test("US-054 use explicit project-scoped issue endpoints and repeated native fields", async t => {
+  await storyCase(t, {"argv":["project","issues","list","project /?","--custom-field","Priority","--custom-field","State","--custom-field","Priority","--fields","id","--start","7","--page-size","20"],"method":"GET","path":"/api/admin/projects/project%20%2F%3F/issues","query":[["fields","id"],["$skip","7"],["$top","20"],["customFields","Priority"],["customFields","State"],["customFields","Priority"]],"response":[],"result":{"count":0,"items":[],"hasMore":false,"nextStart":null}});
+  await storyCase(t, {"argv":["project","issues","get","project /?","issue /?","--fields","id"],"method":"GET","path":"/api/admin/projects/project%20%2F%3F/issues/issue%20%2F%3F","query":[["fields","id"]],"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"}});
+  await storyCase(t, {"argv":["project","issues","create","project /?","--body","{\"summary\":\"Synthetic scoped issue\",\"description\":null}","--fields","id","--mute-update-notifications","false"],"method":"POST","path":"/api/admin/projects/project%20%2F%3F/issues","query":[["fields","id"],["muteUpdateNotifications","false"]],"body":{"summary":"Synthetic scoped issue","description":null},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["project","issues","update","project /?","issue /?","--body","{\"summary\":null,\"description\":\"Synthetic scoped update\"}","--fields","id","--mute-update-notifications","true"],"method":"POST","path":"/api/admin/projects/project%20%2F%3F/issues/issue%20%2F%3F","query":[["fields","id"],["muteUpdateNotifications","true"]],"body":{"summary":null,"description":"Synthetic scoped update"},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+});
