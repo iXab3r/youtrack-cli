@@ -539,3 +539,16 @@ export const uploadedAttachments = tableView<Item, Item[] | null>({
   ],
   empty: "Uploaded.",
 });
+
+export const reactionTable = tableView<Item, YouTrackPage>({
+  rows: page => page.items,
+  columns: [id, { header: "REACTION", value: item => text(item.reaction) }, { header: "AUTHOR", value: login }],
+  empty: "No reactions.", footer: pageFooter,
+});
+export const reactionRecord = recordView<Item | null>({
+  title: item => joined("Reaction", key(item)),
+  fields: [
+    { label: "Reaction", value: item => text(item?.reaction) },
+    { label: "Author", value: item => login(item ?? undefined) },
+  ],
+});

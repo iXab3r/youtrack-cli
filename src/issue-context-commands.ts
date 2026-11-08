@@ -1,3 +1,4 @@
+import { issueReactionCommand } from "./issue-reactions-commands.js";
 import { command, type OptionDefinition } from "@eyeauras/cli-factory";
 import { projectedBodyUpdate, notificationOptions, pagedRead, projectedRead, readCommand, pageOptions, projectionOptions, readOptions } from "./cli-support.js";
 import {
@@ -97,6 +98,7 @@ export const contextIssueChildren = [
 ];
 
 export const contextCommentChildren = [
+  issueReactionCommand,
   projectedRead("get <issueID> <commentID>", "Show a comment", getComment, commentShown),
   projectedBodyUpdate(
     "update <issueID> <commentID>",
