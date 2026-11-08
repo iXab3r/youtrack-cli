@@ -88,3 +88,10 @@ test("US-066 maintain state bundles and delete selected values", async t => {
   await storyCase(t, {"argv":["bundle","state","delete","bundle /?","--fields","id"],"method":"DELETE","path":"/api/admin/customFieldSettings/bundles/state/bundle%20%2F%3F","query":[["fields","id"]],"response":undefined,"result":null,"update":true});
   await storyCase(t, {"argv":["bundle","state","value","delete","bundle /?","value /?"],"method":"DELETE","path":"/api/admin/customFieldSettings/bundles/state/bundle%20%2F%3F/values/value%20%2F%3F","query":[],"response":undefined,"result":null,"update":true});
 });
+
+test("US-067 maintain version bundles and delete selected values", async t => {
+  await storyCase(t, {"argv":["bundle","version","create","--body","{\"name\":\"Synthetic version bundle\",\"values\":[{\"name\":\"Synthetic value\",\"released\":false,\"releaseDate\":null,\"startDate\":null}]}","--fields","id"],"method":"POST","path":"/api/admin/customFieldSettings/bundles/version","query":[["fields","id"]],"body":{"name":"Synthetic version bundle","values":[{"name":"Synthetic value","released":false,"releaseDate":null,"startDate":null}]},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["bundle","version","update","bundle /?","--body","{\"name\":\"Renamed version bundle\",\"values\":[]}","--fields","id"],"method":"POST","path":"/api/admin/customFieldSettings/bundles/version/bundle%20%2F%3F","query":[["fields","id"]],"body":{"name":"Renamed version bundle","values":[]},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["bundle","version","delete","bundle /?","--fields","id"],"method":"DELETE","path":"/api/admin/customFieldSettings/bundles/version/bundle%20%2F%3F","query":[["fields","id"]],"response":undefined,"result":null,"update":true});
+  await storyCase(t, {"argv":["bundle","version","value","delete","bundle /?","value /?"],"method":"DELETE","path":"/api/admin/customFieldSettings/bundles/version/bundle%20%2F%3F/values/value%20%2F%3F","query":[],"response":undefined,"result":null,"update":true});
+});
