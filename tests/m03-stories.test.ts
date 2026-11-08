@@ -119,8 +119,33 @@ test("M03 empty create confirmations retain the selected object identity", async
     { name: "field", argv: ["project", "field", "create", "Selected-project", "--body", '{"field":{"id":"Selected-prototype"},"$type":"EnumProjectCustomField"}'], expected: /Selected-prototype.*Selected-project|Selected-project.*Selected-prototype/ },
   ];
   for (const row of rows) await t.test(row.name, async () => {
+    server.use(http.post("*", () => new HttpResponse(null, { status: 204 })));
     const shown = await f.run(f.cli, row.argv); assert.equal(shown.exitCode, 0, shown.stderr); assert.match(shown.stdout, row.expected);
     assert.equal(await f.json(f.cli, row.argv), null);
     assert.deepEqual((await f.rpc(f.cli, [row.argv]) as { result: unknown }[])[0]?.result, null);
   });
+});
+
+
+test("M03 empty create identities redact credentials without changing the submitted body", async t => {
+  const token = "synthetic-token";
+  const f = await configuredFixture(t, { permissions: ["Update"], token });
+  for (const name of [token, "https://files.example.test/download?signature=synthetic-signature"]) {
+    server.use(http.post("*", async ({ request }) => {
+      const body = await request.json() as { name?: string; field?: { id: string } };
+      assert.equal(body.name ?? body.field?.id, name);
+      return new HttpResponse(null, { status: 204 });
+    }));
+    for (const argv of [
+      ["agile", "create", "--body", JSON.stringify({ name, projects: [{ id: "project" }] })],
+      ["bundle", "enum", "value", "create", "bundle", "--body", JSON.stringify({ name })],
+      ["tags", "create", "--body", JSON.stringify({ name })],
+      ["project", "field", "create", token, "--body", JSON.stringify({ field: { id: name }, $type: "EnumProjectCustomField" })],
+    ]) {
+      const shown = await f.run(f.cli, argv);
+      assert.equal(shown.exitCode, 0, shown.stderr);
+      assert.doesNotMatch(shown.stdout + shown.stderr, /synthetic-token|synthetic-signature/);
+      assert.match(shown.stdout, /redacted/);
+    }
+  }
 });
