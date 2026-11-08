@@ -1,0 +1,1176 @@
+{
+  "retrievedDateUTC": "2026-11-08",
+  "openapi": {
+    "url": "https://youtrack.jetbrains.com/api/openapi.json",
+    "sha256": "08d7f307974004570acab1903d66c663710432ff70bffa6c601b70de27ccfb9b",
+    "oasVersion": "3.0.1",
+    "infoVersion": "2026.4",
+    "pathCount": 157,
+    "operationCount": 281
+  },
+  "reference": {
+    "url": "https://www.jetbrains.com/help/youtrack/devportal/api-resources.html",
+    "pageDate": "2026-11-04",
+    "htmlBuiltOn": "2026-11-06T17:28:18.886702316",
+    "indexSha256": "c5a2dea9dc203371a316957775440ab61ac5e0f1c29c056aa5f6b4efafa328b4",
+    "pages": [
+      {
+        "file": "operations-api-activities.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-activities.html.md",
+        "sha256": "2b977c0c86c3efa4adc5ee9c91de76c4f337df38bd4b8743460e0b04c2db31d2",
+        "bytes": 3639
+      },
+      {
+        "file": "operations-api-activitiesPage.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-activitiesPage.html.md",
+        "sha256": "13201b3d3adffe3571b156749592f3856b9f5e724a76e2bbeb761ead931ca52b",
+        "bytes": 8441
+      },
+      {
+        "file": "operations-api-admin-customFieldSettings-bundles-build-bundleID-values.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-customFieldSettings-bundles-build-bundleID-values.html.md",
+        "sha256": "e18f6b5b139e9e56940a74b6e1825d05c215761a11850348cfc33ef26c9c2c51",
+        "bytes": 5455
+      },
+      {
+        "file": "operations-api-admin-customFieldSettings-bundles-build.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-customFieldSettings-bundles-build.html.md",
+        "sha256": "6f84467d3505eaa97693b61d17744ae4f0b6b97f4cb95c446c5fde03bb193a23",
+        "bytes": 6111
+      },
+      {
+        "file": "operations-api-admin-customFieldSettings-bundles-enum-bundleID-values.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-customFieldSettings-bundles-enum-bundleID-values.html.md",
+        "sha256": "94b9b92b5cae9c67abd9cff0d1a8158d241d550c71b4e30346382cbbb8c8161b",
+        "bytes": 5220
+      },
+      {
+        "file": "operations-api-admin-customFieldSettings-bundles-enum.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-customFieldSettings-bundles-enum.html.md",
+        "sha256": "2af3205ded434220813b1117c419166be05c841ff7712d80d7aed7eb75aad279",
+        "bytes": 6231
+      },
+      {
+        "file": "operations-api-admin-customFieldSettings-bundles-ownedField-bundleID-values.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-customFieldSettings-bundles-ownedField-bundleID-values.html.md",
+        "sha256": "e9ba8fd02b14b0d8bf0305c8bde80faac9451dc1174970e4ff37dbd0b7c24d55",
+        "bytes": 5568
+      },
+      {
+        "file": "operations-api-admin-customFieldSettings-bundles-ownedField.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-customFieldSettings-bundles-ownedField.html.md",
+        "sha256": "f9fe5a9257f45ac34df113ece3a409650b8f1d758a2b118d0feee67af594b24a",
+        "bytes": 5807
+      },
+      {
+        "file": "operations-api-admin-customFieldSettings-bundles-state-bundleID-values.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-customFieldSettings-bundles-state-bundleID-values.html.md",
+        "sha256": "5cd58f89554e611c22d7b02f905f41f87bc203e8c67a83d2a1718ed84d06b382",
+        "bytes": 5503
+      },
+      {
+        "file": "operations-api-admin-customFieldSettings-bundles-state.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-customFieldSettings-bundles-state.html.md",
+        "sha256": "31c7411fd04aabb772319947bf6be0749df6e897ff67beffb75a15c097d85178",
+        "bytes": 5786
+      },
+      {
+        "file": "operations-api-admin-customFieldSettings-bundles-user-bundleID-groups.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-customFieldSettings-bundles-user-bundleID-groups.html.md",
+        "sha256": "83ba0db0dd2aa06667537d99df23bc72c323058fe1c7144722cf97b8751a3420",
+        "bytes": 3892
+      },
+      {
+        "file": "operations-api-admin-customFieldSettings-bundles-user-bundleID-individuals.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-customFieldSettings-bundles-user-bundleID-individuals.html.md",
+        "sha256": "9b6bfb6a4e1bfde80f806b4138f870940d2f711aa6c7b79d255a2be47ff8357f",
+        "bytes": 5294
+      },
+      {
+        "file": "operations-api-admin-customFieldSettings-bundles-user.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-customFieldSettings-bundles-user.html.md",
+        "sha256": "b0e278fc8c5e612139501fa1e5dace4c7c1b5a4ab85104552a2699b16c5b87a2",
+        "bytes": 6251
+      },
+      {
+        "file": "operations-api-admin-customFieldSettings-bundles-version-bundleID-values.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-customFieldSettings-bundles-version-bundleID-values.html.md",
+        "sha256": "acdfa1425bd9d9b2fe104815d4ee298ac4bf0263c1196c97df43889246c70575",
+        "bytes": 5791
+      },
+      {
+        "file": "operations-api-admin-customFieldSettings-bundles-version.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-customFieldSettings-bundles-version.html.md",
+        "sha256": "b1d33da86d4f0c8067962a97bc2e2c2ea89d2be10c4f7fba201283f3b97bebd2",
+        "bytes": 5426
+      },
+      {
+        "file": "operations-api-admin-customFieldSettings-customFields-fieldID-fieldDefaults.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-customFieldSettings-customFields-fieldID-fieldDefaults.html.md",
+        "sha256": "fc6d0f04da7d9b14ed6fd377cd3d420c4286cbd3eb19d59ab8327b9eea8e20bf",
+        "bytes": 4628
+      },
+      {
+        "file": "operations-api-admin-customFieldSettings-customFields.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-customFieldSettings-customFields.html.md",
+        "sha256": "01fa1314360ed1ed656a2ba1d27fe5928a590df07e331699c4f5b50d59fc35a4",
+        "bytes": 6313
+      },
+      {
+        "file": "operations-api-admin-databaseBackup-backups.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-databaseBackup-backups.html.md",
+        "sha256": "6bc7f2010ad0e4eecf173c04d5ca6cf1bd532d8af1099fe6d8abb46232df5b05",
+        "bytes": 2624
+      },
+      {
+        "file": "operations-api-admin-databaseBackup-settings-backupStatus.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-databaseBackup-settings-backupStatus.html.md",
+        "sha256": "1635060f95da19a06170870963fea58d5060dd1475149b7ccdc9ac9ba28f277d",
+        "bytes": 2620
+      },
+      {
+        "file": "operations-api-admin-databaseBackup-settings.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-databaseBackup-settings.html.md",
+        "sha256": "c85a4d10ef923043faeae56233d0466b76c04515faeb3a28a0b83d70d494c6d5",
+        "bytes": 5245
+      },
+      {
+        "file": "operations-api-admin-globalSettings-appearanceSettings.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-globalSettings-appearanceSettings.html.md",
+        "sha256": "00b48d651c83a67c23a8c9dacb8fd788450a02392245512d334eab075a0e2c16",
+        "bytes": 4112
+      },
+      {
+        "file": "operations-api-admin-globalSettings-license.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-globalSettings-license.html.md",
+        "sha256": "b052e272ce5558bc6e15953bd4c3daa786baec8ddac2ed8e052f7f8d06f4fa93",
+        "bytes": 3467
+      },
+      {
+        "file": "operations-api-admin-globalSettings-localeSettings.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-globalSettings-localeSettings.html.md",
+        "sha256": "9422ad4148aaca99ebf51ff6b6edcf151fda1476dc056c798ebc9493ff1bfc3e",
+        "bytes": 3656
+      },
+      {
+        "file": "operations-api-admin-globalSettings-notificationSettings.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-globalSettings-notificationSettings.html.md",
+        "sha256": "6d2ac8b9f0b55832a3eadf2145d4f859dc7934648d552d42ffb8fbec1513f96a",
+        "bytes": 3867
+      },
+      {
+        "file": "operations-api-admin-globalSettings-restSettings.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-globalSettings-restSettings.html.md",
+        "sha256": "52456e1176b740132ee80ca4ede5cb76980d9e69e3788876a0168f34b74dc17f",
+        "bytes": 3800
+      },
+      {
+        "file": "operations-api-admin-globalSettings-systemSettings.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-globalSettings-systemSettings.html.md",
+        "sha256": "a3553fe563fd9e7e5bd4ee9747e99c78b48dd04b5ffb3954d570689194b022bc",
+        "bytes": 4101
+      },
+      {
+        "file": "operations-api-admin-globalSettings.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-globalSettings.html.md",
+        "sha256": "a69fa7af418fc3da79447045b9486085b3576e00127007f365627aca12bdebb8",
+        "bytes": 5931
+      },
+      {
+        "file": "operations-api-admin-organizations.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-organizations.html.md",
+        "sha256": "c74f1b3fbefb29361f7d30b05c93653f129797118127d2ff5e4b0c502d530858",
+        "bytes": 4118
+      },
+      {
+        "file": "operations-api-admin-projects-projectID-customFields.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-projects-projectID-customFields.html.md",
+        "sha256": "b5876be952444ca8d50ea9f5acd1a87ec1584f1cf779ee48348e9acde6c60dcf",
+        "bytes": 7077
+      },
+      {
+        "file": "operations-api-admin-projects-projectID-issues.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-projects-projectID-issues.html.md",
+        "sha256": "2b2adfcbb2433d6d2a48198f03637f9876797d6576490f7e48561381638e7a86",
+        "bytes": 11262
+      },
+      {
+        "file": "operations-api-admin-projects-projectID-team-groups.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-projects-projectID-team-groups.html.md",
+        "sha256": "1adf021e19bb880082c2e5bac5ccc361f957728f7d82c0ee057a5f3060522c9a",
+        "bytes": 2606
+      },
+      {
+        "file": "operations-api-admin-projects-projectID-team-ownUsers.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-projects-projectID-team-ownUsers.html.md",
+        "sha256": "bbeaf170412b03514b25702f3482ec13bcc78c940b7390347f0daa1a8e3ef841",
+        "bytes": 3977
+      },
+      {
+        "file": "operations-api-admin-projects-projectID-team.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-projects-projectID-team.html.md",
+        "sha256": "52ecfd3d0ec5e0c0646859bab688c847e3be04cb9d090295da47cc9b1e84a95b",
+        "bytes": 4530
+      },
+      {
+        "file": "operations-api-admin-projects-projectID-timeTrackingSettings-workItemTypes.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-projects-projectID-timeTrackingSettings-workItemTypes.html.md",
+        "sha256": "ade2784e93aa26e6b06f595425af71cfdedb88d27c240e6bc0b2f74e7c746206",
+        "bytes": 3297
+      },
+      {
+        "file": "operations-api-admin-projects-projectID-timeTrackingSettings.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-projects-projectID-timeTrackingSettings.html.md",
+        "sha256": "911cb6cdec09bf93f3acd043eb10941a9db6a5856bf56e564e2451a55c101350",
+        "bytes": 5213
+      },
+      {
+        "file": "operations-api-admin-projects.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-projects.html.md",
+        "sha256": "ec64752750f14571cbfd99571288d92700b0ecfb83ef064803e2ea1447912d44",
+        "bytes": 6420
+      },
+      {
+        "file": "operations-api-admin-telemetry.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-telemetry.html.md",
+        "sha256": "aff29cc47126ed8996c5bee7eb8abadab1e7a14fe65e8dbe8f5749217653e029",
+        "bytes": 4643
+      },
+      {
+        "file": "operations-api-admin-timeTrackingSettings-workItemTypes.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-timeTrackingSettings-workItemTypes.html.md",
+        "sha256": "d9949d4a8140d45cc4ed386ca6d7aa2bd6282832db964917613c1970bc4e1a33",
+        "bytes": 4312
+      },
+      {
+        "file": "operations-api-admin-timeTrackingSettings-workTimeSettings.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-timeTrackingSettings-workTimeSettings.html.md",
+        "sha256": "1740341be250df4d16eaa663c8f7f85c90cfa0a43e4eba660387718c59510c55",
+        "bytes": 3649
+      },
+      {
+        "file": "operations-api-admin-timeTrackingSettings.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-admin-timeTrackingSettings.html.md",
+        "sha256": "4b2c777a9a0e23f26add3ebab7cc6131d44ddab95ebd8cffc2d252135f21ed81",
+        "bytes": 3385
+      },
+      {
+        "file": "operations-api-agiles-agileID-sprints.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-agiles-agileID-sprints.html.md",
+        "sha256": "faa935ab01167869209ba8b81280976f10937601837fefd496428f38463f99fb",
+        "bytes": 6162
+      },
+      {
+        "file": "operations-api-agiles.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-agiles.html.md",
+        "sha256": "c50dd5ed940c6c78ac3d91174822f0d499485cc3f57d37a1fd379a47f0189e2a",
+        "bytes": 10256
+      },
+      {
+        "file": "operations-api-articles-articleID-attachments.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-articles-articleID-attachments.html.md",
+        "sha256": "13553150a4917edf29240254b131a7016f1fb2e3cc49445a09ce2fd96ac92aea",
+        "bytes": 7499
+      },
+      {
+        "file": "operations-api-articles-articleID-childArticles.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-articles-articleID-childArticles.html.md",
+        "sha256": "aa092bebf7d9ac066c4e623f052641bebf4129f4182ab802ae2848df8449a3bb",
+        "bytes": 7037
+      },
+      {
+        "file": "operations-api-articles-articleID-comments-commentID-reactions.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-articles-articleID-comments-commentID-reactions.html.md",
+        "sha256": "4d5c30c1d29ca26a3860deb0c5fd463e2119917d285fb58113ebdef3c133b2d8",
+        "bytes": 3640
+      },
+      {
+        "file": "operations-api-articles-articleID-comments.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-articles-articleID-comments.html.md",
+        "sha256": "fbdeab1d5390d5884bc4ab2e9bd0e54d6852abd4a686d719a915c6812cd9c731",
+        "bytes": 6142
+      },
+      {
+        "file": "operations-api-articles-articleID-parentArticle.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-articles-articleID-parentArticle.html.md",
+        "sha256": "956a4ddc06d9411cb3695a5b6677d1f63047257205c5ac638d47d45f126007a0",
+        "bytes": 4397
+      },
+      {
+        "file": "operations-api-articles-articleID-tags.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-articles-articleID-tags.html.md",
+        "sha256": "fc293e25a0cf202cca866f15f76286b0f2f43e27a2d9fbd6130740ece17854e7",
+        "bytes": 4939
+      },
+      {
+        "file": "operations-api-articles.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-articles.html.md",
+        "sha256": "83df1acd0945c0cf0cb022eb0547c831165b8c3b434966d9c7fcf9c811bfa5c1",
+        "bytes": 7994
+      },
+      {
+        "file": "operations-api-assignedRoles.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-assignedRoles.html.md",
+        "sha256": "d554c87e24a712ce04e6270289ea5ad6ba1b9f15f96411ad35778c5ca3bceea2",
+        "bytes": 3795
+      },
+      {
+        "file": "operations-api-groups-groupID-ownUsers.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-groups-groupID-ownUsers.html.md",
+        "sha256": "0c7efa3864331ed901cd666aaeaf6a4e7e0005ecca289aeb790dbb0788f72239",
+        "bytes": 4166
+      },
+      {
+        "file": "operations-api-groups.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-groups.html.md",
+        "sha256": "51790243c138f5c3ae21eced5212aed56ece242dfaed3160dc0858afcf08a10a",
+        "bytes": 5181
+      },
+      {
+        "file": "operations-api-issueLinkTypes.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-issueLinkTypes.html.md",
+        "sha256": "a32c08525c5fcd37c9f12640d3ab854d32be3f3e0703a041c12744389d78daed",
+        "bytes": 5162
+      },
+      {
+        "file": "operations-api-issues-issueID-activities.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-issues-issueID-activities.html.md",
+        "sha256": "f713236fb79879212d6cada088d51880105936dd7f34c41f98b029ed30665d45",
+        "bytes": 3939
+      },
+      {
+        "file": "operations-api-issues-issueID-activitiesPage.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-issues-issueID-activitiesPage.html.md",
+        "sha256": "efa981b4d91ddc5917be1bccc2a515e855ee2aadaba0dd39575703dcce144003",
+        "bytes": 8875
+      },
+      {
+        "file": "operations-api-issues-issueID-attachments.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-issues-issueID-attachments.html.md",
+        "sha256": "80a75d6597ba1c6cf45ffc9e08ee3725c4f419722d3d75ff1aa4a2cbd8c27de7",
+        "bytes": 7282
+      },
+      {
+        "file": "operations-api-issues-issueID-comments-commentID-reactions.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-issues-issueID-comments-commentID-reactions.html.md",
+        "sha256": "54c804e833c37357adabe9fb33a8ddf1b854571245d7892ec49b2cc054411e3c",
+        "bytes": 3614
+      },
+      {
+        "file": "operations-api-issues-issueID-comments.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-issues-issueID-comments.html.md",
+        "sha256": "d8bc600f00e21d095c6e6965f0f74232b44a90cde7159d48c49e94ede943ac75",
+        "bytes": 8063
+      },
+      {
+        "file": "operations-api-issues-issueID-customFields.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-issues-issueID-customFields.html.md",
+        "sha256": "bae80b485c06fed056cc89d43420fee502df82717fab972568cd944c2b075e13",
+        "bytes": 8032
+      },
+      {
+        "file": "operations-api-issues-issueID-links-linkID-issues.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-issues-issueID-links-linkID-issues.html.md",
+        "sha256": "09f920c571b096fc34747f0c47ce07cd17af45dfd96dc10ade8b835e043d3e89",
+        "bytes": 5653
+      },
+      {
+        "file": "operations-api-issues-issueID-links.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-issues-issueID-links.html.md",
+        "sha256": "fcff45d589d91c0fe1221170a544945fd8e059ed2264de03b2f273f5f24150d9",
+        "bytes": 3169
+      },
+      {
+        "file": "operations-api-issues-issueID-project.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-issues-issueID-project.html.md",
+        "sha256": "da1cb96629f1d4f07267ac288d69436e6050a1819f60671644ee9af624703bbf",
+        "bytes": 5103
+      },
+      {
+        "file": "operations-api-issues-issueID-tags.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-issues-issueID-tags.html.md",
+        "sha256": "cce28da8ca37280be027b2a7577d42c749ef4a4d59b2220b7bf52a3d181c2a6f",
+        "bytes": 4900
+      },
+      {
+        "file": "operations-api-issues-issueID-timeTracking-workItems.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-issues-issueID-timeTracking-workItems.html.md",
+        "sha256": "60ec69552f17b62402bcdf31b9e96a34b2d5eed373953bed70e5509ef4e3216d",
+        "bytes": 6811
+      },
+      {
+        "file": "operations-api-issues-issueID-timeTracking.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-issues-issueID-timeTracking.html.md",
+        "sha256": "350a617f28f2b3d7c6547263f31a9ac397180cda3dc75a0eed56bab0fe1e3345",
+        "bytes": 4048
+      },
+      {
+        "file": "operations-api-issues-issueID-vcsChanges.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-issues-issueID-vcsChanges.html.md",
+        "sha256": "d9918f2da652657943f0424e09aef4dd8b364ce9ecd93f27848bb14fc4b72caa",
+        "bytes": 6933
+      },
+      {
+        "file": "operations-api-issues.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-issues.html.md",
+        "sha256": "8fc89af33943d104b75aea731fbe546a1077271dec9a04bf64a064d638d51fc1",
+        "bytes": 12369
+      },
+      {
+        "file": "operations-api-roles.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-roles.html.md",
+        "sha256": "551ab6f9ef02c23c5d8c3dbfc6b39c2bde36871f7df5c860a487ca322d92369b",
+        "bytes": 5655
+      },
+      {
+        "file": "operations-api-savedQueries.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-savedQueries.html.md",
+        "sha256": "da3e3a065a3c9d797ae36ad21e7752efe04b14864736ef1d41da1f5fc75e6594",
+        "bytes": 6314
+      },
+      {
+        "file": "operations-api-tags.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-tags.html.md",
+        "sha256": "8dbe28759da26c986fb1bcd1674431653add941a7d92ebb4e70e4c6bc8beaae1",
+        "bytes": 6603
+      },
+      {
+        "file": "operations-api-users-me.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-users-me.html.md",
+        "sha256": "03a8b220fcd48e67b424e29c58287a7d78db75ec769ebc31bfb614a73d9f617b",
+        "bytes": 5051
+      },
+      {
+        "file": "operations-api-users-userID-profiles-general.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-users-userID-profiles-general.html.md",
+        "sha256": "a4793ffcf7054393ab378b822fee6a91423292404012673226035387713e1023",
+        "bytes": 4445
+      },
+      {
+        "file": "operations-api-users-userID-profiles-notifications.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-users-userID-profiles-notifications.html.md",
+        "sha256": "1352196b25b7980deb6b701dce56718c9e3f73baca2e5d4955ce1a436dbc8a63",
+        "bytes": 5497
+      },
+      {
+        "file": "operations-api-users-userID-profiles-timetracking.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-users-userID-profiles-timetracking.html.md",
+        "sha256": "3ebf18cdc9302152cbcbfc7fd36506dbda0ab5f91bed897ffa6a97e842d59061",
+        "bytes": 3596
+      },
+      {
+        "file": "operations-api-users.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-users.html.md",
+        "sha256": "29e28e4b2390f05f6eee4510dd362a8dc869ddd216fd31c3594ec71da609c2d4",
+        "bytes": 5747
+      },
+      {
+        "file": "operations-api-workItems.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-workItems.html.md",
+        "sha256": "9860e44860286251b0b76c035f0c14c2dd70b6c2be6c830dce29a0b5e1f55c59",
+        "bytes": 3771
+      },
+      {
+        "file": "resource-api-activities.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-activities.html.md",
+        "sha256": "054de0589ab1b1da5ebefd01c6f6be78456f127a428a17dc8d99e162257a5285",
+        "bytes": 6608
+      },
+      {
+        "file": "resource-api-activitiesPage.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-activitiesPage.html.md",
+        "sha256": "092a1c87091f00a605beaa0fe62422a9249c356a8e997be70740129851a7ea65",
+        "bytes": 2457
+      },
+      {
+        "file": "resource-api-admin-customFieldSettings-bundles-build-bundleID-values.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-customFieldSettings-bundles-build-bundleID-values.html.md",
+        "sha256": "0fa5cb16c9e4a64426c4d3fed400b8c9fe183d23f7f46855d420c1ce1b566340",
+        "bytes": 5290
+      },
+      {
+        "file": "resource-api-admin-customFieldSettings-bundles-build.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-customFieldSettings-bundles-build.html.md",
+        "sha256": "89250388a86480826a2c970bec9c565867a7eb0855a63791725e0eb47a6d1efd",
+        "bytes": 4340
+      },
+      {
+        "file": "resource-api-admin-customFieldSettings-bundles-enum-bundleID-values.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-customFieldSettings-bundles-enum-bundleID-values.html.md",
+        "sha256": "cafc9cb582ff5a5c4dfd25b2dc3bb35abbb1520c087204cb75d3d68c55fcd0b7",
+        "bytes": 5182
+      },
+      {
+        "file": "resource-api-admin-customFieldSettings-bundles-enum.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-customFieldSettings-bundles-enum.html.md",
+        "sha256": "f13ef4a3a618ccc6a0604d7f411a1418b5374dbcc2c4ddffe980d01bccd04ec6",
+        "bytes": 7282
+      },
+      {
+        "file": "resource-api-admin-customFieldSettings-bundles-ownedField-bundleID-values.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-customFieldSettings-bundles-ownedField-bundleID-values.html.md",
+        "sha256": "7d57dab632797b7e5cb18b81944fa7328c14d97f114904b51c98823f3e68a9f8",
+        "bytes": 5420
+      },
+      {
+        "file": "resource-api-admin-customFieldSettings-bundles-ownedField.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-customFieldSettings-bundles-ownedField.html.md",
+        "sha256": "4bc9b3a5fbcdb0cf4fa736141aaee573b20f8325cf456fe1639d92b5bab3ec86",
+        "bytes": 6640
+      },
+      {
+        "file": "resource-api-admin-customFieldSettings-bundles-state-bundleID-values.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-customFieldSettings-bundles-state-bundleID-values.html.md",
+        "sha256": "e045c87c290ed525d21efdb3d599fc4507310ba8a7969130ee8c3665bafe1d05",
+        "bytes": 6240
+      },
+      {
+        "file": "resource-api-admin-customFieldSettings-bundles-state.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-customFieldSettings-bundles-state.html.md",
+        "sha256": "2c91cdd852eef37563597f70e249074e57edb801ec7364b2053c9dcf3ae6413d",
+        "bytes": 8807
+      },
+      {
+        "file": "resource-api-admin-customFieldSettings-bundles-user-bundleID-aggregatedUsers.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-customFieldSettings-bundles-user-bundleID-aggregatedUsers.html.md",
+        "sha256": "bb599f7c1f0c64000eff70cccacd4745123b5606516a42f4d4c6959a8e83c8a7",
+        "bytes": 4780
+      },
+      {
+        "file": "resource-api-admin-customFieldSettings-bundles-user-bundleID-groups.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-customFieldSettings-bundles-user-bundleID-groups.html.md",
+        "sha256": "d1065d88dc33d3ab9892db4f09b43821cd9db2816c6d50a5e6119e816a44fe06",
+        "bytes": 4900
+      },
+      {
+        "file": "resource-api-admin-customFieldSettings-bundles-user-bundleID-individuals.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-customFieldSettings-bundles-user-bundleID-individuals.html.md",
+        "sha256": "8b24501fba0333c20b4d1afdbc1ee6ff7d06b3fcf55b20ff47f6259454259281",
+        "bytes": 5837
+      },
+      {
+        "file": "resource-api-admin-customFieldSettings-bundles-user.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-customFieldSettings-bundles-user.html.md",
+        "sha256": "658020d7f46672ca47737bd13d37b3d723472cb9fb77f9af6c942a9894d2c45b",
+        "bytes": 6548
+      },
+      {
+        "file": "resource-api-admin-customFieldSettings-bundles-version-bundleID-values.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-customFieldSettings-bundles-version-bundleID-values.html.md",
+        "sha256": "480948a0302953392ff15a18af9989511754d4c490d9431b1bfb3cd5761e8122",
+        "bytes": 6083
+      },
+      {
+        "file": "resource-api-admin-customFieldSettings-bundles-version.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-customFieldSettings-bundles-version.html.md",
+        "sha256": "45a997369b8324f8e6fea411201ac656264f1d55c1de330a0502d47764f92a4e",
+        "bytes": 6890
+      },
+      {
+        "file": "resource-api-admin-customFieldSettings-customFields-fieldID-fieldDefaults.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-customFieldSettings-customFields-fieldID-fieldDefaults.html.md",
+        "sha256": "99cb6d4e03bf13d087f46dce80be58402a7f1f573b4fd0ad777780715d1787da",
+        "bytes": 1957
+      },
+      {
+        "file": "resource-api-admin-customFieldSettings-customFields-fieldID-instances.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-customFieldSettings-customFields-fieldID-instances.html.md",
+        "sha256": "ee076705e4b14ef245fa0ad67bbf96a6dcdd79d0f05970e70b00641a2208ed88",
+        "bytes": 4192
+      },
+      {
+        "file": "resource-api-admin-customFieldSettings-customFields.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-customFieldSettings-customFields.html.md",
+        "sha256": "d51274088b851c8b5c548148866e895c420fcb448808b804415f9d5d10ccc76b",
+        "bytes": 6301
+      },
+      {
+        "file": "resource-api-admin-customFieldSettings-types.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-customFieldSettings-types.html.md",
+        "sha256": "672318d13afdf4b345d7de704c02b06feab45b76ca9286d9d9f61ced1a009a26",
+        "bytes": 2958
+      },
+      {
+        "file": "resource-api-admin-databaseBackup-backups.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-databaseBackup-backups.html.md",
+        "sha256": "edcd39b9bf55c581c63e980d162939b519f28ab180fd34484506cabba565863a",
+        "bytes": 3550
+      },
+      {
+        "file": "resource-api-admin-databaseBackup-settings-backupStatus.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-databaseBackup-settings-backupStatus.html.md",
+        "sha256": "e510db07b2a7e71055f792792f2a13d9cf6ef6e4058997dcf94797a51f14331d",
+        "bytes": 1507
+      },
+      {
+        "file": "resource-api-admin-databaseBackup-settings.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-databaseBackup-settings.html.md",
+        "sha256": "9f231b7ba6f558f76c172f23a5ffc584d49df0f21b51304efa124367d061fbe9",
+        "bytes": 2223
+      },
+      {
+        "file": "resource-api-admin-globalSettings-appearanceSettings.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-globalSettings-appearanceSettings.html.md",
+        "sha256": "af53573a70c1e23aafb0801f2462a717186c9f4faf22e92f2a8a1c077d5d74a8",
+        "bytes": 1456
+      },
+      {
+        "file": "resource-api-admin-globalSettings-license.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-globalSettings-license.html.md",
+        "sha256": "b5b9e3b90b67dcd2571d2b67dc87fa3bc4ddb31e173e6b689821ee30013a71fb",
+        "bytes": 1273
+      },
+      {
+        "file": "resource-api-admin-globalSettings-localeSettings.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-globalSettings-localeSettings.html.md",
+        "sha256": "02999b9ab6cb9026ac8a3027339dddf73585a08bcc9fa6192eece416f9d6bcce",
+        "bytes": 1289
+      },
+      {
+        "file": "resource-api-admin-globalSettings-notificationSettings.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-globalSettings-notificationSettings.html.md",
+        "sha256": "9a7bd805d40a8f30d3be5d84c94517c6102f184841a1ae76983bdfe1643628b8",
+        "bytes": 1360
+      },
+      {
+        "file": "resource-api-admin-globalSettings-restSettings.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-globalSettings-restSettings.html.md",
+        "sha256": "b395dca5e20155a3b1b9255f0daccc4b322459e1f4dca37cc2125ef3f267fbba",
+        "bytes": 1333
+      },
+      {
+        "file": "resource-api-admin-globalSettings-systemSettings.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-globalSettings-systemSettings.html.md",
+        "sha256": "7b22dc4cf869a318690157d304ec7dda0b33bdc1ef39b019073f0ff1890c2867",
+        "bytes": 1689
+      },
+      {
+        "file": "resource-api-admin-globalSettings.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-globalSettings.html.md",
+        "sha256": "9f623f4d3654eddd4b884ad7a9dc9007ff71ce0539a33fc4fbc0051b59a151f7",
+        "bytes": 2594
+      },
+      {
+        "file": "resource-api-admin-organizations.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-organizations.html.md",
+        "sha256": "7e2ecd11673f0f95888814cca7b4bdb5e36add1d7c281b3eb7b50fe4c593725f",
+        "bytes": 4013
+      },
+      {
+        "file": "resource-api-admin-projects-projectID-articles.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-projects-projectID-articles.html.md",
+        "sha256": "f20ff980f86db16af4cbe3fcbbfcfb94fa87bef551b3b308442d48b9830f3413",
+        "bytes": 5442
+      },
+      {
+        "file": "resource-api-admin-projects-projectID-customFields.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-projects-projectID-customFields.html.md",
+        "sha256": "8a8e34fea32c786ffd150b408064dc954affe390d80c9b9d58fbd3a380808cee",
+        "bytes": 7422
+      },
+      {
+        "file": "resource-api-admin-projects-projectID-issues.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-projects-projectID-issues.html.md",
+        "sha256": "52a52f25e8af9220e40245ca7cc77c1e4f5dd6f15e24f56a4643915443caf5ac",
+        "bytes": 10524
+      },
+      {
+        "file": "resource-api-admin-projects-projectID-team-groups.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-projects-projectID-team-groups.html.md",
+        "sha256": "12626738cc3a964e925daf72fdcdc0edb53cf61241f0be4ff42f77a505534907",
+        "bytes": 4275
+      },
+      {
+        "file": "resource-api-admin-projects-projectID-team-ownUsers.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-projects-projectID-team-ownUsers.html.md",
+        "sha256": "86218af34a78caa3ce83daa28876ae4f4e509222bb09ad9a626502fdd8908b60",
+        "bytes": 5602
+      },
+      {
+        "file": "resource-api-admin-projects-projectID-team-users.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-projects-projectID-team-users.html.md",
+        "sha256": "bcf20dff37b8e3017a764c90543275d62f3a8b34642a1c2e1266feefe24a8705",
+        "bytes": 4676
+      },
+      {
+        "file": "resource-api-admin-projects-projectID-team.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-projects-projectID-team.html.md",
+        "sha256": "b4689a005464773c5e5b682c599aa74e6b4df2dc2c010809067f0f924a78dfe9",
+        "bytes": 1989
+      },
+      {
+        "file": "resource-api-admin-projects-projectID-timeTrackingSettings-workItemTypes.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-projects-projectID-timeTrackingSettings-workItemTypes.html.md",
+        "sha256": "8cef769ead66413da5b4d2f0294c0b5e748a14f8abe670cf7b9577692364dfe6",
+        "bytes": 3921
+      },
+      {
+        "file": "resource-api-admin-projects-projectID-timeTrackingSettings.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-projects-projectID-timeTrackingSettings.html.md",
+        "sha256": "a21cbf699afcbd087cb286a03c23b55c0f67eafb7bd0349209eb16805e8b5436",
+        "bytes": 2504
+      },
+      {
+        "file": "resource-api-admin-projects.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-projects.html.md",
+        "sha256": "7f138935da8f071b21e69aee756be5826422db778334557feaf5dc5b463551aa",
+        "bytes": 8208
+      },
+      {
+        "file": "resource-api-admin-telemetry.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-telemetry.html.md",
+        "sha256": "c037ad45780cb5903232ed945a53ee12def8d042754277ac6e87411e527f2785",
+        "bytes": 3433
+      },
+      {
+        "file": "resource-api-admin-timeTrackingSettings-workItemTypes.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-timeTrackingSettings-workItemTypes.html.md",
+        "sha256": "fe9992ee58a02de5d342c0eb0b6a1db7691a45e1108d531f96abd54394d81ad6",
+        "bytes": 4120
+      },
+      {
+        "file": "resource-api-admin-timeTrackingSettings-workTimeSettings.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-timeTrackingSettings-workTimeSettings.html.md",
+        "sha256": "2b96a7d0dc5d6802a2a640cb4fef384e9a3c9aed51bfa86cbc054ff0a5919c2f",
+        "bytes": 1543
+      },
+      {
+        "file": "resource-api-admin-timeTrackingSettings.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-admin-timeTrackingSettings.html.md",
+        "sha256": "af1b1b8aee5cfe3e851bf224ab894d552a8938b64ad540282e8ab36274b88bc9",
+        "bytes": 1974
+      },
+      {
+        "file": "resource-api-agiles-agileID-sprints.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-agiles-agileID-sprints.html.md",
+        "sha256": "f184acb6079be72d7a83117b23beae87271a46004307fa85eaaecb77ac283da2",
+        "bytes": 6839
+      },
+      {
+        "file": "resource-api-agiles.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-agiles.html.md",
+        "sha256": "7badeb6b0767b3b550219e00d82f2e995378d31ce87a9bc6e86ea03f32467067",
+        "bytes": 8262
+      },
+      {
+        "file": "resource-api-articles-articleID-attachments.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-articles-articleID-attachments.html.md",
+        "sha256": "f6c1a2cbedda9523dc11dd9ed57a473db0747abf9906af1076ec0dffea757bf2",
+        "bytes": 6962
+      },
+      {
+        "file": "resource-api-articles-articleID-childArticles.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-articles-articleID-childArticles.html.md",
+        "sha256": "12747964f1a5ea0e1633facf1ea7ee068da2da4118e42686a846d7db08aacd6e",
+        "bytes": 6673
+      },
+      {
+        "file": "resource-api-articles-articleID-comments-commentID-reactions.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-articles-articleID-comments-commentID-reactions.html.md",
+        "sha256": "d614c0935301888adca306eb0a41c6d9e88154fba1d3ac7a81ef5ccd71504e4a",
+        "bytes": 4557
+      },
+      {
+        "file": "resource-api-articles-articleID-comments.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-articles-articleID-comments.html.md",
+        "sha256": "d0301d38ba18874a5952b11fa3f3de8dbe79ae887517e2333f666313442d13ce",
+        "bytes": 5848
+      },
+      {
+        "file": "resource-api-articles-articleID-parentArticle.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-articles-articleID-parentArticle.html.md",
+        "sha256": "3ebd325b732a10c61ffff54606f4371bc3e3a00bb4dc43cf5c7736d00e08f27e",
+        "bytes": 3490
+      },
+      {
+        "file": "resource-api-articles-articleID-tags.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-articles-articleID-tags.html.md",
+        "sha256": "1167a22665e52390416768b6aa494e0c7c68c83f6578785330acb49becd1fd7a",
+        "bytes": 6282
+      },
+      {
+        "file": "resource-api-articles.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-articles.html.md",
+        "sha256": "4829b099ad84428e182e5df74f88383d658df79b1329ddaa1705ca77b9e4e31b",
+        "bytes": 10220
+      },
+      {
+        "file": "resource-api-assignedRoles.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-assignedRoles.html.md",
+        "sha256": "1b37f859bf104fef9e4bcd46af9cb89da4064d1ddb51603242f0ede01cf3aeb3",
+        "bytes": 12236
+      },
+      {
+        "file": "resource-api-commands-assist.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-commands-assist.html.md",
+        "sha256": "a2a0f6fbd629d05a80730179837d6e1cfc0778a708bae5f0c95c5e12ef1aa223",
+        "bytes": 5574
+      },
+      {
+        "file": "resource-api-commands.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-commands.html.md",
+        "sha256": "7e0e49f6f59f93f813f7600e5165f0778d99d1d79aed57212e9bfd5de763d649",
+        "bytes": 4777
+      },
+      {
+        "file": "resource-api-groups-groupID-ownUsers.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-groups-groupID-ownUsers.html.md",
+        "sha256": "1e07f4fb4a5a0c211908b3725c27ae2b70291b845039ecdd6289ad10498e13d0",
+        "bytes": 4888
+      },
+      {
+        "file": "resource-api-groups-groupID-subGroups.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-groups-groupID-subGroups.html.md",
+        "sha256": "b6ca7928f94b2dc9aeebeb7d0679ab5af9133ee630b35f9b9827426cee3a0094",
+        "bytes": 4167
+      },
+      {
+        "file": "resource-api-groups-groupID-users.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-groups-groupID-users.html.md",
+        "sha256": "f1f0e3200f1a1be294cd11a69494ce716a4763142f039f06cfd0b42afcc7c8f6",
+        "bytes": 4876
+      },
+      {
+        "file": "resource-api-groups.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-groups.html.md",
+        "sha256": "c5caa3b4ecca59359152393cbdd37bce5014519f1822447c57c0046f83ea3d27",
+        "bytes": 4721
+      },
+      {
+        "file": "resource-api-issueLinkTypes.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-issueLinkTypes.html.md",
+        "sha256": "ea5244071977f250cbefe42bc1cf692f421838deaf3e54d8bb4c3a17c98bbdd1",
+        "bytes": 5865
+      },
+      {
+        "file": "resource-api-issueTags.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-issueTags.html.md",
+        "sha256": "63d28ed37a5c767c5f7a20396b215fd9dff8c68a9ecde1b5543b59762f3344a8",
+        "bytes": 2739
+      },
+      {
+        "file": "resource-api-issues-issueID-activities.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-issues-issueID-activities.html.md",
+        "sha256": "a533389549dd0205f1f4083970fd12bc4bda56afc18b913c5c52938a977acbde",
+        "bytes": 9039
+      },
+      {
+        "file": "resource-api-issues-issueID-activitiesPage.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-issues-issueID-activitiesPage.html.md",
+        "sha256": "541b2ccda466a4c11d290928510febffbca10da0c9be76e690af913ae71caa67",
+        "bytes": 2459
+      },
+      {
+        "file": "resource-api-issues-issueID-attachments.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-issues-issueID-attachments.html.md",
+        "sha256": "a841fbd8b28352af5ea4d2cc2d7a84b7bfd25ba9540f8fc50638856082736a89",
+        "bytes": 7799
+      },
+      {
+        "file": "resource-api-issues-issueID-comments-commentID-reactions.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-issues-issueID-comments-commentID-reactions.html.md",
+        "sha256": "07c826d1249126d2ff1b78035b52107cb8a88bb566d85df623ede5b7670ba81d",
+        "bytes": 4529
+      },
+      {
+        "file": "resource-api-issues-issueID-comments.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-issues-issueID-comments.html.md",
+        "sha256": "9f8a3467854deeaa97f1c0bc2cc221058b41c24d03796fdf5d8f498d4bd2faae",
+        "bytes": 6923
+      },
+      {
+        "file": "resource-api-issues-issueID-customFields.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-issues-issueID-customFields.html.md",
+        "sha256": "15996d15a590bc182628ea82cce26ca0e201a8636d882f169d5aad94d902a984",
+        "bytes": 5564
+      },
+      {
+        "file": "resource-api-issues-issueID-links-linkID-issues.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-issues-issueID-links-linkID-issues.html.md",
+        "sha256": "051f49abd32e9256513cd02bdb45f57b2a5bee4a150c00278a2fdd16d1b01335",
+        "bytes": 8748
+      },
+      {
+        "file": "resource-api-issues-issueID-links.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-issues-issueID-links.html.md",
+        "sha256": "e4fb49580b3e6fa7acb2e3c49377b45ed648701b5ff75bcddcc0af8fbd252856",
+        "bytes": 7009
+      },
+      {
+        "file": "resource-api-issues-issueID-project.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-issues-issueID-project.html.md",
+        "sha256": "aaeb2e935f9f7d7d6dc8e951f9df9dd8b2d22f7074ac29da2f6e17ed109185f7",
+        "bytes": 2893
+      },
+      {
+        "file": "resource-api-issues-issueID-sprints.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-issues-issueID-sprints.html.md",
+        "sha256": "66a4ab7fdd7c317fc7be02977dfaff3368834f107c28c634c567da409aacf4e2",
+        "bytes": 4365
+      },
+      {
+        "file": "resource-api-issues-issueID-tags.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-issues-issueID-tags.html.md",
+        "sha256": "c79864482e3706f125965414a6a19b47369d23d150d21a77fa54ef765c520212",
+        "bytes": 6012
+      },
+      {
+        "file": "resource-api-issues-issueID-timeTracking-workItems.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-issues-issueID-timeTracking-workItems.html.md",
+        "sha256": "ed4f0b8fa13e5fa43071b87dac20e766d51466dbe352ce6db02012a861e4dde7",
+        "bytes": 8442
+      },
+      {
+        "file": "resource-api-issues-issueID-timeTracking.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-issues-issueID-timeTracking.html.md",
+        "sha256": "817f868095196efe2a86a3ef11b0abe7d21ae846892aab79be733b8ace256746",
+        "bytes": 1638
+      },
+      {
+        "file": "resource-api-issues-issueID-vcsChanges.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-issues-issueID-vcsChanges.html.md",
+        "sha256": "239ad16546c758052bcbe20bbb6a9394ca1517022aa05371cfb63c3f3f3d79cd",
+        "bytes": 6630
+      },
+      {
+        "file": "resource-api-issues.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-issues.html.md",
+        "sha256": "c3c610034ee31373798edb8e70f724ee04629140d1adb5b99a916ff5bd2802ed",
+        "bytes": 12418
+      },
+      {
+        "file": "resource-api-issuesGetter-count.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-issuesGetter-count.html.md",
+        "sha256": "8cebb4a483bf8633de529bfc27e1aa4302af6f68d9fde7c5293ea95b1c43bdb8",
+        "bytes": 4081
+      },
+      {
+        "file": "resource-api-permissions.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-permissions.html.md",
+        "sha256": "0375c79f7dd089332d4a050e04772047b6c6faffcd4eb0a5afd351f7b0b53f56",
+        "bytes": 3366
+      },
+      {
+        "file": "resource-api-roles.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-roles.html.md",
+        "sha256": "55e1135df75f61143b1f2b05c6e9b0263cff00f7ee88427b4262fd82ed20d7b1",
+        "bytes": 5358
+      },
+      {
+        "file": "resource-api-savedQueries.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-savedQueries.html.md",
+        "sha256": "f18f151ff28e7f453bce2e9c536c1a2d0098e441a60c683f8774bf7e44dcb026",
+        "bytes": 7946
+      },
+      {
+        "file": "resource-api-search-assist.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-search-assist.html.md",
+        "sha256": "53550b4b4b17b4c4b21dd5d63604a52102f32a6ac3fb9fff25b5133f9c446ad0",
+        "bytes": 4362
+      },
+      {
+        "file": "resource-api-tags-tagID-issues.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-tags-tagID-issues.html.md",
+        "sha256": "6e5b128e41c3b3737ea672fd7787452a8685898054cb6906154105a378a44627",
+        "bytes": 8577
+      },
+      {
+        "file": "resource-api-tags.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-tags.html.md",
+        "sha256": "448b468657bf796b0a593cb6e0bc64bec0ec231145d888fbbb2f4aaedad52d1b",
+        "bytes": 6509
+      },
+      {
+        "file": "resource-api-users-me.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-users-me.html.md",
+        "sha256": "0447315e5806782e9e7dfa3e3e90ed4f95b46582ab896464cc667107c185dae9",
+        "bytes": 2770
+      },
+      {
+        "file": "resource-api-users-userID-profiles-general.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-users-userID-profiles-general.html.md",
+        "sha256": "299622016add0c6174a8648fe23cce558a816bbc655c78ca4d06edb9cb209c31",
+        "bytes": 1485
+      },
+      {
+        "file": "resource-api-users-userID-profiles-notifications.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-users-userID-profiles-notifications.html.md",
+        "sha256": "7dda36de43eab87067f969b33564788ddbfadabf2c2a9edf238b110d61fae014",
+        "bytes": 2554
+      },
+      {
+        "file": "resource-api-users-userID-profiles-timetracking.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-users-userID-profiles-timetracking.html.md",
+        "sha256": "28433814a4df9ca69f083cb44be785c463e171e0a34bda1c3f66960a1ad27573",
+        "bytes": 1345
+      },
+      {
+        "file": "resource-api-users-userID-savedQueries.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-users-userID-savedQueries.html.md",
+        "sha256": "bc7f223b8c9301097a0e58771b911d19cb2eee20b0b0199ecf7bf6bec6bd17ac",
+        "bytes": 4635
+      },
+      {
+        "file": "resource-api-users-userID-tags.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-users-userID-tags.html.md",
+        "sha256": "8946f3050e1e7ecda68e13092f5084fd5e70feb6b9493f9fe81f09628e158aa7",
+        "bytes": 5353
+      },
+      {
+        "file": "resource-api-users.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-users.html.md",
+        "sha256": "a9f55e9ca67498bc633b8d251162575112ed7c7da18116daa46ff7cdd22261e2",
+        "bytes": 6837
+      },
+      {
+        "file": "resource-api-workItems.html.md",
+        "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-workItems.html.md",
+        "sha256": "f3d6592fff1fb5d2980b4fb5ec38f0806231195b8daadc99d80634ba58ac563a",
+        "bytes": 7197
+      }
+    ]
+  },
+  "corroboratingHtml": [
+    {
+      "file": "resource-api-assignedRoles.html",
+      "url": "https://www.jetbrains.com/help/youtrack/devportal/resource-api-assignedRoles.html",
+      "sha256": "247453b8b16625a227eeffd62cd3349bd06ecbe8a01bec0dd78499269c8e83f2"
+    },
+    {
+      "file": "operations-api-assignedRoles.html",
+      "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-assignedRoles.html",
+      "sha256": "979c2764cbc9446ec25220fb0fbe8f3847f05bb3ff7839ecb99b6ebec3f71a98"
+    },
+    {
+      "file": "operations-api-groups-groupID-ownUsers.html",
+      "url": "https://www.jetbrains.com/help/youtrack/devportal/operations-api-groups-groupID-ownUsers.html",
+      "sha256": "5b2f5a766faaac6f7be4690344ddc4a3b5ee284c276d610ded185eab98ea0d0b"
+    },
+    {
+      "file": "youtrack-openapi-specification.html",
+      "url": "https://www.jetbrains.com/help/youtrack/devportal/youtrack-openapi-specification.html",
+      "sha256": "6dd6c57c59052f3cdecfcd2952936663fe0912984efd150323c02b1089f01288"
+    }
+  ],
+  "projectionSha256": "75a489ce83e287e9b00ae4d5faeb8cef3716c212f4a7b88eb28ce8f97378a1e0",
+  "pagesWithoutMethods": [
+    {
+      "page": "resource-api-activitiesPage.html.md",
+      "path": "/api/activitiesPage"
+    },
+    {
+      "page": "resource-api-admin-customFieldSettings-customFields-fieldID-fieldDefaults.html.md",
+      "path": "/api/admin/customFieldSettings/customFields/{fieldID}/fieldDefaults"
+    },
+    {
+      "page": "resource-api-admin-databaseBackup-settings-backupStatus.html.md",
+      "path": "/api/admin/databaseBackup/settings/backupStatus"
+    },
+    {
+      "page": "resource-api-admin-databaseBackup-settings.html.md",
+      "path": "/api/admin/databaseBackup/settings"
+    },
+    {
+      "page": "resource-api-admin-globalSettings-appearanceSettings.html.md",
+      "path": "/api/admin/globalSettings/appearanceSettings"
+    },
+    {
+      "page": "resource-api-admin-globalSettings-license.html.md",
+      "path": "/api/admin/globalSettings/license"
+    },
+    {
+      "page": "resource-api-admin-globalSettings-localeSettings.html.md",
+      "path": "/api/admin/globalSettings/localeSettings"
+    },
+    {
+      "page": "resource-api-admin-globalSettings-notificationSettings.html.md",
+      "path": "/api/admin/globalSettings/notificationSettings"
+    },
+    {
+      "page": "resource-api-admin-globalSettings-restSettings.html.md",
+      "path": "/api/admin/globalSettings/restSettings"
+    },
+    {
+      "page": "resource-api-admin-globalSettings-systemSettings.html.md",
+      "path": "/api/admin/globalSettings/systemSettings"
+    },
+    {
+      "page": "resource-api-admin-globalSettings.html.md",
+      "path": "/api/admin/globalSettings"
+    },
+    {
+      "page": "resource-api-admin-projects-projectID-team.html.md",
+      "path": "/api/admin/projects/{projectID}/team"
+    },
+    {
+      "page": "resource-api-admin-projects-projectID-timeTrackingSettings.html.md",
+      "path": "/api/admin/projects/{projectID}/timeTrackingSettings"
+    },
+    {
+      "page": "resource-api-admin-telemetry.html.md",
+      "path": "/api/admin/telemetry"
+    },
+    {
+      "page": "resource-api-admin-timeTrackingSettings-workTimeSettings.html.md",
+      "path": "/api/admin/timeTrackingSettings/workTimeSettings"
+    },
+    {
+      "page": "resource-api-admin-timeTrackingSettings.html.md",
+      "path": "/api/admin/timeTrackingSettings"
+    },
+    {
+      "page": "resource-api-articles-articleID-parentArticle.html.md",
+      "path": "/api/articles/{articleID}/parentArticle"
+    },
+    {
+      "page": "resource-api-issueTags.html.md",
+      "path": "/api/issueTags"
+    },
+    {
+      "page": "resource-api-issues-issueID-activitiesPage.html.md",
+      "path": "/api/issues/{issueID}/activitiesPage"
+    },
+    {
+      "page": "resource-api-issues-issueID-project.html.md",
+      "path": "/api/issues/{issueID}/project"
+    },
+    {
+      "page": "resource-api-issues-issueID-timeTracking.html.md",
+      "path": "/api/issues/{issueID}/timeTracking"
+    },
+    {
+      "page": "resource-api-users-me.html.md",
+      "path": "/api/users/me"
+    },
+    {
+      "page": "resource-api-users-userID-profiles-general.html.md",
+      "path": "/api/users/{userID}/profiles/general"
+    },
+    {
+      "page": "resource-api-users-userID-profiles-notifications.html.md",
+      "path": "/api/users/{userID}/profiles/notifications"
+    },
+    {
+      "page": "resource-api-users-userID-profiles-timetracking.html.md",
+      "path": "/api/users/{userID}/profiles/timetracking"
+    }
+  ],
+  "syntaxContradictions": [
+    {
+      "id": "GET /api/users/{p1}/profiles/notifications",
+      "tablePath": "/api/users/{userID}/profiles/notifications",
+      "requestSyntax": "GET /api/users/{userID}/profiles/notifications/{profileID}?{fields}"
+    },
+    {
+      "id": "POST /api/users/{p1}/profiles/notifications",
+      "tablePath": "/api/users/{userID}/profiles/notifications",
+      "requestSyntax": "POST /api/users/{userID}/profiles/notifications/{profileID}?{fields}"
+    }
+  ],
+  "limits": [
+    "Instance info.version is source evidence, not CLI/server compatibility.",
+    "Upstream URLs are mutable; raw hashes identify this capture, not an upstream immutable commit.",
+    "This projection retains operation facts, not full schemas, response samples or deployment configuration.",
+    "Metadata retrieval is public source research, not profile-backed product proof."
+  ]
+}
