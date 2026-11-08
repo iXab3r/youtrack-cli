@@ -81,3 +81,10 @@ test("US-065 bundle bodies keep sample metadata without inventing a required bun
   assert.equal(r.exitCode, 0, r.stderr); assert.match(r.stdout, /Selected enum bundle/);
   assert.deepEqual(seen, [{ values: [] }, { name: "Selected enum bundle", values: [] }]);
 });
+
+test("US-066 maintain state bundles and delete selected values", async t => {
+  await storyCase(t, {"argv":["bundle","state","create","--body","{\"name\":\"Synthetic state bundle\",\"values\":[{\"name\":\"Synthetic value\",\"isResolved\":false}]}","--fields","id"],"method":"POST","path":"/api/admin/customFieldSettings/bundles/state","query":[["fields","id"]],"body":{"name":"Synthetic state bundle","values":[{"name":"Synthetic value","isResolved":false}]},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["bundle","state","update","bundle /?","--body","{\"name\":\"Renamed state bundle\",\"values\":[]}","--fields","id"],"method":"POST","path":"/api/admin/customFieldSettings/bundles/state/bundle%20%2F%3F","query":[["fields","id"]],"body":{"name":"Renamed state bundle","values":[]},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["bundle","state","delete","bundle /?","--fields","id"],"method":"DELETE","path":"/api/admin/customFieldSettings/bundles/state/bundle%20%2F%3F","query":[["fields","id"]],"response":undefined,"result":null,"update":true});
+  await storyCase(t, {"argv":["bundle","state","value","delete","bundle /?","value /?"],"method":"DELETE","path":"/api/admin/customFieldSettings/bundles/state/bundle%20%2F%3F/values/value%20%2F%3F","query":[],"response":undefined,"result":null,"update":true});
+});
