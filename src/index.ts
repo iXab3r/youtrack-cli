@@ -18,7 +18,7 @@ export {
   type YouTrackValue,
 } from "./client.js";
 export {
-  createSavedQuery, updateSavedQuery,
+  deleteSavedQuery, createSavedQuery, updateSavedQuery,
   applyCommands, assistCommands, assistSearch, countIssues, getSavedQuery, listSavedQueries,
   type AssistOptions, type CommandAssistOptions, type CommandApplyOptions,
 } from "./issue-query.js";
