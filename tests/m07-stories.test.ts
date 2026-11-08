@@ -141,3 +141,9 @@ test("US-069 owned values require names at creation and native nullable owner de
   const r = await f.run(f.cli, ["bundle", "owned", "value", "create", "selected-bundle", "--body", '{"name":"Selected owned value","owner":null}']);
   assert.equal(r.exitCode, 0, r.stderr); assert.match(r.stdout, /Selected owned value/); assert.match(r.stdout, /selected-bundle/); assert.equal(calls, 1);
 });
+
+test("US-070 maintain user bundles with native group and individual references", async t => {
+  await storyCase(t, {"argv":["bundle","user","create","--body","{\"name\":\"Synthetic user bundle\",\"individuals\":[{\"id\":\"user /?\"}],\"groups\":[{\"id\":\"group /?\"}]}","--fields","id"],"method":"POST","path":"/api/admin/customFieldSettings/bundles/user","query":[["fields","id"]],"body":{"name":"Synthetic user bundle","individuals":[{"id":"user /?"}],"groups":[{"id":"group /?"}]},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["bundle","user","update","bundle /?","--body","{\"individuals\":[],\"groups\":[]}","--fields","id"],"method":"POST","path":"/api/admin/customFieldSettings/bundles/user/bundle%20%2F%3F","query":[["fields","id"]],"body":{"individuals":[],"groups":[]},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["bundle","user","delete","bundle /?","--fields","id"],"method":"DELETE","path":"/api/admin/customFieldSettings/bundles/user/bundle%20%2F%3F","query":[["fields","id"]],"response":undefined,"result":null,"update":true});
+});
