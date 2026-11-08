@@ -122,7 +122,7 @@ npm publication. [Current coverage](docs/rest-api-coverage/current/README.md) re
 - `user saved-queries list <user>` and `user tags list <user>` return one ordinary offset page.
 - `group list --query <query>` passes the native filter unchanged. `group member add <group> <user>
   --body <json>` selects the direct member through path IDs. If body.id is supplied it must match
-  the selected user; an empty object still uses the path selector. No user lookup or grant occurs.
+  the selected user; an empty object still uses the path selector. No user lookup or additional role-assignment call occurs.
 - `tags issues list <tagID>` reads usage, including repeatable `--custom-field <name>` selectors.
   Values and order remain native; this list does not become an automatic cleanup selection.
 - `issues comments delete <issueID> <commentID>`, `saved-queries delete <queryID>`,
