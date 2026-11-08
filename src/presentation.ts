@@ -646,8 +646,9 @@ export const fieldInstanceTable = tableView<Item, YouTrackPage>({
 
 
 /** Mutation confirmations use scrubbed result/request identities, including native empty replies. */
-export const mutationWritten = (label: string, ...arguments_: string[]): HumanView => recordView<Item | null>({
-  title: (item, context) => joined(label, text(item?.name) ?? text(item?.login) ?? key(item) ?? submittedName(context),
-    ...arguments_.map(name => submittedIdentity(context)?.args[name])),
+export const mutationWritten = (label: string, selectedArgument?: string, ...contextArguments: string[]): HumanView => recordView<Item | null>({
+  title: (item, context) => joined(label, text(item?.name) ?? text(item?.login) ?? key(item) ?? submittedName(context)
+    ?? (selectedArgument === undefined ? undefined : submittedIdentity(context)?.args[selectedArgument]),
+    ...contextArguments.map(name => submittedIdentity(context)?.args[name])),
   fields: [{ label: "ID", value: item => key(item) }],
 });
