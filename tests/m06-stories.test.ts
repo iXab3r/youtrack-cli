@@ -62,3 +62,11 @@ test("US-057 create update and delete explicitly named groups", async t => {
   await storyCase(t, {"argv":["group","update","group /?","--body","{\"name\":\"Renamed group\"}","--fields","id"],"method":"POST","path":"/api/groups/group%20%2F%3F","query":[["fields","id"]],"body":{"name":"Renamed group"},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
   await storyCase(t, {"argv":["group","delete","group /?","--fields","id"],"method":"DELETE","path":"/api/groups/group%20%2F%3F","query":[["fields","id"]],"response":undefined,"result":null,"update":true});
 });
+
+test("US-058 read and maintain native organizations without hidden membership changes", async t => {
+  await storyCase(t, {"argv":["organization","list","--fields","id","--start","7","--page-size","20"],"method":"GET","path":"/api/admin/organizations","query":[["fields","id"],["$skip","7"],["$top","20"]],"response":[],"result":{"count":0,"items":[],"hasMore":false,"nextStart":null}});
+  await storyCase(t, {"argv":["organization","get","org /?","--fields","id"],"method":"GET","path":"/api/admin/organizations/org%20%2F%3F","query":[["fields","id"]],"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"}});
+  await storyCase(t, {"argv":["organization","create","--body","{\"name\":\"Synthetic organization\"}","--fields","id"],"method":"POST","path":"/api/admin/organizations","query":[["fields","id"]],"body":{"name":"Synthetic organization"},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["organization","update","org /?","--body","{\"name\":\"Renamed organization\"}","--fields","id"],"method":"POST","path":"/api/admin/organizations/org%20%2F%3F","query":[["fields","id"]],"body":{"name":"Renamed organization"},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["organization","delete","org /?"],"method":"DELETE","path":"/api/admin/organizations/org%20%2F%3F","query":[],"response":undefined,"result":null,"update":true});
+});
