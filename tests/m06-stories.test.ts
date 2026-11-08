@@ -43,3 +43,16 @@ test("US-054 use explicit project-scoped issue endpoints and repeated native fie
   await storyCase(t, {"argv":["project","issues","create","project /?","--body","{\"summary\":\"Synthetic scoped issue\",\"description\":null}","--fields","id","--mute-update-notifications","false"],"method":"POST","path":"/api/admin/projects/project%20%2F%3F/issues","query":[["fields","id"],["muteUpdateNotifications","false"]],"body":{"summary":"Synthetic scoped issue","description":null},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
   await storyCase(t, {"argv":["project","issues","update","project /?","issue /?","--body","{\"summary\":null,\"description\":\"Synthetic scoped update\"}","--fields","id","--mute-update-notifications","true"],"method":"POST","path":"/api/admin/projects/project%20%2F%3F/issues/issue%20%2F%3F","query":[["fields","id"],["muteUpdateNotifications","true"]],"body":{"summary":null,"description":"Synthetic scoped update"},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
 });
+
+test("US-054 scoped creation preflight and empty replies retain issue identity and project context", async t => {
+  const f = await configuredFixture(t, { permissions: ["Update"] }); let calls = 0;
+  server.use(http.post("*", () => { calls++; return new HttpResponse(null, { status: 204 }); }));
+  await assert.rejects(f.cli.execute(["project", "issues", "create", "selected-project", "--body", "{}"])); assert.equal(calls, 0);
+  for (const argv of [
+    ["project", "issues", "create", "selected-project", "--body", '{"summary":"Selected issue"}'],
+    ["project", "issues", "update", "selected-project", "selected-issue", "--body", '{"summary":null}'],
+  ]) {
+    const r = await f.run(f.cli, argv); assert.equal(r.exitCode, 0, r.stderr); assert.match(r.stdout, /Selected issue|selected-issue/); assert.match(r.stdout, /selected-project/);
+    assert.equal(await f.json(f.cli, argv), null);
+  }
+});
