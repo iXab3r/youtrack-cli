@@ -1,5 +1,7 @@
 import {
   encodedID,
+  fields,
+  type ProjectionOptions,
   issuePath,
   mutationBody,
   mutate,
@@ -187,4 +189,14 @@ export async function updateIssue(
 ): Promise<YouTrackObject | null> {
   const { path, body } = await issueRequest(connection, issueWrite(input, false), id);
   return mutate(connection, path, body, issueWriteFields, options);
+}
+
+export async function createProjectField(connection: Connection, projectID: string, input: unknown, options: ProjectionOptions = {}) {
+  const body = mutationBody(input), field = mutationBody(body.field);
+  return mutate(connection, `${projectPath(projectID)}/customFields`, {
+    ...body, field: { ...field, id: narrative(field.id, "field.id") }, $type: narrative(body.$type, "$type"),
+  }, fields(options, projectFieldFields));
+}
+export async function updateProjectField(connection: Connection, projectID: string, fieldID: string, input: unknown, options: ProjectionOptions = {}) {
+  return mutate(connection, `${projectPath(projectID)}/customFields/${encodedID(fieldID, "project field ID")}`, mutationBody(input), fields(options, projectFieldFields));
 }

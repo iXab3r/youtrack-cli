@@ -610,3 +610,10 @@ export const fieldDefaultsRecord = recordView<Item | null>({
     { label: "Public", value: item => booleanText(item?.isPublic) },
     { label: "Empty text", value: item => text(item?.emptyFieldText) }],
 });
+
+export const projectFieldRecord = recordView<Item | null>({
+  title: (item, context) => joined("Project field", text(nested(item?.field)?.name) ?? key(item) ?? arg(context, "field")),
+  fields: [{ label: "ID", value: item => key(item) },
+    { label: "Can be empty", value: item => booleanText(item?.canBeEmpty) },
+    { label: "Public", value: item => booleanText(item?.isPublic) }],
+});
