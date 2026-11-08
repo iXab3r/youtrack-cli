@@ -180,3 +180,12 @@ test("M02 default human mutation views name the selected object on empty replies
     assert.match(result.stdout, human);
   }
 });
+
+test("M02 DELETE projections follow explicit parameter tables while defaults remain query-free", async t => {
+  for (const [argv, path] of [
+    [["issues", "vcs-changes", "delete", "DEMO-1", "change"], "/api/issues/DEMO-1/vcsChanges/change"],
+    [["article", "attachment", "delete", "KB-1", "attachment"], "/api/articles/KB-1/attachments/attachment"],
+    [["article", "tag", "remove", "KB-1", "tag"], "/api/articles/KB-1/tags/tag"],
+    [["article", "comment", "reaction", "remove", "KB-1", "comment", "reaction"], "/api/articles/KB-1/comments/comment/reactions/reaction"],
+  ] as const) await storyCase(t, { argv: [...argv, "--fields", "id"], method: "DELETE", path, query: [["fields", "id"]], response: detail, result: detail, update: true });
+});
