@@ -3,6 +3,7 @@ import { pagedRead, projectedRead, projectedBodyUpdate } from "./cli-support.js"
 import {
   getBuildBundle,
   createVersionValue,
+  updateVersionValue,
   getBuildValue,
   getOwnedBundle,
   getOwnedValue,
@@ -41,6 +42,7 @@ export const bundleValuesChildren: readonly CommandDefinition[] = [
     pagedRead("list", "List version bundles", listVersionBundles, bundleTable),
     projectedRead("get <bundle>", "Show a version bundle", getVersionBundle),
     command("value", "Inspect version values", [
+      projectedBodyUpdate("update <bundle> <value>", "Update a version value", updateVersionValue, undefined, bundleValueWritten),
       projectedBodyUpdate("create <bundle>", "Create a version value", createVersionValue, undefined, bundleValueWritten),
       pagedRead("list <bundle>", "List the bundle's values", listVersionValues, valueTable),
       projectedRead("get <bundle> <value>", "Show a version value", getVersionValue),
