@@ -98,13 +98,13 @@ Regression coverage includes six create families, credential/signed-URL labels a
 
 Same-capability authoring samples (included in the total source delta above):
 
-- Detail: existing getIssueProject uses objectRequest(connection, issuePath(issueID) + "/project", ...).
-  New getFieldDefaults uses the same objectRequest with customFieldPath(fieldID) + "/fieldDefaults".
+- Detail: existing getIssueProject binds readObjectAt to issuePath(issueID) + "/project".
+  New getFieldDefaults binds readObjectAt to defaultsPath(fieldID), ending in "/fieldDefaults".
   Both preserve projection selection, ReadOnly admission and one request; the resource path differs.
 - List: existing listArticleTags and new listFieldInstances use collection → ordinary raw-offset page.
   Neither adds lookahead, aggregation or discovery; the new default projection names the project.
 - Mutation: existing updateSprint is byte-unchanged. New updateEnumValue uses mutate with an explicit
-  bundle/value path and namedMutationBody(input, false); both pass writeOptions. That validator shares
+  bundle/value path and namedMutationBody(input, false); both preserve native JSON through mutate and select output with fields(options, defaults). That validator shares
   object/name validation with board/tag/state/version consumers while retaining extra native properties.
   Board create adds the concrete template query argument to the same mutate boundary. These additions
   increase source size; no claimed code reduction hides domain validation or moves it into Core.
