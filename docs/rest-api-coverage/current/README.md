@@ -102,7 +102,8 @@ Same-capability comparisons, including all helper cost:
 - Collection: original listProjectFields/readCollectionAt/pagedRead remain; listPermissions reuses
   them. listRoles/listRoleAssignments directly add the native query to page/readPage, because the
   ordinary collection helper does not forward query. Native whitespace and offset contracts survive.
-- Mutation: original addArticleTag spells native id validation/mutate/fields directly. New team-user,
+- Mutation: M04-baseline addArticleTag (revision534cd54aa4b33aa4ba3184d0e8bcfc1e7d3f7b15) spells
+  native id validation/mutate/fields directly. New team-user,
   team-group and work-type attachments use that same direct pattern. User-bundle group/individual
   share only a local memberBody check. Field/assignment creation adds real required native selectors;
   no weak validation or omitted behavior is counted as reduced glue.
