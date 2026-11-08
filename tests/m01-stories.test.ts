@@ -122,3 +122,11 @@ test("US-004 comment writes preserve native JSON, draft selectors and explicit n
   await storyCase(t, { argv: ["issues", "comments", "add", "DEMO-1", "--body", "{}", "--draft-id", "comment draft", "--mute-update-notifications", "false", "--fields", "id"], method: "POST", path: "/api/issues/DEMO-1/comments", query: [["fields", "id"], ["draftId", "comment draft"], ["muteUpdateNotifications", "false"]], body: {}, response: detail, result: detail, update: true });
   await storyCase(t, { argv: ["issues", "comments", "update", "DEMO-1", "c/1", "--body", '{"text":null,"pinned":true}', "--mute-update-notifications", "--fields", "id"], method: "POST", path: "/api/issues/DEMO-1/comments/c%2F1", query: [["fields", "id"], ["muteUpdateNotifications", "true"]], body: { text: null, pinned: true }, response: detail, result: detail, update: true });
 });
+
+test("US-006 work item writes expose mute controls and exact deletion with optional fields", async t => {
+  const body = { duration: { minutes: -1 }, text: null, futureMetadata: true };
+  for (const [leaf, path] of [["add", "/api/issues/DEMO-1/timeTracking/workItems"], ["update", "/api/issues/DEMO-1/timeTracking/workItems/item%2F1"]]) {
+    await storyCase(t, { argv: ["issues", "work-items", leaf!, "DEMO-1", ...(leaf === "update" ? ["item/1"] : []), "--body", JSON.stringify(body), "--fields", "id", "--mute-update-notifications", "false"], method: "POST", path: path!, query: [["fields", "id"], ["muteUpdateNotifications", "false"]], body, response: detail, result: detail, update: true });
+  }
+  await storyCase(t, { argv: ["issues", "work-items", "delete", "DEMO-1", "item/1", "--fields", "id"], method: "DELETE", path: "/api/issues/DEMO-1/timeTracking/workItems/item%2F1", query: [["fields", "id"]], response: undefined, result: null, update: true });
+});
