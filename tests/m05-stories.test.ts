@@ -56,3 +56,7 @@ test("US-052 conflicting body IDs fail before HTTP and path-selected empty membe
   const r = await f.run(f.cli, argv); assert.equal(r.exitCode, 0, r.stderr); assert.match(r.stdout, /selected-user.*selected-group/);
   assert.equal(await f.json(f.cli, argv), null);
 });
+
+test("US-010 delete only the selected issue comment", async t => {
+  await storyCase(t, {"argv":["issues","comments","delete","issue /?","comment /?","--fields","id"],"method":"DELETE","path":"/api/issues/issue%20%2F%3F/comments/comment%20%2F%3F","query":[["fields","id"]],"response":undefined,"result":null,"update":true});
+});
