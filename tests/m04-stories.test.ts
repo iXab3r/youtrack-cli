@@ -116,3 +116,8 @@ test("US-045 add and remove direct project team users without touching inherited
   await storyCase(t, {"argv":["project","team","user","add","project /?","--body","{\"id\":\"user /?\"}","--fields","id"],"method":"POST","path":"/api/admin/projects/project%20%2F%3F/team/ownUsers","query":[["fields","id"]],"body":{"id":"user /?"},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
   await storyCase(t, {"argv":["project","team","user","remove","project /?","user /?"],"method":"DELETE","path":"/api/admin/projects/project%20%2F%3F/team/ownUsers/user%20%2F%3F","query":[],"response":undefined,"result":null,"update":true});
 });
+
+test("US-046 add and remove project team groups by their native IDs", async t => {
+  await storyCase(t, {"argv":["project","team","group","add","project /?","--body","{\"id\":\"group /?\",\"$type\":\"NestedGroup\"}","--fields","id"],"method":"POST","path":"/api/admin/projects/project%20%2F%3F/team/groups","query":[["fields","id"]],"body":{"id":"group /?","$type":"NestedGroup"},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["project","team","group","remove","project /?","group /?","--fields","id"],"method":"DELETE","path":"/api/admin/projects/project%20%2F%3F/team/groups/group%20%2F%3F","query":[["fields","id"]],"response":undefined,"result":null,"update":true});
+});
