@@ -164,3 +164,12 @@ test("US-009 relationship writes expose native projections without deleting rela
   await storyCase(t, { argv: ["issues", "links", "remove", "DEMO-1", "link/dir", "target/opaque", "--fields", "id"], method: "DELETE", path: "/api/issues/DEMO-1/links/link%2Fdir/issues/target%2Fopaque", query: [["fields", "id"]], response: undefined, result: null, update: true });
   await storyCase(t, { argv: ["issues", "tags", "remove", "DEMO-1", "tag/opaque", "--fields", "id"], method: "DELETE", path: "/api/issues/DEMO-1/tags/tag%2Fopaque", query: [["fields", "id"]], response: undefined, result: null, update: true });
 });
+
+test("US-011 comment reactions list, detail, add and remove retain native values and permissions", async t => {
+  const base = "/api/issues/DEMO-1/comments/comment%2F1/reactions";
+  await storyCase(t, { argv: ["issues", "comments", "reaction", "list", "DEMO-1", "comment/1", "--fields", "id"], method: "GET", path: base, query: [["fields", "id"], ["$top", "50"], ["$skip", "0"]], response: [], result: emptyPage });
+  await storyCase(t, { argv: ["issues", "comments", "reaction", "get", "DEMO-1", "comment/1", "reaction/1", "--fields", "id"], method: "GET", path: base + "/reaction%2F1", query: [["fields", "id"]], response: detail, result: detail });
+  const body = { reaction: "future-reaction-value", author: { id: "synthetic-user" }, nativeMetadata: true };
+  await storyCase(t, { argv: ["issues", "comments", "reaction", "add", "DEMO-1", "comment/1", "--body", JSON.stringify(body), "--fields", "id"], method: "POST", path: base, query: [["fields", "id"]], body, response: detail, result: detail, update: true });
+  await storyCase(t, { argv: ["issues", "comments", "reaction", "remove", "DEMO-1", "comment/1", "reaction/1", "--fields", "id"], method: "DELETE", path: base + "/reaction%2F1", query: [["fields", "id"]], response: undefined, result: null, update: true });
+});
