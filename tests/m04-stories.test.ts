@@ -130,3 +130,40 @@ test("US-048 read and update the selected users notification profile at the docu
   await storyCase(t, {"argv":["user","profile","notifications","get","user /?","--fields","id"],"method":"GET","path":"/api/users/user%20%2F%3F/profiles/notifications","query":[["fields","id"]],"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"}});
   await storyCase(t, {"argv":["user","profile","notifications","update","user /?","--body","{\"emailNotificationsEnabled\":false,\"mailboxIntegrationNotificationsEnabled\":false}","--fields","id"],"method":"POST","path":"/api/users/user%20%2F%3F/profiles/notifications","query":[["fields","id"]],"body":{"emailNotificationsEnabled":false,"mailboxIntegrationNotificationsEnabled":false},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
 });
+
+test("M04 access pages retain raw offsets, zero-size uncertainty and native whitespace queries", async t => {
+  const f = await configuredFixture(t, { permissions: ["ReadOnly"] }); let calls = 0;
+  server.use(http.get("*", ({ request }) => {
+    calls++; const url = new URL(request.url); const q = url.searchParams;
+    if (!url.pathname.endsWith("/permissions")) assert.equal(q.get("query"), "  ");
+    return HttpResponse.json(q.get("$top") === "0" ? [] : [{ id: "same", name: null }, { id: "same", name: null }]);
+  }));
+  for (const command of ["role-assignment", "role", "permission-catalog"]) {
+    const argv = [command, "list", ...(command === "permission-catalog" ? [] : ["--query", "  "])];
+    assert.deepEqual(await f.cli.execute([...argv, "--start", "3", "--page-size", "2"]), { count: 2, items: [{ id: "same", name: null }, { id: "same", name: null }], hasMore: null, nextStart: 5 });
+    assert.deepEqual(await f.cli.execute([...argv, "--page-size", "0"]), { count: 0, items: [], hasMore: null, nextStart: null });
+    const before = calls;
+    await assert.rejects(f.cli.execute([...argv, "--start", String(Number.MAX_SAFE_INTEGER), "--page-size", "1"]));
+    assert.equal(calls, before);
+  }
+});
+
+test("M04 human settings and access records retain false flags and readable scopes", async t => {
+  const f = await configuredFixture(t, { permissions: ["ReadOnly", "Update"] });
+  server.use(http.all("*", ({ request }) => {
+    const path = new URL(request.url).pathname;
+    if (path.endsWith("/notifications")) return HttpResponse.json({ id: "n", emailNotificationsEnabled: false, mailboxIntegrationNotificationsEnabled: false, $type: "NotificationsUserProfile" });
+    if (path.endsWith("/timeTrackingSettings")) return HttpResponse.json({ id: "settings", enabled: false, estimate: null, $type: "ProjectTimeTrackingSettings" });
+    if (path.endsWith("/assignedRoles")) return HttpResponse.json([{ id: "assignment", role: { name: "Reader" }, holder: { login: "Selected-user" }, scope: { $type: "GlobalScope" }, $type: "AssignedRole" }]);
+    return HttpResponse.json({ id: "role", name: "Reader", immutable: false, permissions: [], $type: "Role" });
+  }));
+  for (const [argv, expected] of [
+    [["user", "profile", "notifications", "get", "Selected-user"], /Email.*no/],
+    [["project", "time-tracking", "update", "project", "--body", '{"enabled":false}'], /Enabled.*no/],
+    [["role", "get", "role"], /Immutable.*no/],
+    [["role-assignment", "list"], /Reader.*Selected-user.*Global/],
+  ] as const) {
+    const r = await f.run(f.cli, [...argv]); assert.equal(r.exitCode, 0, r.stderr); assert.match(r.stdout, expected);
+    assert.doesNotMatch(r.stdout, /\$type|GlobalScope|ProjectTimeTrackingSettings|NotificationsUserProfile/);
+  }
+});
