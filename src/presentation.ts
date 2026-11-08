@@ -584,7 +584,7 @@ export const vcsRecord = recordView<Item | null>({
     { label: "State", value: item => count(item?.state) ?? text(nested(item?.state)?.id) }],
 });
 
-type SubmittedIdentity = { name?: string; field?: string; project?: string };
+type SubmittedIdentity = { name: string | undefined; field: string | undefined; project: string | undefined };
 const submittedIdentities = new WeakMap<object, SubmittedIdentity>();
 
 /** Keep only credential-scrubbed human fallback labels; never alter the request or native result. */
