@@ -72,6 +72,8 @@ export interface ByteBudget {
 export const issueListFields = "id,idReadable,summary,project(id,name,shortName),updated,resolved";
 const commentFields = "id,text,author(id,login),created,updated";
 
+export const nativeInt32 = (value: unknown): boolean => typeof value === "number" && Number.isInteger(value) && value >= -2147483648 && value <= 2147483647;
+
 export function requiredText(value: string, label: string): string {
   if (typeof value !== "string") {
     throw new Error(`The ${label} must be text.`);

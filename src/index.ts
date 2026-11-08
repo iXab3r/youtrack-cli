@@ -112,4 +112,4 @@ export { createRole, updateRole, deleteRole, createRoleAssignment, deleteRoleAss
 
 export { listOrganizations, getOrganization, createOrganization, updateOrganization, deleteOrganization } from "./organizations.js";
 
-export { getApiSchema, getTelemetry, getGlobalSettings } from "./server-settings.js";
+export { getRestSettings, updateRestSettings, getSystemSettings, updateSystemSettings, getApiSchema, getTelemetry, getGlobalSettings } from "./server-settings.js";

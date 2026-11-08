@@ -1,4 +1,4 @@
-import { fields, mutate, deleteObject, mutationBody, namedMutationBody, narrative, requiredText, type Connection, type ProjectionOptions, encodedID, readCollectionAt, readObjectAt } from "./client.js";
+import { nativeInt32, fields, mutate, deleteObject, mutationBody, namedMutationBody, narrative, requiredText, type Connection, type ProjectionOptions, encodedID, readCollectionAt, readObjectAt } from "./client.js";
 
 const globalSettingsPath = "api/admin/timeTrackingSettings";
 const typeFields = "id,name,autoAttached";
@@ -67,10 +67,9 @@ export async function deleteWorkItemType(connection: Connection, typeID: string,
 }
 
 
-const workTimeInt = (value: unknown): boolean => typeof value === "number" && Number.isInteger(value) && value >= -2147483648 && value <= 2147483647;
 export async function updateWorkTimeSettings(connection: Connection, input: unknown, options: ProjectionOptions = {}) {
   const body = mutationBody(input);
-  if (Object.hasOwn(body, "minutesADay") && !workTimeInt(body.minutesADay)) throw new Error("The minutesADay value must be an Int32 number.");
-  if (Object.hasOwn(body, "workDays") && (!Array.isArray(body.workDays) || !body.workDays.every(workTimeInt))) throw new Error("The workDays value must be an array of Int32 numbers.");
+  if (Object.hasOwn(body, "minutesADay") && !nativeInt32(body.minutesADay)) throw new Error("The minutesADay value must be an Int32 number.");
+  if (Object.hasOwn(body, "workDays") && (!Array.isArray(body.workDays) || !body.workDays.every(nativeInt32))) throw new Error("The workDays value must be an array of Int32 numbers.");
   return mutate(connection, `${globalSettingsPath}/workTimeSettings`, body, fields(options, workTimeFields));
 }
