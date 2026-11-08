@@ -5,6 +5,7 @@ import {
   readPage,
   readCollectionAt,
   readObjectAt,
+  type IssueSearchOptions,
   type Connection,
   type PageOptions,
   type YouTrackPage,
@@ -25,7 +26,12 @@ function teamPath(projectID: string): string {
   return `api/admin/projects/${encodedID(projectID, "project ID")}/team`;
 }
 
-export const listGroups = readCollectionAt("api/groups", groupFields);
+export async function listGroups(connection: Connection, options: IssueSearchOptions = {}) {
+  return readPage(connection, "api/groups", {
+    ...page(options, groupFields),
+    ...(options.query === undefined ? {} : { query: requiredText(options.query, "query") }),
+  });
+}
 export const getGroup = readObjectAt(groupPath, groupFields);
 
 export async function listGroupMembers(
@@ -79,4 +85,11 @@ export async function removeProjectTeamGroup(connection: Connection, projectID: 
 
 export async function updateProjectTeam(connection: Connection, projectID: string, input: unknown, options: ProjectionOptions = {}) {
   return mutate(connection, teamPath(projectID), mutationBody(input), fields(options, groupFields));
+}
+
+
+export async function addGroupMember(connection: Connection, groupID: string, userID: string, input: unknown, options: ProjectionOptions = {}) {
+  const body = mutationBody(input);
+  if (Object.hasOwn(body, "id") && body.id !== userID) throw new Error("The body user ID must match the selected user.");
+  return mutate(connection, `${groupPath(groupID)}/ownUsers/${encodedID(userID, "user ID")}`, body, fields(options, userFields));
 }
