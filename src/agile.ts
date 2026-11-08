@@ -1,4 +1,5 @@
 import {
+  deleteObject,
   encodedID,
   fields,
   mutate,
@@ -119,4 +120,12 @@ export async function createAgile(connection: Connection, input: unknown, option
 }
 export async function updateAgile(connection: Connection, agile: string, input: unknown, options: ProjectionOptions = {}) {
   return mutate(connection, agilePath(agile), namedMutationBody(input, false), fields(options, agileFields));
+}
+
+
+export async function deleteAgile(connection: Connection, agileID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, agilePath(agileID), options);
+}
+export async function deleteSprint(connection: Connection, agileID: string, sprintID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, `${agilePath(agileID)}/sprints/${encodedID(sprintID, "sprint ID")}`, options);
 }

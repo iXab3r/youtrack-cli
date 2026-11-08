@@ -77,7 +77,7 @@ export {
   deleteArticle, listArticles, getArticle, createArticle, updateArticle, listArticleComments, getArticleComment,
   deleteArticleComment, addArticleComment, updateArticleComment, listProjectArticles, exportArticle,
 } from "./articles.js";
-export { createAgile, updateAgile, type AgileCreateOptions, listAgiles, getAgile, listSprints, getSprint, createSprint, updateSprint } from "./agile.js";
+export { deleteAgile, deleteSprint, createAgile, updateAgile, type AgileCreateOptions, listAgiles, getAgile, listSprints, getSprint, createSprint, updateSprint } from "./agile.js";
 export {
   listBuildBundles, getBuildBundle, listBuildValues, getBuildValue,
   listOwnedBundles, getOwnedBundle, listOwnedValues, getOwnedValue,
