@@ -64,3 +64,8 @@ test("US-010 delete only the selected issue comment", async t => {
 test("US-013 delete the selected saved query with query-free defaults", async t => {
   await storyCase(t, {"argv":["saved-queries","delete","query /?"],"method":"DELETE","path":"/api/savedQueries/query%20%2F%3F","query":[],"response":undefined,"result":null,"update":true});
 });
+
+test("US-015 read tag usage with repeatable native custom fields before selected tag cleanup", async t => {
+  await storyCase(t, {"argv":["tags","issues","list","tag /?","--custom-field","Priority","--custom-field","State","--custom-field","Priority","--fields","id","--start","7","--page-size","20"],"method":"GET","path":"/api/tags/tag%20%2F%3F/issues","query":[["fields","id"],["$skip","7"],["$top","20"],["customFields","Priority"],["customFields","State"],["customFields","Priority"]],"response":[],"result":{"count":0,"items":[],"hasMore":false,"nextStart":null}});
+  await storyCase(t, {"argv":["tags","delete","tag /?","--fields","id"],"method":"DELETE","path":"/api/tags/tag%20%2F%3F","query":[["fields","id"]],"response":undefined,"result":null,"update":true});
+});
