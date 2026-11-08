@@ -1,7 +1,7 @@
 import { command, type CommandDefinition } from "@eyeauras/cli-factory";
-import { pagedRead, projectedRead, projectedBodyUpdate } from "./cli-support.js";
+import { pagedRead, projectedRead, projectedBodyUpdate, projectedDelete } from "./cli-support.js";
 import {
-  createCustomField, updateCustomField,
+  deleteCustomField, createCustomField, updateCustomField,
   getCustomField,
   listFieldInstances,
   getFieldDefaults, updateFieldDefaults,
@@ -26,6 +26,7 @@ const valueTable = namedTable("VALUE", "No values.");
 
 export const fieldCatalogRootCommands: readonly CommandDefinition[] = [
   command("field", "Manage custom fields and inspect their types", [
+    projectedDelete("delete <field>", "Delete a global custom field", deleteCustomField, mutationWritten("Deleted custom field", "field")),
     projectedBodyUpdate("create", "Create a global custom field", createCustomField, undefined, mutationWritten("Created field")),
     projectedBodyUpdate("update <field>", "Update a global custom field", updateCustomField, undefined, mutationWritten("Updated field", "field")),
     command("instance", "Inspect projects using a field", [

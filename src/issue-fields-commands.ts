@@ -1,7 +1,7 @@
 import { command, type CommandDefinition } from "@eyeauras/cli-factory";
 import { projectedDelete, bodyOptions, projectionOptions, readOptions, updateCommand, projectedBodyUpdate, notificationOptions, pagedRead, projectedRead } from "./cli-support.js";
 import {
-  deleteProjectIssue,
+  deleteProjectField, deleteProjectIssue,
   listProjectIssues, getProjectIssue, createProjectIssue, updateProjectIssue,
   projectTemplate, createProject, updateProject,
   getProject,
@@ -34,7 +34,8 @@ export const fieldsProjectChildren: readonly CommandDefinition[] = [
   }, [...bodyOptions, ...projectionOptions, { flags: "--template <name>", description: "Use a project template", parse: projectTemplate }])),
   projectedBodyUpdate("update <project>", "Update a selected project", updateProject, undefined, mutationWritten("Updated project", "project")),
   projectedRead("get <project>", "Show a project", getProject, projectRecord),
-  command("field", "Inspect project custom-field settings", [
+  command("field", "Inspect and manage project custom fields", [
+    projectedDelete("delete <project> <field>", "Remove a field from the project", deleteProjectField, mutationWritten("Removed project field", "field", "project")),
     projectedBodyUpdate("create <project>", "Attach a custom field", createProjectField, undefined, projectFieldRecord),
     projectedBodyUpdate("update <project> <field>", "Update project field settings", updateProjectField, undefined, projectFieldRecord),
     pagedRead("list <project>", "List the project's custom fields", listProjectFields, projectFieldTable),

@@ -23,7 +23,7 @@ export {
   type AssistOptions, type CommandAssistOptions, type CommandApplyOptions,
 } from "./issue-query.js";
 export {
-  deleteProjectIssue,
+  deleteProjectField, deleteProjectIssue,
   listProjectIssues, getProjectIssue, createProjectIssue, updateProjectIssue, type ProjectIssueOptions,
   createProject, updateProject, type ProjectCreateOptions,
   getProject, getProjectField, listProjectFields, listUsers, getIssueField, listIssueFields, setIssueField,
@@ -55,7 +55,7 @@ export {
   listWorkItemTypes, getWorkItemType, getWorkTimeSettings,
 } from "./time-settings.js";
 export {
-  createEnumValue, updateEnumValue, createStateValue, updateStateValue, getFieldDefaults, updateFieldDefaults, listFieldInstances,
+  deleteCustomField, createEnumValue, updateEnumValue, createStateValue, updateStateValue, getFieldDefaults, updateFieldDefaults, listFieldInstances,
   createCustomField, updateCustomField,
   listCustomFields, getCustomField, listFieldTypes, listEnumBundles, getEnumBundle, listEnumValues,
   getEnumValue, listStateBundles, getStateBundle, listStateValues, getStateValue,

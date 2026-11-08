@@ -1,4 +1,4 @@
-import { fields, mutate, mutationBody, namedMutationBody, narrative, requiredText, type Connection, type ProjectionOptions, encodedID, readCollectionAt, readObjectAt } from "./client.js";
+import { fields, mutate, deleteObject, mutationBody, namedMutationBody, narrative, requiredText, type Connection, type ProjectionOptions, encodedID, readCollectionAt, readObjectAt } from "./client.js";
 
 const root = "api/admin/customFieldSettings";
 const customFieldFields = "id,name,fieldType(id,presentation,valueType,isMultiValue),aliases";
@@ -81,4 +81,9 @@ export async function createCustomField(connection: Connection, input: unknown, 
 }
 export async function updateCustomField(connection: Connection, fieldID: string, input: unknown, options: ProjectionOptions = {}) {
   return mutate(connection, `${root}/customFields/${encodedID(fieldID, "field ID")}`, namedMutationBody(input, false), fields(options, customFieldFields));
+}
+
+
+export async function deleteCustomField(connection: Connection, fieldID: string, options: ProjectionOptions = {}) {
+  return deleteObject(connection, `${root}/customFields/${encodedID(fieldID, "field ID")}`, options);
 }
