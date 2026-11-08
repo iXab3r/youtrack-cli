@@ -1,9 +1,11 @@
 import { command, type OptionDefinition } from "@eyeauras/cli-factory";
-import { bodyUpdate, pagedRead, projectedRead, readCommand, projectionOptions, readOptions } from "./cli-support.js";
+import { bodyUpdate, pagedRead, projectedRead, readCommand, pageOptions, projectionOptions, readOptions } from "./cli-support.js";
 import {
   activityCategories,
   getActivitiesPage,
   getComment,
+  getIssueActivity,
+  listIssueActivities,
   getIssueActivitiesPage,
   getVcsChange,
   listIssueSprints,
@@ -11,7 +13,7 @@ import {
   updateComment,
   type ActivityOptions,
 } from "./issue-context.js";
-import { commentShown, commentUpdated, sprintTable } from "./presentation.js";
+import { commentShown, commentUpdated, sprintTable, namedTable, withView } from "./presentation.js";
 
 const activityOptions: readonly OptionDefinition[] = [
   ...projectionOptions,
@@ -28,10 +30,20 @@ const activityOptions: readonly OptionDefinition[] = [
   { flags: "--reverse", description: "Newest activities first" },
 ];
 
+const activityFilters: readonly OptionDefinition[] = [
+  { flags: "--author <author>", description: "Filter by activity author" },
+  { flags: "--activity-start <timestamp>", description: "Activity interval start in milliseconds" },
+  { flags: "--activity-end <timestamp>", description: "Activity interval end in milliseconds" },
+];
+
 function activityReadOptions(options: Record<string, unknown>): ActivityOptions {
   return {
     ...readOptions(options),
     categories: String(options.categories),
+    ...(typeof options.author === "string" ? { author: options.author } : {}),
+    ...(typeof options.activityStart === "string" ? { activityStart: options.activityStart } : {}),
+    ...(typeof options.activityEnd === "string" ? { activityEnd: options.activityEnd } : {}),
+    ...(typeof options.activityId === "string" ? { activityId: options.activityId } : {}),
     ...(options.reverse === undefined ? {} : { reverse: options.reverse === true }),
     ...(typeof options.cursor === "string" ? { cursor: options.cursor } : {}),
   };
@@ -51,6 +63,13 @@ export const contextRootCommands = [
 
 export const contextIssueChildren = [
   command("activity", "Inspect the issue activity stream", [
+    withView(namedTable("ACTIVITY", "No activity items."), readCommand("list <issueID>", "List activity items", (client, { args, options }) =>
+      listIssueActivities(client, args.issueID, { ...readOptions(options), ...activityReadOptions(options) }), [
+        ...pageOptions, ...activityFilters,
+        { flags: "--categories <categories>", description: "Comma-separated activity categories", required: true, parse: activityCategories },
+        { flags: "--reverse", description: "Newest activities first" },
+      ])),
+    projectedRead("get <issueID> <activityID>", "Show an activity item", getIssueActivity),
     readCommand(
       "page <issueID>",
       "Read one cursor page of activities",
@@ -60,7 +79,8 @@ export const contextIssueChildren = [
           args.issueID,
           activityReadOptions(options),
         ),
-      activityOptions,
+      [...activityOptions, ...activityFilters,
+        { flags: "--activity-id <id>", description: "Center the page on an activity" }],
     ),
   ]),
   command("sprints", "Inspect the sprints that contain an issue", [
