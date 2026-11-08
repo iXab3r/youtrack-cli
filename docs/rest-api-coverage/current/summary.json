@@ -1,25 +1,25 @@
 {
-  "baselineHead": "73854f268e25aeb7ebb1c416bdeebc586b98121a",
+  "baselineHead": "301655746b15a73c409b1b1efd431ba5cb483b98",
   "dateUTC": "2026-11-08",
   "total": 282,
-  "covered": 184,
-  "partial": 1,
-  "missing": 97,
+  "covered": 201,
+  "partial": 0,
+  "missing": 81,
   "uncertain": 0,
-  "reached": 185,
+  "reached": 201,
   "byPermission": {
     "ReadOnly": {
       "total": 140,
-      "covered": 117,
-      "partial": 1,
-      "missing": 22,
+      "covered": 123,
+      "partial": 0,
+      "missing": 17,
       "uncertain": 0
     },
     "Update": {
       "total": 142,
-      "covered": 67,
+      "covered": 78,
       "partial": 0,
-      "missing": 75,
+      "missing": 64,
       "uncertain": 0
     }
   },
@@ -89,9 +89,9 @@
     },
     "articles": {
       "total": 29,
-      "covered": 24,
+      "covered": 28,
       "partial": 0,
-      "missing": 5,
+      "missing": 1,
       "uncertain": 0
     },
     "assignedRoles": {
@@ -159,9 +159,9 @@
     },
     "groups": {
       "total": 9,
-      "covered": 4,
-      "partial": 1,
-      "missing": 4,
+      "covered": 6,
+      "partial": 0,
+      "missing": 3,
       "uncertain": 0
     },
     "issueLinkTypes": {
@@ -173,9 +173,9 @@
     },
     "issues": {
       "total": 48,
-      "covered": 46,
+      "covered": 48,
       "partial": 0,
-      "missing": 2,
+      "missing": 0,
       "uncertain": 0
     },
     "issuesGetter": {
@@ -208,9 +208,9 @@
     },
     "savedQueries": {
       "total": 5,
-      "covered": 4,
+      "covered": 5,
       "partial": 0,
-      "missing": 1,
+      "missing": 0,
       "uncertain": 0
     },
     "search": {
@@ -222,16 +222,16 @@
     },
     "tags": {
       "total": 6,
-      "covered": 4,
+      "covered": 6,
       "partial": 0,
-      "missing": 2,
+      "missing": 0,
       "uncertain": 0
     },
     "users": {
       "total": 13,
-      "covered": 5,
+      "covered": 11,
       "partial": 0,
-      "missing": 8,
+      "missing": 2,
       "uncertain": 0
     },
     "workItems": {
@@ -249,8 +249,6 @@
     "article attachment download <article> <attachment>",
     "article export <article>"
   ],
-  "testOnlyTransportOperations": [
-    "DELETE /api/issues/{p1}"
-  ],
+  "testOnlyTransportOperations": [],
   "verificationEvidenceGaps": []
 }
