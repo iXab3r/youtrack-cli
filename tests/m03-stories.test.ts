@@ -38,3 +38,8 @@ test("US-035 state catalog metadata remains separate from issue workflow transit
   await storyCase(t, { argv: ["bundle", "state", "value", "create", "bundle /?", "--body", '{"name":"Synthetic state","isResolved":false}', "--fields", "id"], method: "POST", path: "/api/admin/customFieldSettings/bundles/state/bundle%20%2F%3F/values", query: [["fields", "id"]], body: { name: "Synthetic state", isResolved: false }, response: detail, result: detail, update: true });
   await storyCase(t, { argv: ["bundle", "state", "value", "update", "bundle /?", "state /?", "--body", '{"isResolved":true,"localizedName":null}', "--fields", "id"], method: "POST", path: "/api/admin/customFieldSettings/bundles/state/bundle%20%2F%3F/values/state%20%2F%3F", query: [["fields", "id"]], body: { isResolved: true, localizedName: null }, response: undefined, result: null, update: true });
 });
+
+test("US-014 create and edit global working tags with native sharing and colors", async t => {
+  await storyCase(t, { argv: ["tags", "create", "--body", '{"name":"Synthetic tag","visibleFor":null,"color":{"id":"style"}}', "--fields", "id"], method: "POST", path: "/api/tags", query: [["fields", "id"]], body: { name: "Synthetic tag", visibleFor: null, color: { id: "style" } }, response: detail, result: detail, update: true });
+  await storyCase(t, { argv: ["tags", "update", "tag /?", "--body", '{"untagOnResolve":false,"updateableBy":null}', "--fields", "id"], method: "POST", path: "/api/tags/tag%20%2F%3F", query: [["fields", "id"]], body: { untagOnResolve: false, updateableBy: null }, response: undefined, result: null, update: true });
+});
