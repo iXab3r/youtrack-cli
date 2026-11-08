@@ -603,3 +603,10 @@ export const tagWritten = recordView<Item | null>({
   title: (item, context) => joined("Tag", text(item?.name) ?? key(item) ?? arg(context, "tagID")),
   fields: [{ label: "ID", value: item => key(item) }],
 });
+
+export const fieldDefaultsRecord = recordView<Item | null>({
+  title: (item, context) => joined("Field defaults", key(item) ?? arg(context, "field")),
+  fields: [{ label: "Can be empty", value: item => booleanText(item?.canBeEmpty) },
+    { label: "Public", value: item => booleanText(item?.isPublic) },
+    { label: "Empty text", value: item => text(item?.emptyFieldText) }],
+});

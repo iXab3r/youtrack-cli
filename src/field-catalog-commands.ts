@@ -2,6 +2,7 @@ import { command, type CommandDefinition } from "@eyeauras/cli-factory";
 import { pagedRead, projectedRead, projectedBodyUpdate } from "./cli-support.js";
 import {
   getCustomField,
+  getFieldDefaults, updateFieldDefaults,
   createEnumValue,
   updateEnumValue,
   getEnumBundle,
@@ -16,13 +17,17 @@ import {
   listStateBundles,
   listStateValues,
 } from "./field-catalog.js";
-import { fieldTable, namedTable, bundleValueWritten } from "./presentation.js";
+import { fieldTable, fieldDefaultsRecord, namedTable, bundleValueWritten } from "./presentation.js";
 
 const bundleTable = namedTable("BUNDLE", "No bundles.");
 const valueTable = namedTable("VALUE", "No values.");
 
 export const fieldCatalogRootCommands: readonly CommandDefinition[] = [
   command("field", "Inspect custom fields and their types", [
+    command("defaults", "Read and change field defaults", [
+      projectedRead("get <field>", "Show field defaults", getFieldDefaults, fieldDefaultsRecord),
+      projectedBodyUpdate("update <field>", "Update field defaults", updateFieldDefaults, undefined, fieldDefaultsRecord),
+    ]),
     pagedRead("list", "List custom fields", listCustomFields, fieldTable),
     projectedRead("get <field>", "Show a custom field", getCustomField),
     command("type", "Inspect custom-field types", [
