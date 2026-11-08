@@ -108,3 +108,19 @@ test("M03 human native flags and dates stay readable with empty mutation replies
     const r = await f.run(f.cli, argv); assert.equal(r.exitCode, 0, r.stderr); assert.ok(r.stdout.trim());
   }
 });
+
+test("M03 empty create confirmations retain the selected object identity", async t => {
+  const f = await configuredFixture(t, { permissions: ["Update"] });
+  server.use(http.post("*", () => new HttpResponse(null, { status: 204 })));
+  const rows = [
+    { name: "board", argv: ["agile", "create", "--body", '{"name":"Selected board","projects":[{"id":"project"}]}'], expected: /Selected board/ },
+    ...["enum", "state", "version"].map(kind => ({ name: kind, argv: ["bundle", kind, "value", "create", "bundle", "--body", JSON.stringify({ name: `Selected ${kind}` })], expected: new RegExp(`Selected ${kind}`) })),
+    { name: "tag", argv: ["tags", "create", "--body", '{"name":"Selected tag"}'], expected: /Selected tag/ },
+    { name: "field", argv: ["project", "field", "create", "Selected-project", "--body", '{"field":{"id":"Selected-prototype"},"$type":"EnumProjectCustomField"}'], expected: /Selected-prototype.*Selected-project|Selected-project.*Selected-prototype/ },
+  ];
+  for (const row of rows) await t.test(row.name, async () => {
+    const shown = await f.run(f.cli, row.argv); assert.equal(shown.exitCode, 0, shown.stderr); assert.match(shown.stdout, row.expected);
+    assert.equal(await f.json(f.cli, row.argv), null);
+    assert.deepEqual((await f.rpc(f.cli, [row.argv]) as { result: unknown }[])[0]?.result, null);
+  });
+});
