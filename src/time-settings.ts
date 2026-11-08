@@ -65,3 +65,12 @@ export async function updateWorkItemType(connection: Connection, typeID: string,
 export async function deleteWorkItemType(connection: Connection, typeID: string, options: ProjectionOptions = {}) {
   return deleteObject(connection, `${globalSettingsPath}/workItemTypes/${encodedID(typeID, "work item type ID")}`, options);
 }
+
+
+const workTimeInt = (value: unknown): boolean => typeof value === "number" && Number.isInteger(value) && value >= -2147483648 && value <= 2147483647;
+export async function updateWorkTimeSettings(connection: Connection, input: unknown, options: ProjectionOptions = {}) {
+  const body = mutationBody(input);
+  if (Object.hasOwn(body, "minutesADay") && !workTimeInt(body.minutesADay)) throw new Error("The minutesADay value must be an Int32 number.");
+  if (Object.hasOwn(body, "workDays") && (!Array.isArray(body.workDays) || !body.workDays.every(workTimeInt))) throw new Error("The workDays value must be an array of Int32 numbers.");
+  return mutate(connection, `${globalSettingsPath}/workTimeSettings`, body, fields(options, workTimeFields));
+}

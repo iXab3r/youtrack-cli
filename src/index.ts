@@ -48,7 +48,7 @@ export {
 } from "./issue-time.js";
 export { listIssueAttachments, getIssueAttachment, uploadIssueAttachment, updateIssueAttachment, deleteIssueAttachment } from "./issue-attachments.js";
 export {
-  createWorkItemType, updateWorkItemType, deleteWorkItemType,
+  updateWorkTimeSettings, createWorkItemType, updateWorkItemType, deleteWorkItemType,
   updateProjectTimeSettings,
   addProjectWorkItemType, removeProjectWorkItemType,
   getProjectTimeSettings, listProjectWorkItemTypes, getProjectWorkItemType, getGlobalTimeSettings,
