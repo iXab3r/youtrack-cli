@@ -121,3 +121,7 @@ test("US-046 add and remove project team groups by their native IDs", async t =>
   await storyCase(t, {"argv":["project","team","group","add","project /?","--body","{\"id\":\"group /?\",\"$type\":\"NestedGroup\"}","--fields","id"],"method":"POST","path":"/api/admin/projects/project%20%2F%3F/team/groups","query":[["fields","id"]],"body":{"id":"group /?","$type":"NestedGroup"},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
   await storyCase(t, {"argv":["project","team","group","remove","project /?","group /?","--fields","id"],"method":"DELETE","path":"/api/admin/projects/project%20%2F%3F/team/groups/group%20%2F%3F","query":[["fields","id"]],"response":undefined,"result":null,"update":true});
 });
+
+test("US-047 update native direct team lists including an empty selection", async t => {
+  await storyCase(t, {"argv":["project","team","update","project /?","--body","{\"ownUsers\":[],\"groups\":[{\"id\":\"group /?\",\"$type\":\"NestedGroup\"}]}","--fields","id"],"method":"POST","path":"/api/admin/projects/project%20%2F%3F/team","query":[["fields","id"]],"body":{"ownUsers":[],"groups":[{"id":"group /?","$type":"NestedGroup"}]},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+});
