@@ -85,3 +85,5 @@ export {
 } from "./attachment-download.js";
 
 export { listIssueReactions, getIssueReaction, addIssueReaction, removeIssueReaction } from "./issue-reactions.js";
+
+export { listRoleAssignments, getRoleAssignment, listPermissions, listRoles, getRole } from "./access-catalog.js";

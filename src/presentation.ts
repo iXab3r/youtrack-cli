@@ -660,3 +660,28 @@ export const projectTimeRecord = recordView<Item | null>({
     { label: "Estimate field", value: item => text(nested(nested(item?.estimate)?.field)?.name) ?? key(nested(item?.estimate)) },
     { label: "Time spent field", value: item => text(nested(nested(item?.timeSpent)?.field)?.name) ?? key(nested(item?.timeSpent)) }],
 });
+
+const roleLabel = (item: Item | undefined): string | undefined => text(item?.name) ?? key(item);
+const holderLabel = (item: Item | undefined): string | undefined => text(item?.login) ?? text(item?.name) ?? key(item);
+const scopeLabel = (item: Item | undefined): string | undefined => text(nested(item?.project)?.name)
+  ?? key(nested(item?.project)) ?? text(nested(item?.organization)?.name) ?? key(nested(item?.organization))
+  ?? (item?.$type === "GlobalScope" ? "Global" : key(item));
+export const roleAssignmentTable = tableView<Item, YouTrackPage>({
+  rows: page => page.items,
+  columns: [id, { header: "ROLE", value: item => roleLabel(nested(item.role)) },
+    { header: "HOLDER", value: item => holderLabel(nested(item.holder)) },
+    { header: "SCOPE", value: item => scopeLabel(nested(item.scope)) }],
+  empty: "No role assignments.", footer: pageFooter,
+});
+export const roleAssignmentRecord = recordView<Item | null>({
+  title: (item, context) => joined("Role assignment", key(item) ?? submittedIdentity(context)?.args.assignment),
+  fields: [{ label: "Role", value: item => roleLabel(nested(item?.role)) },
+    { label: "Holder", value: item => holderLabel(nested(item?.holder)) },
+    { label: "Scope", value: item => scopeLabel(nested(item?.scope)) }],
+});
+export const roleRecord = recordView<Item | null>({
+  title: (item, context) => text(item?.name) ?? key(item) ?? submittedIdentity(context)?.args.role,
+  fields: [{ label: "ID", value: item => key(item) }, { label: "Description", value: item => text(item?.description) },
+    { label: "Immutable", value: item => booleanText(item?.immutable) },
+    { label: "Permissions", value: item => Array.isArray(item?.permissions) ? item.permissions.length : undefined }],
+});
