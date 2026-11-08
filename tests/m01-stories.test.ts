@@ -38,6 +38,9 @@ async function storyCase(t: TestContext, row: StoryCase) {
     assert.equal(url.origin, "https://youtrack.example.com");
     assert.equal(url.pathname, "/context" + row.path);
     assert.deepEqual([...url.searchParams].sort(), [...row.query].sort());
+    for (const name of new Set(row.query.map(([name]) => name))) {
+      assert.deepEqual(url.searchParams.getAll(name), row.query.filter(([key]) => key === name).map(([, value]) => value));
+    }
     assert.equal(request.headers.get("authorization"), "Bearer synthetic-token");
     if (row.multipart !== undefined) {
       const form = await request.formData();
@@ -265,7 +268,7 @@ test("M01 review: repeated work-item people preserve order and duplicates on eve
     seen.push([q.getAll("author"), q.getAll("creator")]);
     return Response.json([]);
   }) as typeof fetch };
-  await listWorkItems(connection, { author: ["a", "b", "a"], creator: ["c", "d"] } as never);
+  await listWorkItems(connection, { author: ["a", "b", "a"], creator: ["c", "d"] });
   await listWorkItems(connection, { author: "single", creator: "single" });
   assert.deepEqual(seen, [[["a", "b", "a"], ["c", "d"]], [["single"], ["single"]]]);
 });

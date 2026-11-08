@@ -538,6 +538,18 @@ export function nullableText(value: unknown, label: string): string | null {
   return value;
 }
 
+/** A received 4xx is a rejection; other post-submission failures cannot prove no write. */
+async function mutationResult<T>(operation: () => Promise<T>): Promise<T> {
+  try {
+    return await operation();
+  } catch (error) {
+    if (error instanceof Error && !(error instanceof HttpError && error.status >= 400 && error.status < 500)) {
+      error.message += " The write outcome is unknown.";
+    }
+    throw error;
+  }
+}
+
 export async function mutate(
   connection: Connection,
   path: string,
@@ -545,16 +557,21 @@ export async function mutate(
   projection: string,
   options: WriteOptions = {},
 ): Promise<YouTrackObject | null> {
-  const value = await request(connection, path, writeQuery(options, projection), "JSON", {
-    method: "POST", body, allowEmpty: true,
+  const query = writeQuery(options, projection);
+  return mutationResult(async () => {
+    const value = await request(connection, path, query, "JSON", {
+      method: "POST", body, allowEmpty: true,
+    });
+    return value === null ? null : object(scrub(value, connection.token.trim()));
   });
-  return value === null ? null : object(scrub(value, connection.token.trim()));
 }
 
 export async function deleteObject(connection: Connection, path: string, options: ProjectionOptions = {}): Promise<YouTrackObject | null> {
   const query = options.fields === undefined ? {} : { fields: fields(options, "") };
-  const value = await request(connection, path, query, "JSON", { method: "DELETE", allowEmpty: true });
-  return value === null ? null : object(scrub(value, connection.token.trim()));
+  return mutationResult(async () => {
+    const value = await request(connection, path, query, "JSON", { method: "DELETE", allowEmpty: true });
+    return value === null ? null : object(scrub(value, connection.token.trim()));
+  });
 }
 
 export async function uploadObjectCollection(
@@ -564,16 +581,15 @@ export async function uploadObjectCollection(
   projection: string,
   options: WriteOptions = {},
 ): Promise<YouTrackObject[] | null> {
-  const value = await request(connection, path, writeQuery(options, projection), "JSON", {
-    method: "POST", body, allowEmpty: true,
+  const query = writeQuery(options, projection);
+  return mutationResult(async () => {
+    const value = await request(connection, path, query, "JSON", {
+      method: "POST", body, allowEmpty: true,
+    });
+    if (value === null) return null;
+    if (!Array.isArray(value)) throw new Error("Invalid upload collection response from YouTrack.");
+    return value.map((item) => object(scrub(item, connection.token.trim())));
   });
-  if (value === null) {
-    return null;
-  }
-  if (!Array.isArray(value)) {
-    throw new Error("Invalid upload collection response from YouTrack.");
-  }
-  return value.map((item) => object(scrub(item, connection.token.trim())));
 }
 
 export async function addComment(

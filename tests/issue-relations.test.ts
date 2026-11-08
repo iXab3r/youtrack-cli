@@ -163,7 +163,7 @@ test("all relation writes sanitize responses and fail remote errors without retr
         calls++;
         return new HttpResponse("synthetic-token private-diagnostic", { status });
       }));
-      await assert.rejects(row.run(), new RegExp(`^HttpError: YouTrack answered HTTP ${status}\\.$`));
+      await assert.rejects(row.run(), new RegExp(`^HttpError: YouTrack answered HTTP ${status}\\.${status >= 500 ? " The write outcome is unknown\\." : ""}$`));
       assert.equal(calls, 1);
     }
   }

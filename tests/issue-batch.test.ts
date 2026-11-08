@@ -152,7 +152,7 @@ for (const scenario of ["stop", "continue", "uncertain"] as const) {
         failed: uncertain ? 0 : 1, uncertain: uncertain ? 1 : 0,
         unattempted: uncertain ? 2 : continuing ? 0 : 1,
         rows: uncertain ? [
-          { row: 1, status: "uncertain", error: "YouTrack answered HTTP 503." },
+          { row: 1, status: "uncertain", error: "YouTrack answered HTTP 503. The write outcome is unknown." },
           { row: 2, status: "unattempted" },
           { row: 3, status: "unattempted" },
         ] : [

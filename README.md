@@ -129,7 +129,7 @@ and [current mapping](docs/rest-api-coverage/current/coverage.json) keep these m
   as false. The server enforces Apply Commands Silently; this does not mute workflow notifications.
   Only issue create and comment add accept `--draft-id`. Keep `--body` required; use `{}` when
   publishing a draft without additional fields. Normal issue creation still requires project/summary.
-- `work-items list` adds `--author`, `--creator`, `--start-date`, `--end-date`, `--work-start`,
+- `work-items list` adds repeatable `--author` and `--creator`, `--start-date`, `--end-date`, `--work-start`,
   `--work-end`, `--created-start`, `--created-end`, `--updated-start`, `--updated-end`.
   `--start` stays the raw offset; `--work-start` selects the native temporal `start` filter.
   Filter values remain literal strings so a native Long does not lose precision in JavaScript.
@@ -139,6 +139,10 @@ and [current mapping](docs/rest-api-coverage/current/coverage.json) keep these m
 - `issues attachments update <issueID> <attachmentID> --body <json>` updates native metadata.
   `issues attachments delete <issueID> <attachmentID>` and
   `issues work-items delete <issueID> <itemID>` remove only the selected resource.
+
+Write failures after submission report an unknown outcome when the reply is lost, unreadable or
+invalid, or the server returns 5xx. Check the selected object before retrying; no automatic retry
+is performed. HTTP 4xx rejection and local validation keep their distinct diagnostics.
 - `issues comments reaction list/get/add/remove` take issue/comment IDs, plus a reaction ID
   for get/remove. Add requires `--body` containing native `reaction`; names are not restricted
   to a hard-coded list. Reads use ReadOnly; add/remove use Update, even when remote service

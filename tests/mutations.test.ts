@@ -114,7 +114,7 @@ test("remote rejection never retries any mutation or exposes body diagnostics", 
         calls++;
         return new HttpResponse("synthetic-token synthetic-private-validation", { status });
       }));
-      await assert.rejects(run(), new RegExp(`^HttpError: YouTrack answered HTTP ${status}\\.$`));
+      await assert.rejects(run(), new RegExp(`^HttpError: YouTrack answered HTTP ${status}\\.${status >= 500 ? " The write outcome is unknown\\." : ""}$`));
       assert.equal(calls, 1);
     }
   }

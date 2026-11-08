@@ -175,7 +175,7 @@ test("field updates never retry rejection and preserve common empty/error/redact
   for (const status of [400, 401, 403, 409, 429, 500]) {
     let calls = 0;
     server.use(http.post("*", () => { calls++; return new HttpResponse("synthetic-token private-response", { status }); }));
-    await assert.rejects(run(), new RegExp(`^HttpError: YouTrack answered HTTP ${status}\\.$`));
+    await assert.rejects(run(), new RegExp(`^HttpError: YouTrack answered HTTP ${status}\\.${status >= 500 ? " The write outcome is unknown\\." : ""}$`));
     assert.equal(calls, 1);
   }
   for (const body of ["null", "[]", "malformed-private-response"]) {

@@ -220,7 +220,7 @@ test("neither work-time mutation retries remote failures or returns private diag
         return new HttpResponse("synthetic-token private-validation", { status });
       }));
       await assert.rejects(row.run({ duration: { minutes: 60 } }),
-        new RegExp(`^HttpError: YouTrack answered HTTP ${status}\\.$`));
+        new RegExp(`^HttpError: YouTrack answered HTTP ${status}\\.${status >= 500 ? " The write outcome is unknown\\." : ""}$`));
       assert.equal(calls, 1);
     }
   }
