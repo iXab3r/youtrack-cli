@@ -141,3 +141,32 @@ test("installed M04 access catalogs, exports and notification resource retain th
   const result = await sdk.getUserNotifications({ baseUrl: "https://installed.example.test/context", token: "synthetic-installed", fetch: f.runtime.fetch }, "selected user");
   assert.equal(result.emailNotificationsEnabled, false); assert.equal(calls, 3);
 });
+
+test("installed M05 exports preserve native profile, repeated fields and selected cleanup paths", async t => {
+  const sdk = await import("@eyeauras/youtrack-cli");
+  for (const name of [
+    "getUserGeneralProfile", "updateUserGeneralProfile", "getUserTimeProfile", "updateUserTimeProfile", "listUserSavedQueries", "listUserTags",
+    "addGroupMember", "deleteIssueComment", "deleteSavedQuery", "listTagIssues", "deleteTag", "deleteIssue",
+    "addChildArticle", "updateChildArticle", "removeChildArticle", "deleteArticleComment",
+  ]) assert.equal(typeof sdk[name], "function", name);
+  const f = await createCliFixture(t, { applicationId: "youtrack-cli", profiles: [{ name: "default", values: { url: "https://installed.example.test/context" }, permissions: ["ReadOnly", "Update"], secrets: { token: "synthetic-installed" } }] });
+  let calls = 0;
+  f.runtime.fetch = async (input, init) => {
+    calls++; const u = new URL(input);
+    assert.equal(new Headers(init.headers).get("authorization"), "Bearer synthetic-installed");
+    if (u.pathname === "/context/api/groups") { assert.equal(u.searchParams.get("query"), "  "); return Response.json([]); }
+    if (u.pathname === "/context/api/tags/tag/issues") { assert.deepEqual(u.searchParams.getAll("customFields"), ["State", "Priority"]); return Response.json([]); }
+    if (u.pathname === "/context/api/articles/parent/childArticles/child") {
+      assert.equal(init.method, "POST"); assert.deepEqual(JSON.parse(init.body), { summary: null }); assert.equal(u.searchParams.get("muteUpdateNotifications"), "false"); return new Response(null, { status: 204 });
+    }
+    if (u.pathname === "/context/api/issues/selected-issue") { assert.equal(init.method, "DELETE"); assert.equal(u.search, ""); return new Response(null, { status: 204 }); }
+    assert.equal(u.pathname, "/context/api/users/user/profiles/timetracking"); return Response.json({ periodFormat: { id: "FULL", $type: "PeriodFieldFormat" } });
+  };
+  const app = f.createApplication(createYouTrackCli);
+  assert.equal((await f.json(app, ["group", "list", "--query", "  "])).count, 0);
+  assert.equal((await f.json(app, ["tags", "issues", "list", "tag", "--custom-field", "State", "--custom-field", "Priority"])).count, 0);
+  assert.equal(await f.json(app, ["article", "child", "update", "parent", "child", "--body", '{"summary":null}', "--mute-update-notifications", "false"]), null);
+  assert.equal(await f.json(app, ["issues", "delete", "selected-issue"]), null);
+  const time = await sdk.getUserTimeProfile({ baseUrl: "https://installed.example.test/context", token: "synthetic-installed", fetch: f.runtime.fetch }, "user");
+  assert.equal(time.periodFormat.id, "FULL"); assert.equal(calls, 5);
+});

@@ -23,10 +23,10 @@ for each profile and reimport auxiliary secrets. Existing profiles and permissio
 Licensed under MIT. See the [release guide](docs/release.md).
 
 YouTrack consumes the exact published `@eyeauras/cli-factory` version declared in package.json. The current source
-provides profiles/auth/permissions and 185 REST operations: 118 ReadOnly and 67 Update.
+provides profiles/auth/permissions and 201 REST operations: 123 ReadOnly and 78 Update.
 Five workflow leaves reuse those operations instead of adding REST operations: issue and article
-attachment download, article export, and `issues batch validate/apply`. There are 188 service
-leaves: 183 for REST operations plus these five. Two `--direct` selectors each select a second
+attachment download, article export, and `issues batch validate/apply`. There are 204 service
+leaves: 199 for REST operations plus these five. Two `--direct` selectors each select a second
 REST endpoint without adding another leaf.
 The foundational read projections are:
 
@@ -48,7 +48,7 @@ onboarding or credential access on CLI, execute and RPC. The static errors are
 `--page-size must be a nonnegative safe decimal integer.` and
 `--start must be a nonnegative integer.`; they never include the supplied input.
 Directly callable service methods retain their own range validation.
-All 56 offset lists return `{count,items,hasMore,nextStart}` across library, CLI, execute and RPC.
+All 59 offset lists return `{count,items,hasMore,nextStart}` across library, CLI, execute and RPC.
 Each ordinary list makes one request without lookahead and rejects an oversized server page.
 Nonempty pages have `hasMore:null`, including short pages: a server cap is not end evidence.
 Continue at `nextStart`, which advances by actual returned rows. A positive-size empty page has
@@ -107,6 +107,36 @@ or cancellation fail with `The response stream failed or was cancelled.` without
 Compressed wire length is syntax-checked but not compared with decoded size. HTTP status,
 Retry-After, empty/null mutation and UTF-8 BOM behavior are unchanged. No request is retried
 automatically. Runtime memory and service limits still apply.
+
+## M05: self-service and targeted cleanup (unreleased main)
+
+This source includes M02–M05; npm0.8.0 contains M01. Milestones merge without version bumps or
+npm publication. [Current coverage](docs/rest-api-coverage/current/README.md) retains the frozen
+282-operation denominator and the complete remaining inventory.
+
+- `user profile general get/update <user>` reads or changes timezone, locale and date-format
+  preferences. Updates use native descriptor objects, for example
+  `--body '{"timezone":{"id":"Europe/Berlin"}}'`; descriptor IDs remain caller-selected.
+- `user profile time-tracking get/update <user>` handles native period descriptors, for example
+  `--body '{"periodFormat":{"id":"FULL"}}'`. These server profiles are separate from CLI profiles.
+- `user saved-queries list <user>` and `user tags list <user>` return one ordinary offset page.
+- `group list --query <query>` passes the native filter unchanged. `group member add <group> <user>
+  --body <json>` selects the direct member through path IDs. If body.id is supplied it must match
+  the selected user; an empty object still uses the path selector. No user lookup or grant occurs.
+- `tags issues list <tagID>` reads usage, including repeatable `--custom-field <name>` selectors.
+  Values and order remain native; this list does not become an automatic cleanup selection.
+- `issues comments delete <issueID> <commentID>`, `saved-queries delete <queryID>`,
+  `tags delete <tagID>`, `issues delete <issueID>` and `article comment delete <article> <comment>`
+  act on those selected IDs. DELETE defaults are query-free and optional `--fields` is preserved.
+- `article child add <article> --body <json>` and `update <article> <child> --body <json>` use the
+  hierarchy endpoints and accept `--mute-update-notifications [boolean]`. Native null content/title
+  and extra metadata survive. `article child remove <article> <child>` unlinks the relationship;
+  it does not call the article deletion endpoint.
+
+Reads use ReadOnly and remote writes require Update. YouTrack owns server rights and native-value
+validation. Existing paging, profiles/auth, human/JSON/RPC, diagnostic causes, EPIPE and dispatched
+unknown-write outcomes remain. Cleanup has no implicit search expansion, retry or compensation.
+No live-service or cross-version conformance is claimed.
 
 ## M04: project setup and team (unreleased main)
 
