@@ -79,3 +79,9 @@ test("US-056 create users from scoped password aliases and preserve native email
   await storyCase(t, {"argv":["user","create","--body","{\"login\":\"synthetic-user\",\"email\":null}","--password-secret","initial-user-password","--fields","id"],"method":"POST","path":"/api/users","query":[["fields","id"]],"body":{"login":"synthetic-user","email":null,"password":"synthetic-initial-password"},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true,"secrets":{"user-initial-password:initial-user-password":"synthetic-initial-password"}});
   await storyCase(t, {"argv":["user","update","user /?","--body","{\"email\":\"synthetic-user@example.test\"}","--fields","id"],"method":"POST","path":"/api/users/user%20%2F%3F","query":[["fields","id"]],"body":{"email":"synthetic-user@example.test"},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
 });
+
+test("US-059 create update and delete roles with native permission references", async t => {
+  await storyCase(t, {"argv":["role","create","--body","{\"name\":\"Synthetic role\",\"permissions\":[{\"id\":\"synthetic.permission.key\"}]}","--fields","id"],"method":"POST","path":"/api/roles","query":[["fields","id"]],"body":{"name":"Synthetic role","permissions":[{"id":"synthetic.permission.key"}]},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["role","update","role /?","--body","{\"description\":null,\"permissions\":[]}","--fields","id"],"method":"POST","path":"/api/roles/role%20%2F%3F","query":[["fields","id"]],"body":{"description":null,"permissions":[]},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+  await storyCase(t, {"argv":["role","delete","role /?","--fields","id"],"method":"DELETE","path":"/api/roles/role%20%2F%3F","query":[["fields","id"]],"response":undefined,"result":null,"update":true});
+});
