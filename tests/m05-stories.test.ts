@@ -83,3 +83,45 @@ test("US-024 manage native child articles and remove only the hierarchy relation
 test("US-027 delete only the selected article comment", async t => {
   await storyCase(t, {"argv":["article","comment","delete","article /?","comment /?","--fields","id"],"method":"DELETE","path":"/api/articles/article%20%2F%3F/comments/comment%20%2F%3F","query":[["fields","id"]],"response":undefined,"result":null,"update":true});
 });
+
+test("M05 new collections preserve raw paging and repeated-field SDK validation before HTTP", async t => {
+  const f = await configuredFixture(t, { permissions: ["ReadOnly"] }); let calls = 0;
+  server.use(http.get("*", ({ request }) => { calls++; const q = new URL(request.url).searchParams; return HttpResponse.json(q.get("$top") === "0" ? [] : [{ id: "same" }, { id: "same" }]); }));
+  for (const argv of [["user", "saved-queries", "list", "user"], ["user", "tags", "list", "user"], ["tags", "issues", "list", "tag"]]) {
+    assert.deepEqual(await f.cli.execute([...argv, "--start", "3", "--page-size", "2"]), { count: 2, items: [{ id: "same" }, { id: "same" }], hasMore: null, nextStart: 5 });
+    assert.deepEqual(await f.cli.execute([...argv, "--page-size", "0"]), { count: 0, items: [], hasMore: null, nextStart: null });
+    const before = calls; await assert.rejects(f.cli.execute([...argv, "--start", String(Number.MAX_SAFE_INTEGER), "--page-size", "1"])); assert.equal(calls, before);
+  }
+  const { listTagIssues } = await import("../src/issue-relations.js"); let requests = 0;
+  const connection = { baseUrl: "https://youtrack.example.test", token: "synthetic-token", fetch: (async () => { requests++; return Response.json([]); }) as typeof fetch };
+  for (const customFields of [null, "State", [42]]) await assert.rejects(listTagIssues(connection, "tag", { customFields } as never));
+  assert.equal(requests, 0);
+});
+
+test("M05 empty cleanup confirmations identify selected objects without discovery or credential echoes", async t => {
+  const f = await configuredFixture(t, { permissions: ["Update"] }); let calls = 0;
+  server.use(http.all("*", () => { calls++; return new HttpResponse(null, { status: 204 }); }));
+  const rows = [
+    ["issues", "comments", "delete", "selected-issue", "selected-comment"],
+    ["saved-queries", "delete", "selected-query"], ["tags", "delete", "selected-tag"], ["issues", "delete", "selected-issue"],
+    ["article", "child", "add", "selected-parent", "--body", '{"id":"selected-child"}'],
+    ["article", "child", "update", "selected-parent", "selected-child", "--body", '{"summary":null}'],
+    ["article", "child", "remove", "selected-parent", "selected-child"], ["article", "comment", "delete", "selected-parent", "selected-comment"],
+  ];
+  for (const argv of rows) {
+    const before = calls; const r = await f.run(f.cli, argv); assert.equal(r.exitCode, 0, r.stderr); assert.match(r.stdout, /selected-/); assert.equal(calls, before + 1);
+    if (argv[1] === "child") { assert.match(r.stdout, /selected-parent/); assert.match(r.stdout, /selected-child/); }
+    assert.equal(await f.json(f.cli, argv), null);
+  }
+  const hidden = await f.run(f.cli, ["tags", "delete", "synthetic-token"]); assert.equal(hidden.exitCode, 0, hidden.stderr);
+  assert.doesNotMatch(hidden.stdout + hidden.stderr, /synthetic-token/); assert.match(hidden.stdout, /redacted/);
+});
+
+test("M05 descriptor views print native profile values without object dumps", async t => {
+  const f = await configuredFixture(t, { permissions: ["ReadOnly"] });
+  server.use(http.get("*", () => HttpResponse.json({ timezone: { id: "Europe/Berlin", presentation: "Berlin time", $type: "TimeZoneDescriptor" }, locale: { id: "locale", name: "Synthetic locale" }, dateFieldFormat: { id: "date", pattern: "yyyy-MM-dd" }, periodFormat: { id: "FULL", $type: "PeriodFieldFormat" }, $type: "GeneralUserProfile" })));
+  const general = await f.run(f.cli, ["user", "profile", "general", "get", "selected-user"]);
+  assert.equal(general.exitCode, 0, general.stderr); assert.match(general.stdout, /Berlin time/); assert.match(general.stdout, /yyyy-MM-dd/); assert.match(general.stdout, /Synthetic locale/);
+  const time = await f.run(f.cli, ["user", "profile", "time-tracking", "get", "selected-user"]);
+  assert.equal(time.exitCode, 0, time.stderr); assert.match(time.stdout, /FULL/); assert.doesNotMatch(general.stdout + time.stdout, /\$type|TimeZoneDescriptor|PeriodFieldFormat|\[object Object\]/);
+});
