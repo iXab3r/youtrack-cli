@@ -61,3 +61,7 @@ test("US-063 a rejected global deletion does not replay or compensate project fi
   await assert.rejects(f.cli.execute(["field", "delete", "selected-global-field"]), (error: Error) => { assert.match(error.message, /HTTP 409/); assert.doesNotMatch(error.message, /outcome is unknown|synthetic-token|private-response/); return true; });
   assert.deepEqual(seen, ["/context/api/admin/projects/selected-project/customFields/selected-project-field", "/context/api/admin/customFieldSettings/customFields/selected-global-field"]);
 });
+
+test("US-064 delete only the caller-selected project", async t => {
+  await storyCase(t, {"argv":["project","delete","project /?"],"method":"DELETE","path":"/api/admin/projects/project%20%2F%3F","query":[],"response":undefined,"result":null,"update":true});
+});
