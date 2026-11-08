@@ -154,7 +154,7 @@ export function scrubText(text: string, token: string, additional: readonly stri
   return text;
 }
 
-function scrub(value: YouTrackValue, token: string, additional: readonly string[] = []): YouTrackValue {
+export function scrub(value: YouTrackValue, token: string, additional: readonly string[] = []): YouTrackValue {
   if (typeof value === "string") {
     return scrubText(value, token, additional);
   }

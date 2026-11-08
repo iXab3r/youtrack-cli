@@ -737,3 +737,14 @@ export const scopedIssueWritten = (verb: string): HumanView => recordView<Item |
     submittedIdentity(context)?.args.project),
   fields: [{ label: "Summary", value: item => key(item) === undefined ? undefined : text(item?.summary) }],
 });
+
+
+export const apiSchemaRecord = recordView<Item>({
+  title: () => "REST API schema",
+  fields: [
+    { label: "OpenAPI", value: item => text(item.openapi) },
+    { label: "Title", value: item => text(nested(item.info)?.title) },
+    { label: "Version", value: item => text(nested(item.info)?.version) },
+    { label: "Paths", value: item => { const paths = nested(item.paths); return paths ? Object.keys(paths).length : undefined; } },
+  ],
+});

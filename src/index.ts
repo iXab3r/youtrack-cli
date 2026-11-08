@@ -111,3 +111,5 @@ export { listIssueReactions, getIssueReaction, addIssueReaction, removeIssueReac
 export { createRole, updateRole, deleteRole, createRoleAssignment, deleteRoleAssignment, listRoleAssignments, getRoleAssignment, listPermissions, listRoles, getRole } from "./access-catalog.js";
 
 export { listOrganizations, getOrganization, createOrganization, updateOrganization, deleteOrganization } from "./organizations.js";
+
+export { getApiSchema, getTelemetry, getGlobalSettings } from "./server-settings.js";
