@@ -200,9 +200,10 @@ export function pagedRead<const Syntax extends string>(
   description: string,
   operation: ReadOperation<Syntax>,
   view?: HumanView,
+  extraOptions: readonly OptionDefinition[] = [],
 ): CommandDefinition {
   return operationCommand(
-    readCommand, syntax, description, operation, pageOptions,
+    readCommand, syntax, description, operation, [...pageOptions, ...extraOptions],
     (options) => [readOptions(options)],
     view,
   );

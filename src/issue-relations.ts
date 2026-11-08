@@ -5,10 +5,16 @@ import {
   mutate,
   mutationBody,
   narrative,
+  fields,
+  page,
+  readPage,
+  requiredText,
   readCollectionAt,
   readObjectAt,
   type Connection,
   type YouTrackObject,
+  type IssueSearchOptions,
+  type WriteOptions,
 } from "./client.js";
 
 const linkTypeFields = "id,name,directed,sourceToTarget,targetToSource";
@@ -63,9 +69,18 @@ export async function removeIssueLink(
   );
 }
 
-export const listTags = readCollectionAt("api/tags", tagFields);
+export async function listTags(connection: Connection, options: IssueSearchOptions = {}) {
+  return readPage(connection, "api/tags", {
+    ...page(options, tagFields),
+    ...(options.query === undefined ? {} : { query: requiredText(options.query, "query") }),
+  });
+}
 export const getTag = readObjectAt(
   (tagID: string) => `api/tags/${encodedID(tagID, "tag ID")}`,
+  tagFields,
+);
+export const getIssueTag = readObjectAt(
+  (issueID: string, tagID: string) => `${issuePath(issueID)}/tags/${encodedID(tagID, "tag ID")}`,
   tagFields,
 );
 export const listIssueTags = readCollectionAt(
@@ -77,8 +92,9 @@ export async function addIssueTag(
   connection: Connection,
   issueID: string,
   input: unknown,
+  options: WriteOptions = {},
 ): Promise<YouTrackObject | null> {
-  return mutate(connection, `${issuePath(issueID)}/tags`, targetBody(input), tagFields);
+  return mutate(connection, `${issuePath(issueID)}/tags`, targetBody(input), fields(options, tagFields));
 }
 
 export async function removeIssueTag(

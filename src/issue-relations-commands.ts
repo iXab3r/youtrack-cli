@@ -1,11 +1,12 @@
 import { command } from "@eyeauras/cli-factory";
-import { bodyUpdate, pagedRead, projectedRead, updateCommand } from "./cli-support.js";
+import { bodyUpdate, projectedBodyUpdate, pagedRead, projectedRead, updateCommand } from "./cli-support.js";
 import {
   addIssueLink,
   addIssueTag,
   getIssueLink,
   getLinkType,
   getTag,
+  getIssueTag,
   listIssueLinks,
   listIssueTags,
   listLinkedIssues,
@@ -36,7 +37,7 @@ export const relationsRootCommands = [
     projectedRead("get <typeID>", "Show a link type", getLinkType, linkTypeRecord),
   ]),
   command("tags", "Inspect tags", [
-    pagedRead("list", "List visible tags", listTags, tagTable),
+    pagedRead("list", "List visible tags", listTags, tagTable, [{ flags: "--query <query>", description: "Filter tags by query" }]),
     projectedRead("get <tagID>", "Show a tag", getTag, tagRecord),
   ]),
 ];
@@ -60,8 +61,9 @@ export const relationsIssueChildren = [
     )),
   ]),
   command("tags", "Inspect and change the issue's tags", [
+    projectedRead("get <issueID> <tagID>", "Show an assigned tag", getIssueTag, tagRecord),
     pagedRead("list <issueID>", "List the issue's tags", listIssueTags, issueTagList),
-    bodyUpdate("add <issueID>", "Add a tag by database id", addIssueTag, undefined, tagAdded),
+    projectedBodyUpdate("add <issueID>", "Add a tag by database id", addIssueTag, undefined, tagAdded),
     withView(done((context) => `Removed tag ${arg(context, "tagID")} from ${arg(context, "issueID")}.`), updateCommand(
       "remove <issueID> <tagID>",
       "Remove a tag from the issue",
