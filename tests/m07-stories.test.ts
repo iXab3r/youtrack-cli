@@ -27,3 +27,21 @@ test("US-061 native work-type requirements and empty replies retain selected ide
   const result = await f.run(f.cli, argv); assert.equal(result.exitCode, 0, result.stderr); assert.match(result.stdout, /Selected work type/);
   assert.equal(await f.json(f.cli, argv), null); assert.equal(calls, 2);
 });
+
+test("US-062 update the native work schedule without locale conversion", async t => {
+  await storyCase(t, {"argv":["time-tracking","work-time","update","--body","{\"minutesADay\":450,\"workDays\":[1,2,3,4,5]}","--fields","id"],"method":"POST","path":"/api/admin/timeTrackingSettings/workTimeSettings","query":[["fields","id"]],"body":{"minutesADay":450,"workDays":[1,2,3,4,5]},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
+});
+
+test("US-062 native Int32 calendar values preserve order and server-owned limits", async t => {
+  const f = await configuredFixture(t, { permissions: ["Update"] }); let calls = 0;
+  server.use(http.post("*", async ({ request }) => {
+    calls++; assert.deepEqual(await request.json(), { minutesADay: -1, workDays: [0,6,0], firstDayOfWeek: 1, futureMetadata: null });
+    return new HttpResponse("synthetic-token private-response", { status: 400 });
+  }));
+  for (const body of [{ minutesADay: 1.5 }, { minutesADay: 2147483648 }, { workDays: [1,"2"] }, { workDays: null }]) {
+    await assert.rejects(f.cli.execute(["time-tracking", "work-time", "update", "--body", JSON.stringify(body)])); assert.equal(calls, 0);
+  }
+  await assert.rejects(f.cli.execute(["time-tracking", "work-time", "update", "--body", '{"minutesADay":-1,"workDays":[0,6,0],"firstDayOfWeek":1,"futureMetadata":null}']), (error: Error) => {
+    assert.match(error.message, /HTTP 400/); assert.doesNotMatch(error.message, /synthetic-token|private-response|outcome is unknown/); return true;
+  }); assert.equal(calls, 1);
+});
