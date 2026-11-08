@@ -102,3 +102,12 @@ test("US-060 create link types with required direction labels and preserve nativ
   await storyCase(t, {"argv":["link-types","update","type /?","--body","{\"directed\":true,\"sourceToTarget\":\"relates to\"}","--fields","id"],"method":"POST","path":"/api/issueLinkTypes/type%20%2F%3F","query":[["fields","id"]],"body":{"directed":true,"sourceToTarget":"relates to"},"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"update":true});
   await storyCase(t, {"argv":["link-types","delete","type /?"],"method":"DELETE","path":"/api/issueLinkTypes/type%20%2F%3F","query":[],"response":undefined,"result":null,"update":true});
 });
+
+
+test("US-060 direction labels are required at creation and native flags retain their type", async t => {
+  const f = await configuredFixture(t, { permissions: ["Update"] }); let calls = 0;
+  server.use(http.post("*", () => { calls++; return HttpResponse.json({ id: "synthetic-type" }); }));
+  for (const body of [{ name: "Synthetic" }, { name: "Synthetic", sourceToTarget: "to" }, { name: "Synthetic", sourceToTarget: "to", targetToSource: "from", directed: "false" }]) {
+    await assert.rejects(f.cli.execute(["link-types", "create", "--body", JSON.stringify(body)])); assert.equal(calls, 0);
+  }
+});
