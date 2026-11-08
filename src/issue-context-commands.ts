@@ -5,6 +5,8 @@ import {
   activityCategories,
   getActivitiesPage,
   getComment,
+  getIssueProject,
+  setIssueProject,
   getIssueActivity,
   listIssueActivities,
   getIssueActivitiesPage,
@@ -14,7 +16,7 @@ import {
   updateComment,
   type ActivityOptions,
 } from "./issue-context.js";
-import { commentShown, commentUpdated, sprintTable, activityTable, activityRecord, withView } from "./presentation.js";
+import { commentShown, commentUpdated, projectRecord, arg, done, sprintTable, activityTable, activityRecord, withView } from "./presentation.js";
 
 const activityOptions: readonly OptionDefinition[] = [
   ...projectionOptions,
@@ -63,6 +65,11 @@ export const contextRootCommands = [
 ];
 
 export const contextIssueChildren = [
+  command("project", "Inspect or change the issue project", [
+    projectedRead("get <issueID>", "Show the issue project", getIssueProject, projectRecord),
+    projectedBodyUpdate("set <issueID>", "Move the issue to a project", setIssueProject, undefined,
+      done(context => `Moved issue ${arg(context, "issueID")} to the selected project.`), notificationOptions),
+  ]),
   command("activity", "Inspect the issue activity stream", [
     withView(activityTable, readCommand("list <issueID>", "List activity items", (client, { args, options }) =>
       listIssueActivities(client, args.issueID, { ...readOptions(options), ...activityReadOptions(options) }), [

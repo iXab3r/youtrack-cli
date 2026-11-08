@@ -157,3 +157,10 @@ export const getIssueActivity = readObjectAt(
   (issueID: string, activityID: string) => `${issuePath(issueID)}/activities/${encodedID(activityID, "activity ID")}`,
   "id,$type,timestamp,author(id,login),category(id)",
 );
+
+
+export const getIssueProject = readObjectAt((issueID: string) => `${issuePath(issueID)}/project`, "id,name,shortName");
+export async function setIssueProject(connection: Connection, issueID: string, input: unknown, options: WriteOptions = {}) {
+  const body = mutationBody(input);
+  return mutate(connection, `${issuePath(issueID)}/project`, { ...body, id: requiredText(body.id as string, "project ID") }, "id,name,shortName", options);
+}
