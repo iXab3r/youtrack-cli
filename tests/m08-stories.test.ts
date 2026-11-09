@@ -120,3 +120,95 @@ test("US-073 descriptor and native type checks reject before HTTP without closin
   for (const mailProtocol of ["SMTP", "SMTPS", "SMTP_TLS", "MS_GRAPH_API"]) await f.cli.execute(["server-settings", "notification-settings", "update", "--body", JSON.stringify({ emailSettings: { mailProtocol, sslKey: { id: "synthetic-ssl-entry", name: "synthetic-key" }, replyTo: null } })]);
   await f.cli.execute(["server-settings", "locale-settings", "update", "--body", JSON.stringify({ locale: { id: " synthetic-open-locale " } })]); assert.equal(calls, 5);
 });
+
+test("US-075 read and update license aliases and root settings through native operations", async t => {
+  await storyCase(t, { argv: ["server-settings", "license", "get", "--fields", "id"], method: "GET", path: "/api/admin/globalSettings/license", query: [["fields", "id"]], response: { id: "synthetic-license" }, result: { id: "synthetic-license" } });
+  await storyCase(t, { argv: ["server-settings", "license", "update", "--license-secret", "initial", "--fields", "id"], method: "POST", path: "/api/admin/globalSettings/license", query: [["fields", "id"]], body: { license: "synthetic-stored-license" }, secrets: { "server-license:initial": "synthetic-stored-license" }, response: { id: "synthetic-license" }, result: { id: "synthetic-license" }, update: true });
+  await storyCase(t, { argv: ["server-settings", "update", "--body", '{"appearanceSettings":{"timeZone":{"id":"UTC"}},"nativeExtra":null}', "--fields", "id"], method: "POST", path: "/api/admin/globalSettings", query: [["fields", "id"]], body: { appearanceSettings: { timeZone: { id: "UTC" } }, nativeExtra: null }, response: { id: "synthetic-global" }, result: { id: "synthetic-global" }, update: true });
+});
+
+test("US-075 environment import uses profile-scoped memory secrets without HTTP or bearer overwrite", async t => {
+  const { createCliFixture } = await import("@eyeauras/cli-factory/testing"); const { ProfileSecrets } = await import("@eyeauras/cli-factory"); const { createYouTrackCli } = await import("../src/cli.js");
+  const f = await createCliFixture(t, { applicationId: "youtrack-cli", defaultProfile: "alpha", profiles: ["alpha", "beta"].map(name => ({ name, values: { url: `https://${name}.example.test/context` }, permissions: ["Update"], secrets: { token: `synthetic-${name}-token` } })) });
+  const cli = f.createApplication(createYouTrackCli); let calls = 0; server.use(http.all("*", () => { calls++; return HttpResponse.json({ id: "unexpected" }); }));
+  for (const profile of ["alpha", "beta"]) {
+    const license = ` synthetic-${profile}-license"\\\n `; const environment = { YOUTRACK_LICENSE: license }; const argv = ["--profile", profile, "server-settings", "license", "import", "token", "--from-env"];
+    const human = await f.run(cli, argv, { environment }); assert.equal(human.exitCode, 0, human.stderr); assert.match(human.stdout, /Stored server license token/); assert(!human.stdout.includes(license));
+    assert.deepEqual(await f.json(cli, argv, { environment }), { alias: "token", stored: true });
+    const [reply] = await f.rpc(cli, [argv], { environment }) as { result: unknown }[]; assert.deepEqual(reply!.result, { alias: "token", stored: true });
+    const secrets = new ProfileSecrets(f.secretStore, "youtrack-cli", profile); assert.equal(await secrets.get("server-license:token"), license); assert.equal(await secrets.get("token"), `synthetic-${profile}-token`);
+  } assert.equal(calls, 0);
+});
+
+test("US-075 import admission and failed persistence have no fallback and no value output", async t => {
+  const f = await configuredFixture(t, { permissions: ["ReadOnly"] }); let reads = 0; let writes = 0; let calls = 0;
+  const get = f.secrets.get.bind(f.secrets); f.secrets.get = async (...args) => { reads++; return get(...args); };
+  const license = 'synthetic-license"\\'; f.secrets.set = async () => { writes++; throw new Error(`synthetic store ${license}`); };
+  const argv = ["server-settings", "license", "import", "initial", "--from-env"]; const environment = { YOUTRACK_LICENSE: license };
+  server.use(http.all("*", () => { calls++; return HttpResponse.json({ id: "unexpected" }); }));
+  for (const json of [false, true]) { const r = await f.run(f.cli, [...argv, ...(json ? ["--json"] : [])], { environment }); assert.equal(r.exitCode, 1); assert.match(r.stderr, /Update|permission/i); }
+  const [denied] = await f.rpc(f.cli, [argv], { environment }) as { error: { data: { code: string } } }[]; assert.equal(denied!.error.data.code, "permission.denied"); assert.equal(reads, 0); assert.equal(writes, 0); assert.equal(calls, 0);
+  await f.cli.execute(["permissions", "grant", "Update"]);
+  for (const [args, env] of [[argv.slice(0, -1), environment], [argv, {}], [argv, { YOUTRACK_LICENSE: "" }]] as const) { const r = await f.run(f.cli, args, { environment: env }); assert.equal(r.exitCode, 1); assert.equal(writes, 0); }
+  const failed = await f.run(f.cli, [...argv, "--verbose"], { environment }); assert.equal(failed.exitCode, 1); assert.equal(writes, 1); assert.equal(calls, 0); assert(!failed.stderr.includes(license)); assert(!failed.stderr.includes(JSON.stringify(license).slice(1,-1)));
+});
+
+test("US-075 aliases have no env fallback and native nullable clearing remains available", async t => {
+  const f = await configuredFixture(t, { permissions: ["Update"] }); let calls = 0;
+  server.use(http.post("*", async ({ request }) => { calls++; assert.deepEqual(await request.json(), { license: null, username: null, nativeExtra: false }); return new HttpResponse(null, { status: 204 }); }));
+  const missing = await f.run(f.cli, ["server-settings", "license", "update", "--license-secret", "initial"], { environment: { YOUTRACK_LICENSE: "synthetic-unimported-license" } });
+  assert.equal(missing.exitCode, 1); assert.match(missing.stderr, /license import/); assert.equal(calls, 0);
+  for (const argv of [
+    ["server-settings", "license", "update"],
+    ["server-settings", "license", "update", "--body", '{"license":"synthetic-raw-license"}'],
+    ["server-settings", "license", "update", "--license-secret", "initial", "--body", '{"license":null}'],
+    ["server-settings", "update", "--body", '{"license":{"license":"synthetic-raw-license"}}'],
+  ]) { const r = await f.run(f.cli, argv); assert.equal(r.exitCode, 1); assert(!r.stderr.includes("synthetic-raw-license")); assert.equal(calls, 0); }
+  const cleared = await f.run(f.cli, ["server-settings", "license", "update", "--body", '{"license":null,"username":null,"nativeExtra":false}']);
+  assert.equal(cleared.exitCode, 0, cleared.stderr); assert.match(cleared.stdout, /Updated server license/); assert.equal(calls, 1);
+});
+
+test("US-075 known input license echoes and empty confirmations are safe on every surface", async t => {
+  const license = 'synthetic/license"\\'; const encoded = encodeURIComponent(license).replace(/%[0-9A-F]{2}/g, part => part.toLowerCase());
+  const f = await configuredFixture(t, { permissions: ["Update"], secrets: { "server-license:initial": license } }); let calls = 0;
+  server.use(http.post("*", async ({ request }) => { calls++; assert.deepEqual(await request.json(), { license }); return HttpResponse.json({ id: "synthetic-license", echo: license, encoded, [encoded]: JSON.stringify({ license }) }); }));
+  const argv = ["server-settings", "license", "update", "--license-secret", "initial"];
+  for (const mode of ["execute", "human", "json", "rpc"]) {
+    let result: unknown;
+    if (mode === "execute") result = await f.cli.execute(argv);
+    else if (mode === "rpc") result = await f.rpc(f.cli, [argv]);
+    else { const r = await f.run(f.cli, [...argv, ...(mode === "json" ? ["--json"] : [])]); assert.equal(r.exitCode, 0, r.stderr); result = r.stdout; }
+    const text = JSON.stringify(result); assert(!text.includes(license)); assert(!text.includes(encoded)); assert(!text.includes(JSON.stringify(license).slice(1,-1)));
+  } assert.equal(calls, 4);
+  server.use(http.post("*", () => new HttpResponse(null, { status: 204 })));
+  const empty = await f.run(f.cli, argv); assert.equal(empty.exitCode, 0, empty.stderr); assert.match(empty.stdout, /Updated server license/);
+});
+
+test("US-075 SDK license credentials stay on original HTTPS origin at every redirect hop", async () => {
+  const sdk = await import("../src/index.js"); const update = Reflect.get(sdk, "updateLicense") as (connection: unknown, body: unknown) => Promise<unknown>; const root = Reflect.get(sdk, "updateGlobalSettings") as typeof update;
+  assert.equal(typeof update, "function"); assert.equal(typeof root, "function"); const license = "synthetic-redirect-license";
+  for (const nested of [false, true]) {
+    const body = nested ? { license: { license } } : { license }; const write = nested ? root : update; let initial = 0;
+    await assert.rejects(write({ baseUrl: "http://license.example.test/context", token: "synthetic-token", fetch: async () => { initial++; return Response.json({}); } }, body), /HTTPS/); assert.equal(initial, 0);
+    for (const status of [307, 308]) for (const destination of ["http://license.example.test/next", "https://other.example.test/next", "https://license.example.test:8443/next"]) {
+      let calls = 0; const fetch = async (_input: unknown, init: RequestInit | undefined) => { calls++; assert.deepEqual(JSON.parse(init?.body as string), body); return new Response(null, { status, headers: { location: calls === 1 ? "/same-origin" : destination } }); };
+      await assert.rejects(write({ baseUrl: "https://license.example.test/context", token: "synthetic-token", fetch }, body), /outcome is unknown/); assert.equal(calls, 2);
+    }
+    let calls = 0; const fetch = async (_input: unknown, init: RequestInit | undefined) => { calls++; assert.deepEqual(JSON.parse(init?.body as string), body); return calls === 1 ? new Response(null, { status: 307, headers: { location: "/same-origin" } }) : Response.json({ id: "synthetic", echo: license }); };
+    assert.deepEqual(await write({ baseUrl: "https://license.example.test/context", token: "synthetic-token", fetch }, body), { id: "synthetic", echo: "[redacted]" }); assert.equal(calls, 2);
+    for (const status of [301, 302, 303]) {
+      calls = 0; const fetch = async (_input: unknown, init: RequestInit | undefined) => { calls++; if (calls === 1) return new Response(null, { status, headers: { location: "https://other.example.test/result" } }); assert.equal(init?.method, "GET"); assert.equal(init?.body, undefined); assert.equal(new Headers(init?.headers).get("authorization"), null); return Response.json({ id: "synthetic" }); };
+      assert.deepEqual(await write({ baseUrl: "https://license.example.test/context", token: "synthetic-token", fetch }, body), { id: "synthetic" }); assert.equal(calls, 2);
+    }
+  }
+});
+
+test("US-075 cancellation before persistence leaves the selected alias unchanged", async t => {
+  const { ProfileSecrets } = await import("@eyeauras/cli-factory"); const f = await configuredFixture(t, { permissions: ["Update"], secrets: { "server-license:initial": "synthetic-existing-license" } }); const controller = new AbortController(); let writes = 0; let lookups = 0; let entered!: () => void; let release!: () => void;
+  const pending = new Promise<void>(resolve => { entered = resolve; }); const blocked = new Promise<void>(resolve => { release = resolve; }); const get = f.secrets.get.bind(f.secrets); const set = f.secrets.set.bind(f.secrets);
+  f.secrets.get = async (service, account) => { if (account.endsWith(":token") && ++lookups === 2) { entered(); await blocked; } return get(service, account); }; f.secrets.set = async (...args) => { writes++; return set(...args); };
+  const run = f.run(f.cli, ["server-settings", "license", "import", "initial", "--from-env"], { signal: controller.signal, environment: { YOUTRACK_LICENSE: "synthetic-new-license" } });
+  // A missing command in the red phase must fail promptly instead of waiting for a handler hook.
+  await Promise.race([pending, run.then(() => { throw new Error("Import did not reach its admitted secret lookup."); })]); controller.abort(); release(); const result = await run;
+  assert.equal(result.exitCode, 130); assert.equal(writes, 0); assert.equal(await new ProfileSecrets(f.secrets, "youtrack-cli", "dev").get("server-license:initial"), "synthetic-existing-license");
+});
