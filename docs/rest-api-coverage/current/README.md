@@ -38,7 +38,9 @@ and use the selected profile's existing Core scoped secret store. A ready config
 profile makes no HTTP call. Namespaces protect the bearer credential and other family/profile.
 Absent aliases delete idempotently; acknowledgements carry only scrubbed alias/deleted:true and
 make no claim that a value previously existed. There is no automatic profile/credential cleanup.
-Cancellation checked before persistence prevents deletion; after it starts no rollback is promised.
+Cancellation checked after integration lookups prevents dispatch to Core delete(). After dispatch,
+Core0.7.1 may finish its internal lookup/deletion despite cancellation (exit130); no retention or
+rollback is promised. Owner explicitly approved this boundary in US077/362; this is not a Core fix.
 Store failures retain useful known-value-redacted causes and an unknown-deletion outcome, no retry.
 The small local helper has two actual consumers; it delegates storage/diagnostics to public Core.
 

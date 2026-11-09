@@ -71,7 +71,7 @@ test("US-077 deletion failures preserve useful redacted causes and never promise
   }
 });
 
-test("US-077 cancellation during lookup prevents a secret deletion from starting", async t => {
+test("US-077 cancellation during integration lookup prevents Core deletion dispatch", async t => {
   for (const family of families) {
     const key = family.namespace + "initial"; const f = await configuredFixture(t, { permissions: ["Update"], secrets: { [key]: "synthetic-retained-secret" } });
     const controller = new AbortController(); let deletes = 0; let entered!: () => void; let release!: () => void;
@@ -83,7 +83,7 @@ test("US-077 cancellation during lookup prevents a secret deletion from starting
   }
 });
 
-test("US-077 cancellation after persistence starts makes no rollback promise", async t => {
+test("US-077 cancellation after Core deletion dispatch makes no rollback promise", async t => {
   for (const family of families) {
     const key = family.namespace + "initial"; const f = await configuredFixture(t, { permissions: ["Update"], secrets: { [key]: "synthetic-secret" } }); const controller = new AbortController(); const remove = f.secrets.delete.bind(f.secrets); let deletes = 0;
     f.secrets.delete = async (...args) => { deletes++; await remove(...args); controller.abort(); };
@@ -97,7 +97,7 @@ test("US-077 deletion help is available without profiles or secret-store access"
   assert.equal(reads, 0); assert.equal(deletes, 0);
 });
 
-test("US-077 cancellation during Core's second lookup must prevent persistence under the original acceptance", async t => {
+test("US-077 cancellation inside Core lookup can complete deletion after dispatch", async t => {
   for (const family of families) {
     const key = family.namespace + "initial";
     const f = await configuredFixture(t, { permissions: ["Update"], secrets: { [key]: "synthetic-retained-secret" } });
@@ -106,7 +106,7 @@ test("US-077 cancellation during Core's second lookup must prevent persistence u
     f.secrets.get = async (service, account) => { const value = await get(service, account); if (account.endsWith(":" + key) && ++aliasReads === 2) controller.abort(); return value; };
     f.secrets.delete = async (...args) => { deletes++; return remove(...args); };
     const r = await f.run(f.cli, [...family.argv, "initial"], { signal: controller.signal });
-    assert.equal(r.exitCode, 130); assert.equal(aliasReads, 2); assert.equal(deletes, 0);
-    assert.equal(await new ProfileSecrets(f.secrets, "youtrack-cli", "dev").get(key), "synthetic-retained-secret");
+    assert.equal(r.exitCode, 130); assert.equal(r.stdout, ""); assert.equal(aliasReads, 2); assert.equal(deletes, 1);
+    assert.equal(await new ProfileSecrets(f.secrets, "youtrack-cli", "dev").get(key), undefined);
   }
 });

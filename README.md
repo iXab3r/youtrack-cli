@@ -187,9 +187,11 @@ Deleting a CLI profile removes its auth token, not auxiliary entries; delete eac
 while that profile is configured/authenticated, or manage it through the platform store/SDK.
 There is no listing/export of secret values or automatic cleanup of user data.
 
-Cancellation before secure-store mutation starts prevents it. Once persistence/deletion starts,
-cancellation or failure makes no rollback promise; deletion failures report an unknown store outcome
-and keep useful redacted causes. Nothing is retried automatically. Password/license-bearing JSON
+Cancellation checked after integration lookups and before calling the Core mutation prevents that
+call. Once Core delete() is dispatched, its internal lookup and persistence are not abort-aware:
+exit130 may coexist with a removed alias. No value-retention/rollback guarantee is made after
+dispatch. Import likewise makes no rollback promise once Core set() starts. Deletion failures
+report an unknown store outcome and retain useful redacted causes. Nothing is retried automatically. Password/license-bearing JSON
 body dispatches require the original HTTPS origin at every redirect hop. Same-origin redirects and
 redirects discarding the body retain normal behavior. Known input/native license values and their
 raw/JSON/URI/escaped-control copies are masked; unknown secrets are not universally detectable.
@@ -443,14 +445,15 @@ preserves supplied native fields. Known fields include `name`, `goal`, `start`, 
 Unix milliseconds or null; flags are booleans. Create additionally accepts
 `previousSprint: { "id": "..." }`, which explicitly moves unresolved issues from that sprint.
 It is never inferred; the server validates its applicability. `isDefault: true` affects where matching new
-board issues go. Additional native sprint properties are forwarded; separate agile mutations and deletion remain outside
-this block. Reads and writes support `--fields`; there is no carryover lookup or polling.
+board issues go. Additional native sprint properties are forwarded. `agile` and `sprint` create/update/delete use
+selected IDs and require Update; reads/writes support `--fields`, without carryover lookup or polling.
 
 Article create accepts a native project reference and nullable summary. Article and comment
 updates preserve additional native fields, including parent, visibility and pinning. Known text
 fields preserve multiline strings and documented null values; omission leaves API defaults in charge. Article and comment reads/writes
 support `--fields`; article lists have no query flag. Article attachment transfer and hierarchy
-reads are documented below. Native body properties are validated by the API; separate deletion remains outside this command tree.
+reads are documented below. Native body properties are validated by the API. `article delete
+<article>` and `article comment delete <article> <comment>` require Update and affect only selected IDs.
 
 ## Bundles, article hierarchy and attachment transfer
 
