@@ -23,11 +23,11 @@ for each profile and reimport auxiliary secrets. Existing profiles and permissio
 Licensed under MIT. See the [release guide](docs/release.md).
 
 YouTrack consumes the exact published `@eyeauras/cli-factory` version declared in package.json. The current source
-provides profiles/auth/permissions and 201 REST operations: 123 ReadOnly and 78 Update.
-Five workflow leaves reuse those operations instead of adding REST operations: issue and article
-attachment download, article export, and `issues batch validate/apply`. There are 204 service
-leaves: 199 for REST operations plus these five. Two `--direct` selectors each select a second
-REST endpoint without adding another leaf.
+provides profiles/auth/permissions and 282 REST operations: 140 ReadOnly and 142 Update.
+Seven workflow leaves reuse operations or manage local secrets: issue and article attachment
+downloads, article export, `issues batch validate/apply`, and initial-password/license import.
+There are 287 service leaves: 280 for REST operations plus these seven. Two `--direct` selectors
+each select a second REST endpoint without adding another leaf.
 The foundational read projections are:
 
 | Command | Default fields |
@@ -38,7 +38,7 @@ The foundational read projections are:
 | `issues get <issueID>` | Issue-list fields plus `description,created` |
 | `issues comments list <issueID>` | `id,text,author(id,login),created,updated` |
 
-REST reads support explicit `--fields <projection>`. Projection results retain the server's
+REST reads support explicit `--fields <projection>`, except fixed-document `api-schema get`. Projection results retain the server's
 field names, `$type` and nullable values; authentication always validates fixed `id,login`.
 Offset collections use `--page-size 50 --start 0` by default. Page size requests rows per HTTP
 page; start is the zero-based raw offset. Both must be nonnegative safe integers, with a safe sum.
@@ -48,7 +48,7 @@ onboarding or credential access on CLI, execute and RPC. The static errors are
 `--page-size must be a nonnegative safe decimal integer.` and
 `--start must be a nonnegative integer.`; they never include the supplied input.
 Directly callable service methods retain their own range validation.
-All 59 offset lists return `{count,items,hasMore,nextStart}` across library, CLI, execute and RPC.
+All 62 offset lists return `{count,items,hasMore,nextStart}` across library, CLI, execute and RPC.
 Each ordinary list makes one request without lookahead and rejects an oversized server page.
 Nonempty pages have `hasMore:null`, including short pages: a server cap is not end evidence.
 Continue at `nextStart`, which advances by actual returned rows. A positive-size empty page has
@@ -107,6 +107,65 @@ or cancellation fail with `The response stream failed or was cancelled.` without
 Compressed wire length is syntax-checked but not compared with decoded size. HTTP status,
 Retry-After, empty/null mutation and UTF-8 BOM behavior are unchanged. No request is retried
 automatically. Runtime memory and service limits still apply.
+
+## M08: installation maintenance (unreleased source)
+
+This source includes M02–M08; npm0.8.0 contains M01. M08 adds21REST operations, reaching the
+frozen **282/282** official operations: [mapping and source limits](docs/rest-api-coverage/current/README.md).
+Operation coverage does not prove every payload, deployed version or edition. Milestones merge
+without version bumps or npm publication.
+
+- `api-schema get` reads one native `/api/openapi.json` document; human output shows metadata.
+  JSON/RPC preserve the native document with concrete credential redaction. No schema crawl or
+  server-conformance check runs. `server telemetry get` reads installation status; default fields
+  avoid installation paths and online identities. `server-settings get` defaults to the root ID.
+- `backup file list` and `backup file get <backup>` read metadata. Lists use the ordinary offset-page contract;
+  `get` does not download an archive. `backup status get` reads the current status once.
+  `backup settings get/update --body <json>` exposes native settings, including TAR_GZ/ZIP,
+  nullable location, Int32 filesToKeep and literal cronExpression. No polling, restore, implicit
+  backup trigger or completion claim is added. A caller-supplied native backupStatus action is
+  sent only by the explicit Update request.
+- `server-settings appearance-settings get/update` accepts native timeZone/dateFieldFormat
+  descriptor objects; for example `--body '{"timeZone":{"id":"UTC"}}'`.
+  `notification-settings get/update` uses native emailSettings objects, including false/null,
+  SMTP/SMTPS/SMTP_TLS/MS_GRAPH_API and nullable SSL StorageEntry references. No SMTP password
+  property or private-key upload workflow is introduced. `locale-settings update` requires
+  `locale.id`, for example `--body '{"locale":{"id":"en_US"},"isRTL":false}'`.
+- `server-settings system-settings get/update` preserves native nullable baseUrl/administratorEmail,
+  booleans and numeric types; changing remote baseUrl never rewrites the selected CLI profile.
+  `rest-settings get/update` preserves CORS origin strings and false allowAllOrigins without
+  rewriting hosts, paths or ports. `server-settings update --body <json>` sends one root request;
+  the documented nested appearance descriptor is supported without discovery or local merging.
+
+`server-settings license get` reads license metadata. A secure runner supplies YOUTRACK_LICENSE
+for `server-settings license import server-key --from-env --profile dev`; the value goes into
+that selected profile's Core secret store under `server-license:server-key`. Import requires
+Update, makes no HTTP call for a configured/authenticated profile and outputs only the alias and
+acknowledgement. `server-settings license update --license-secret server-key --profile dev`
+reads that stored alias with no environment fallback. Optional `--body` supports username metadata;
+without an alias, native `{"license":null,"username":null}` can clear nullable fields. Literal
+license strings in CLI bodies, including nested root bodies, are rejected. Use the child alias
+command for license material. SDK native string submissions remain supported.
+
+Imported values preserve exact bytes; absent/empty environment input fails. The platform store
+has no plaintext fallback; namespaced alias `token` cannot overwrite the bearer credential.
+Aliases remain after success/failure. CLI profile deletion removes its auth token, not auxiliary
+aliases; manage those retained entries through the platform store/SDK. Cancellation before
+persistence starts prevents the write; cancellation after it starts makes no rollback promise.
+License-bearing body dispatches require the original HTTPS origin, including every redirect hop.
+Same-origin redirects and redirects that discard the body retain normal behavior. Native/input
+license strings and known raw/JSON/URI/escaped-control echoes are redacted from results and causes;
+this is not a guarantee of detecting arbitrary unknown secrets in explicit projections.
+
+All reads use ReadOnly and remote writes/local imports require Update. Installation-level rights
+are separate. Server licensing and backup scheduling/retention differ from Cloud's managed single
+backup/export; no edition is inferred from a hostname and no compatibility matrix is claimed.
+See JetBrains' [optional API reference: backup API use-case](https://www.jetbrains.com/help/youtrack/devportal/api-usecase-backup.html),
+[optional API reference: Cloud backup guide](https://www.jetbrains.com/help/youtrack/cloud/database.html),
+[optional API reference: Server backup guide](https://www.jetbrains.com/help/youtrack/server/back-up-the-database.html) and
+[optional API reference: Server license guide](https://www.jetbrains.com/help/youtrack/server/license-details.html).
+Unsupported service rights/edition responses remain errors. Existing paging, profiles/auth,
+JSON/execute/RPC, cancellation, EPIPE and diagnostic/unknown-write behavior remain. No live proof ran.
 
 ## M07: schema and work-time lifecycle (unreleased source)
 
@@ -703,8 +762,6 @@ Deliberate differences:
 - a failed batch never deletes created issues to compensate.
 
 Not provided:
-- project, user, group and role administration;
-- deletion wrappers;
 - burndown and velocity reports;
 - interactive tables, themes, tutorials and aliases;
 - stdin input (JSON-RPC owns stdin).

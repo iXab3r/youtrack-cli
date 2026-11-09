@@ -47,6 +47,8 @@ import { fieldCatalogRootCommands, fieldCatalogBundleChildren } from "./field-ca
 import { userDirectoryUserChildren, userDirectoryBundleChildren } from "./user-directory-commands.js";
 import { groupDirectoryRootCommands, groupDirectoryProjectChildren } from "./group-directory-commands.js";
 import { articlesRootCommands, articlesProjectChildren } from "./articles-commands.js";
+import { backupCommand } from "./backup-commands.js";
+import { serverSettingsRootCommands } from "./server-settings-commands.js";
 import { organizationRootCommands } from "./organization-commands.js";
 import { accessCatalogRootCommands } from "./access-catalog-commands.js";
 import { agileRootCommands } from "./agile-commands.js";
@@ -75,7 +77,7 @@ const rootLayout = [
   ["Everyday", ["issues", "project", "user", "article", "agile", "sprint"]],
   ["Reference", [
     "field", "bundle", "tags", "link-types", "work-item-type", "time-tracking", "saved-queries",
-    "search", "commands", "activities", "work-items", "group", "role", "role-assignment", "permission-catalog", "organization",
+    "search", "commands", "activities", "work-items", "group", "role", "role-assignment", "permission-catalog", "organization", "api-schema", "server", "server-settings", "backup",
   ]],
 ] as const;
 
@@ -95,7 +97,7 @@ export function createYouTrackCli(runtime?: CliRuntime): CliApplication {
     version: "0.8.0",
     applicationId: "youtrack-cli",
     permissions: {},
-    environmentKeys: ["YOUTRACK_INITIAL_PASSWORD"],
+    environmentKeys: ["YOUTRACK_INITIAL_PASSWORD", "YOUTRACK_LICENSE"],
     profile: {
       fields: [
         {
@@ -132,6 +134,8 @@ export function createYouTrackCli(runtime?: CliRuntime): CliApplication {
       ...groupDirectoryRootCommands,
       ...accessCatalogRootCommands,
       ...organizationRootCommands,
+      ...serverSettingsRootCommands,
+      backupCommand,
       ...articlesRootCommands,
       ...agileRootCommands,
       command("bundle", "Inspect custom-field value bundles", [

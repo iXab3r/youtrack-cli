@@ -72,6 +72,8 @@ export interface ByteBudget {
 export const issueListFields = "id,idReadable,summary,project(id,name,shortName),updated,resolved";
 const commentFields = "id,text,author(id,login),created,updated";
 
+export const nativeInt32 = (value: unknown): boolean => typeof value === "number" && Number.isInteger(value) && value >= -2147483648 && value <= 2147483647;
+
 export function requiredText(value: string, label: string): string {
   if (typeof value !== "string") {
     throw new Error(`The ${label} must be text.`);
@@ -114,6 +116,21 @@ export function encodedID(id: string, label = "ID"): string {
   }
 }
 
+/** Core follows redirects; credential-bearing JSON also stays on its original HTTPS origin. */
+export function credentialConnection(connection: Connection, label: string): Connection {
+  const base = youTrackUrl(connection.baseUrl);
+  if (!base.startsWith("https:")) throw new Error(`${label} requires HTTPS.`);
+  const origin = new URL(base).origin;
+  const transport = connection.fetch ?? globalThis.fetch;
+  return { ...connection, fetch: ((input, init) => {
+    const url = new URL(input instanceof Request ? input.url : input);
+    if (init?.body != null && (url.protocol !== "https:" || url.origin !== origin)) {
+      throw new Error(`${label} requires the original HTTPS origin.`);
+    }
+    return transport(input, init);
+  }) as typeof globalThis.fetch };
+}
+
 export function issuePath(id: string): string {
   return `api/issues/${encodedID(id, "issue ID")}`;
 }
@@ -141,6 +158,24 @@ function scrubUrl(text: string, token: string): string {
   }
 }
 
+function scrubKnownForm(text: string, form: string): string {
+  if (!form) return text;
+  if (!text.includes("%") || !form.includes("%")) return text.replaceAll(form, "[redacted]");
+  const needle = form.replace(/%[0-9a-f]{2}/gi, part => part.toUpperCase());
+  const chunks: string[] = [];
+  let start = 0;
+  for (let at = text.indexOf(form[0]!); at >= 0; at = text.indexOf(form[0]!, at + 1)) {
+    // Fold only this candidate: a preceding '%' must not change ordinary letters.
+    const candidate = text.slice(at, at + form.length).replace(/%[0-9a-f]{2}/gi, part => part.toUpperCase());
+    if (candidate !== needle) continue;
+    chunks.push(text.slice(start, at), "[redacted]");
+    start = at + form.length;
+    at = start - 1;
+  }
+  chunks.push(text.slice(start));
+  return chunks.join("");
+}
+
 export function scrubText(text: string, token: string, additional: readonly string[] = []): string {
   const secrets = [...new Set([token, ...additional].filter(Boolean))];
   for (const secret of secrets) {
@@ -148,25 +183,43 @@ export function scrubText(text: string, token: string, additional: readonly stri
     text = text.replace(/(?:https?:\/\/|\.\.?\/|\/)[^\s"'<>]+/gi, (url) => scrubUrl(url, secret));
   }
   // JSON echoes escape quotes, backslashes and control characters in submitted credentials.
-  const forms = [...new Set(secrets.flatMap(secret => [secret, JSON.stringify(secret).slice(1, -1)]))]
-    .sort((a, b) => b.length - a.length);
-  for (const secret of forms) text = text.replaceAll(secret, "[redacted]");
+  const encodedForms = new Set(secrets.flatMap(secret => {
+    const escapedControls = secret.replace(/[\u0000-\u0008\u000b-\u001f\u007f-\u009f]/g,
+      character => `\\u${character.charCodeAt(0).toString(16).padStart(4, "0")}`);
+    return [secret, JSON.stringify(secret).slice(1, -1), escapedControls, JSON.stringify(escapedControls).slice(1, -1)];
+  }));
+  for (const secret of secrets) {
+    try { encodedForms.add(encodeURIComponent(secret)); }
+    catch (error) {
+      // JSON supports lone UTF16 surrogates; raw/JSON redaction still applies to them.
+      if (!(error instanceof URIError)) throw error;
+    }
+  }
+  const forms = [...encodedForms].sort((a, b) => b.length - a.length);
+  for (const secret of forms) text = scrubKnownForm(text, secret);
   return text;
 }
 
-function scrub(value: YouTrackValue, token: string, additional: readonly string[] = []): YouTrackValue {
-  if (typeof value === "string") {
-    return scrubText(value, token, additional);
+/** Capture native license strings before URL/key redaction can change their source fields. */
+export function scrub(value: YouTrackValue, token: string, additional: readonly string[] = []): YouTrackValue {
+  const secrets = [...additional];
+  function collect(item: YouTrackValue): void {
+    if (Array.isArray(item)) item.forEach(collect);
+    else if (item !== null && typeof item === "object") for (const [key, child] of Object.entries(item)) {
+      if (key === "license" && typeof child === "string") secrets.push(child);
+      collect(child);
+    }
   }
-  if (Array.isArray(value)) {
-    return value.map((item) => scrub(item, token, additional));
-  }
-  if (value !== null && typeof value === "object") {
-    return Object.fromEntries(Object.entries(value).map(([key, item]) => [
-      scrubText(key, token, additional), scrub(item, token, additional),
+  collect(value);
+  function clean(item: YouTrackValue): YouTrackValue {
+    if (typeof item === "string") return scrubText(item, token, secrets);
+    if (Array.isArray(item)) return item.map(clean);
+    if (item !== null && typeof item === "object") return Object.fromEntries(Object.entries(item).map(([key, child]) => [
+      scrubText(key, token, secrets), clean(child),
     ]));
+    return item;
   }
-  return value;
+  return clean(value);
 }
 function object(value: YouTrackValue): YouTrackObject {
   if (value === null || typeof value !== "object" || Array.isArray(value)) {

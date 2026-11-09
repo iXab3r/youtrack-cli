@@ -737,3 +737,110 @@ export const scopedIssueWritten = (verb: string): HumanView => recordView<Item |
     submittedIdentity(context)?.args.project),
   fields: [{ label: "Summary", value: item => key(item) === undefined ? undefined : text(item?.summary) }],
 });
+
+
+export const apiSchemaRecord = recordView<Item>({
+  title: () => "REST API schema",
+  fields: [
+    { label: "OpenAPI", value: item => text(item.openapi) },
+    { label: "Title", value: item => text(nested(item.info)?.title) },
+    { label: "Version", value: item => text(nested(item.info)?.version) },
+    { label: "Paths", value: item => { const paths = nested(item.paths); return paths ? Object.keys(paths).length : undefined; } },
+  ],
+});
+
+
+export const telemetryRecord = recordView<Item>({
+  title: () => "Server telemetry",
+  fields: [
+    { label: "ID", value: key },
+    { label: "Started", value: item => instant(item.startedTime) },
+    { label: "Uptime", value: item => text(item.uptime) },
+    { label: "Processors", value: item => count(item.availableProcessors) },
+    { label: "Available memory", value: item => text(item.availableMemory) },
+    { label: "Used memory", value: item => text(item.usedMemory) },
+    { label: "Issues", value: item => count(item.issuesCount) },
+    { label: "Articles", value: item => count(item.articlesCount) },
+  ],
+});
+export const globalSettingsRecord = recordView<Item>({
+  title: () => "Global settings",
+  fields: [{ label: "ID", value: key }],
+});
+export const systemSettingsRecord = recordView<Item>({
+  title: () => "System settings",
+  fields: [
+    { label: "ID", value: key },
+    { label: "Base URL", value: item => text(item.baseUrl) },
+    { label: "Upload limit", value: item => count(item.maxUploadFileSize), format: "bytes" },
+    { label: "Export limit", value: item => count(item.maxExportItems) },
+    { label: "Administrator", value: item => text(item.administratorEmail) },
+    { label: "Usage statistics", value: item => booleanText(item.allowStatisticsCollection) },
+    { label: "Read-only mode", value: item => booleanText(item.isApplicationReadOnly) },
+  ],
+});
+export const corsSettingsRecord = recordView<Item>({
+  title: () => "CORS settings",
+  fields: [
+    { label: "ID", value: key },
+    { label: "All origins", value: item => booleanText(item.allowAllOrigins) },
+  ],
+  sections: [{ title: () => "Allowed origins", lines: item => {
+    if (!Array.isArray(item.allowedOrigins)) return undefined;
+    const origins = item.allowedOrigins.filter((origin): origin is string => typeof origin === "string");
+    return item.allowedOrigins.length === 0 ? ["No allowed origins."] : origins;
+  } }],
+});
+
+export const backupFileTable = tableView<Item, YouTrackPage>({
+  rows: page => page.items,
+  columns: [id, { header: "BACKUP", value: item => text(item.name), shrink: true },
+    { header: "SIZE", value: item => count(item.size), format: "bytes" },
+    { header: "CREATED", value: item => instant(item.creationDate), format: "age" }],
+  empty: "No backup files.", footer: pageFooter,
+});
+export const backupFileRecord = recordView<Item>({
+  title: item => joined("Backup file", text(item.name) ?? key(item)),
+  fields: [{ label: "ID", value: key }, { label: "Size", value: item => count(item.size), format: "bytes" },
+    { label: "Created", value: item => instant(item.creationDate) }],
+});
+export const backupSettingsRecord = recordView<Item>({
+  title: () => "Backup settings",
+  fields: [{ label: "ID", value: key }, { label: "Scheduled", value: item => booleanText(item.isOn) },
+    { label: "Format", value: item => text(item.archiveFormat) }, { label: "Files to keep", value: item => count(item.filesToKeep) },
+    { label: "Schedule", value: item => text(item.cronExpression) }, { label: "Location", value: item => text(item.location) },
+    { label: "Available space", value: item => count(item.availableDiskSpace), format: "bytes" }],
+});
+export const backupStatusRecord = recordView<Item>({
+  title: () => "Backup status",
+  fields: [{ label: "ID", value: key }, { label: "In progress", value: item => booleanText(item.backupInProgress) },
+    { label: "Cancelled", value: item => booleanText(item.backupCancelled) },
+    { label: "Error time", value: item => instant(nested(item.backupError)?.date) },
+    { label: "Error", value: item => text(nested(item.backupError)?.errorMessage) }],
+});
+
+export const appearanceSettingsRecord = recordView<Item>({
+  title: () => "Appearance settings",
+  fields: [{ label: "ID", value: key },
+    { label: "Time zone", value: item => text(nested(item.timeZone)?.presentation) ?? key(nested(item.timeZone)) },
+    { label: "Date format", value: item => text(nested(item.dateFieldFormat)?.presentation) ?? key(nested(item.dateFieldFormat)) }],
+});
+export const notificationSettingsRecord = recordView<Item>({
+  title: () => "Email settings",
+  fields: [{ label: "ID", value: key }, { label: "Enabled", value: item => booleanText(nested(item.emailSettings)?.isEnabled) },
+    { label: "Host", value: item => text(nested(item.emailSettings)?.host) }, { label: "Port", value: item => count(nested(item.emailSettings)?.port) },
+    { label: "Protocol", value: item => text(nested(item.emailSettings)?.mailProtocol) },
+    { label: "Anonymous", value: item => booleanText(nested(item.emailSettings)?.anonymous) },
+    { label: "From", value: item => text(nested(item.emailSettings)?.from) }, { label: "Reply to", value: item => text(nested(item.emailSettings)?.replyTo) }],
+});
+export const localeSettingsRecord = recordView<Item>({
+  title: () => "Locale settings",
+  fields: [{ label: "ID", value: key }, { label: "Locale", value: item => text(nested(item.locale)?.name) ?? key(nested(item.locale)) },
+    { label: "Language", value: item => text(nested(item.locale)?.language) }, { label: "Right to left", value: item => booleanText(item.isRTL) }],
+});
+
+
+export const licenseRecord = recordView<Item>({
+  title: () => "Server license",
+  fields: [{ label: "ID", value: key }, { label: "Licensee", value: item => text(item.username) }, { label: "Error", value: item => text(item.error) }],
+});

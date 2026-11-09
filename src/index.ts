@@ -111,3 +111,7 @@ export { listIssueReactions, getIssueReaction, addIssueReaction, removeIssueReac
 export { createRole, updateRole, deleteRole, createRoleAssignment, deleteRoleAssignment, listRoleAssignments, getRoleAssignment, listPermissions, listRoles, getRole } from "./access-catalog.js";
 
 export { listOrganizations, getOrganization, createOrganization, updateOrganization, deleteOrganization } from "./organizations.js";
+
+export { getLicense, updateLicense, updateGlobalSettings, getAppearanceSettings, updateAppearanceSettings, getNotificationSettings, updateNotificationSettings, getLocaleSettings, updateLocaleSettings, getRestSettings, updateRestSettings, getSystemSettings, updateSystemSettings, getApiSchema, getTelemetry, getGlobalSettings } from "./server-settings.js";
+
+export { listBackupFiles, getBackupFile, getBackupSettings, getBackupStatus, updateBackupSettings } from "./backup.js";
