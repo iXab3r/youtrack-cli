@@ -1,111 +1,136 @@
 # Build and staged npm releases
 
-This product independently releases **@eyeauras/youtrack-cli**, executable `youtrack-cli`.
-It consumes an exact published Core pin and never publishes Factory packages. .NET 10,
-Node 22+ and pinned `packageManager` npm are required; TeamCity uses `node:24-bookworm`.
-The Cake driver is adapted from pinned nexus-cli/opensearch-cli; see [build/NOTICE](../build/NOTICE).
+This repository independently releases **@eyeauras/youtrack-cli**, executable `youtrack-cli`.
+The installed CLI requires Node.js22+; repository verification uses Node.js24+ and .NET10.
+TeamCity uses `node:24-bookworm`. Product and Core versions are independent: read the product
+version from package.json, synchronized with package-lock.json and src/cli.ts by Cake SetVersion.
+Core remains the exact published **0.7.1** dependency and lock integrity. Never publish Factory
+packages or substitute a workspace/local Core build as part of a product release.
 
-## Core dependency and product approval
+Core0.7.1 provenance remains the approved
+[optional provenance: Core release](https://github.com/iXab3r/EyeAuras.CliFactory/releases/tag/v0.7.1)
+and revision bf79b80636bcdd790bbd6c25648842ae5213f267. Its VerifyRegistry33314 receipt verified
+registry/install/archive identity (Core archive SHA-1 b075dc6eeef9a778d3d5317b24d7a36b50ea7632).
+That Core approval and archive are not approval or evidence for this product's next publication.
+The Cake driver attribution is in [build/NOTICE](../build/NOTICE).
 
-Published product **0.7.1** pins published Core **0.7.1** at
-[optional provenance: release revision bf79b80636bcdd790bbd6c25648842ae5213f267](https://github.com/iXab3r/EyeAuras.CliFactory/commit/bf79b80636bcdd790bbd6c25648842ae5213f267).
-The owner approved Core's exact npm stage. Core VerifyRegistry build **33314** completed with a
-`published-verified` receipt; npm's version/latest and SHA-512, installed Core behavior, and
-[optional provenance: GitHub Release v0.7.1](https://github.com/iXab3r/EyeAuras.CliFactory/releases/tag/v0.7.1) were verified.
-The independently downloaded npm, stage, CI and GitHub archives are byte-identical (SHA-1
-`b075dc6eeef9a778d3d5317b24d7a36b50ea7632`). This product's exact dependency and lock integrity
-already match; no local file/workspace reference or lock substitution is needed.
-
-Each product release still requires clean registry-based `npm ci`/Verify/Pack/DryRun at its
-reviewed revision, platform checks and its own verified npm stage. **Core approval does not
-approve this product's publication.** Stage only from reviewed, clean current main; the owner
-approves that exact verified product stage with 2FA. Pre-merge branch checks use Verify or DryRun.
-
-## Local driver
+## Verification and candidate preparation
 
 ```sh
 npm ci
 npm test
+npm run test:coverage
 npm run test:package
 dotnet run --project build -- --target Verify
-dotnet run --project build -- --target SetVersion --release-version 0.7.1
-RELEASE_REVISION=$(git rev-parse HEAD) dotnet run --project build -- --target DryRun --release-version 0.7.1 --dry-run
 ```
 
-Verify runs clean dependency installation, offline mocked tests, installed-package smoke and
-release-safety tests. Pack also performs Verify, packs this product, records source/SHA-1/SHA-512
-in `output/release/release-manifest.json` and tests those exact archive bytes. `npm run
-test:package -- --tarball /absolute/archive.tgz` checks an existing archive; `npm run test:registry
--- 0.7.1` checks the registry version. Installs use disposable prefixes/config/cache and synthetic
-AppData/fetch/secrets, never real profiles. Core must resolve inside that prefix at the exact pin.
-Tests, source, local proof and build tools are excluded from the product archive.
+`npm test` is the ordinary offline suite. `test:coverage` builds and runs that suite once with
+request tracing, traverses actual handlers and regenerates the frozen operation mapping twice.
+It compares JSON/TSV/summary with tracked artifacts, ignoring only the documented commit-lineage
+field. Drift fails, retains ignored evidence under the verified root's `.workspace/workstreams/`
+and never overwrites tracked files. Explicitly regenerate/review artifacts after a command/test
+change. Public source replay uses separate hash-pinned audit scripts; CI does no schema crawl or
+live-service proof. See [coverage reproduction](rest-api-coverage/README.md).
 
-Every release target requires the full 40-character RELEASE_REVISION to match the checkout.
-Live modes require a clean tree; Stage additionally requires current remote main. DryRun calls
-only `npm publish --dry-run`. Stage and Release call only `npm stage publish`; Release with
-`--dry-run` follows DryRun. `Stage --dry-run` rejects before staging. Cake `--dryrun` only prints
-the task plan. `--exclusive` is a reviewed recovery mechanism, not fresh Verify/Pack evidence.
+Cake Verify runs clean registry-based npm ci, this single traced offline coverage suite,
+installed-package checks and release-safety checks. It does not run npm test a second time.
+Installed checks use disposable npm configs/prefixes/cache, synthetic AppData/fetch/memory secrets
+and exact Core0.7.1 resolved inside the prefix. They exercise SDK exports, actual executable/shims,
+JSON/persistent RPC/EPIPE, paging, credential lifecycle and native contracts without real services.
+Tests, source, local proof, audit evidence and build tools are excluded from the npm archive.
 
-## TeamCity configuration
+Select a product version through the existing driver on the release work branch, then rerun
+verification and independent review. For example, after the owner has selected the release version:
+
+```text
+dotnet run --project build -- --target SetVersion --release-version <product-version>
+```
+
+SetVersion synchronizes package/lock/CLI values. It does not upgrade Core or publish anything.
+The consolidated0.9.0 source includes M02–M08 and the stabilization workflows;0.8.0 was the M01
+release. Current registry metadata, not a static guide example, identifies the latest published
+version. Record exactly which platforms/Node versions were checked. Offline Linux checks do not
+prove Windows/macOS behavior, deployed YouTrack versions, Cloud/Server editions or server rights.
+Any live proof is separate, explicitly authorized, fixed ReadOnly and refuses CI; it is not a
+mandatory merge gate and is never silently replaced by mocked availability claims.
+
+## Exact archive and source identity
+
+After reviewed merge and exact-main Verify, select the clean current remote main commit:
+
+```sh
+release_version="$(node -p "require('./package.json').version")"
+release_revision="$(git rev-parse HEAD)"
+RELEASE_REVISION="$release_revision" dotnet run --project build -- --target DryRun --release-version "$release_version" --dry-run
+```
+
+Pack first verifies, creates this product's tarball, records commit/SHA-1/SHA-512 in
+output/release/release-manifest.json, and tests those exact bytes. `npm run test:package --
+--tarball /absolute/archive.tgz` checks a supplied archive. `npm run test:registry --
+<product-version>` checks an actually published version with isolated registry installation.
+
+Every release target requires the full40-character RELEASE_REVISION to match the checkout.
+Live modes require a clean tree; Stage additionally verifies current remote main. RELEASE_REVISION
+is a guard, not a checkout selector. DryRun only calls npm publish with --dry-run. Stage/Release
+use npm stage publish, never direct publication; Release with --dry-run follows DryRun.
+Stage --dry-run rejects before staging. Cake --dryrun prints a task plan, not check evidence.
+--exclusive is a reviewed recovery mechanism, not fresh Verify/Pack evidence.
+
+## TeamCity jobs and credentials
+
+Existing identities remain:
 
 | Object | Identity |
 |---|---|
-| Project under EyeAuras | `EyeAuras_YouTrackCli` (configured) |
-| Public anonymous main root | `EyeAuras_YouTrackCli_Repo` (configured) |
-| Verify | `EyeAuras_YouTrackCli_Verify` (configured) |
-| Manual stage/registry verification | `EyeAuras_YouTrackCli_NpmStage` (configured) |
-| Exclusive shared resource | `youtrack-cli-release writeLock` (quota one) |
+| Project | EyeAuras_YouTrackCli |
+| Public anonymous main VCS root | EyeAuras_YouTrackCli_Repo |
+| Main-only automatic verification | EyeAuras_YouTrackCli_Verify |
+| Manual stage/registry verification | EyeAuras_YouTrackCli_NpmStage |
+| Exclusive release lock | youtrack-cli-release writeLock, quota1 |
 
-The jobs were provisioned with installed teamcity-cli through native server-side copies of
-`EyeAuras_OpenSearchCli_Verify` / `EyeAuras_OpenSearchCli_NpmStage`, preserving protected bindings
-inside TeamCity. Copies were paused while the project was archived. Each job uses only
-`EyeAuras_YouTrackCli_Repo`, one `RUNNER_1` executing `bash build/teamcity.sh` in
-`node:24-bookworm` on Linux, and this product's exclusive staging lock.
+Both jobs use the product VCS root and build/teamcity.sh in node:24-bookworm on Linux. Verify's
+trigger is main-only; branch Verify may be queued manually. NpmStage has no trigger/upstream
+dependency and defaults to dry-run. Explicitly supply the product version in its build-number
+label; historical provisioning labels do not select a release version. The wrapper reads the
+checked-out package version and RELEASE_REVISION guards that checkout.
 
-The root defaults to `refs/heads/main`; its branch specification allows manual PR checks.
-Verify's enabled VCS trigger uses `+:<default>` after successful verification of the merged main.
-Staging has no triggers or upstream dependencies. Its default is
-`env.RELEASE_MODE=--dry-run`, `env.RELEASE_REVISION` empty and `release.build=0.7.1`
-(the copied number pattern needs a label). Native copy retains protected `npm.token`, the
-`env.NPM_TOKEN=%npm.token%` reference and inherited protected `env.GITHUB_TOKEN` without reading
-or resolving their values. The local Credentials gate is restored disabled after copying.
-Both jobs and their project are active. Do not change shared VCS roots, unrelated jobs or token
-permissions. Publication still requires owner approval of each verified npm stage.
+Protected npm.token/env.NPM_TOKEN and inherited env.GITHUB_TOKEN bindings stay inside TeamCity.
+Never read/resolve them, change token permissions, shared VCS roots, unrelated jobs or CI policy.
+The wrapper strips ambient credentials/settings before bootstrap; Cake uses private temporary npm
+configs. Only stage receives NPM_TOKEN. GitHub release requests use a private temporary header
+file, not token-bearing argv or URLs. Temporary auth files are removed on exit. No GitHub Actions
+or PowerShell infrastructure is added. See build/NOTICE for the original adapted driver source.
 
-When provisioning a replacement job, verify its root, lock, script, checkout and configuration
-before activation. Enable its main-only trigger after exact-head manual Verify. Bootstrap never
-configures TeamCity. TeamCity is CI; no GitHub Actions or PowerShell infrastructure is added.
-The wrapper admits named system/tool variables; Cake isolates ordinary children and private npm
-configs. Only stage receives NPM_TOKEN; GitHub Release creation uses a private temporary header.
-No secret appears in command args or artifact output. Temporary auth files are removed on exit.
-
-After reviewed merge and exact-head CI, select exact main `<sha>`:
+Use the existing job after selecting exact main, with the actual product version in labels:
 
 ```text
-teamcity-cli jobs run EyeAuras_YouTrackCli_Verify --wait --timeout 30m
-teamcity-cli jobs run EyeAuras_YouTrackCli_NpmStage --param env.RELEASE_MODE=--dry-run --param env.RELEASE_REVISION=<sha> --param release.build=0.7.1-dry-run
-teamcity-cli jobs run EyeAuras_YouTrackCli_NpmStage --param env.RELEASE_MODE=--stage --param env.RELEASE_REVISION=<sha> --param release.build=0.7.1-stage
-# Only after owner npm approval:
-teamcity-cli jobs run EyeAuras_YouTrackCli_NpmStage --param env.RELEASE_MODE=--verify-registry --param env.RELEASE_REVISION=<sha> --param release.build=0.7.1-verify
+teamcity-cli jobs run EyeAuras_YouTrackCli_NpmStage --param env.RELEASE_MODE=--dry-run --param env.RELEASE_REVISION=<full-main-sha> --param release.build=<product-version>-dry-run
+teamcity-cli jobs run EyeAuras_YouTrackCli_NpmStage --param env.RELEASE_MODE=--stage --param env.RELEASE_REVISION=<full-main-sha> --param release.build=<product-version>-stage
+# Only after owner approval of the exact verified npm stage:
+teamcity-cli jobs run EyeAuras_YouTrackCli_NpmStage --param env.RELEASE_MODE=--verify-registry --param env.RELEASE_REVISION=<full-main-sha> --param release.build=<product-version>-verify
 ```
 
-Omit --branch. RELEASE_REVISION guards the checkout; it does not select it. If main advances,
-choose the original checkout revision in TeamCity custom settings for registry verification.
+Omit --branch for release jobs. If main advances, select the original reviewed checkout revision in
+TeamCity custom settings for registry verification; do not change the receipt to match new code.
+Never queue NpmStage merely as a branch check. Stage only from reviewed clean current main.
 
-## Approval and recovery
+## Owner approval and recovery
 
-DryRun writes `dry-run-verified`. Stage refuses an existing stage of this version, saves
-`staged-unverified` with its stage ID **before** metadata/download verification, downloads that
-stage and compares SHA-512, then writes `awaiting-2fa-approval`. Retain
-`output/release/* => npm-release.zip`, including on failure. No stage exists until an authorized
-successful run produces its durable receipt.
+DryRun writes dry-run-verified. Stage refuses an existing stage for the same version, writes
+staged-unverified with the returned stage ID before metadata/download verification, then downloads
+and compares the staged archive's SHA-512 with the tested manifest. Only a matching stage becomes
+awaiting-2fa-approval. Retain output/release/* in the npm-release.zip artifact, including failures.
+A generic request to release or a successful build does not approve an npm stage.
 
-Only the owner approves that exact verified stage in npm Staged Packages with 2FA. Never approve
-`staged-unverified`, `0.0.0-stage` or a different ID. VerifyRegistry first checks registry
-version/latest/integrity and installed behavior, then creates GitHub Release `v0.7.1` at the packed
-source commit with archive/manifest. Mismatching existing tags/assets fail; matching assets can be
-retained and missing ones resumed. These are provenance records, not npm OIDC attestations.
+**Only the owner approves that exact verified product stage in npm Staged Packages with2FA.**
+Present package/version/stage ID/tested digest/source revision for that concrete approval. Never
+approve staged-unverified,0.0.0-stage or another ID. After approval, VerifyRegistry checks registry
+version/latest/integrity and installed behavior, then creates/verifies GitHub Release v<product-version>
+at the packed source commit with matching tarball/manifest. Existing mismatching tags/assets fail;
+matching assets may be retained and missing ones resumed. These are provenance records, not OIDC
+attestations. Close the release story only after registry/install/release evidence is verified.
 
-After a lost response, inspect `npm stage list @eyeauras/youtrack-cli --json` before retrying.
-On E403/E404 stop for owner access diagnosis; do not widen a token, disable 2FA, approve/reject a
-stage or switch to direct publication. [optional API reference: Official npm staged-publishing reference](https://docs.npmjs.com/staged-publishing/).
+After a lost staging response, inspect npm stage list @eyeauras/youtrack-cli --json and saved receipts
+before any retry. On E403/E404 stop for owner access diagnosis; never widen credentials, disable2FA,
+approve/reject a stage or switch to direct publishing. Read the
+[optional API reference: npm staged publishing](https://docs.npmjs.com/staged-publishing/).

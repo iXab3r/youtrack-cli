@@ -22,11 +22,11 @@ for each profile and reimport auxiliary secrets. Existing profiles and permissio
 
 Licensed under MIT. See the [release guide](docs/release.md).
 
-YouTrack consumes the exact published `@eyeauras/cli-factory` version declared in package.json. The current source
+YouTrack consumes the exact published `@eyeauras/cli-factory` version declared in package.json. The source revision described here
 provides profiles/auth/permissions and 282 REST operations: 140 ReadOnly and 142 Update.
-Seven workflow leaves reuse operations or manage local secrets: issue and article attachment
-downloads, article export, `issues batch validate/apply`, and initial-password/license import.
-There are 287 service leaves: 280 for REST operations plus these seven. Two `--direct` selectors
+Nine workflow leaves reuse operations or manage local secrets: issue and article attachment
+downloads, article export, `issues batch validate/apply`, and initial-password/license import/delete.
+There are 289 service leaves: 280 for REST operations plus these nine. Two `--direct` selectors
 each select a second REST endpoint without adding another leaf.
 The foundational read projections are:
 
@@ -108,320 +108,112 @@ Compressed wire length is syntax-checked but not compared with decoded size. HTT
 Retry-After, empty/null mutation and UTF-8 BOM behavior are unchanged. No request is retried
 automatically. Runtime memory and service limits still apply.
 
-## M08: installation maintenance (unreleased source)
+## Command guide
 
-This source includes M02–M08; npm0.8.0 contains M01. M08 adds21REST operations, reaching the
-frozen **282/282** official operations: [mapping and source limits](docs/rest-api-coverage/current/README.md).
-Operation coverage does not prove every payload, deployed version or edition. Milestones merge
-without version bumps or npm publication.
+Use a leaf's `--help` for its exact selectors, options and permission category. One declaration
+supplies human/JSON/execute/RPC; the SDK exports the same concrete operations. Native service
+rights and edition/version applicability are separate from local ReadOnly/Update gates.
 
-- `api-schema get` reads one native `/api/openapi.json` document; human output shows metadata.
-  JSON/RPC preserve the native document with concrete credential redaction. No schema crawl or
-  server-conformance check runs. `server telemetry get` reads installation status; default fields
-  avoid installation paths and online identities. `server-settings get` defaults to the root ID.
-- `backup file list` and `backup file get <backup>` read metadata. Lists use the ordinary offset-page contract;
-  `get` does not download an archive. `backup status get` reads the current status once.
-  `backup settings get/update --body <json>` exposes native settings, including TAR_GZ/ZIP,
-  nullable location, Int32 filesToKeep and literal cronExpression. No polling, restore, implicit
-  backup trigger or completion claim is added. A caller-supplied native backupStatus action is
-  sent only by the explicit Update request.
-- `server-settings appearance-settings get/update` accepts native timeZone/dateFieldFormat
-  descriptor objects; for example `--body '{"timeZone":{"id":"UTC"}}'`.
-  `notification-settings get/update` uses native emailSettings objects, including false/null,
-  SMTP/SMTPS/SMTP_TLS/MS_GRAPH_API and nullable SSL StorageEntry references. No SMTP password
-  property or private-key upload workflow is introduced. `locale-settings update` requires
-  `locale.id`, for example `--body '{"locale":{"id":"en_US"},"isRTL":false}'`.
-- `server-settings system-settings get/update` preserves native nullable baseUrl/administratorEmail,
-  booleans and numeric types; changing remote baseUrl never rewrites the selected CLI profile.
-  `rest-settings get/update` preserves CORS origin strings and false allowAllOrigins without
-  rewriting hosts, paths or ports. `server-settings update --body <json>` sends one root request;
-  the documented nested appearance descriptor is supported without discovery or local merging.
+| Work | Commands and selectors |
+|---|---|
+| Everyday issues | `issues list/get/create/update/delete`, `issues fields list/get/set`, `issues comments`, `issues attachments`, `issues tags`, `issues links`, `issues work-items` |
+| Search and explicit bulk work | `search assist`, `commands assist/apply`, `issues count`, `issues batch validate/apply`, `saved-queries list/get/create/update/delete` |
+| Projects | `project list/get/create/update/delete`, `project issues`, `project field`, `project team`, `project time-tracking`, `project work-item-type`, `project article` |
+| People and access | `user me/list/get/create/update`, `user profile general/notifications/time-tracking`, `user saved-queries/tags`, `group`, `organization`, `role`, `role-assignment`, `permission-catalog` |
+| Knowledge base | `article list/get/create/update/delete/export`, `article child/parent`, `article comment` (including `article comment reaction`), `article tag/attachment`, `project article list` |
+| Iterations | `agile list/get/create/update/delete`, `sprint list/get/create/update/delete` with an agile selector |
+| Fields and bundles | `field list/get/create/update/delete`, `field type/defaults/instance`, `bundle enum/state/version/build/owned/user` and their selected value/member resources |
+| Work time and activity | `work-items list/get`, `work-item-type`, `time-tracking`, `activities list/get/page`, `issues activity list/get/page` |
+| Installation | `api-schema get`, `server telemetry get`, `server-settings get/update`, `server-settings appearance-settings/notification-settings/locale-settings/system-settings/rest-settings` |
+| Backups and licensing | `backup file list/get`, `backup settings get/update`, `backup status get`, `server-settings license get/update/import/delete` |
+| Local configuration | Core `profile`, `auth`, `permissions`; `user initial-password import/delete` and `server-settings license import/delete` |
 
-`server-settings license get` reads license metadata. A secure runner supplies YOUTRACK_LICENSE
-for `server-settings license import server-key --from-env --profile dev`; the value goes into
-that selected profile's Core secret store under `server-license:server-key`. Import requires
-Update, makes no HTTP call for a configured/authenticated profile and outputs only the alias and
-acknowledgement. `server-settings license update --license-secret server-key --profile dev`
-reads that stored alias with no environment fallback. Optional `--body` supports username metadata;
-without an alias, native `{"license":null,"username":null}` can clear nullable fields. Literal
-license strings in CLI bodies, including nested root bodies, are rejected. Use the child alias
-command for license material. SDK native string submissions remain supported.
+### Native selectors and controls
 
-Imported values preserve exact bytes; absent/empty environment input fails. The platform store
-has no plaintext fallback; namespaced alias `token` cannot overwrite the bearer credential.
-Aliases remain after success/failure. CLI profile deletion removes its auth token, not auxiliary
-aliases; manage those retained entries through the platform store/SDK. Cancellation before
-persistence starts prevents the write; cancellation after it starts makes no rollback promise.
-License-bearing body dispatches require the original HTTPS origin, including every redirect hop.
-Same-origin redirects and redirects that discard the body retain normal behavior. Native/input
-license strings and known raw/JSON/URI/escaped-control echoes are redacted from results and causes;
-this is not a guarantee of detecting arbitrary unknown secrets in explicit projections.
+`--body` is native JSON, with explicit descriptor objects and `$type` where required. Additional
+native fields, nulls, false and repeated selections are preserved; metadata forwarding does not
+promise every read-only attribute is writable. YouTrack resolves service values. The CLI does no
+implicit discovery, field-type guessing, search-to-write expansion, retry or compensation.
 
-All reads use ReadOnly and remote writes/local imports require Update. Installation-level rights
-are separate. Server licensing and backup scheduling/retention differ from Cloud's managed single
-backup/export; no edition is inferred from a hostname and no compatibility matrix is claimed.
-See JetBrains' [optional API reference: backup API use-case](https://www.jetbrains.com/help/youtrack/devportal/api-usecase-backup.html),
-[optional API reference: Cloud backup guide](https://www.jetbrains.com/help/youtrack/cloud/database.html),
-[optional API reference: Server backup guide](https://www.jetbrains.com/help/youtrack/server/back-up-the-database.html) and
-[optional API reference: Server license guide](https://www.jetbrains.com/help/youtrack/server/license-details.html).
-Unsupported service rights/edition responses remain errors. Existing paging, profiles/auth,
-JSON/execute/RPC, cancellation, EPIPE and diagnostic/unknown-write behavior remain. No live proof ran.
+- Issue/project-issue create/update and lists support repeatable `--custom-field` selectors where
+  declared. Write controls include `--fields`, `--mute-update-notifications [boolean]` and draft
+  publication `--draft-id` on the applicable leaves. Omission stays omitted; explicit false survives.
+- `commands apply --issues DEMO-1,DEMO-2 --query "State Fixed"` is Update. Optional `--comment`,
+  `--visibility <json>`, `--run-as <login>` and `--silent [boolean]` remain native; service rights
+  still apply. Assist/count POST requests remain ReadOnly and never poll/apply automatically.
+- Activity filters use `--author`, `--activity-start`, `--activity-end` and, on cursor pages,
+  `--activity-id`; global activity adds `--issue-query`. Native categories/cursors remain opaque.
+  Work-item filters include repeatable author/creator and date/created/updated bounds; `--start`
+  stays the offset and `--work-start` is the native temporal filter. Values stay literal strings.
+- Creation uses native required identities: project name/shortName/leader.id, board name/projects,
+  issue/project-issue summary, work-type/value name and user login/initial-password alias.
+  Bundle create has no locally invented mandatory name; value creation requires its native name.
+- Link direction labels preserve native `targetToSource:null`; calendar Int32 values/order/duplicates
+  have no invented positive/weekday limit. Version/build dates and owned-user descriptors preserve
+  documented nulls. Locale changes require `locale.id`; appearance/email use descriptor objects.
+- Project-field detach/global-field delete and relationship removal/global-object delete have
+  distinct selectors/scopes. No automatic cascade or rollback is synthesized. Optional DELETE
+  `--fields` follows the reference tables; omission stays query-free, without a live-version claim.
 
-## M07: schema and work-time lifecycle (unreleased source)
+Detailed native source dispositions and examples are retained in the
+[delivery history](docs/milestone-history.md). Current METHOD/path bindings, controls, permissions,
+all surfaces and tests for every operation are in [current coverage](docs/rest-api-coverage/current/README.md).
 
-This source includes M02–M07; npm0.8.0 contains M01. Milestones merge without version bumps or
-npm publication. M07 adds34REST operations; [current coverage](docs/rest-api-coverage/current/README.md)
-retains the frozen282-operation universe and the complete21-operation remainder.
+### Auxiliary credentials
 
-- `work-item-type create/update/delete` manages global work types, with native name and
-  autoAttached. Creation requires name; project-specific attachment/removal remains under
-  `project work-item-type` and does not delete the global type.
-- `time-tracking work-time update --body '{"minutesADay":450,"workDays":[1,2,3,4,5]}'` updates
-  the native calendar. Values use the source's Int32 representation. Order and duplicate workDays
-  survive; there is no locale conversion, positive-only rule or additional limit guessed from
-  examples. YouTrack validates domain constraints. firstDayOfWeek/daysAWeek remain server-owned;
-  passing extra native metadata does not promise that the server changes read-only attributes.
-- `project field delete <project> <field>` removes that project field instance. `field delete
-  <field>` deletes the selected global custom field. These are separate IDs/scopes; no automatic
-  detach, cascade, scan or compensation is added. `project delete <project>` deletes that project.
-- `bundle enum/state/version/build/owned/user create/update/delete` manages the named family.
-  Native values/groups/individuals and sample-supported name metadata are passed unchanged.
-  The pinned create descriptions declare no required bundle name, and schemas omit it; no local
-  mandatory-name constraint or universal bundle DTO is invented. YouTrack remains authoritative.
-- `bundle enum/state/version value delete <bundle> <value>` removes a selected value.
-  `bundle build/owned value create/update/delete` adds native lifecycle operations. Value creation
-  requires name. Build assembleDate/description and owned owner/description preserve native null;
-  non-null owners use descriptor objects, without user discovery. Native extra fields remain.
+A secure runner supplies `YOUTRACK_INITIAL_PASSWORD` or `YOUTRACK_LICENSE`. After configuring and
+signing in to the selected profile, deliberately enable Update to import/use/remove an alias:
 
-All M07 operations require Update; server management rights still apply. DELETE defaults are
-query-free with optional --fields, under the documented field-table-only source disposition.
-Successful empty replies remain null in JSON/RPC; human confirmations use scrubbed identities and
-bundle context, including adjacent existing version/enum/state value commands. A later failure
-never replays or rolls back an earlier user command. Existing profiles/auth, native projections,
-paging, diagnostics, EPIPE and unknown-write outcomes remain. No live/version conformance is claimed.
+```sh
+youtrack-cli permissions grant Update --profile dev
+youtrack-cli user initial-password import initial-user --from-env --profile dev
+youtrack-cli user create --body '{"login":"new-user"}' --password-secret initial-user --profile dev
+youtrack-cli user initial-password delete initial-user --profile dev
+youtrack-cli server-settings license import server-key --from-env --profile dev
+youtrack-cli server-settings license update --license-secret server-key --profile dev
+youtrack-cli server-settings license delete server-key --profile dev
+```
 
-## M06: administration and scoped operations (unreleased source)
+Import/delete use the selected profile's Core secret store, make no HTTP request for a configured,
+authenticated profile, and return only a scrubbed alias/acknowledgement. Namespaced aliases never
+replace the bearer token or another profile/family. Values retain exact bytes; absent/empty env
+input fails with no plaintext fallback. Writes read only the stored alias, with no env fallback.
+CLI raw password/license material is rejected, including nested root license writes. Native license
+null clearing/username metadata remain available through `--body` without an alias.
 
-This source includes M02–M06; npm0.8.0 contains M01. Milestones merge without version bumps or
-npm publication. M06 adds26REST operations; [current coverage](docs/rest-api-coverage/current/README.md)
-tracks the frozen282-operation universe and the complete remaining inventory.
+Delete is idempotent: `{alias,deleted:true}` acknowledges removal, including an already absent
+alias; it does not claim a value previously existed. An import/use never erases an alias implicitly.
+Deleting a CLI profile removes its auth token, not auxiliary entries; delete each retained alias
+while that profile is configured/authenticated, or manage it through the platform store/SDK.
+There is no listing/export of secret values or automatic cleanup of user data.
 
-- `project create --body <json> [--template scrum|kanban]` requires native name, shortName and
-  leader.id; `project update <project>` preserves native metadata. Templates remain omitted when
-  not selected. Board creation accepts native kanban/scrum/version/custom/personal templates.
-- `project issues list/get/create/update/delete` uses the actual project-scoped endpoints,
-  selected project/issue IDs, repeated `--custom-field` selectors on lists and native notification
-  controls on writes. Project issue creation requires summary; updates preserve native nulls.
-- `article delete <article>`, `agile delete <agile>` and `sprint delete <agile> <sprint>` act only
-  on selected IDs. `group create/update/delete`, `organization list/get/create/update/delete`,
-  `role create/update/delete` and `link-types create/update/delete` expose native resources.
-  Role bodies retain permission objects with native id keys; no permission discovery is added.
-  Link-type creation requires name, sourceToTarget and targetToSource; the inward targetToSource
-  property may be null. DELETE defaults remain
-  query-free, with optional --fields. Reads use ReadOnly; remote writes require Update.
+Cancellation before secure-store mutation starts prevents it. Once persistence/deletion starts,
+cancellation or failure makes no rollback promise; deletion failures report an unknown store outcome
+and keep useful redacted causes. Nothing is retried automatically. Password/license-bearing JSON
+body dispatches require the original HTTPS origin at every redirect hop. Same-origin redirects and
+redirects discarding the body retain normal behavior. Known input/native license values and their
+raw/JSON/URI/escaped-control copies are masked; unknown secrets are not universally detectable.
 
-`user create --body '{"login":"new-user"}' --password-secret initial-user-password` reads
-an initial password from the selected CLI profile's Core secret store. Provision that alias with
-`user initial-password import initial-user-password --from-env --profile dev` after configuring
-and signing in to that profile. A secure runner supplies `YOUTRACK_INITIAL_PASSWORD`; do not put
-its value in argv, shell history or `--body`. Import requires Update, makes no service request for
-an already configured/authenticated profile, and returns only the alias and storage acknowledgement.
-The namespaced alias `token` cannot overwrite the bearer credential. The password's exact bytes
-are stored; an absent or empty environment value fails. The platform store is authoritative and
-there is no plaintext fallback. Treat aliases as sensitive retained credentials: creation does not
-erase them after success or failure, and deleting a CLI profile removes its auth token, not these
-auxiliary entries. Administrators manage retained auxiliary entries through the platform store/SDK.
+### Installation administration
 
-Cancellation before secure-store persistence starts prevents the write. Once persistence has
-started, cancellation does not imply rollback; inspect the store before deciding to import again.
+`api-schema get` reads one native document; human output shows metadata, machine output retains
+its scrubbed native shape. It does not crawl or prove deployed conformance. Default telemetry
+avoids installation paths/online identities; root settings default to the root ID. System writes
+preserve native null/false/numeric types; changing remote baseUrl never rewrites a CLI profile.
+CORS origin strings retain their hosts, ports and paths. Appearance/locale/email use native objects;
+SSL keys are nullable StorageEntry references, not private-key uploads or invented SMTP passwords.
 
-Creation requires Update and HTTPS, sends the password only in the native JSON body, and has no
-environment fallback. Password-bearing redirects stay on the original HTTPS origin; same-origin
-HTTPS redirects retain normal behavior. CLI `--body.password` is rejected. Missing aliases return a profile-specific
-import follow-up. Results and diagnostic causes scrub known passwords, including JSON echoes;
-JSON/RPC never return the imported value. `user update <user> --body '{"email":null}'` uses the
-native user endpoint and preserves additional native fields. This email update follows the pinned
-endpoint sample despite the general User model's read-only annotation; no Hub calls or universal
-account-field/version compatibility are implied. Password rotation is not a CLI workflow.
-
-## M05: self-service and targeted cleanup (unreleased main)
-
-This source includes M02–M05; npm0.8.0 contains M01. Milestones merge without version bumps or
-npm publication. [Current coverage](docs/rest-api-coverage/current/README.md) retains the frozen
-282-operation denominator and the complete remaining inventory.
-
-- `user profile general get/update <user>` reads or changes timezone, locale and date-format
-  preferences. Updates use native descriptor objects, for example
-  `--body '{"timezone":{"id":"Europe/Berlin"}}'`; descriptor IDs remain caller-selected.
-- `user profile time-tracking get/update <user>` handles native period descriptors, for example
-  `--body '{"periodFormat":{"id":"FULL"}}'`. These server profiles are separate from CLI profiles.
-- `user saved-queries list <user>` and `user tags list <user>` return one ordinary offset page.
-- `group list --query <query>` passes the native filter unchanged. `group member add <group> <user>
-  --body <json>` selects the direct member through path IDs. If body.id is supplied it must match
-  the selected user; an empty object still uses the path selector. No user lookup or additional role-assignment call occurs.
-- `tags issues list <tagID>` reads usage, including repeatable `--custom-field <name>` selectors.
-  Values and order remain native; this list does not become an automatic cleanup selection.
-- `issues comments delete <issueID> <commentID>`, `saved-queries delete <queryID>`,
-  `tags delete <tagID>`, `issues delete <issueID>` and `article comment delete <article> <comment>`
-  act on those selected IDs. DELETE defaults are query-free and optional `--fields` is preserved.
-- `article child add <article> --body <json>` and `update <article> <child> --body <json>` use the
-  hierarchy endpoints and accept `--mute-update-notifications [boolean]`. Native null content/title
-  and extra metadata survive. `article child remove <article> <child>` unlinks the relationship;
-  it does not call the article deletion endpoint.
-
-Reads use ReadOnly and remote writes require Update. YouTrack owns server rights and native-value
-validation. Existing paging, profiles/auth, human/JSON/RPC, diagnostic causes, EPIPE and dispatched
-unknown-write outcomes remain. Cleanup has no implicit search expansion, retry or compensation.
-No live-service or cross-version conformance is claimed.
-
-## M04: project setup and team (unreleased main)
-
-Building this source includes M02–M04; npm 0.8.0 contains M01. Milestones merge without version
-bumps or npm releases. The complete [current mapping](docs/rest-api-coverage/current/README.md)
-uses the same frozen official source and separates complete coverage from reachable operations.
-
-- `bundle user group create/remove` and `bundle user individual create/remove` add or remove
-  existing IDs from a user bundle; creation bodies contain `id`. They do not create users or groups.
-- `field create --body '{"name":"Severity","fieldType":{"id":"enum[1]"}}'` creates a global field.
-  `field update <field> --body <json>` preserves omitted and additional native metadata.
-- `project work-item-type create <project> --body '{"id":"TYPE_ID"}'` attaches an existing global
-  work type. `delete <project> <type>` removes its project association. `project time-tracking update
-  <project> --body <json>` changes native enabled/estimate/timeSpent settings, including false/null.
-- `role-assignment list [--query <query>]` and `get <assignment>`, `role list [--query <query>]`
-  and `get <role>`, and `permission-catalog list` are ReadOnly service catalogs. Access queries stay
-  native, including exact-match suffixes and whitespace. Root `permissions` manages CLI safety gates.
-- `role-assignment create --body <json>` requires selected holder/role IDs and native scope `$type`;
-  ProjectScope/OrganizationScope also require their project/organization ID. Native extra properties
-  and holder types are retained. `delete <assignment>` revokes that assignment without discovery.
-- `project team user add/remove` changes direct ownUsers; `project team group add/remove` changes
-  direct group associations. Add bodies contain the existing `id`. `project team update <project>
-  --body <json>` passes native ownUsers/groups, including empty lists, to YouTrack; no local merge,
-  inherited-membership expansion or role grant is synthesized.
-- `user profile notifications get/update <user>` reads or changes that user's native preferences.
-  Update takes `--body <json>`, for example `{"emailNotificationsEnabled":false}`. Boolean false
-  survives in machine output and prints as “no” in the human view.
-
-All mutations require Update; service-side management rights are separate. Writes support `--fields`;
-DELETE defaults omit it unless selected. Native JSON/RPC and scrubbed human confirmations retain their
-contracts. The pinned reference marks access catalogs/project teams available since YouTrack 2026.1;
-this is documentation provenance, with no live or cross-version conformance claim. A conflicting
-notification syntax table appends profileID; the pinned OAS/resource and concrete examples select
-`/api/users/{userID}/profiles/notifications`, used here without an additional profile selector.
-
-## M03: iterations and working catalogs (unreleased main)
-
-These source additions follow M02; npm 0.8.0 still contains the M01 release. Milestones do not
-publish npm or bump package versions. Current coverage and complete remaining gaps are in
-[the current mapping](docs/rest-api-coverage/current/README.md).
-
-- `agile create --body <json> [--template <name>]` requires native `name` and explicit
-  `projects: [{"id":"PROJECT_ID"}]`. Template accepts `kanban`, `scrum`, `version`, `custom` or `personal`, as listed in the pinned reference.
-  `agile update <agile> --body <json>` preserves omitted and additional native settings.
-  Existing `sprint create <agile>` now accepts `--mute-update-notifications [boolean]`.
-- `bundle enum value create/update`, `bundle version value create/update` and
-  `bundle state value create/update` write the selected bundle/value IDs with `--body`/`--fields`.
-  New values require name. Archives, colors, localized names, nulls and native extra fields survive.
-  Version date values remain native JSON milliseconds/null; no date-string interpretation.
-  State `isResolved` is catalog metadata; these commands do not synthesize an issue state event.
-- `tags create --body <json>` and `tags update <tagID> --body <json>` maintain global working tags,
-  distinct from issue/article tag assignments. Creation requires name; sharing and colors stay native.
-- `field defaults get <field>` reads common settings. Use caller-selected `--fields` for native
-  subtype attributes such as `bundle`/`defaultValues`; `field defaults update <field> --body <json>`
-  preserves the subtype `$type`, arrays, nulls and false without prototype lookup.
-- `project field create <project> --body <json>` requires explicit `field: {"id":"FIELD_ID"}`
-  and the native ProjectCustomField `$type`. `project field update <project> <field> --body <json>`
-  addresses the project-specific instance ID. YouTrack validates prototype/type compatibility.
-- `field instance list <field>` lists projects using that field, one native offset page with the
-  normal envelope, raw-row continuation and no lookahead or automatic traversal.
-
-New reads use ReadOnly; writes use Update. Native `--fields` projections and human/JSON/RPC
-surfaces stay shared. Mutation failures keep their codes/causes and known/unknown outcome distinction;
-there are no implicit retries, permission grants or name-to-ID searches. Server management permissions
-remain separate from the CLI gate. No live service or cross-version conformance is claimed.
-
-## M02: collaboration and knowledge base (unreleased main)
-
-npm 0.8.0 contains M01. Building this source revision includes M02; milestone completion
-does not bump a version or publish npm. The same frozen
-282-operation source had 145 complete contracts and 147 reachable operations at M02 completion; current
-verified counts and all remaining gaps are in [the current mapping](docs/rest-api-coverage/current/README.md).
-
-- `saved-queries create --body <json>` and `saved-queries update <queryID> --body <json>`
-  accept `--fields`. Creation requires native `name` and `query`; updates retain omitted fields.
-- `issues project get <issueID>` reads the single project relation. `issues project set <issueID>
-  --body '{"id":"TARGET_PROJECT_ID"}'` moves to that exact project, without name lookup.
-- `issues vcs-changes create <issueID> --body <json>` links a change using native `version`
-  and `state`. `update <issueID> <changeID>` updates its state; `delete <issueID> <changeID>`
-  removes only that relation. Native types and future state values are left to the server.
-- `commands apply` keeps explicit `--issues`, and adds `--comment`, native JSON `--visibility`,
-  signed-Int `--caret`, `--run-as` and `--silent [boolean]`. Omitted, bare-true, true and false
-  retain their meaning. Update remains required; YouTrack enforces administrative/silent rights.
-- `activities list --categories <categories>` reads one offset page; `activities get <activityID>`
-  reads one item. Global list and cursor `activities page` accept `--issue-query`, `--author`,
-  `--activity-start` and `--activity-end`; only the cursor page accepts `--activity-id`/`--cursor`.
-  Time spellings, queries and cursor direction stay native; no feed traversal is automatic.
-- Article create, update, comment add/update and attachment upload accept notification controls;
-  only article create and comment add accept `--draft-id`. A draft can be published with `--body '{}'`.
-  Normal article creation still requires project; normal comment addition requires text.
-- `article tag list/get/add/remove` manages article tag relations with explicit article/tag IDs.
-  `article attachment update <article> <attachmentID> --body <json>` edits native metadata;
-  `article attachment delete <article> <attachment>` deletes the exact attachment.
-- `article comment reaction list/get/add/remove` reads and changes reactions on a selected comment.
-  Reaction strings/null and additional native body fields remain intact.
-
-All new reads are ReadOnly; mutations are Update. Project/VCS writes, command application and
-article/comment writes expose `--fields` and the API's `--mute-update-notifications [boolean]`
-where declared. Notification omission sends no parameter; false is not turned into true.
-New DELETE commands accept optional `--fields` from the explicit reference parameter tables;
-omission retains query-free requests. Tag/reaction/VCS removal does not
-delete the related global object. No automatic write retry or rollback is introduced; ambiguous
-post-dispatch failures keep the unknown-outcome diagnostics added in M01.
-
-## M01: issue workflows in 0.8.0
-
-The API inventory is frozen at 282 published operations (281 business routes plus schema metadata).
-The M01 release exposes 128 routes. At that release, complete contracts covered 119/282 (42.20%);
-nine reachable routes had deferred request controls. The [frozen audit](docs/rest-api-coverage/README.md)
-and [current mapping](docs/rest-api-coverage/current/coverage.json) keep these measures separate.
-
-- `issues list --custom-field <name>` is repeatable. Names, order and duplicates are preserved
-  as repeated native `customFields` parameters, including every request made by `--all`.
-- `issues activity list <issueID> --categories <categories>` reads one offset page;
-  `issues activity get <issueID> <activityID>` reads one item. These differ from the native
-  `issues activity page` cursor resource. The issue list/page support `--author`,
-  `--activity-start` and `--activity-end`; only the cursor page accepts `--activity-id`.
-  Cursor values and direction remain opaque, without automatic traversal. Activity time bounds
-  remain literal API strings, including native Long values.
-- Issue create/update, custom-field set, comment add/update, attachment upload, link add and
-  work-item add/update accept `--fields` and `--mute-update-notifications [boolean]`.
-  An omitted notification flag sends no parameter; a bare flag means true, and `false` is sent
-  as false. The server enforces Apply Commands Silently; this does not mute workflow notifications.
-  Only issue create and comment add accept `--draft-id`. Keep `--body` required; use `{}` when
-  publishing a draft without additional fields. Normal issue creation still requires project/summary.
-- `work-items list` adds repeatable `--author` and `--creator`, `--start-date`, `--end-date`, `--work-start`,
-  `--work-end`, `--created-start`, `--created-end`, `--updated-start`, `--updated-end`.
-  `--start` stays the raw offset; `--work-start` selects the native temporal `start` filter.
-  Filter values remain literal strings so a native Long does not lose precision in JavaScript.
-  YouTrack validates date formats, interval semantics and applicability.
-- `tags list --query <query>` searches the tag catalogue. `issues tags get <issueID> <tagID>`
-  inspects one assignment; tag add and existing tag/link remove commands accept `--fields`.
-- `issues attachments update <issueID> <attachmentID> --body <json>` updates native metadata.
-  `issues attachments delete <issueID> <attachmentID>` and
-  `issues work-items delete <issueID> <itemID>` remove only the selected resource.
-
-Write failures after submission report an unknown outcome when the reply is lost, unreadable or
-invalid, or the server returns 5xx. Check the selected object before retrying; no automatic retry
-is performed. HTTP 4xx rejection and local validation keep their distinct diagnostics.
-- `issues comments reaction list/get/add/remove` take issue/comment IDs, plus a reaction ID
-  for get/remove. Add requires `--body` containing native `reaction`; names are not restricted
-  to a hard-coded list. Reads use ReadOnly; add/remove use Update, even when remote service
-  permissions call these operations reads.
-
-Every new read/write supports `--fields`. DELETE projections follow the explicit official
-parameter tables; an omitted projection preserves the prior query-free DELETE. Successful empty
-write bodies return JSON null; nonempty native results are scrubbed as usual. Optional fields do
-not imply response/version guarantees beyond the public contract. All writes stay Update-gated,
-with no implicit lookup, automatic retry, target expansion or binary transfer follow-up.
+Backup file get/list reads metadata, not archives. Settings/status reads do not start or poll a
+backup. A caller-supplied backupStatus action is sent only in an explicit Update settings request;
+request success does not prove completion. Native archiveFormat is TAR_GZ/ZIP; nullable location,
+Int32 filesToKeep and literal cronExpression are preserved. No restore workflow is provided.
+Server license keys and backup scheduling/retention differ from Cloud's managed single-backup
+export. No edition is guessed from hostnames or guaranteed from a schema version. See JetBrains'
+[optional API reference: backup use-case](https://www.jetbrains.com/help/youtrack/devportal/api-usecase-backup.html),
+[optional API reference: Cloud backups](https://www.jetbrains.com/help/youtrack/cloud/database.html),
+[optional API reference: Server backups](https://www.jetbrains.com/help/youtrack/server/back-up-the-database.html) and
+[optional API reference: Server license](https://www.jetbrains.com/help/youtrack/server/license-details.html).
+Unsupported rights/edition responses remain failures, not successful skips or automatic grants.
 
 ## URL and token input
 
@@ -554,31 +346,31 @@ as comment reads. An empty successful mutation response becomes JSON `null`. No 
 implicit follow-up reads or automatic permission grants occur. Malformed bodies and remote errors
 use safe diagnostics without echoing submitted JSON or server response text.
 
-## Additional commands through operation 50
+## Search, relationships and work items
 
 The same tree is available through normal npm commands, JSON and JSON-RPC. Use leaf `--help`
 for exact arguments and permission categories; no endpoint, header or arbitrary HTTP escape hatch exists.
 
-| Family | Additional commands | Operations |
-|---|---|---:|
-| Queries and commands | `commands assist/apply`, `search assist`, `issues count`, `saved-queries list/get` | 6 |
-| Project, users and fields | `project get`, `project field list/get`, `user list`, `issues fields list/get/set` | 7 |
-| Links and tags | `link-types list/get`, `tags list/get`, `issues links list/get/issues/add/remove`, `issues tags list/add/remove` | 12 |
-| Activity and context | `activities page`, `issues activity page`, `issues comments get/update`, `issues vcs-changes list/get`, `issues sprints list` | 7 |
-| Work time | `issues time-tracking get`, `issues work-items list/get/add/update`, `work-items list/get` | 7 |
-| Attachments | `issues attachments list/get/upload` | 3 |
+| Family | Representative commands |
+|---|---|
+| Queries and commands | `commands assist/apply`, `search assist`, `issues count`, `saved-queries list/get` |
+| Project, users and fields | `project get`, `project field list/get`, `user list`, `issues fields list/get/set` |
+| Links and tags | `link-types list/get`, `tags list/get`, `issues links list/get/issues/add/remove`, `issues tags list/add/remove` |
+| Activity and context | `activities page`, `issues activity page`, `issues comments get/update`, `issues vcs-changes list/get`, `issues sprints list` |
+| Work time | `issues time-tracking get`, `issues work-items list/get/add/update`, `work-items list/get` |
+| Attachments | `issues attachments list/get/upload` |
 
 `commands assist`, `search assist` and `issues count` use POST on the wire but remain ReadOnly:
 they compute suggestions or counts without applying changes. Assist is not a dry run or a guarantee
 that a later command will succeed. Required `--query` is preserved exactly; optional `--caret` uses the API's signed Int type; the server validates position semantics.
 `commands apply` requires comma-separated explicit issue IDs via
-`--issues`, never an implicit search expansion. M02 adds explicit run-as/silent controls as described above. Count returns the
+`--issues`, never an implicit search expansion. The explicit run-as/silent controls are described above. Count returns the
 server's `count`, including `-1` (pending) or `null`; the CLI never polls automatically.
 
 Activity cursor commands require `--categories <categories>` and support `--cursor`, `--reverse` and
 `--fields`. They return one server-defined page with `activities`, before/after cursors and flags.
 They do not support offset or page-size flags and do not fetch a next page automatically.
-Global and issue activity filters, plus offset item list/detail commands, are described in M01/M02 above.
+Global and issue activity filters, plus offset item list/detail commands, are described in the command guide and delivery history.
 
 Project fields expose field types and settings without following bundle references. Issue fields
 preserve polymorphic values, including scalar, null and array values. `issues fields set` accepts
@@ -603,30 +395,28 @@ fields are `duration`, `date`, `author`, `type`, `text`, `created` and `updated`
 use integer Unix milliseconds; `author` and `type` use `{ "id": "..." }` or `null`. Text may be
 empty, multiline or null; `updated` may also be null. Updates preserve additional native fields and
 leave omitted fields to the server. No client-side date, user or duration conversion is guessed. Work-item
-writes accept `--fields`; only global `work-items list` supports `--query`. Native date/author filters are described in M01 above. Time-tracking inspection defaults to `id,enabled`, without
+writes accept `--fields`; only global `work-items list` supports `--query`. Native date/author filters are described in the command guide above. Time-tracking inspection defaults to `id,enabled`, without
 expanding work items.
 
 Attachment reads default to `id,name,size,mimeType`; explicit read projections still scrub signed
 URLs. Upload requires one explicit `--file <path>` and sends one native multipart request, returning
 metadata only. Missing/empty/NUL path syntax fails before onboarding. Regular-file and read
 checks occur inside the Update handler before HTTP, so denied uploads do not inspect files.
-Only the basename becomes the multipart filename; errors never echo local paths. No attachment
-binary download or signed-URL follow-up was included in the first 50 operations; the separate
-download capability is documented below.
+Only the basename becomes the multipart filename; errors never echo local paths. The separate binary download capability is documented below; metadata reads never follow links automatically.
 
-## Additional commands through operation 100
+## Catalogs, teams and knowledge base
 
-These add fifty REST operations. Two `--direct` switches each select between two documented
-read endpoints, so at this stage the tree had 98 service leaves for 100 operations.
+Two `--direct` switches each select between documented direct/aggregated membership endpoints.
+They do not add command aliases or change the offset-page contract.
 
-| Family | Additional commands | Operations |
-|---|---|---:|
-| Global fields and choices | `field list/get`, `field type list`, `bundle enum/state list/get`, `bundle enum/state value list/get` | 11 |
-| User directory and bundles | `user get`, `bundle user list/get`, `bundle user member list`, `bundle user group list/get`, `bundle user individual list/get` | 8 |
-| Groups and project teams | `group list/get`, `group member list [--direct]`, `group subgroup list`, `project team get`, `project team group list`, `project team user list [--direct]` | 9 |
-| Time metadata | `time-tracking settings get`, `time-tracking work-time get`, `work-item-type list/get`, `project time-tracking get`, `project work-item-type list/get` | 7 |
-| Boards and sprints | `agile list/get`, `sprint list/get/create/update` | 6 |
-| Articles | `article list/get/create/update`, `article comment list/get/add/update`, `project article list` | 9 |
+| Family | Representative commands |
+|---|---|
+| Global fields and choices | `field list/get`, `field type list`, `bundle enum/state list/get`, `bundle enum/state value list/get` |
+| User directory and bundles | `user get`, `bundle user list/get`, `bundle user member list`, `bundle user group list/get`, `bundle user individual list/get` |
+| Groups and project teams | `group list/get`, `group member list [--direct]`, `group subgroup list`, `project team get`, `project team group list`, `project team user list [--direct]` |
+| Time metadata | `time-tracking settings get`, `time-tracking work-time get`, `work-item-type list/get`, `project time-tracking get`, `project work-item-type list/get` |
+| Boards and sprints | `agile list/get`, `sprint list/get/create/update` |
+| Articles | `article list/get/create/update`, `article comment list/get/add/update`, `project article list` |
 
 Every new read supports `--fields`. Offset lists retain one-page `--page-size`/`--start` behavior;
 details and settings reads have no paging flags. Bundle defaults omit nested values and members:
@@ -662,7 +452,7 @@ fields preserve multiline strings and documented null values; omission leaves AP
 support `--fields`; article lists have no query flag. Article attachment transfer and hierarchy
 reads are documented below. Native body properties are validated by the API; separate deletion remains outside this command tree.
 
-## Remaining bundles, article hierarchy and attachment transfer
+## Bundles, article hierarchy and attachment transfer
 
 `bundle build/owned/version list/get` and their `value list/get` children expose twelve
 ReadOnly operations. Lists use the normal bounded page; bundle defaults do not expand values.
@@ -799,5 +589,11 @@ Tests inject `AppArguments` rather than redirecting the user's data directories.
 
 ## Source development
 
-`npm ci`, `npm test`, and `npm run test:package` build and test this repository independently.
+Repository verification uses Node.js24+ (the installed CLI retains Node.js22+). `npm test` is the
+ordinary offline suite; `npm run test:coverage` builds/runs that suite once with tracing, traverses
+the real tree and regenerates the frozen mapping twice. Only the documented commit-lineage field
+may differ from tracked summary metadata. Drift fails with artifact context and retains ignored
+evidence for explicit reviewed regeneration; the checker never overwrites tracked files or fetches
+public/service schemas. Cake Verify uses this gate, installed-package and release-safety checks.
+`npm ci` and `npm run test:package` retain the registry-based build/distribution boundaries.
 See [release and Core adoption gates](docs/release.md) and [migration provenance](docs/migration.md).
