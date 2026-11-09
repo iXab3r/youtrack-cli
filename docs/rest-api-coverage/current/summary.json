@@ -1,25 +1,25 @@
 {
-  "baselineHead": "ff1d50fc4a87387e42b010a615589fc0468cb414",
+  "baselineHead": "45561c245d655ab76c773a900f5634a68073f2b2",
   "dateUTC": "2026-11-08",
   "total": 282,
-  "covered": 261,
+  "covered": 282,
   "partial": 0,
-  "missing": 21,
+  "missing": 0,
   "uncertain": 0,
-  "reached": 261,
+  "reached": 282,
   "byPermission": {
     "ReadOnly": {
       "total": 140,
-      "covered": 127,
+      "covered": 140,
       "partial": 0,
-      "missing": 13,
+      "missing": 0,
       "uncertain": 0
     },
     "Update": {
       "total": 142,
-      "covered": 134,
+      "covered": 142,
       "partial": 0,
-      "missing": 8,
+      "missing": 0,
       "uncertain": 0
     }
   },
@@ -40,16 +40,16 @@
     },
     "admin.databaseBackup": {
       "total": 5,
-      "covered": 0,
+      "covered": 5,
       "partial": 0,
-      "missing": 5,
+      "missing": 0,
       "uncertain": 0
     },
     "admin.globalSettings": {
       "total": 14,
-      "covered": 0,
+      "covered": 14,
       "partial": 0,
-      "missing": 14,
+      "missing": 0,
       "uncertain": 0
     },
     "admin.organizations": {
@@ -68,9 +68,9 @@
     },
     "admin.telemetry": {
       "total": 1,
-      "covered": 0,
+      "covered": 1,
       "partial": 0,
-      "missing": 1,
+      "missing": 0,
       "uncertain": 0
     },
     "admin.timeTrackingSettings": {
@@ -187,9 +187,9 @@
     },
     "metadata": {
       "total": 1,
-      "covered": 0,
+      "covered": 1,
       "partial": 0,
-      "missing": 1,
+      "missing": 0,
       "uncertain": 0
     },
     "permissions": {
@@ -248,7 +248,8 @@
     "issues batch apply",
     "user initial-password import <alias>",
     "article attachment download <article> <attachment>",
-    "article export <article>"
+    "article export <article>",
+    "server-settings license import <alias>"
   ],
   "testOnlyTransportOperations": [],
   "verificationEvidenceGaps": []

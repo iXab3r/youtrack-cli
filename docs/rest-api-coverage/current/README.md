@@ -1,127 +1,144 @@
-# M07: schema and work-time lifecycle
+# M08: installation maintenance and frozen REST completion
 
-Ten approved stories US061–070 and34newREST operations, allUpdate.
-[Delivery](https://github.com/iXab3r/youtrack-cli/issues/264),
-[review](https://github.com/iXab3r/youtrack-cli/issues/318) and
-[milestone7](https://github.com/iXab3r/youtrack-cli/milestone/7) own acceptance/final status.
-Milestones proceed through independent review, merge, exact-main CI and closure sequentially,
-without version bumps/npm releases. Product0.8.0/Core exact0.7.1 remain; npm0.8.0 contains M01,
-while M02–M07 are source additions awaiting an owner-selected future release.
+Five approved stories US071–075 add21operations.
+[optional tracker reference: Delivery](https://github.com/iXab3r/youtrack-cli/issues/321),
+[optional tracker reference: review](https://github.com/iXab3r/youtrack-cli/issues/352) and
+[optional tracker reference: milestone8](https://github.com/iXab3r/youtrack-cli/milestone/8)
+own acceptance and delivery status. Milestones merge sequentially through independent review and
+exact-main Verify without version bumps/npm publication. Product0.8.0/Core exact0.7.1 remain;
+npm0.8.0 contains M01, while M02–M08 await an owner-selected future release.
 
 ## Frozen universe and result
 
-The pinned official universe remains **282operations**,281business plus one schema metadata route.
-M06 ended227complete/reachable. M07 adds **34unique operations**, exactly34missing→covered and no
-other status changes: **261covered,0partial,21missing,0uncertain;261reachable**. Full coverage and
-reachability are **92.55%**, both+12.06percentage points. ReadOnly127/140 and Update134/142;
-remaining13ReadOnly/8Update. These are operation counts, not exhaustive payload/version conformance.
+The official denominator remains **282operations:281business plus one schema metadata route**,
+from OAS3.0.1/info.version2026.4 and169reference pages captured2026-11-08. The OAS SHA-256 is
+`08d7f307974004570acab1903d66c663710432ff70bffa6c601b70de27ccfb9b`;
+[facts](../official-operations.json) and [source lock](../source-lock.json) remain unchanged.
+M07 ended261complete/reachable; M08 adds exactly21missing→covered, with no other status changes:
+**282covered,0partial,0missing,0uncertain;282reachable — 100% of this frozen universe**.
+ReadOnly140/140 and Update142/142. This is operation/query-control coverage, not exhaustive schema,
+payload, deployed-server, edition or version conformance. No live proof ran.
 
-There are265service leaves:259ordinary REST plus six workflows,267variants including two --direct
-selectors, and61offset lists. No new list/workflow is added by M07. Those measures do not define the
-REST denominator. Complete paths, real callsites/bindings, permission/surfaces, tests and all21gap
-reasons are in [JSON](coverage.json), [TSV](coverage.tsv) and [summary](summary.json), from the
-[pinned facts](../official-operations.json) and [source provenance](../source-lock.json). Original
-0.7.1audit stays frozen. baselineHead is code lineage; fingerprints guard product/test/package drift.
+There are287service leaves:280ordinary REST plus seven workflows,289variants including two
+--direct selectors, and62offset lists. The local license import is a workflow, not a REST operation.
+These counts never define the denominator. The complete [JSON](coverage.json), [TSV](coverage.tsv)
+and [summary](summary.json) retain every method/normalized path, group, actual declaration/client
+callsite, permission, human/JSON/execute/RPC binding, test evidence and status reason. The missing
+set is empty. baselineHead records verified code lineage; fingerprints guard source/test/package
+changes. The original audit artifacts remain frozen separately.
 
-## Native decisions and preserved behavior
+Frozen completion does not imply implementation or owner disposition of Hub, legacy/internal API,
+dynamic app handlers or the three historical Reports candidates. Original issue1 contains163deferred
+IDs:162map to the pinned universe; historical POST/api/assignedRoles/{roleID} is absent from the
+pinned sources. Current POST/api/assignedRoles is a distinct collection operation delivered in M04,
+not an alias or evidence for that historical path. Those source/scope boundaries must not be closed
+by silently renaming identities or calling all legacy candidates implemented.
 
-Global work-type creation requires native name; autoAttached is boolean. Project-specific attachment
-and removal retain their distinct paths and existing contract. Calendar writes preserve native
-minutesADay/workDays Int32 values, order and duplicates without locale conversion, positivity rules
-or example-based ceilings. firstDayOfWeek/daysAWeek are described read-only; additional native input
-is preserved without promising those fields change. Domain values and management rights remain
-server-owned; tests demonstrate unchanged native input and safe rejection without retry.
+## Native decisions and preserved contracts
 
-Project field removal selects the project-specific field ID; global field deletion selects a global
-custom-field ID. They are separate requests, not a transaction. Global deletion rejection does not
-replay/compensate a completed project-field removal. Project deletion likewise uses only its selected
-ID, without discovery or implicit cleanup.
+US071 reads one native api/openapi.json document, telemetry and minimal root settings. Schema human
+output shows metadata; machine surfaces retain the native document with concrete credential
+redaction, without crawling schemas or asserting server conformance. Default telemetry avoids
+installation paths/online identities. Fields projections pass unchanged except credential masking.
 
-Enum/state/version/build/ownedField/user bundle create/update retain native JSON values/metadata.
-Name appears in normative samples but is absent from pinned bundle schemas, and their create
-sections declare no required fields. No mandatory bundle name/universal schema is invented.
-Enum/state/version gain selected value deletion; build/owned values gain create/update/delete.
-Value creation requires name. Native assembleDate/description/owner nulls and additional fields
-survive; non-null owned owner descriptors must be JSON objects, with no lookup or ID conversion.
-User bundles retain native group/individual references and empty arrays. Server errors remain useful.
+US072 reads backup file metadata, one ordinary offset page, settings and status. No binary download,
+restore, polling or implicit trigger appears. Explicit settings writes retain nullable location,
+Int32 filesToKeep, literal cronExpression, false isOn and the source's TAR_GZ/ZIP enum. Native
+notifiedUsers and additional fields survive. The official backup use-case documents caller-supplied
+backupStatus actions despite generic read-only annotations; only an explicit Update request sends
+such a body, and a successful request does not prove completion.
 
-DELETE defaults stay query-free, with optional --fields under the existing reference-table-only
-source disposition. This does not imply deployed-server projection/edition compatibility. All writes
-require Update; no ReadOnly weakening, automatic retry, scan, cascade or compensation is introduced.
+US073 appearance uses native timeZone/dateFieldFormat descriptors. Locale updates require locale.id
+per the method description, without a closed locale enum or conversion. Notification emailSettings
+objects follow the normative POST sample despite the containing reference's read-only annotation.
+Native null/false, Int32 port and SMTP/SMTPS/SMTP_TLS/MS_GRAPH_API survive. SSL keys are nullable
+StorageEntry references, not uploaded private keys; no SMTP password field is invented.
 
-Author-discovered bug319 fixes a baseline empty-value human fallback that used raw positional IDs.
-The shared view now uses existing scrubbed invocation-local identity for value/bundle context.
-Bodies and native null JSON/RPC results are unchanged; no persistent cache or copied Core output
-implementation. Separate red regression75101e7 preceded correctiona9be932, with synthetic known-token
-selectors through adjacent baseline version and new build paths. All helper cost is counted below.
+US074 changes CORS/system settings through their concrete endpoints. Origin strings remain literal;
+nullable baseUrl/administratorEmail, native numeric types and false flags survive. Updating remote
+baseUrl never retargets or rewrites a local CLI profile. Root GlobalSettings POST follows its native
+nested appearance sample; passing additional metadata does not promise all read-only fields change.
 
-Existing profiles/auth/credential identity, admission before effects, human/JSON/execute/RPC,
-projections, raw-offset/no-lookahead paging, cancellation, EPIPE141, diagnostic causes/codes and
-preflight/dispatched-unknown outcomes remain. M06 password storage/redirect/cancellation guarantees
-remain in the regression suite. No live service proof or version-support claim is made.
+US075 reads license metadata, updates the license through a stored alias and sends native root
+settings. Local env import uses selected-profile Core secrets, Update admission, YOUTRACK_LICENSE
+and server-license:<alias>; no HTTP for a configured/authenticated profile, value output, plaintext
+fallback or bearer overwrite. Update has no env fallback; CLI literal license strings, including
+nested root writes, are rejected. Native nullable clearing/username metadata remain available.
+Aliases retain exact bytes and remain after success/failure; auth-only profile deletion does not
+remove auxiliary aliases. Cancellation before persistence prevents the write; after it begins no
+rollback is promised. See the shipped README for the command and retained-secret lifecycle.
 
-## Author checks and independent review boundary
+Password/license-bearing body dispatches require the original HTTPS origin at every hop. The
+existing M06 guard now has two concrete consumers through a small local credentialConnection;
+Core still owns redirect traversal. Same-origin redirects and redirects that discard the body keep
+normal semantics. Known input/returned native license values are captured before key/URL masking
+and scrubbed from raw/JSON/URI/escaped-control copies. Percent-triplet hex case is equivalent only
+inside each candidate; ordinary characters remain literal/case-sensitive. Lone-surrogate JSON
+strings remain supported. No arbitrary unknown-secret detection guarantee is added.
 
-Every story has a committed failing red test on its own branch before implementation and public
-red/green heads. Author **572offline tests PASS**,17newM07nodes, including34exact native contracts
-through all four surfaces, opposite-category denial before secret/HTTP effects, remote failures and
-unknown writes. Targeted cases cover required name/boolean, native calendar types/order/server
-rejection, independent project/global scope and failure, optional bundle name/sample metadata,
-nullable dates/owners, empty confirmations and scrubbed selected identities.
+Server license keys and backup scheduling/retention differ from Cloud's managed single-backup
+export. Edition is not guessed from hostnames and local gates never replace server management
+rights. Supplemental official guides establish context, not a new denominator or compatibility
+matrix: see the README's optional primary API references. Unsupported rights/edition responses fail
+normally. No blanket successful skip, automatic grant or live service/version proof is claimed.
 
-The first full run caught an old prose-specific help expectation after adding lifecycle commands.
-The test now checks the actual version-value usage and all five command names, retaining zero secret
-access, rather than matching the former branch wording. The corrected full trace passes572/572.
+Existing profiles/auth/credential identity, permission-before-effects, human/JSON/execute/RPC,
+explicit projections, raw-offset/no-lookahead paging, cancellation, EPIPE141, diagnostic causes/codes
+and preflight/dispatched-unknown outcomes remain. There is no automatic retry, compensation or
+transaction across separate commands. Core, dependencies, CI, proof runner and versions are unchanged.
 
-Cake Verify PASS includes572offline tests, installed34newSDKexports, work-time/native optional bundle
-metadata/nullable owner/scoped deletion/scrubbed adjacent value contracts, and existing installed
-CLI/JSON/RPC/EPIPE plus two release-safety checks. No release target or live proof ran.
-Fresh traversal265leaves/267variants/261operations has zero failures. Repeat coverage JSON/TSV/summary
-bytes match; raw extraction reproduces frozen facts/source-lock bytes, and the separate crosscheck
-has no unexplained operations or duplicates. No test-only transport operations or evidence gaps remain.
+## Verification and independent review boundary
 
-These are **author self-checks**. Independent full milestone/final shorter-batch review and exact-main
-CI are separate gates, recorded in delivery264/review318. Generation does not imply their completion.
+All five stories have committed failing red acceptance on their own branches before implementation,
+with public red/green heads. Author build and **604offline tests PASS**, including22M08 story/view
+nodes and10credential regressions. Contracts exercise all21new operations through four surfaces,
+opposite-category denial, native requests, HTTP errors and unknown writes. Additional checks cover
+backup paging/overflow, native descriptors/enums/null/false, formatted sparse/default views,
+explicit projections, profile-interleaved RPC, cancellation and secret lifecycle/redirect boundaries.
 
-## Final shorter-batch authoring input
+Fresh traversal287leaves/289variants/282operations has no failures. Fresh repeated JSON/TSV/summary
+bytes match; raw extraction reproduces pinned facts/source-lock byte-for-byte. The separate raw
+crosscheck has no unexplained/duplicate operations or test-evidence gaps. These are author
+self-checks. Cake Verify PASS includes604offline tests, all21new installed SDK exports, installed
+license env-import/update privacy, backup paging/native locale contracts, existing installed
+CLI/JSON/RPC/EPIPE and two release-safety checks. No release target or live proof ran. Full independent
+milestone/final14 review and exact-main Verify remain separate gates recorded in321/352; generation
+alone does not imply their acceptance.
 
-Original baseline118reachable; M07 begins227(cumulative+109) and reaches261(cumulative+143).
-All34newoperations count once. Existing routes, body variants, flags and bug319 do not advance the
-counter. M06's+100checkpoint remains passed; +150 falls in M08. Final M07 shorter34-operation review
-is required before continuing. Core pin/integrity/local source delta0 are unchanged; upstream Core
-handwritten source is absent, so no size is invented.
+Accepted353 default-view and354 credential-copy findings have red-first corrections. The independent
++150 recheck at1a6c2ef passed47focused checks, including180matching cases; earlier independent full
+587/probe/raw runs are distinct from the author's later590suite. Final M08 findings and exact-main
+CI status belong to the public delivery/review records, not inferred from these earlier receipts.
 
-Physical nonblank handwritten lines include comments and exclude generated output. Exact paths are
-tracked files under each surface; source/tests/proof are TypeScript, audit/build/installed tooling
-is counted separately under scripts. Counts include every helper/setup change:
+## Authoring checkpoints and cost
 
-| Surface | Original baseline | M07 baseline | Current | Delta M07 | Delta original |
+Original baseline118reachable; M08 begins261(cumulative+143) and reaches282(cumulative+164).
+US071's3+US074's4operations stop exactly at+150; that independent checkpoint passed before the
+remaining14US072/073/075 began. The final shorter14 and full M08 require their own review.
+Existing routes, flags, body variants, privacy fixes and local import do not advance this counter.
+Core local source delta0/pin unchanged; upstream handwritten size is not present or invented.
+
+Physical nonblank handwritten lines include comments, normal formatting and every helper/setup
+cost; generated output is excluded. Exact paths are tracked files under the listed surfaces.
+
+| Surface | Original baseline | M08 baseline | Current | Delta M08 | Delta original |
 |---|---:|---:|---:|---:|---:|
-| src | 3813 | 5066 | 5232 | +166 | +1419 |
-| tests | 7482 | 8766 | 8898 | +132 | +1416 |
+| src | 3813 | 5232 | 5579 | +347 | +1766 |
+| tests | 7482 | 8898 | 9236 | +338 | +1754 |
 | integration-tests | 165 | 165 | 165 | +0 | +0 |
-| scripts | 559 | 1204 | 1226 | +22 | +667 |
+| scripts | 559 | 1226 | 1245 | +19 | +686 |
 
-Lineage ff1d50f, M07baseline40b702c63a2e903e29781c2ce521eeefe420b110, original
-1c501faf75435bc671e3ee314c1938db3dadcd9f. Later documentation changes do not alter fingerprints.
-Growth is reported honestly, not presented as an authoring reduction from simpler capabilities.
+Lineage45561c2, M08baseline4987319457f72149b29a106f3f0a3e1bc1a2722b, original
+1c501faf75435bc671e3ee314c1938db3dadcd9f. Later documentation changes preserve fingerprints.
+This is source growth; no authoring reduction is claimed from unlike capabilities.
 
-Same-capability comparisons use M07baseline40b702c:
-
-- Detail and collection: getWorkItemType/readObjectAt/projectedRead and listVersionValues/
-  readCollectionAt/pagedRead are unchanged. M07 adds no read or paging mechanism.
-- Mutation: createGroup/mutate/namedMutationBody and deleteIssue/deleteObject/projectedDelete remain.
-  Work-type writes reuse the same boundary with a two-consumer native boolean check. Calendar has a
-  small native Int32 predicate; no scheduler, locale layer or broad schema validator appears.
-- Bundle lifecycle writes remain explicit concrete functions/paths using existing mutate/deleteObject,
-  projections and command binders. The existing build/owned/version path helpers remain local.
-  Required names apply to value creation; bundle JSON differs because the primary contract does not
-  declare mandatory name. That difference is not claimed as a reduction for equivalent behavior.
-- Owned-value validation has two actual consumers. The shared value view reuses existing scrubbed
-  identity rather than adding state or another presenter framework. All cost appears in totals.
-
-Core owns target/profile/auth/secrets/admission/output/RPC/cancellation/EPIPE; no dependency, schema
-DSL, generic CRUD runtime or Core implementation copy is added. Final independent acceptance belongs
-to264/318. Reproduce after build: probe/observe-tests into an ignored capture, generate twice and
-compare JSON/TSV/summary, extract pinned raw source and crosscheck. Frozen audit README documents
-exact commands and upstream-drift limits. All21remaining rows belong to the approved M08 scope.
+Same-capability samples at M08baseline4987319: getWorkItemType/readObjectAt/projectedRead versus
+getBackupFile, listWorkItemTypes/readCollectionAt/pagedRead versus listBackupFiles, and
+updateProjectTimeSettings/mutate/projectedBodyUpdate versus updateBackupSettings. Concrete paths,
+projections and native validation remain direct. No new paging/CRUD/schema framework is added.
+Native Int32 uses an existing calendar predicate shared with real settings consumers. Four default
+views reuse recordView and existing accessors. License import reuses public Core environment/store
+APIs and the established initial-password pattern. Credential dispatch reuses the M06 guard;
+credential matching stays in the existing service scrubber. All helper and test/tool costs appear
+above, including the accepted privacy/view corrections; Core output/diagnostic/runtime code is not
+copied. Reproduce with the frozen audit README's observe/probe/generate/extract/crosscheck commands.
