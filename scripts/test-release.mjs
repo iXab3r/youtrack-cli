@@ -79,7 +79,7 @@ else if (tool === 'npm' && args[0] === 'stage' && args[1] === 'download') {
   else fs.copyFileSync(path.join(path.dirname(manifestPath), m.file), 'downloaded.tgz');
 }
 else if (tool === 'npm' && ['ci','test'].includes(args[0])) {}
-else if (tool === 'npm' && args[0] === 'run' && args[1] === 'test:package') {}
+else if (tool === 'npm' && args[0] === 'run' && ['test:package', 'test:coverage'].includes(args[1])) {}
 else if (tool === 'npm' && args[0] === 'view') console.log(JSON.stringify(args[1].endsWith('@0.1.0') ? {version: m.version, 'dist.integrity': m.integrity} : m.version));
 else if (tool === 'npm' && args[0] === 'run' && args[1] === 'test:registry') assert.deepEqual(args, ['run', 'test:registry', '--', m.version]);
 else if (tool === 'curl') {

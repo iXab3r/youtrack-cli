@@ -668,7 +668,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:90",
+      "location": "src/user-directory-commands.ts:96",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -748,7 +748,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:98",
+      "location": "src/user-directory-commands.ts:104",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -828,7 +828,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:104",
+      "location": "src/user-directory-commands.ts:110",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -5443,7 +5443,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/user-directory-commands.ts:91",
+      "location": "src/user-directory-commands.ts:97",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -5534,7 +5534,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:92",
+      "location": "src/user-directory-commands.ts:98",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -5632,7 +5632,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/user-directory-commands.ts:94",
+      "location": "src/user-directory-commands.ts:100",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -5734,7 +5734,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/user-directory-commands.ts:99",
+      "location": "src/user-directory-commands.ts:105",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -5826,7 +5826,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:100",
+      "location": "src/user-directory-commands.ts:106",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -5925,7 +5925,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/user-directory-commands.ts:105",
+      "location": "src/user-directory-commands.ts:111",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -6017,7 +6017,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:106",
+      "location": "src/user-directory-commands.ts:112",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -7291,7 +7291,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/server-settings-commands.ts:82",
+      "location": "src/server-settings-commands.ts:88",
       "serviceFunctions": [
         {
           "file": "src/server-settings.ts",
@@ -7383,7 +7383,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/server-settings-commands.ts:63",
+      "location": "src/server-settings-commands.ts:69",
       "serviceFunctions": [
         {
           "file": "src/server-settings.ts",
@@ -7466,7 +7466,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/server-settings-commands.ts:47",
+      "location": "src/server-settings-commands.ts:53",
       "serviceFunctions": [
         {
           "file": "src/server-settings.ts",
@@ -7549,7 +7549,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/server-settings-commands.ts:71",
+      "location": "src/server-settings-commands.ts:77",
       "serviceFunctions": [
         {
           "file": "src/server-settings.ts",
@@ -7632,7 +7632,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/server-settings-commands.ts:67",
+      "location": "src/server-settings-commands.ts:73",
       "serviceFunctions": [
         {
           "file": "src/server-settings.ts",
@@ -7715,7 +7715,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/server-settings-commands.ts:75",
+      "location": "src/server-settings-commands.ts:81",
       "serviceFunctions": [
         {
           "file": "src/server-settings.ts",
@@ -7798,7 +7798,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/server-settings-commands.ts:79",
+      "location": "src/server-settings-commands.ts:85",
       "serviceFunctions": [
         {
           "file": "src/server-settings.ts",
@@ -9387,7 +9387,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/server-settings-commands.ts:29",
+      "location": "src/server-settings-commands.ts:30",
       "serviceFunctions": [
         {
           "file": "src/server-settings.ts",
@@ -14653,7 +14653,7 @@
       "command": "api-schema get",
       "permission": "ReadOnly",
       "options": [],
-      "location": "src/server-settings-commands.ts:25",
+      "location": "src/server-settings-commands.ts:26",
       "serviceFunctions": [
         {
           "file": "src/server-settings.ts",
@@ -14665,7 +14665,7 @@
         "    at request (src/client.ts:245:31)",
         "    at readObject (src/client.ts:335:29)",
         "    at getApiSchema (src/server-settings.ts:4:10)",
-        "    at <anonymous> (src/server-settings-commands.ts:25:92)"
+        "    at <anonymous> (src/server-settings-commands.ts:26:92)"
       ],
       "surfaces": {
         "execute": {
@@ -15684,7 +15684,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:83",
+      "location": "src/user-directory-commands.ts:89",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -15773,7 +15773,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:75",
+      "location": "src/user-directory-commands.ts:81",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -15857,7 +15857,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:79",
+      "location": "src/user-directory-commands.ts:85",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -15939,7 +15939,7 @@
       "options": [
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:71",
+      "location": "src/user-directory-commands.ts:77",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -16031,7 +16031,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/user-directory-commands.ts:64",
+      "location": "src/user-directory-commands.ts:70",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -16124,7 +16124,7 @@
         "--page-size <count>",
         "--start <offset>"
       ],
-      "location": "src/user-directory-commands.ts:67",
+      "location": "src/user-directory-commands.ts:73",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -17816,7 +17816,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:88",
+      "location": "src/user-directory-commands.ts:94",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -17901,7 +17901,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:89",
+      "location": "src/user-directory-commands.ts:95",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -17995,7 +17995,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:97",
+      "location": "src/user-directory-commands.ts:103",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -18098,7 +18098,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:103",
+      "location": "src/user-directory-commands.ts:109",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -18919,7 +18919,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/server-settings-commands.ts:61",
+      "location": "src/server-settings-commands.ts:67",
       "serviceFunctions": [
         {
           "file": "src/server-settings.ts",
@@ -18933,7 +18933,7 @@
         "    at mutationResult (src/client.ts:619:18)",
         "    at mutate (src/client.ts:637:10)",
         "    at updateGlobalSettings (src/server-settings.ts:92:10)",
-        "    at <anonymous> (src/server-settings-commands.ts:61:93)",
+        "    at <anonymous> (src/server-settings-commands.ts:67:93)",
         "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
@@ -19014,7 +19014,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/server-settings-commands.ts:64",
+      "location": "src/server-settings-commands.ts:70",
       "serviceFunctions": [
         {
           "file": "src/server-settings.ts",
@@ -19106,7 +19106,7 @@
         "--fields <projection>",
         "--license-secret <alias>"
       ],
-      "location": "src/server-settings-commands.ts:48",
+      "location": "src/server-settings-commands.ts:54",
       "serviceFunctions": [
         {
           "file": "src/server-settings.ts",
@@ -19120,7 +19120,7 @@
         "    at mutationResult (src/client.ts:619:18)",
         "    at mutate (src/client.ts:637:10)",
         "    at updateLicense (src/server-settings.ts:85:10)",
-        "    at bodyOptions.map (src/server-settings-commands.ts:58:16)"
+        "    at bodyOptions.map (src/server-settings-commands.ts:64:16)"
       ],
       "surfaces": {
         "execute": {
@@ -19199,7 +19199,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/server-settings-commands.ts:72",
+      "location": "src/server-settings-commands.ts:78",
       "serviceFunctions": [
         {
           "file": "src/server-settings.ts",
@@ -19288,7 +19288,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/server-settings-commands.ts:68",
+      "location": "src/server-settings-commands.ts:74",
       "serviceFunctions": [
         {
           "file": "src/server-settings.ts",
@@ -19378,7 +19378,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/server-settings-commands.ts:76",
+      "location": "src/server-settings-commands.ts:82",
       "serviceFunctions": [
         {
           "file": "src/server-settings.ts",
@@ -19472,7 +19472,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/server-settings-commands.ts:80",
+      "location": "src/server-settings-commands.ts:86",
       "serviceFunctions": [
         {
           "file": "src/server-settings.ts",
@@ -25751,7 +25751,7 @@
         "--fields <projection>",
         "--password-secret <alias>"
       ],
-      "location": "src/user-directory-commands.ts:51",
+      "location": "src/user-directory-commands.ts:57",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -25766,7 +25766,7 @@
         "    at mutate (src/client.ts:637:10)",
         "    at writeUser (src/user-directory.ts:110:10)",
         "    at createUser (src/user-directory.ts:115:10)",
-        "    at updateCommand.flags (src/user-directory-commands.ts:58:26)"
+        "    at updateCommand.flags (src/user-directory-commands.ts:64:26)"
       ],
       "surfaces": {
         "execute": {
@@ -25861,7 +25861,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:62",
+      "location": "src/user-directory-commands.ts:68",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -25876,7 +25876,7 @@
         "    at mutate (src/client.ts:637:10)",
         "    at writeUser (src/user-directory.ts:110:10)",
         "    at updateUser (src/user-directory.ts:118:10)",
-        "    at <anonymous> (src/user-directory-commands.ts:62:104)",
+        "    at <anonymous> (src/user-directory-commands.ts:68:104)",
         "    at <anonymous> (src/cli-support.ts:184:36)"
       ],
       "surfaces": {
@@ -25956,7 +25956,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:76",
+      "location": "src/user-directory-commands.ts:82",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -26056,7 +26056,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:80",
+      "location": "src/user-directory-commands.ts:86",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",
@@ -26145,7 +26145,7 @@
         "--body <json>",
         "--fields <projection>"
       ],
-      "location": "src/user-directory-commands.ts:72",
+      "location": "src/user-directory-commands.ts:78",
       "serviceFunctions": [
         {
           "file": "src/user-directory.ts",

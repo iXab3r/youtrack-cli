@@ -1,5 +1,5 @@
 {
-  "baselineHead": "45561c245d655ab76c773a900f5634a68073f2b2",
+  "baselineHead": "1d0abe0b7edd4214f2a8c02a8f1940e0ed84169f",
   "dateUTC": "2026-11-08",
   "total": 282,
   "covered": 282,
@@ -246,9 +246,11 @@
     "issues attachments download <issueID> <attachmentID>",
     "issues batch validate",
     "issues batch apply",
+    "user initial-password delete <alias>",
     "user initial-password import <alias>",
     "article attachment download <article> <attachment>",
     "article export <article>",
+    "server-settings license delete <alias>",
     "server-settings license import <alias>"
   ],
   "testOnlyTransportOperations": [],

@@ -1,3 +1,4 @@
+import { deleteStoredAlias } from "./credential-alias.js";
 import { CliError, Permission, command, recordView } from "@eyeauras/cli-factory";
 import { pagedRead, projectedRead, projectedBodyUpdate, projectedDelete, updateCommand, bodyOptions, projectionOptions, writeOptions } from "./cli-support.js";
 import {
@@ -34,6 +35,11 @@ const bundleTable = namedTable("BUNDLE", "No user bundles.");
 
 export const userDirectoryUserChildren = [
   command("initial-password", "Manage stored initial passwords", [
+    command("delete <alias>", "Delete a stored initial password", ({ args }, context) =>
+      deleteStoredAlias(context, passwordKey(args.alias), args.alias), {
+      permission: Permission.Update,
+      view: recordView<{ alias: string }>({ title: result => `Deleted initial password ${result.alias}`, fields: [] }),
+    }),
     command("import <alias>", "Import an initial password from environment", async ({ args }, context) => {
       const key = passwordKey(args.alias);
       const password = context.environment.YOUTRACK_INITIAL_PASSWORD;
