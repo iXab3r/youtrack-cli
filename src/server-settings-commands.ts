@@ -1,3 +1,4 @@
+import { deleteStoredAlias } from "./credential-alias.js";
 import { CliError, Permission, command, recordView } from "@eyeauras/cli-factory";
 import { bodyOptions, projectionOptions, writeOptions, updateCommand, projectedBodyUpdate, projectedRead, readCommand } from "./cli-support.js";
 import { getLicense, updateLicense, updateGlobalSettings, getAppearanceSettings, updateAppearanceSettings, getNotificationSettings, updateNotificationSettings, getLocaleSettings, updateLocaleSettings, getRestSettings, updateRestSettings, getSystemSettings, updateSystemSettings, getApiSchema, getTelemetry, getGlobalSettings } from "./server-settings.js";
@@ -31,6 +32,11 @@ export const serverSettingsRootCommands = [
   ]),
   command("server-settings", "Inspect and manage installation settings", [
     command("license", "Inspect and manage the server license", [
+      command("delete <alias>", "Delete a stored server license", ({ args }, context) =>
+        deleteStoredAlias(context, licenseKey(args.alias), args.alias), {
+        permission: Permission.Update,
+        view: recordView<{ alias: string }>({ title: result => `Deleted server license ${result.alias}`, fields: [] }),
+      }),
       command("import <alias>", "Import a server license from environment", async ({ args }, context) => {
         const key = licenseKey(args.alias);
         const license = context.environment.YOUTRACK_LICENSE;

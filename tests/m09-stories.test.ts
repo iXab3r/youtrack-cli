@@ -93,6 +93,6 @@ test("US-077 cancellation after persistence starts makes no rollback promise", a
 
 test("US-077 deletion help is available without profiles or secret-store access", async t => {
   const f = await fixture(t); let reads = 0; let deletes = 0; f.secrets.get = async () => { reads++; return undefined; }; f.secrets.delete = async () => { deletes++; };
-  for (const family of families) { const r = await f.run(f.cli, [...family.argv, "--help"]); assert.equal(r.exitCode, 0, r.stderr); assert.match(r.stdout, /delete <alias>/); }
+  for (const family of families) { const r = await f.run(f.cli, [...family.argv, "--help"]); assert.equal(r.exitCode, 0, r.stderr); assert.match(r.stdout, /delete(?: \[options\])? <alias>/); }
   assert.equal(reads, 0); assert.equal(deletes, 0);
 });
