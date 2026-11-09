@@ -96,3 +96,27 @@ test("US-072 explicit backup action controls stay in the selected Update request
   for (const invalid of [{ archiveFormat: "tar" }, { filesToKeep: 1.5 }, { location: false }, { isOn: "false" }, { cronExpression: null }, { notifiedUsers: [false] }]) await assert.rejects(f.cli.execute(["backup", "settings", "update", "--body", JSON.stringify(invalid)]));
   assert.equal(calls, 1);
 });
+
+test("US-073 update native appearance email and locale descriptors", async t => {
+  await storyCase(t, {"argv":["server-settings","appearance-settings","get","--fields","id"],"method":"GET","path":"/api/admin/globalSettings/appearanceSettings","query":[["fields","id"]],"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"}});
+  await storyCase(t, {"argv":["server-settings","notification-settings","get","--fields","id"],"method":"GET","path":"/api/admin/globalSettings/notificationSettings","query":[["fields","id"]],"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"}});
+  await storyCase(t, {"argv":["server-settings","locale-settings","get","--fields","id"],"method":"GET","path":"/api/admin/globalSettings/localeSettings","query":[["fields","id"]],"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"}});
+  await storyCase(t, {"argv":["server-settings","appearance-settings","update","--body","{\"timeZone\":{\"id\":\"UTC\"},\"dateFieldFormat\":{\"id\":\"synthetic-date-format\"},\"nativeExtra\":null}","--fields","id"],"method":"POST","path":"/api/admin/globalSettings/appearanceSettings","query":[["fields","id"]],"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"body":{"timeZone":{"id":"UTC"},"dateFieldFormat":{"id":"synthetic-date-format"},"nativeExtra":null},"update":true});
+  await storyCase(t, {"argv":["server-settings","notification-settings","update","--body","{\"emailSettings\":{\"isEnabled\":false,\"from\":\"synthetic@example.test\",\"replyTo\":null,\"sslKey\":null,\"host\":null,\"login\":null,\"port\":-1,\"anonymous\":false,\"mailProtocol\":\"MS_GRAPH_API\"}}","--fields","id"],"method":"POST","path":"/api/admin/globalSettings/notificationSettings","query":[["fields","id"]],"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"body":{"emailSettings":{"isEnabled":false,"from":"synthetic@example.test","replyTo":null,"sslKey":null,"host":null,"login":null,"port":-1,"anonymous":false,"mailProtocol":"MS_GRAPH_API"}},"update":true});
+  await storyCase(t, {"argv":["server-settings","locale-settings","update","--body","{\"locale\":{\"id\":\"en_US\",\"nativeExtra\":null},\"isRTL\":false}","--fields","id"],"method":"POST","path":"/api/admin/globalSettings/localeSettings","query":[["fields","id"]],"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"body":{"locale":{"id":"en_US","nativeExtra":null},"isRTL":false},"update":true});
+});
+
+
+test("US-073 descriptor and native type checks reject before HTTP without closing open values", async t => {
+  const f = await configuredFixture(t, { permissions: ["Update"] }); let calls = 0;
+  server.use(http.post("*", () => { calls++; return new HttpResponse(null, { status: 204 }); }));
+  for (const [section, body] of [
+    ["appearance-settings", { timeZone: "UTC" }], ["appearance-settings", { dateFieldFormat: null }],
+    ["locale-settings", { locale: {} }], ["locale-settings", { locale: { id: "en_US" }, isRTL: "false" }],
+    ["notification-settings", { emailSettings: { isEnabled: "false" } }], ["notification-settings", { emailSettings: { mailProtocol: "POP" } }],
+    ["notification-settings", { emailSettings: { sslKey: false } }], ["notification-settings", { emailSettings: { port: 1.5 } }],
+  ] as const) await assert.rejects(f.cli.execute(["server-settings", section, "update", "--body", JSON.stringify(body)]));
+  assert.equal(calls, 0);
+  for (const mailProtocol of ["SMTP", "SMTPS", "SMTP_TLS", "MS_GRAPH_API"]) await f.cli.execute(["server-settings", "notification-settings", "update", "--body", JSON.stringify({ emailSettings: { mailProtocol, sslKey: { id: "synthetic-ssl-entry", name: "synthetic-key" }, replyTo: null } })]);
+  await f.cli.execute(["server-settings", "locale-settings", "update", "--body", JSON.stringify({ locale: { id: " synthetic-open-locale " } })]); assert.equal(calls, 5);
+});
