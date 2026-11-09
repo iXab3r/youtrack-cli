@@ -42,3 +42,10 @@ test("credential URI matching preserves ordinary-letter case and literal punctua
   const result = await getGlobalSettings({ baseUrl: "https://echo.example.test", token: "synthetic-token", fetch: (async () => Response.json({ license: { license }, controls })) as typeof fetch });
   assert.deepEqual(result.controls, controls);
 });
+
+test("credential matching also covers later copies with escaped C0 and C1 controls", async () => {
+  const license = 'synthetic-license"\\\u0001\u0085\n\t';
+  const escaped = license.replace(/[\u0000-\u0008\u000b-\u001f\u007f-\u009f]/g, character => `\\u${character.charCodeAt(0).toString(16).padStart(4,"0")}`);
+  const result = await getGlobalSettings({ baseUrl: "https://echo.example.test", token: "synthetic-token", fetch: (async () => Response.json({ license: { license }, copied: escaped, metadata: JSON.stringify({ license: escaped }) })) as typeof fetch });
+  assert.deepEqual(result, { license: { license: "[redacted]" }, copied: "[redacted]", metadata: '{"license":"[redacted]"}' });
+});
