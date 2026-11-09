@@ -160,10 +160,10 @@ this is not a guarantee of detecting arbitrary unknown secrets in explicit proje
 All reads use ReadOnly and remote writes/local imports require Update. Installation-level rights
 are separate. Server licensing and backup scheduling/retention differ from Cloud's managed single
 backup/export; no edition is inferred from a hostname and no compatibility matrix is claimed.
-See JetBrains' [backup API use-case](https://www.jetbrains.com/help/youtrack/devportal/api-usecase-backup.html),
-[Cloud backup guide](https://www.jetbrains.com/help/youtrack/cloud/database.html),
-[Server backup guide](https://www.jetbrains.com/help/youtrack/server/back-up-the-database.html) and
-[Server license guide](https://www.jetbrains.com/help/youtrack/server/license-details.html).
+See JetBrains' [optional API reference: backup API use-case](https://www.jetbrains.com/help/youtrack/devportal/api-usecase-backup.html),
+[optional API reference: Cloud backup guide](https://www.jetbrains.com/help/youtrack/cloud/database.html),
+[optional API reference: Server backup guide](https://www.jetbrains.com/help/youtrack/server/back-up-the-database.html) and
+[optional API reference: Server license guide](https://www.jetbrains.com/help/youtrack/server/license-details.html).
 Unsupported service rights/edition responses remain errors. Existing paging, profiles/auth,
 JSON/execute/RPC, cancellation, EPIPE and diagnostic/unknown-write behavior remain. No live proof ran.
 
