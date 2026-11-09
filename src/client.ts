@@ -146,14 +146,16 @@ function scrubUrl(text: string, token: string): string {
 function scrubKnownForm(text: string, form: string): string {
   if (!form) return text;
   if (!text.includes("%") || !form.includes("%")) return text.replaceAll(form, "[redacted]");
-  const comparison = text.replace(/%[0-9a-f]{2}/gi, part => part.toUpperCase());
   const needle = form.replace(/%[0-9a-f]{2}/gi, part => part.toUpperCase());
   const chunks: string[] = [];
   let start = 0;
-  for (let at = comparison.indexOf(needle); at >= 0; at = comparison.indexOf(needle, start)) {
-    // Percent-case folding preserves positions; retain the original unmatched text.
+  for (let at = text.indexOf(form[0]!); at >= 0; at = text.indexOf(form[0]!, at + 1)) {
+    // Fold only this candidate: a preceding '%' must not change ordinary letters.
+    const candidate = text.slice(at, at + form.length).replace(/%[0-9a-f]{2}/gi, part => part.toUpperCase());
+    if (candidate !== needle) continue;
     chunks.push(text.slice(start, at), "[redacted]");
-    start = at + needle.length;
+    start = at + form.length;
+    at = start - 1;
   }
   chunks.push(text.slice(start));
   return chunks.join("");
@@ -183,19 +185,26 @@ export function scrubText(text: string, token: string, additional: readonly stri
   return text;
 }
 
+/** Capture native license strings before URL/key redaction can change their source fields. */
 export function scrub(value: YouTrackValue, token: string, additional: readonly string[] = []): YouTrackValue {
-  if (typeof value === "string") {
-    return scrubText(value, token, additional);
+  const secrets = [...additional];
+  function collect(item: YouTrackValue): void {
+    if (Array.isArray(item)) item.forEach(collect);
+    else if (item !== null && typeof item === "object") for (const [key, child] of Object.entries(item)) {
+      if (key === "license" && typeof child === "string") secrets.push(child);
+      collect(child);
+    }
   }
-  if (Array.isArray(value)) {
-    return value.map((item) => scrub(item, token, additional));
-  }
-  if (value !== null && typeof value === "object") {
-    return Object.fromEntries(Object.entries(value).map(([key, item]) => [
-      scrubText(key, token, additional), scrub(item, token, additional),
+  collect(value);
+  function clean(item: YouTrackValue): YouTrackValue {
+    if (typeof item === "string") return scrubText(item, token, secrets);
+    if (Array.isArray(item)) return item.map(clean);
+    if (item !== null && typeof item === "object") return Object.fromEntries(Object.entries(item).map(([key, child]) => [
+      scrubText(key, token, secrets), clean(child),
     ]));
+    return item;
   }
-  return value;
+  return clean(value);
 }
 function object(value: YouTrackValue): YouTrackObject {
   if (value === null || typeof value !== "object" || Array.isArray(value)) {
