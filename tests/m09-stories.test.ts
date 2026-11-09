@@ -96,3 +96,17 @@ test("US-077 deletion help is available without profiles or secret-store access"
   for (const family of families) { const r = await f.run(f.cli, [...family.argv, "--help"]); assert.equal(r.exitCode, 0, r.stderr); assert.match(r.stdout, /delete(?: \[options\])? <alias>/); }
   assert.equal(reads, 0); assert.equal(deletes, 0);
 });
+
+test("US-077 cancellation during Core's second lookup must prevent persistence under the original acceptance", async t => {
+  for (const family of families) {
+    const key = family.namespace + "initial";
+    const f = await configuredFixture(t, { permissions: ["Update"], secrets: { [key]: "synthetic-retained-secret" } });
+    const controller = new AbortController(); let aliasReads = 0; let deletes = 0;
+    const get = f.secrets.get.bind(f.secrets); const remove = f.secrets.delete.bind(f.secrets);
+    f.secrets.get = async (service, account) => { const value = await get(service, account); if (account.endsWith(":" + key) && ++aliasReads === 2) controller.abort(); return value; };
+    f.secrets.delete = async (...args) => { deletes++; return remove(...args); };
+    const r = await f.run(f.cli, [...family.argv, "initial"], { signal: controller.signal });
+    assert.equal(r.exitCode, 130); assert.equal(aliasReads, 2); assert.equal(deletes, 0);
+    assert.equal(await new ProfileSecrets(f.secrets, "youtrack-cli", "dev").get(key), "synthetic-retained-secret");
+  }
+});
