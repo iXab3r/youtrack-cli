@@ -233,3 +233,15 @@ test("installed M08 exports and license aliases retain native admin and privacy 
   assert.deepEqual(await f.json(app, ["backup", "file", "list", "--start", "7", "--page-size", "20"]), { count: 0, items: [], hasMore: false, nextStart: null });
   assert.equal(await sdk.updateLocaleSettings({ baseUrl: "https://installed.example.test/context", token: "synthetic-installed", fetch: f.runtime.fetch }, { locale: { id: "synthetic-open-locale" }, isRTL: false }), null); assert.equal(calls, 3);
 });
+
+test("installed M09 deletes auxiliary aliases without bearer loss or HTTP", async t => {
+  const { ProfileSecrets } = await import("@eyeauras/cli-factory");
+  const f = await createCliFixture(t, { applicationId: "youtrack-cli", profiles: [{ name: "default", values: { url: "https://installed.example.test/context" }, permissions: ["Update"], secrets: { token: "synthetic-installed", "user-initial-password:token": "synthetic-password", "server-license:token": "synthetic-license" } }] });
+  let calls = 0; f.runtime.fetch = async () => { calls++; throw new Error("Unexpected HTTP"); };
+  const app = f.createApplication(createYouTrackCli); const secrets = new ProfileSecrets(f.secretStore, "youtrack-cli", "default");
+  assert.deepEqual(await f.json(app, ["user", "initial-password", "delete", "token"]), { alias: "token", deleted: true });
+  assert.equal(await secrets.get("user-initial-password:token"), undefined); assert.equal(await secrets.get("server-license:token"), "synthetic-license");
+  const [reply] = await f.rpc(app, [["server-settings", "license", "delete", "token"]]); assert.deepEqual(reply.result, { alias: "token", deleted: true });
+  assert.equal(await secrets.get("server-license:token"), undefined); assert.equal(await secrets.get("token"), "synthetic-installed");
+  const again = await f.run(app, ["server-settings", "license", "delete", "token"]); assert.equal(again.exitCode, 0, again.stderr); assert.match(again.stdout, /Deleted server license token/); assert.equal(calls, 0);
+});
