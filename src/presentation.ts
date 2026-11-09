@@ -818,3 +818,23 @@ export const backupStatusRecord = recordView<Item>({
     { label: "Error time", value: item => instant(nested(item.backupError)?.date) },
     { label: "Error", value: item => text(nested(item.backupError)?.errorMessage) }],
 });
+
+export const appearanceSettingsRecord = recordView<Item>({
+  title: () => "Appearance settings",
+  fields: [{ label: "ID", value: key },
+    { label: "Time zone", value: item => text(nested(item.timeZone)?.presentation) ?? key(nested(item.timeZone)) },
+    { label: "Date format", value: item => text(nested(item.dateFieldFormat)?.presentation) ?? key(nested(item.dateFieldFormat)) }],
+});
+export const notificationSettingsRecord = recordView<Item>({
+  title: () => "Email settings",
+  fields: [{ label: "ID", value: key }, { label: "Enabled", value: item => booleanText(nested(item.emailSettings)?.isEnabled) },
+    { label: "Host", value: item => text(nested(item.emailSettings)?.host) }, { label: "Port", value: item => count(nested(item.emailSettings)?.port) },
+    { label: "Protocol", value: item => text(nested(item.emailSettings)?.mailProtocol) },
+    { label: "Anonymous", value: item => booleanText(nested(item.emailSettings)?.anonymous) },
+    { label: "From", value: item => text(nested(item.emailSettings)?.from) }, { label: "Reply to", value: item => text(nested(item.emailSettings)?.replyTo) }],
+});
+export const localeSettingsRecord = recordView<Item>({
+  title: () => "Locale settings",
+  fields: [{ label: "ID", value: key }, { label: "Locale", value: item => text(nested(item.locale)?.name) ?? key(nested(item.locale)) },
+    { label: "Language", value: item => text(nested(item.locale)?.language) }, { label: "Right to left", value: item => booleanText(item.isRTL) }],
+});
