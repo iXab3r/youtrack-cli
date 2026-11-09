@@ -19,7 +19,8 @@
     "check": "npm test",
     "test:package": "node scripts/test-package.mjs",
     "test:registry": "node scripts/test-package.mjs --registry",
-    "test:release": "node --test scripts/test-release.mjs"
+    "test:release": "node --test scripts/test-release.mjs",
+    "test:coverage": "node scripts/rest-api-audit/verify.mjs"
   },
   "engines": {
     "node": ">=22"

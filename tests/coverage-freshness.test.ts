@@ -4,6 +4,8 @@ import { cp, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 
+type CoverageRow = { status: string; binding: { permission: string; command: string; surfaces: { rpc: { passed: boolean } } } };
+
 const tracked = resolve("docs/rest-api-coverage/current");
 const files = ["coverage.json", "coverage.tsv", "summary.json"];
 async function fixture(t: TestContext) {
@@ -27,14 +29,14 @@ test("US-078 fresh comparison accepts only the documented commit-lineage differe
 test("US-078 changed routes permissions bindings or surface evidence fail without tracked overwrite", async t => {
   const { generated, assertFreshCoverage } = await fixture(t); const original = await readFile(join(tracked, "coverage.json"), "utf8");
   for (const mutate of [
-    (rows: any[]) => { rows.pop(); },
-    (rows: any[]) => { rows.push(structuredClone(rows[0])); },
-    (rows: any[]) => { rows[0].binding.permission = "Update"; },
-    (rows: any[]) => { rows[0].binding.command = "synthetic other command"; },
-    (rows: any[]) => { rows[0].binding.surfaces.rpc.passed = false; },
-    (rows: any[]) => { rows[0].status = "missing"; },
+    (rows: CoverageRow[]) => { rows.pop(); },
+    (rows: CoverageRow[]) => { rows.push(structuredClone(rows[0]!)); },
+    (rows: CoverageRow[]) => { rows[0]!.binding.permission = rows[0]!.binding.permission === "Update" ? "ReadOnly" : "Update"; },
+    (rows: CoverageRow[]) => { rows[0]!.binding.command = "synthetic other command"; },
+    (rows: CoverageRow[]) => { rows[0]!.binding.surfaces.rpc.passed = false; },
+    (rows: CoverageRow[]) => { rows[0]!.status = "missing"; },
   ]) {
-    const rows: any[] = JSON.parse(original); mutate(rows); await writeFile(join(generated, "coverage.json"), JSON.stringify(rows, null, 2) + "\n");
+    const rows: CoverageRow[] = JSON.parse(original); mutate(rows); await writeFile(join(generated, "coverage.json"), JSON.stringify(rows, null, 2) + "\n");
     await assert.rejects(assertFreshCoverage(tracked, generated), /coverage.json/); assert.equal(await readFile(join(tracked, "coverage.json"), "utf8"), original);
   }
 });

@@ -48,7 +48,7 @@ const results=[];
 try{
  for(const {n,syntax} of leaves){
   const args=syntax.split(' ').map(t=>t.startsWith('<')?'audit-'+t.slice(1,-1).toLowerCase():t);
-  if(/ (download|export) |issues batch /.test(syntax) || ['user initial-password import <alias>','server-settings license import <alias>'].includes(syntax)){results.push({syntax,description:n.description,permission:n.permission,workflow:true,options:n.options?.map(o=>o.flags)});continue;}
+  if(/ (download|export) |issues batch /.test(syntax) || ['user initial-password import <alias>','server-settings license import <alias>','user initial-password delete <alias>','server-settings license delete <alias>'].includes(syntax)){results.push({syntax,description:n.description,permission:n.permission,workflow:true,options:n.options?.map(o=>o.flags)});continue;}
   for(const direct of n.options?.some(o=>o.flags==='--direct')?[false,true]:[false]){
    const argv=[...args];
    for(const option of n.options||[]){if(!option.required)continue;
