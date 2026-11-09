@@ -838,3 +838,9 @@ export const localeSettingsRecord = recordView<Item>({
   fields: [{ label: "ID", value: key }, { label: "Locale", value: item => text(nested(item.locale)?.name) ?? key(nested(item.locale)) },
     { label: "Language", value: item => text(nested(item.locale)?.language) }, { label: "Right to left", value: item => booleanText(item.isRTL) }],
 });
+
+
+export const licenseRecord = recordView<Item>({
+  title: () => "Server license",
+  fields: [{ label: "ID", value: key }, { label: "Licensee", value: item => text(item.username) }, { label: "Error", value: item => text(item.error) }],
+});

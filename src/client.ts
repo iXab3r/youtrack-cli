@@ -116,6 +116,21 @@ export function encodedID(id: string, label = "ID"): string {
   }
 }
 
+/** Core follows redirects; credential-bearing JSON also stays on its original HTTPS origin. */
+export function credentialConnection(connection: Connection, label: string): Connection {
+  const base = youTrackUrl(connection.baseUrl);
+  if (!base.startsWith("https:")) throw new Error(`${label} requires HTTPS.`);
+  const origin = new URL(base).origin;
+  const transport = connection.fetch ?? globalThis.fetch;
+  return { ...connection, fetch: ((input, init) => {
+    const url = new URL(input instanceof Request ? input.url : input);
+    if (init?.body != null && (url.protocol !== "https:" || url.origin !== origin)) {
+      throw new Error(`${label} requires the original HTTPS origin.`);
+    }
+    return transport(input, init);
+  }) as typeof globalThis.fetch };
+}
+
 export function issuePath(id: string): string {
   return `api/issues/${encodedID(id, "issue ID")}`;
 }

@@ -197,7 +197,7 @@ test("US-075 SDK license credentials stay on original HTTPS origin at every redi
     let calls = 0; const fetch = async (_input: unknown, init: RequestInit | undefined) => { calls++; assert.deepEqual(JSON.parse(init?.body as string), body); return calls === 1 ? new Response(null, { status: 307, headers: { location: "/same-origin" } }) : Response.json({ id: "synthetic", echo: license }); };
     assert.deepEqual(await write({ baseUrl: "https://license.example.test/context", token: "synthetic-token", fetch }, body), { id: "synthetic", echo: "[redacted]" }); assert.equal(calls, 2);
     for (const status of [301, 302, 303]) {
-      calls = 0; const fetch = async (_input: unknown, init: RequestInit | undefined) => { calls++; if (calls === 1) return new Response(null, { status, headers: { location: "https://other.example.test/result" } }); assert.equal(init?.method, "GET"); assert.equal(init?.body, undefined); assert.equal(new Headers(init?.headers).get("authorization"), null); return Response.json({ id: "synthetic" }); };
+      calls = 0; const fetch = async (_input: unknown, init: RequestInit | undefined) => { calls++; if (calls === 1) return new Response(null, { status, headers: { location: "https://other.example.test/result" } }); assert.equal(init?.method, "GET"); assert(init?.body == null); assert.equal(new Headers(init?.headers).get("authorization"), null); return Response.json({ id: "synthetic" }); };
       assert.deepEqual(await write({ baseUrl: "https://license.example.test/context", token: "synthetic-token", fetch }, body), { id: "synthetic" }); assert.equal(calls, 2);
     }
   }

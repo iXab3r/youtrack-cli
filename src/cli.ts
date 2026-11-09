@@ -97,7 +97,7 @@ export function createYouTrackCli(runtime?: CliRuntime): CliApplication {
     version: "0.8.0",
     applicationId: "youtrack-cli",
     permissions: {},
-    environmentKeys: ["YOUTRACK_INITIAL_PASSWORD"],
+    environmentKeys: ["YOUTRACK_INITIAL_PASSWORD", "YOUTRACK_LICENSE"],
     profile: {
       fields: [
         {

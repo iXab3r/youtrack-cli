@@ -1,4 +1,4 @@
-import { mutate, mutationBody, narrative, requiredText, nativeInt32, nullableText, fields, readObject, readObjectAt, type Connection, type ProjectionOptions } from "./client.js";
+import { credentialConnection, mutate, mutationBody, narrative, requiredText, nativeInt32, nullableText, fields, readObject, readObjectAt, type Connection, type ProjectionOptions } from "./client.js";
 
 export async function getApiSchema(connection: Connection) {
   return readObject(connection, "api/openapi.json", {});
@@ -68,4 +68,26 @@ export async function updateLocaleSettings(connection: Connection, input: unknow
   requiredText(narrative(mutationBody(body.locale).id, "locale ID"), "locale ID");
   if (Object.hasOwn(body, "isRTL") && typeof body.isRTL !== "boolean") throw new Error("The isRTL flag must be boolean.");
   return mutate(connection, "api/admin/globalSettings/localeSettings", body, fields(options, localeFields));
+}
+
+
+const licenseFields = "id,username,license,error";
+export const getLicense = readObjectAt("api/admin/globalSettings/license", licenseFields);
+function licenseBody(input: unknown) {
+  const body = mutationBody(input);
+  for (const key of ["username", "license"]) if (Object.hasOwn(body, key)) nullableText(body[key], key);
+  return body;
+}
+export async function updateLicense(connection: Connection, input: unknown, options: ProjectionOptions = {}) {
+  const body = licenseBody(input);
+  const sensitiveValues = typeof body.license === "string" ? [body.license] : [];
+  const target = sensitiveValues.length ? credentialConnection(connection, "License submission") : connection;
+  return mutate(target, "api/admin/globalSettings/license", body, fields(options, licenseFields), { ...options, sensitiveValues });
+}
+export async function updateGlobalSettings(connection: Connection, input: unknown, options: ProjectionOptions = {}) {
+  const body = mutationBody(input);
+  const license = body.license === undefined || body.license === null ? undefined : licenseBody(body.license).license;
+  const sensitiveValues = typeof license === "string" ? [license] : [];
+  const target = sensitiveValues.length ? credentialConnection(connection, "License submission") : connection;
+  return mutate(target, "api/admin/globalSettings", body, fields(options, "id"), { ...options, sensitiveValues });
 }
