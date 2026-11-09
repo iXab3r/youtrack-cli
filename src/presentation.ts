@@ -791,3 +791,30 @@ export const corsSettingsRecord = recordView<Item>({
     return item.allowedOrigins.length === 0 ? ["No allowed origins."] : origins;
   } }],
 });
+
+export const backupFileTable = tableView<Item, YouTrackPage>({
+  rows: page => page.items,
+  columns: [id, { header: "BACKUP", value: item => text(item.name), shrink: true },
+    { header: "SIZE", value: item => count(item.size), format: "bytes" },
+    { header: "CREATED", value: item => instant(item.creationDate), format: "age" }],
+  empty: "No backup files.", footer: pageFooter,
+});
+export const backupFileRecord = recordView<Item>({
+  title: item => joined("Backup file", text(item.name) ?? key(item)),
+  fields: [{ label: "ID", value: key }, { label: "Size", value: item => count(item.size), format: "bytes" },
+    { label: "Created", value: item => instant(item.creationDate) }],
+});
+export const backupSettingsRecord = recordView<Item>({
+  title: () => "Backup settings",
+  fields: [{ label: "ID", value: key }, { label: "Scheduled", value: item => booleanText(item.isOn) },
+    { label: "Format", value: item => text(item.archiveFormat) }, { label: "Files to keep", value: item => count(item.filesToKeep) },
+    { label: "Schedule", value: item => text(item.cronExpression) }, { label: "Location", value: item => text(item.location) },
+    { label: "Available space", value: item => count(item.availableDiskSpace), format: "bytes" }],
+});
+export const backupStatusRecord = recordView<Item>({
+  title: () => "Backup status",
+  fields: [{ label: "ID", value: key }, { label: "In progress", value: item => booleanText(item.backupInProgress) },
+    { label: "Cancelled", value: item => booleanText(item.backupCancelled) },
+    { label: "Error time", value: item => instant(nested(item.backupError)?.date) },
+    { label: "Error", value: item => text(nested(item.backupError)?.errorMessage) }],
+});
