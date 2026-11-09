@@ -143,6 +143,22 @@ function scrubUrl(text: string, token: string): string {
   }
 }
 
+function scrubKnownForm(text: string, form: string): string {
+  if (!form) return text;
+  if (!text.includes("%") || !form.includes("%")) return text.replaceAll(form, "[redacted]");
+  const comparison = text.replace(/%[0-9a-f]{2}/gi, part => part.toUpperCase());
+  const needle = form.replace(/%[0-9a-f]{2}/gi, part => part.toUpperCase());
+  const chunks: string[] = [];
+  let start = 0;
+  for (let at = comparison.indexOf(needle); at >= 0; at = comparison.indexOf(needle, start)) {
+    // Percent-case folding preserves positions; retain the original unmatched text.
+    chunks.push(text.slice(start, at), "[redacted]");
+    start = at + needle.length;
+  }
+  chunks.push(text.slice(start));
+  return chunks.join("");
+}
+
 export function scrubText(text: string, token: string, additional: readonly string[] = []): string {
   const secrets = [...new Set([token, ...additional].filter(Boolean))];
   for (const secret of secrets) {
@@ -150,7 +166,11 @@ export function scrubText(text: string, token: string, additional: readonly stri
     text = text.replace(/(?:https?:\/\/|\.\.?\/|\/)[^\s"'<>]+/gi, (url) => scrubUrl(url, secret));
   }
   // JSON echoes escape quotes, backslashes and control characters in submitted credentials.
-  const encodedForms = new Set(secrets.flatMap(secret => [secret, JSON.stringify(secret).slice(1, -1)]));
+  const encodedForms = new Set(secrets.flatMap(secret => {
+    const escapedControls = secret.replace(/[\u0000-\u0008\u000b-\u001f\u007f-\u009f]/g,
+      character => `\\u${character.charCodeAt(0).toString(16).padStart(4, "0")}`);
+    return [secret, JSON.stringify(secret).slice(1, -1), escapedControls, JSON.stringify(escapedControls).slice(1, -1)];
+  }));
   for (const secret of secrets) {
     try { encodedForms.add(encodeURIComponent(secret)); }
     catch (error) {
@@ -159,7 +179,7 @@ export function scrubText(text: string, token: string, additional: readonly stri
     }
   }
   const forms = [...encodedForms].sort((a, b) => b.length - a.length);
-  for (const secret of forms) text = text.replaceAll(secret, "[redacted]");
+  for (const secret of forms) text = scrubKnownForm(text, secret);
   return text;
 }
 
