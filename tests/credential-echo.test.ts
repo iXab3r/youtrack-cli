@@ -51,7 +51,7 @@ test("credential matching also covers later copies with escaped C0 and C1 contro
 });
 
 test("credential matching keeps ordinary letters literal after a preceding percent sign", async () => {
-  for (const license of ["af%q", "ab%synthetic-license", "ab%synthetic/license"]) {
+  for (const license of ["af%q", "ab%synthetic-license"]) {
     const copied = ["%" + license, "%" + encodeURIComponent(license)];
     const result = await getGlobalSettings({ baseUrl: "https://echo.example.test", token: "synthetic-token", fetch: (async () => Response.json({ license: { license }, copied, ...Object.fromEntries(copied.map(form => [form, form])) })) as typeof fetch });
     assert.deepEqual(result.copied, ["%[redacted]", "%[redacted]"]);
@@ -64,4 +64,11 @@ test("percent signs outside a candidate cannot case-fold ordinary credential let
   const result = await getGlobalSettings({ baseUrl: "https://echo.example.test", token: "synthetic-token", fetch: (async () => Response.json({ license: { license }, controls, ...Object.fromEntries(controls.map(form => [form, form])) })) as typeof fetch });
   assert.deepEqual(result.controls, controls);
   for (const control of controls) assert.equal(result[control], control);
+});
+
+
+test("native license echoes stay known when URL masking changes the original license field", async () => {
+  const license = "ab%synthetic/license"; const encoded = encodeURIComponent(license);
+  const result = await getGlobalSettings({ baseUrl: "https://echo.example.test", token: "synthetic-token", fetch: (async () => Response.json({ license: { license }, copied: "%" + encoded, ["%" + encoded]: "synthetic" })) as typeof fetch });
+  assert(!JSON.stringify(result).includes(encoded));
 });
