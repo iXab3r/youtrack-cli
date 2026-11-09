@@ -66,3 +66,33 @@ test("US-074 native boolean, string-list and numeric types fail before HTTP", as
     await assert.rejects(f.cli.execute(["server-settings", section, "update", "--body", JSON.stringify(body)])); assert.equal(calls, 0);
   }
 });
+
+test("US-072 inspect backup metadata and explicitly update native settings", async t => {
+  await storyCase(t, {"argv":["backup","file","list","--fields","id","--start","7","--page-size","20"],"method":"GET","path":"/api/admin/databaseBackup/backups","query":[["fields","id"],["$skip","7"],["$top","20"]],"response":[],"result":{"count":0,"items":[],"hasMore":false,"nextStart":null}});
+  await storyCase(t, {"argv":["backup","file","get","synthetic-backup","--fields","id"],"method":"GET","path":"/api/admin/databaseBackup/backups/synthetic-backup","query":[["fields","id"]],"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"}});
+  await storyCase(t, {"argv":["backup","settings","get","--fields","id"],"method":"GET","path":"/api/admin/databaseBackup/settings","query":[["fields","id"]],"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"}});
+  await storyCase(t, {"argv":["backup","status","get","--fields","id"],"method":"GET","path":"/api/admin/databaseBackup/settings/backupStatus","query":[["fields","id"]],"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"}});
+  await storyCase(t, {"argv":["backup","settings","update","--body","{\"isOn\":false,\"archiveFormat\":\"ZIP\",\"location\":null,\"filesToKeep\":-1,\"cronExpression\":\" native cron \",\"notifiedUsers\":[]}","--fields","id"],"method":"POST","path":"/api/admin/databaseBackup/settings","query":[["fields","id"]],"response":{"id":"synthetic-result"},"result":{"id":"synthetic-result"},"body":{"isOn":false,"archiveFormat":"ZIP","location":null,"filesToKeep":-1,"cronExpression":" native cron ","notifiedUsers":[]},"update":true});
+});
+
+
+test("US-072 backup pages keep raw offsets and never fetch archives or poll", async t => {
+  const f = await configuredFixture(t); let calls = 0; let rows: unknown[] = [];
+  server.use(http.get("*", ({ request }) => { calls++; assert.equal(new URL(request.url).pathname, "/context/api/admin/databaseBackup/backups"); return HttpResponse.json(rows); }));
+  const args = ["backup", "file", "list", "--start", "7", "--page-size", "20"];
+  assert.deepEqual(await f.cli.execute(args), { count: 0, items: [], hasMore: false, nextStart: null });
+  rows = [{ id: "synthetic-backup", name: "synthetic.zip", size: 1048576, creationDate: 1700000000000 }];
+  assert.deepEqual(await f.cli.execute(args), { count: 1, items: rows, hasMore: null, nextStart: 8 });
+  rows = []; assert.deepEqual(await f.cli.execute(["backup", "file", "list", "--page-size", "0"]), { count: 0, items: [], hasMore: null, nextStart: null });
+  rows = [{ id: "synthetic-backup", name: "synthetic.zip", size: 1048576, creationDate: 1700000000000 }];
+  const shown = await f.run(f.cli, args); assert.equal(shown.exitCode, 0, shown.stderr); assert.match(shown.stdout, /synthetic.zip/); assert.doesNotMatch(shown.stdout, /1700000000000|1048576|\$type/);
+  assert.equal(calls, 4); await assert.rejects(f.cli.execute(["backup", "file", "list", "--start", String(Number.MAX_SAFE_INTEGER), "--page-size", "1"])); assert.equal(calls, 4);
+});
+
+test("US-072 explicit backup action controls stay in the selected Update request", async t => {
+  const f = await configuredFixture(t, { permissions: ["Update"] }); const body = { backupStatus: { backupInProgress: true }, archiveFormat: "TAR_GZ", filesToKeep: 0, location: null, cronExpression: "", isOn: false, notifiedUsers: [{ id: "synthetic-user" }], nativeExtra: null }; let calls = 0;
+  server.use(http.post("*", async ({ request }) => { calls++; assert.equal(new URL(request.url).pathname, "/context/api/admin/databaseBackup/settings"); assert.deepEqual(await request.json(), body); return new HttpResponse(null, { status: 204 }); }));
+  const shown = await f.run(f.cli, ["backup", "settings", "update", "--body", JSON.stringify(body)]); assert.equal(shown.exitCode, 0, shown.stderr); assert.match(shown.stdout, /Updated backup settings/); assert.equal(calls, 1);
+  for (const invalid of [{ archiveFormat: "tar" }, { filesToKeep: 1.5 }, { location: false }, { isOn: "false" }, { cronExpression: null }, { notifiedUsers: [false] }]) await assert.rejects(f.cli.execute(["backup", "settings", "update", "--body", JSON.stringify(invalid)]));
+  assert.equal(calls, 1);
+});
