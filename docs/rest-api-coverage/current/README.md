@@ -73,12 +73,16 @@ correctly rejected the old mapping after new local leaves; explicit regeneration
 successful whole guard. Documentation uses static completeness/link and real help checks rather
 than prose-snapshot tests. Candidate identity has its own red-before-SetVersion test.
 
-Author Cake Verify at source269350f passed **616offline tests**, installed-package SDK/executable/
-JSON/RPC/EPIPE/native contracts including new alias cleanup, and two release-safety checks.
-Source/test/package inputs are unchanged by later documentation/mapping-only commits. Final native
-trace/probe/repeat generation/raw extraction/crosscheck receipts are kept separately for review.
-These are author self-checks; full independent M09 review, exact-main Verify and actual registry
-publication are recorded in356 and its review issue, not inferred from generator output.
+Original candidate Cake Verify at source269350f passed616offline tests/guard/installed-package
+contracts/release-safety. Independent review found a cancellation overpromise and two historical
+doc exclusions. Owner explicitly approved the Core delete dispatch boundary in US077/362; a failing
+red regression60e42ef preceded the documented correction1d0abe0. This does not fix or copy Core.
+After correction, author **617offline tests**, fresh trace/probe/repeated generation/crosscheck,
+installed-package SDK/executable/JSON/RPC/EPIPE/native/alias contracts and two release-safety checks
+PASS. All111source/test/package fingerprints match corrected source1d0abe0; later docs/mapping-only
+commits preserve those inputs. Retained raw extraction reproduces the unchanged source lock/facts.
+These are author self-checks. Same-reviewer recheck, exact-head/main CI, verified stage and actual
+registry publication remain separate gates recorded in356/361, not inferred from generator output.
 
 Observed author environment is Linux/Node26; existing CI uses Node24/Linux. No current Windows/
 macOS, Node22 runtime or live YouTrack compatibility proof is claimed by these receipts. Platform
@@ -86,7 +90,7 @@ storage implementation and its upstream tests remain Core ownership. Owner chose
 missing live proof is not converted into availability evidence or a mandatory merge requirement.
 
 Physical nonblank handwritten counts include comments/all helpers and exclude generated artifacts:
-source5608(+29M09),tests9383(+147),scripts1328(+83),proof165(unchanged), at source269350f against
+source5610(+31M09),tests9396(+160),scripts1328(+83),proof165(unchanged), at source1d0abe0 against
 M09baselinee38a4fac91e52d32e798207036d910d802a63732. This is source/tool/test growth, with no reduction
 claim. Source/test/package pin identity and existing behavior remain explicit review subjects.
 
