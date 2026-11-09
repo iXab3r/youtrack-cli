@@ -212,3 +212,38 @@ test("US-075 cancellation before persistence leaves the selected alias unchanged
   await Promise.race([pending, run.then(() => { throw new Error("Import did not reach its admitted secret lookup."); })]); controller.abort(); release(); const result = await run;
   assert.equal(result.exitCode, 130); assert.equal(writes, 0); assert.equal(await new ProfileSecrets(f.secrets, "youtrack-cli", "dev").get("server-license:initial"), "synthetic-existing-license");
 });
+
+test("M08 interleaved RPC isolates admin profiles and denied writes precede secret access", async t => {
+  const { createCliFixture } = await import("@eyeauras/cli-factory/testing"); const { createYouTrackCli } = await import("../src/cli.js");
+  const f = await createCliFixture(t, { applicationId: "youtrack-cli", defaultProfile: "alpha", profiles: ["alpha", "beta"].map(name => ({ name, values: { url: `https://${name}.example.test/context` }, permissions: ["ReadOnly", "Update"], secrets: { token: `synthetic-${name}-token`, "server-license:initial": `synthetic-${name}-license` } })) });
+  const seen: string[] = [];
+  f.runtime.fetch = async (input, init) => {
+    const url = new URL(input as URL); const profile = url.hostname.split(".")[0]!; seen.push(`${profile} ${init?.method ?? "GET"} ${url.pathname}`);
+    assert.equal(new Headers(init?.headers).get("authorization"), `Bearer synthetic-${profile}-token`);
+    if (init?.method === "POST") assert.deepEqual(JSON.parse(init.body as string), { license: `synthetic-${profile}-license` });
+    return Response.json({ id: profile, license: { license: `synthetic-${profile}-license` } });
+  };
+  const cli = f.createApplication(createYouTrackCli);
+  const replies = await f.rpc(cli, [
+    ["--profile", "beta", "server-settings", "appearance-settings", "get"],
+    ["--profile", "alpha", "server-settings", "license", "update", "--license-secret", "initial"],
+    ["--profile", "beta", "server-settings", "license", "update", "--license-secret", "initial"],
+    ["--profile", "alpha", "server-settings", "license", "get"],
+  ]) as { result: { id: string }; error?: unknown }[];
+  assert.deepEqual(replies.map(reply => reply.result.id), ["beta", "alpha", "beta", "alpha"]); assert(replies.every(reply => !reply.error));
+  assert.equal(seen.length, 4); assert(!JSON.stringify(replies).includes("synthetic-alpha-license")); assert(!JSON.stringify(replies).includes("synthetic-beta-license"));
+  await cli.execute(["--profile", "beta", "permissions", "revoke", "Update"]); let reads = 0; const get = f.secretStore.get.bind(f.secretStore); f.secretStore.get = async (...args) => { reads++; return get(...args); };
+  await assert.rejects(cli.execute(["--profile", "beta", "server-settings", "license", "update", "--license-secret", "initial"]), (error: unknown) => (error as { code: string }).code === "permission.denied"); assert.equal(reads, 0); assert.equal(seen.length, 4);
+});
+
+test("M08 cancellation reaches admin HTTP and license errors retain redacted causal diagnostics", async t => {
+  const { createYouTrackCli } = await import("../src/cli.js"); const license = 'synthetic-license/with"quotes';
+  const f = await configuredFixture(t, { permissions: ["ReadOnly", "Update"], secrets: { "server-license:initial": license } });
+  let entered!: () => void; const dispatched = new Promise<void>(resolve => { entered = resolve; }); let requests = 0;
+  f.runtime.fetch = async (_input, init) => { requests++; entered(); await new Promise<void>((_resolve, reject) => { init?.signal?.addEventListener("abort", () => reject(init.signal?.reason), { once: true }); }); return Response.json({ id: "unexpected" }); };
+  const cli = f.createApplication(createYouTrackCli); const controller = new AbortController(); const run = f.run(cli, ["server", "telemetry", "get"], { signal: controller.signal }); await dispatched; controller.abort(); const canceled = await run; assert.equal(canceled.exitCode, 130); assert.equal(requests, 1);
+  f.runtime.fetch = async () => { requests++; const cause = new Error(`synthetic transport ${license}`); Object.assign(cause, { code: "SYNTHETIC_LICENSE_NETWORK" }); throw cause; };
+  const failedCli = f.createApplication(createYouTrackCli); const argv = ["server-settings", "license", "update", "--license-secret", "initial", "--verbose"];
+  for (const json of [false, true]) { const failed = await f.run(failedCli, [...argv, ...(json ? ["--json"] : [])]); assert.equal(failed.exitCode, 1); assert.match(failed.stderr, /outcome is unknown/); assert.match(failed.stderr, /SYNTHETIC_LICENSE_NETWORK/); assert(!failed.stderr.includes(license)); }
+  const [reply] = await f.rpc(failedCli, [argv]) as { error: { data: { code: string } } }[]; assert.equal(reply!.error.data.code, "request.failed"); assert(!JSON.stringify(reply).includes(license)); assert.equal(requests, 4);
+});

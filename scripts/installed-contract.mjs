@@ -215,3 +215,21 @@ test("installed M07 exports preserve native work-time, bundle metadata and scope
   const human = await f.run(app, ["bundle", "version", "value", "update", "selected-bundle", "synthetic-installed", "--body", "{}"]);
   assert.equal(human.exitCode, 0, human.stderr); assert.doesNotMatch(human.stdout, /synthetic-installed/); assert.match(human.stdout, /selected-bundle/); assert.equal(calls, 5);
 });
+
+test("installed M08 exports and license aliases retain native admin and privacy contracts", async t => {
+  const sdk = await import("@eyeauras/youtrack-cli");
+  for (const name of ["getApiSchema", "getTelemetry", "getGlobalSettings", "getSystemSettings", "updateSystemSettings", "getRestSettings", "updateRestSettings", "listBackupFiles", "getBackupFile", "getBackupSettings", "getBackupStatus", "updateBackupSettings", "getAppearanceSettings", "updateAppearanceSettings", "getNotificationSettings", "updateNotificationSettings", "getLocaleSettings", "updateLocaleSettings", "getLicense", "updateLicense", "updateGlobalSettings"]) assert.equal(typeof sdk[name], "function", name);
+  const f = await createCliFixture(t, { applicationId: "youtrack-cli", profiles: [{ name: "default", values: { url: "https://installed.example.test/context" }, permissions: ["ReadOnly", "Update"], secrets: { token: "synthetic-installed" } }] });
+  const license = 'synthetic-license/with"quotes'; let calls = 0;
+  f.runtime.fetch = async (input, init) => {
+    calls++; const url = new URL(input); assert.equal(new Headers(init.headers).get("authorization"), "Bearer synthetic-installed");
+    if (url.pathname.endsWith("/license")) { assert.deepEqual(JSON.parse(init.body), { license }); return Response.json({ id: "synthetic-license", echo: encodeURIComponent(license).replace(/%[0-9A-F]{2}/g, part => part.toLowerCase()) }); }
+    if (url.pathname.endsWith("/backups")) { assert.equal(url.searchParams.get("$skip"), "7"); assert.equal(url.searchParams.get("$top"), "20"); return Response.json([]); }
+    assert.equal(url.pathname, "/context/api/admin/globalSettings/localeSettings"); assert.deepEqual(JSON.parse(init.body), { locale: { id: "synthetic-open-locale" }, isRTL: false }); return new Response(null, { status: 204 });
+  };
+  const app = f.createApplication(createYouTrackCli);
+  assert.deepEqual(await f.json(app, ["server-settings", "license", "import", "token", "--from-env"], { environment: { YOUTRACK_LICENSE: license } }), { alias: "token", stored: true }); assert.equal(calls, 0);
+  assert.deepEqual(await f.json(app, ["server-settings", "license", "update", "--license-secret", "token"]), { id: "synthetic-license", echo: "[redacted]" });
+  assert.deepEqual(await f.json(app, ["backup", "file", "list", "--start", "7", "--page-size", "20"]), { count: 0, items: [], hasMore: false, nextStart: null });
+  assert.equal(await sdk.updateLocaleSettings({ baseUrl: "https://installed.example.test/context", token: "synthetic-installed", fetch: f.runtime.fetch }, { locale: { id: "synthetic-open-locale" }, isRTL: false }), null); assert.equal(calls, 3);
+});
