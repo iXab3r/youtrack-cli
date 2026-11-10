@@ -95,6 +95,20 @@ Reachable operation counts.
 - Coverage is one axis. `yt` offers things this CLI deliberately does not: reports, interactive
   tables, themes, tutorials and aliases; see the [command reference](reference.md#compared-with-yt-0222).
 
+## Updating
+
+The README overview, this document and the pictures follow the
+[product-readme skill](https://github.com/iXab3r/EyeAuras.CliFactory/tree/main/.claude/skills/product-readme) in Factory; it holds the format, the measuring method and the
+picture generator.
+
+- Refresh when the version in a column title changes or the operation inventory changes.
+- Edit the numbers in `docs/images/readme-images.json`, then regenerate the four SVGs with the
+  skill's script from a Factory checkout:
+  `node <factory>/.claude/skills/product-readme/scripts/readme-images.mjs docs/images/readme-images.json docs/images`.
+  It prints the area table for this document and rejects columns that do not add up.
+- A column for another tool is a dated measurement of one version. Re-measure it deliberately,
+  with the skill's method, and update the version, the caveats and the credited list together.
+
 <details>
 <summary>The 61 operations reachable from yt 0.22.2</summary>
 
