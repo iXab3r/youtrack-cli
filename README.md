@@ -30,7 +30,7 @@ Share of the 282 official REST operations each tool can call, by API area.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/images/coverage-matrix-dark.svg">
-  <img src="docs/images/coverage-matrix-light.svg" alt="Coverage matrix: youtrack-cli 0.9 reaches 282 of 282 operations (100%); the Python yt 0.22.2 reaches 61 (22%)">
+  <img src="docs/images/coverage-matrix-light.svg" alt="Coverage matrix: youtrack-cli 0.9 reaches 282 of 282 operations (100%); the official JetBrains youtrack CLI 0.8.1 reaches 146 (52%); the Python yt 0.22.2 reaches 61 (22%); the Node.js youtrack-cli 0.5.0 by shanehofstetter reaches 0 (0%)">
 </picture>
 
 Numbers, method and caveats: [coverage comparison](docs/coverage-comparison.md).
