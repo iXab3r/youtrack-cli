@@ -58,14 +58,20 @@ Publishing an inventory/story backlog, live proof, CI changes and releases each 
 this setup does not start it. Use [the tool workflow](agent-workflow.md) when interacting with YouTrack;
 it does not change tracker selection or grant service writes.
 
+## README and coverage pictures
+
+The README overview, `docs/coverage-comparison.md` and the pictures in `docs/images/` follow the
+[product-readme skill](https://github.com/iXab3r/EyeAuras.CliFactory/tree/main/.claude/skills/product-readme) in Factory.
+[Updating](coverage-comparison.md#updating) says when and how to refresh them.
+
 ## Keep discovery complete
 
 Run the [offline completeness check](../scripts/check-agent-setup.mjs) with
 `node scripts/check-agent-setup.mjs` from any working directory. The local-only check verifies
 an expected set, not just existing links: five function roles, five practices, five adapters,
 three issue-template files, local domain/runtime/test/authoring contracts and product routes.
-It rejects missing or extra entries, unreachable required policies, broken local file/heading links,
-mandatory external policy links, unclassified bare external URLs and obsolete remote-policy instructions. Code-fence examples and
+It rejects missing or extra entries, unreachable required policies and broken local file/heading links.
+External links, including links to Factory, are not restricted. Code-fence examples and
 provenance paths are not claimed to be additional local source files.
 
 When changing this setup, intentionally review the router, local policy/adapter/template inventories,
