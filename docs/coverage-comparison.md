@@ -5,67 +5,66 @@ How much of the official YouTrack REST API each tool can call. Measured 2026-11-
 | Tool | Reachable operations | ReadOnly (140) | Update (142) |
 |---|---:|---:|---:|
 | `youtrack-cli` 0.9 (this package) | 282 of 282 (100%) | 140 | 142 |
-| `youtrack-cli` 0.7.1 (baseline before the expansion) | 118 of 282 (42%) | 98 | 20 |
 | `yt` 0.22.2 (Python `youtrack-cli` from PyPI) | 61 of 282 (22%) | 34 | 27 |
 
 ## By API area
 
 Percent of operations reachable, with the count in brackets.
 
-| API area | Operations | youtrack-cli 0.9 | youtrack-cli 0.7.1 | yt 0.22.2 |
-|---|---:|---:|---:|---:|
-| Issues | 49 | 100% (49) | 65% (32) | 43% (21) |
-| Search, commands, saved queries | 8 | 100% (8) | 63% (5) | 0% (0) |
-| Tags and link types | 11 | 100% (11) | 36% (4) | 27% (3) |
-| Activity and work items | 5 | 100% (5) | 60% (3) | 20% (1) |
-| Projects | 31 | 100% (31) | 39% (12) | 26% (8) |
-| Knowledge base articles | 29 | 100% (29) | 48% (14) | 45% (13) |
-| Agile boards and sprints | 10 | 100% (10) | 60% (6) | 30% (3) |
-| Custom fields | 9 | 100% (9) | 33% (3) | 11% (1) |
-| Field value bundles | 64 | 100% (64) | 42% (27) | 0% (0) |
-| Users and groups | 22 | 100% (22) | 36% (8) | 18% (4) |
-| Roles, permissions, organizations | 15 | 100% (15) | 0% (0) | 0% (0) |
-| Time tracking settings | 8 | 100% (8) | 50% (4) | 13% (1) |
-| Server settings, backups, telemetry | 21 | 100% (21) | 0% (0) | 29% (6) |
-| **All operations** | **282** | **100% (282)** | **42% (118)** | **22% (61)** |
+| API area | Operations | youtrack-cli 0.9 | yt 0.22.2 |
+|---|---:|---:|---:|
+| Issues | 49 | 100% (49) | 43% (21) |
+| Search, commands, saved queries | 8 | 100% (8) | 0% (0) |
+| Tags and link types | 11 | 100% (11) | 27% (3) |
+| Activity and work items | 5 | 100% (5) | 20% (1) |
+| Projects | 31 | 100% (31) | 26% (8) |
+| Knowledge base articles | 29 | 100% (29) | 45% (13) |
+| Agile boards and sprints | 10 | 100% (10) | 30% (3) |
+| Custom fields | 9 | 100% (9) | 11% (1) |
+| Field value bundles | 64 | 100% (64) | 0% (0) |
+| Users and groups | 22 | 100% (22) | 18% (4) |
+| Roles, permissions, organizations | 15 | 100% (15) | 0% (0) |
+| Time tracking settings | 8 | 100% (8) | 13% (1) |
+| Server settings, backups, telemetry | 21 | 100% (21) | 29% (6) |
+| **All operations** | **282** | **100% (282)** | **22% (61)** |
 
 ## By official resource group
 
 Reachable operation counts.
 
-| Resource group | Operations | youtrack-cli 0.9 | youtrack-cli 0.7.1 | yt 0.22.2 |
-|---|---:|---:|---:|---:|
-| `activities` | 2 | 2 | 0 | 0 |
-| `activitiesPage` | 1 | 1 | 1 | 0 |
-| `admin.databaseBackup` | 5 | 5 | 0 | 0 |
-| `admin.globalSettings` | 14 | 14 | 0 | 6 |
-| `admin.organizations` | 5 | 5 | 0 | 0 |
-| `admin.projects` | 31 | 31 | 12 | 8 |
-| `admin.telemetry` | 1 | 1 | 0 | 0 |
-| `admin.timeTrackingSettings` | 8 | 8 | 4 | 1 |
-| `agiles` | 10 | 10 | 6 | 3 |
-| `articles` | 29 | 29 | 14 | 13 |
-| `assignedRoles` | 4 | 4 | 0 | 0 |
-| `bundles.build` | 10 | 10 | 4 | 0 |
-| `bundles.enum` | 10 | 10 | 4 | 0 |
-| `bundles.ownedField` | 10 | 10 | 4 | 0 |
-| `bundles.state` | 10 | 10 | 4 | 0 |
-| `bundles.user` | 14 | 14 | 7 | 0 |
-| `bundles.version` | 10 | 10 | 4 | 0 |
-| `commands` | 2 | 2 | 2 | 0 |
-| `customFields` | 9 | 9 | 3 | 1 |
-| `groups` | 9 | 9 | 5 | 0 |
-| `issueLinkTypes` | 5 | 5 | 2 | 1 |
-| `issues` | 48 | 48 | 31 | 21 |
-| `issuesGetter` | 1 | 1 | 1 | 0 |
-| `metadata` | 1 | 1 | 0 | 0 |
-| `permissions` | 1 | 1 | 0 | 0 |
-| `roles` | 5 | 5 | 0 | 0 |
-| `savedQueries` | 5 | 5 | 2 | 0 |
-| `search` | 1 | 1 | 1 | 0 |
-| `tags` | 6 | 6 | 2 | 2 |
-| `users` | 13 | 13 | 3 | 4 |
-| `workItems` | 2 | 2 | 2 | 1 |
+| Resource group | Operations | youtrack-cli 0.9 | yt 0.22.2 |
+|---|---:|---:|---:|
+| `activities` | 2 | 2 | 0 |
+| `activitiesPage` | 1 | 1 | 0 |
+| `admin.databaseBackup` | 5 | 5 | 0 |
+| `admin.globalSettings` | 14 | 14 | 6 |
+| `admin.organizations` | 5 | 5 | 0 |
+| `admin.projects` | 31 | 31 | 8 |
+| `admin.telemetry` | 1 | 1 | 0 |
+| `admin.timeTrackingSettings` | 8 | 8 | 1 |
+| `agiles` | 10 | 10 | 3 |
+| `articles` | 29 | 29 | 13 |
+| `assignedRoles` | 4 | 4 | 0 |
+| `bundles.build` | 10 | 10 | 0 |
+| `bundles.enum` | 10 | 10 | 0 |
+| `bundles.ownedField` | 10 | 10 | 0 |
+| `bundles.state` | 10 | 10 | 0 |
+| `bundles.user` | 14 | 14 | 0 |
+| `bundles.version` | 10 | 10 | 0 |
+| `commands` | 2 | 2 | 0 |
+| `customFields` | 9 | 9 | 1 |
+| `groups` | 9 | 9 | 0 |
+| `issueLinkTypes` | 5 | 5 | 1 |
+| `issues` | 48 | 48 | 21 |
+| `issuesGetter` | 1 | 1 | 0 |
+| `metadata` | 1 | 1 | 0 |
+| `permissions` | 1 | 1 | 0 |
+| `roles` | 5 | 5 | 0 |
+| `savedQueries` | 5 | 5 | 0 |
+| `search` | 1 | 1 | 0 |
+| `tags` | 6 | 6 | 2 |
+| `users` | 13 | 13 | 4 |
+| `workItems` | 2 | 2 | 1 |
 
 ## Method
 
@@ -76,8 +75,6 @@ Reachable operation counts.
   every query parameter, payload field, server edition or remote permission.
 - **youtrack-cli 0.9** comes from the [current per-operation map](rest-api-coverage/current/README.md),
   where each operation also has full query-control coverage and offline request evidence.
-- **youtrack-cli 0.7.1** is the frozen baseline [summary](rest-api-coverage/summary.json):
-  covered + partial + uncertain.
 - **yt 0.22.2** was measured by reading the published wheel's source without running it. Each
   HTTP call reachable from a `yt` command was normalized and matched to the same 282 identities.
 
