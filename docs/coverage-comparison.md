@@ -7,7 +7,6 @@ How much of the official YouTrack REST API each tool can call. Measured 2026-11-
 | `youtrack-cli` 0.9 (this package) | 282 of 282 (100%) | 140 | 142 |
 | `youtrack` 0.8.1 (official JetBrains CLI, GitHub releases) | 146 of 282 (52%) | 63 | 83 |
 | `yt` 0.22.2 (Python `youtrack-cli` from PyPI) | 61 of 282 (22%) | 34 | 27 |
-| shanehofstetter `youtrack-cli` 0.5.0 (Node.js, from npm) | 0 of 282 (0%) | 0 | 0 |
 
 ## Tools considered
 
@@ -16,20 +15,20 @@ Popularity is what the registry or GitHub reported that day.
 
 | Tool | Published | Latest version | Popularity | In the matrix |
 |---|---|---|---|---|
-| `youtrack-cli` by shanehofstetter | npm | 0.5.0, 2019-10-07 | 33 GitHub stars; 36 npm downloads a month | Measured |
+| `youtrack-cli` by shanehofstetter | npm | 0.5.0, 2019-10-07 | 33 GitHub stars; 36 npm downloads a month | No: calls only the earlier `/rest/...` API, which is not the API measured here (0 of 282 on a static reading) |
 | `yt` (`youtrack-cli`) by ryancheley | PyPI | 0.27.0, 2026-10-24 | 29 stars; 443 PyPI downloads a month | Measured at 0.22.2 |
 | `youtrack` by JetBrains (official) | GitHub releases, Homebrew tap, Winget, Scoop, Chocolatey | 0.8.1, 2026-11-04 | 8 stars; 1,160 downloads of the 0.8.1 release files, 3,090 of 0.7.1 | Measured |
-| `youtrack-commander` by pvid | crates.io | 0.2.1, 2021-05-11 | 4 stars (archived); 4,252 downloads in total, 1 recent | No: qualifies, below the top three |
-| `youtrackd` by danielkbx | GitHub releases | 1.10.0, 2026-06-01 | 4 stars | No: qualifies, below the top three |
-| `youtrack-python-cli` by noahp | PyPI | 0.2.0, 2024-01-09 | 3 stars; 34 PyPI downloads a month | No: qualifies, below the top three |
-| `youtrack-cli` by UsingCoding | GitHub releases | 0.4.0, 2026-10-08 | 1 star; 61 release downloads | No: qualifies, below the top three |
-| `goutrack` by codegoalie | GitHub releases | 1.1.0, 2016-01-06 | 1 star | No: qualifies, below the top three |
-| `@apytel/youtrack-cli` | npm | 0.6.0, 2026-08-11 | 0 stars; 46 npm downloads a month | No: qualifies, below the top three |
-| `@billpeet/yt-cli` | npm | 0.1.4, 2026-08-17 | 0 stars; 20 npm downloads a month | No: qualifies, below the top three |
-| `yt-cli` by vaivars | crates.io | 0.2.1, 2026-10-26 | 0 stars; 76 downloads in total | No: qualifies, below the top three |
-| `youtrack-cli` by BrainerVirus | GitHub releases | 0.3.2, 2026-11-05 | 0 stars; 11 release downloads | No: qualifies, below the top three |
-| `youtrack-axi` | npm | 0.1.1, 2026-06-25 | no public repository; 11 npm downloads a month | No: qualifies, below the top three |
-| `OotbDevteam.YoutrackConsole` | NuGet (.NET tool) | 1.1.0, 2026-05-25 | 291 downloads in total | No: qualifies, below the top three |
+| `youtrack-commander` by pvid | crates.io | 0.2.1, 2021-05-11 | 4 stars (archived); 4,252 downloads in total, 1 recent | No: qualifies, not measured (four stars or fewer) |
+| `youtrackd` by danielkbx | GitHub releases | 1.10.0, 2026-06-01 | 4 stars | No: qualifies, not measured (four stars or fewer) |
+| `youtrack-python-cli` by noahp | PyPI | 0.2.0, 2024-01-09 | 3 stars; 34 PyPI downloads a month | No: qualifies, not measured (four stars or fewer) |
+| `youtrack-cli` by UsingCoding | GitHub releases | 0.4.0, 2026-10-08 | 1 star; 61 release downloads | No: qualifies, not measured (four stars or fewer) |
+| `goutrack` by codegoalie | GitHub releases | 1.1.0, 2016-01-06 | 1 star | No: qualifies, not measured (four stars or fewer) |
+| `@apytel/youtrack-cli` | npm | 0.6.0, 2026-08-11 | 0 stars; 46 npm downloads a month | No: qualifies, not measured (four stars or fewer) |
+| `@billpeet/yt-cli` | npm | 0.1.4, 2026-08-17 | 0 stars; 20 npm downloads a month | No: qualifies, not measured (four stars or fewer) |
+| `yt-cli` by vaivars | crates.io | 0.2.1, 2026-10-26 | 0 stars; 76 downloads in total | No: qualifies, not measured (four stars or fewer) |
+| `youtrack-cli` by BrainerVirus | GitHub releases | 0.3.2, 2026-11-05 | 0 stars; 11 release downloads | No: qualifies, not measured (four stars or fewer) |
+| `youtrack-axi` | npm | 0.1.1, 2026-06-25 | no public repository; 11 npm downloads a month | No: qualifies, not measured (four stars or fewer) |
+| `OotbDevteam.YoutrackConsole` | NuGet (.NET tool) | 1.1.0, 2026-05-25 | 291 downloads in total | No: qualifies, not measured (four stars or fewer) |
 | `youtrack-cli` by leftys | GitHub, no release or tag | none | 0 stars | No: no pinned version to fetch |
 | `youtrack-workflow-cli` (`ytw`) by udamir | npm | 1.6.0, 2026-02-01 | 8 stars; 280 npm downloads a month | No: syncs workflow scripts, not a client for the REST resources |
 | `@jetbrains/youtrack-apps-tools` | npm | 1.0.3, 2026-08-20 | 4,852 npm downloads a month | No: builds and uploads YouTrack apps, not a client for the REST resources |
@@ -37,70 +36,72 @@ Popularity is what the registry or GitHub reported that day.
 | MCP servers (`@vitalyostanin/youtrack-mcp`, `youtrack-mcp-rs` and others) | npm, crates.io | various | not compared | No: MCP servers |
 | Libraries (`youtrack-rest-client`, `youtrack-client`, `youtrack-rs`, `YouTrackSharp`) | npm, crates.io, NuGet | various | not compared | No: libraries |
 
-Selection rule: a tool is measured when it is a real command-line client for the YouTrack REST API
-(not a library, MCP server, IDE plugin or raw-request wrapper) and is published at a version that
-can be fetched and pinned; when more than three qualify, the three with the most GitHub stars are
-taken, with registry downloads breaking ties, whatever they score. Tools that qualify but were
+Selection rule: a tool is measured when it is a real command-line client for the current YouTrack
+REST API under `/api` (not a client of the earlier `/rest` API, a library, MCP server, IDE plugin
+or raw-request wrapper) and is published at a version that
+can be fetched and pinned; when more than three qualify, the most starred are taken, with registry
+downloads breaking ties, whatever they score. Two are shown: the remaining qualifying tools have
+four stars or fewer. Tools that qualify but were
 not measured are judged by their published description; their source was not read.
 
 ## By API area
 
 Percent of operations reachable, with the count in brackets.
 
-| API area | Operations | youtrack-cli 0.9 | JetBrains CLI 0.8.1 | yt 0.22.2 | shanehofstetter 0.5.0 |
-|---|---:|---:|---:|---:|---:|
-| Issues | 49 | 100% (49) | 80% (39) | 43% (21) | 0% (0) |
-| Search, commands, saved queries | 8 | 100% (8) | 88% (7) | 0% (0) | 0% (0) |
-| Tags and link types | 11 | 100% (11) | 55% (6) | 27% (3) | 0% (0) |
-| Activity and work items | 5 | 100% (5) | 0% (0) | 20% (1) | 0% (0) |
-| Projects | 31 | 100% (31) | 39% (12) | 26% (8) | 0% (0) |
-| Knowledge base articles | 29 | 100% (29) | 62% (18) | 45% (13) | 0% (0) |
-| Agile boards and sprints | 10 | 100% (10) | 100% (10) | 30% (3) | 0% (0) |
-| Custom fields | 9 | 100% (9) | 56% (5) | 11% (1) | 0% (0) |
-| Field value bundles | 64 | 100% (64) | 27% (17) | 0% (0) | 0% (0) |
-| Users and groups | 22 | 100% (22) | 68% (15) | 18% (4) | 0% (0) |
-| Roles, permissions, organizations | 15 | 100% (15) | 80% (12) | 0% (0) | 0% (0) |
-| Time tracking settings | 8 | 100% (8) | 50% (4) | 13% (1) | 0% (0) |
-| Server settings, backups, telemetry | 21 | 100% (21) | 5% (1) | 29% (6) | 0% (0) |
-| **All operations** | **282** | **100% (282)** | **52% (146)** | **22% (61)** | **0% (0)** |
+| API area | Operations | youtrack-cli 0.9 | JetBrains CLI 0.8.1 | yt 0.22.2 |
+|---|---:|---:|---:|---:|
+| Issues | 49 | 100% (49) | 80% (39) | 43% (21) |
+| Search, commands, saved queries | 8 | 100% (8) | 88% (7) | 0% (0) |
+| Tags and link types | 11 | 100% (11) | 55% (6) | 27% (3) |
+| Activity and work items | 5 | 100% (5) | 0% (0) | 20% (1) |
+| Projects | 31 | 100% (31) | 39% (12) | 26% (8) |
+| Knowledge base articles | 29 | 100% (29) | 62% (18) | 45% (13) |
+| Agile boards and sprints | 10 | 100% (10) | 100% (10) | 30% (3) |
+| Custom fields | 9 | 100% (9) | 56% (5) | 11% (1) |
+| Field value bundles | 64 | 100% (64) | 27% (17) | 0% (0) |
+| Users and groups | 22 | 100% (22) | 68% (15) | 18% (4) |
+| Roles, permissions, organizations | 15 | 100% (15) | 80% (12) | 0% (0) |
+| Time tracking settings | 8 | 100% (8) | 50% (4) | 13% (1) |
+| Server settings, backups, telemetry | 21 | 100% (21) | 5% (1) | 29% (6) |
+| **All operations** | **282** | **100% (282)** | **52% (146)** | **22% (61)** |
 
 ## By official resource group
 
 Reachable operation counts.
 
-| Resource group | Operations | youtrack-cli 0.9 | JetBrains CLI 0.8.1 | yt 0.22.2 | shanehofstetter 0.5.0 |
-|---|---:|---:|---:|---:|---:|
-| `activities` | 2 | 2 | 0 | 0 | 0 |
-| `activitiesPage` | 1 | 1 | 0 | 0 | 0 |
-| `admin.databaseBackup` | 5 | 5 | 0 | 0 | 0 |
-| `admin.globalSettings` | 14 | 14 | 1 | 6 | 0 |
-| `admin.organizations` | 5 | 5 | 3 | 0 | 0 |
-| `admin.projects` | 31 | 31 | 12 | 8 | 0 |
-| `admin.telemetry` | 1 | 1 | 0 | 0 | 0 |
-| `admin.timeTrackingSettings` | 8 | 8 | 4 | 1 | 0 |
-| `agiles` | 10 | 10 | 10 | 3 | 0 |
-| `articles` | 29 | 29 | 18 | 13 | 0 |
-| `assignedRoles` | 4 | 4 | 3 | 0 | 0 |
-| `bundles.build` | 10 | 10 | 3 | 0 | 0 |
-| `bundles.enum` | 10 | 10 | 3 | 0 | 0 |
-| `bundles.ownedField` | 10 | 10 | 3 | 0 | 0 |
-| `bundles.state` | 10 | 10 | 3 | 0 | 0 |
-| `bundles.user` | 14 | 14 | 2 | 0 | 0 |
-| `bundles.version` | 10 | 10 | 3 | 0 | 0 |
-| `commands` | 2 | 2 | 2 | 0 | 0 |
-| `customFields` | 9 | 9 | 5 | 1 | 0 |
-| `groups` | 9 | 9 | 5 | 0 | 0 |
-| `issueLinkTypes` | 5 | 5 | 2 | 1 | 0 |
-| `issues` | 48 | 48 | 38 | 21 | 0 |
-| `issuesGetter` | 1 | 1 | 1 | 0 | 0 |
-| `metadata` | 1 | 1 | 0 | 0 | 0 |
-| `permissions` | 1 | 1 | 1 | 0 | 0 |
-| `roles` | 5 | 5 | 5 | 0 | 0 |
-| `savedQueries` | 5 | 5 | 5 | 0 | 0 |
-| `search` | 1 | 1 | 0 | 0 | 0 |
-| `tags` | 6 | 6 | 4 | 2 | 0 |
-| `users` | 13 | 13 | 10 | 4 | 0 |
-| `workItems` | 2 | 2 | 0 | 1 | 0 |
+| Resource group | Operations | youtrack-cli 0.9 | JetBrains CLI 0.8.1 | yt 0.22.2 |
+|---|---:|---:|---:|---:|
+| `activities` | 2 | 2 | 0 | 0 |
+| `activitiesPage` | 1 | 1 | 0 | 0 |
+| `admin.databaseBackup` | 5 | 5 | 0 | 0 |
+| `admin.globalSettings` | 14 | 14 | 1 | 6 |
+| `admin.organizations` | 5 | 5 | 3 | 0 |
+| `admin.projects` | 31 | 31 | 12 | 8 |
+| `admin.telemetry` | 1 | 1 | 0 | 0 |
+| `admin.timeTrackingSettings` | 8 | 8 | 4 | 1 |
+| `agiles` | 10 | 10 | 10 | 3 |
+| `articles` | 29 | 29 | 18 | 13 |
+| `assignedRoles` | 4 | 4 | 3 | 0 |
+| `bundles.build` | 10 | 10 | 3 | 0 |
+| `bundles.enum` | 10 | 10 | 3 | 0 |
+| `bundles.ownedField` | 10 | 10 | 3 | 0 |
+| `bundles.state` | 10 | 10 | 3 | 0 |
+| `bundles.user` | 14 | 14 | 2 | 0 |
+| `bundles.version` | 10 | 10 | 3 | 0 |
+| `commands` | 2 | 2 | 2 | 0 |
+| `customFields` | 9 | 9 | 5 | 1 |
+| `groups` | 9 | 9 | 5 | 0 |
+| `issueLinkTypes` | 5 | 5 | 2 | 1 |
+| `issues` | 48 | 48 | 38 | 21 |
+| `issuesGetter` | 1 | 1 | 1 | 0 |
+| `metadata` | 1 | 1 | 0 | 0 |
+| `permissions` | 1 | 1 | 1 | 0 |
+| `roles` | 5 | 5 | 5 | 0 |
+| `savedQueries` | 5 | 5 | 5 | 0 |
+| `search` | 1 | 1 | 0 | 0 |
+| `tags` | 6 | 6 | 4 | 2 |
+| `users` | 13 | 13 | 10 | 4 |
+| `workItems` | 2 | 2 | 0 | 1 |
 
 ## Method
 
@@ -117,10 +118,6 @@ Reachable operation counts.
   command. Its `raw` command, which sends any method and path the caller types, is not counted.
 - **yt 0.22.2** was measured by reading the published wheel's source without running it. Each
   HTTP call reachable from a `yt` command was normalized and matched to the same 282 identities.
-- **shanehofstetter 0.5.0** is the Node.js `youtrack-cli` npm package (published 2019-10-07), read
-  from the published tarball without running it. It sends every request through
-  `youtrack-rest-client`, so version 0.3.2 of that library (the highest its `^0.3.2` range allows)
-  was read the same way, and only library methods called by a command were counted.
 
 ## Caveats for the JetBrains CLI column
 
@@ -160,24 +157,6 @@ Reachable operation counts.
   credited to the dedicated operation.
 - Coverage is one axis. `yt` offers things this CLI deliberately does not: reports, interactive
   tables, themes, tutorials and aliases; see the [command reference](reference.md#compared-with-yt-0222).
-
-## Caveats for the shanehofstetter column
-
-- It is a static reading of one version. 0.5.0 is the latest release on npm and dates from
-  October 2019.
-- The zero is a path mismatch, not an empty tool. The library appends `/rest` to the server
-  address and calls the earlier YouTrack REST API (`/rest/issue/{id}`, `/rest/project/all`,
-  `/rest/user/current`); the official reference counted here lists only `/api/...` paths, so
-  no call is an exact match. Whether those commands work depends on whether the server still
-  answers the `/rest` paths.
-- Its commands issue 17 distinct calls, all outside this denominator: sign-in and the current
-  user, user by login, project list, issue search, show, create and delete, comment list,
-  create, edit and delete, and work item list, create, edit and delete.
-- 5 more calls exist in the library that no command uses (saved searches, tags, issue history,
-  issue changes, one project); they are `/rest` paths too, so counting them would still give 0.
-- Coverage is one axis. The tool offers interactive prompts for creating issues, comments and
-  work items, terminal rendering of issue text, keychain credential storage and login with a
-  password as well as a token.
 
 ## Updating
 
@@ -411,5 +390,3 @@ picture generator.
 - `POST /api/users/{p1}`
 
 </details>
-
-shanehofstetter 0.5.0 has no credited operations to list.
