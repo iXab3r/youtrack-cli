@@ -30,7 +30,7 @@ tool's configuration are independent. Preserve endpoints, context paths, selecte
 profiles and credential ownership. Never copy tokens into rules, command arguments,
 notes or another tool's plaintext config. Auth/configuration, when authorized, uses
 the primary CLI's normal masked prompt, secret-store or trusted stdin flow; see
-[the integration contract](../README.md#sign-in-locally).
+[the integration contract](reference.md#sign-in-locally).
 An empty profile list in one terminal is not evidence that another tool/profile has
 the same settings or that YouTrack is down.
 
@@ -69,7 +69,7 @@ writing. `issues update` takes a JSON `--body`; `issues fields set <issueID>
 add <issueID> --body <json>`. Old `yt issues assign`, `--state`, `issues show`,
 `issues search` and `--format json` recipes are not our command contract. Consult
 the selected leaf's `--help` and the
-[write contract](../README.md#controlled-mutations).
+[write contract](reference.md#controlled-mutations).
 
 Read UTF-8 payload files into a variable for `--body` rather than interpolating a
 multiline JSON string into shell code. Preserve literal `$type`. Validate a batch

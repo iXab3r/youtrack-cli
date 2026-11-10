@@ -1,7 +1,7 @@
 # M01–M08 delivery history
 
 These are the per-milestone delivery notes and native contract decisions. Status/version wording
-reflects the time of each milestone; the [current command guide](../README.md) owns current usage.
+reflects the time of each milestone; the [current command reference](reference.md) owns current usage.
 M01 shipped in0.8.0; the consolidated0.9.0 source includes M02–M08 and stabilization.
 The original frozen audit/source facts remain separate.
 
